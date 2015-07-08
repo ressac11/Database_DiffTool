@@ -39,6 +39,7 @@ public class TableDialogue extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        lbTables.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         lbTables.setText("Tabellen");
         getContentPane().add(lbTables, java.awt.BorderLayout.PAGE_START);
 
@@ -46,14 +47,22 @@ public class TableDialogue extends javax.swing.JDialog {
 
         pnButtons.setLayout(new java.awt.GridLayout(1, 2));
 
+        btOk.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         btOk.setText("OK");
+        btOk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btOkActionPerformed(evt);
+            }
+        });
         pnButtons.add(btOk);
 
+        btCancel.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         btCancel.setText("Cancel");
         pnButtons.add(btCancel);
 
         pnTableButton.add(pnButtons, java.awt.BorderLayout.PAGE_END);
 
+        liTables.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         liTables.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
@@ -67,6 +76,10 @@ public class TableDialogue extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btOkActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btOkActionPerformed
 
     /**
      * @param args the command line arguments

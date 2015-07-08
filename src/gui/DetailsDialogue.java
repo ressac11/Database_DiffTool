@@ -58,12 +58,12 @@ public class DetailsDialogue extends javax.swing.JDialog {
 
         pnBottomBar.setLayout(new java.awt.BorderLayout());
 
-        lbDate.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lbDate.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         lbDate.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbDate.setText("08.07.2015");
         pnBottomBar.add(lbDate, java.awt.BorderLayout.CENTER);
 
-        btPreviousSide.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btPreviousSide.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         btPreviousSide.setText("Previous");
         btPreviousSide.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -72,7 +72,7 @@ public class DetailsDialogue extends javax.swing.JDialog {
         });
         pnBottomBar.add(btPreviousSide, java.awt.BorderLayout.WEST);
 
-        btNextSide.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        btNextSide.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         btNextSide.setText("Next");
         btNextSide.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -87,6 +87,7 @@ public class DetailsDialogue extends javax.swing.JDialog {
 
         pnCompany.setLayout(new java.awt.BorderLayout());
 
+        tbDetailsCompany.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         tbDetailsCompany.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -104,11 +105,11 @@ public class DetailsDialogue extends javax.swing.JDialog {
 
         pnCompanyText.setLayout(new java.awt.GridLayout(2, 1));
 
-        lbCompanyName.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lbCompanyName.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         lbCompanyName.setText("Principal");
         pnCompanyText.add(lbCompanyName);
 
-        lbCompanyTableName.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lbCompanyTableName.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         lbCompanyTableName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbCompanyTableName.setText("Table Name");
         pnCompanyText.add(lbCompanyTableName);
@@ -119,6 +120,7 @@ public class DetailsDialogue extends javax.swing.JDialog {
 
         pnCustomer.setLayout(new java.awt.BorderLayout());
 
+        tbDetailsCustomer.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         tbDetailsCustomer.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -136,11 +138,11 @@ public class DetailsDialogue extends javax.swing.JDialog {
 
         pnCustomerText.setLayout(new java.awt.GridLayout(2, 1));
 
-        lbCustomerName.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lbCustomerName.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         lbCustomerName.setText("Customer");
         pnCustomerText.add(lbCustomerName);
 
-        lbCustomerTableName.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lbCustomerTableName.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         lbCustomerTableName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbCustomerTableName.setText("Table Name");
         pnCustomerText.add(lbCustomerTableName);

@@ -35,7 +35,7 @@
         <Component class="javax.swing.JLabel" name="lbDate">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Tahoma" size="12" style="1"/>
+              <Font name="Arial" size="10" style="0"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
             <Property name="text" type="java.lang.String" value="08.07.2015"/>
@@ -49,7 +49,7 @@
         <Component class="javax.swing.JButton" name="btPreviousSide">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Tahoma" size="12" style="1"/>
+              <Font name="Arial" size="10" style="0"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Previous"/>
           </Properties>
@@ -65,7 +65,7 @@
         <Component class="javax.swing.JButton" name="btNextSide">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Tahoma" size="12" style="1"/>
+              <Font name="Arial" size="10" style="0"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Next"/>
           </Properties>
@@ -110,6 +110,9 @@
               <SubComponents>
                 <Component class="javax.swing.JTable" name="tbDetailsCompany">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Arial" size="10" style="0"/>
+                    </Property>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="4" rowCount="4">
                         <Column editable="true" title="Title 1" type="java.lang.Object"/>
@@ -137,7 +140,7 @@
                 <Component class="javax.swing.JLabel" name="lbCompanyName">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Tahoma" size="14" style="1"/>
+                      <Font name="Arial" size="10" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Principal"/>
                   </Properties>
@@ -145,7 +148,7 @@
                 <Component class="javax.swing.JLabel" name="lbCompanyTableName">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Tahoma" size="12" style="0"/>
+                      <Font name="Arial" size="10" style="0"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
                     <Property name="text" type="java.lang.String" value="Table Name"/>
@@ -173,6 +176,9 @@
               <SubComponents>
                 <Component class="javax.swing.JTable" name="tbDetailsCustomer">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Arial" size="10" style="0"/>
+                    </Property>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="4" rowCount="4">
                         <Column editable="true" title="Title 1" type="java.lang.Object"/>
@@ -200,7 +206,7 @@
                 <Component class="javax.swing.JLabel" name="lbCustomerName">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Tahoma" size="14" style="1"/>
+                      <Font name="Arial" size="10" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Customer"/>
                   </Properties>
@@ -208,7 +214,7 @@
                 <Component class="javax.swing.JLabel" name="lbCustomerTableName">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Tahoma" size="12" style="0"/>
+                      <Font name="Arial" size="10" style="0"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
                     <Property name="text" type="java.lang.String" value="Table Name"/>

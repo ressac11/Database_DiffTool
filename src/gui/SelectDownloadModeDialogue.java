@@ -49,14 +49,17 @@ public class SelectDownloadModeDialogue extends javax.swing.JDialog {
         pnRadios.setLayout(new java.awt.GridLayout(3, 1));
 
         bgGroup1.add(rbPrincipal);
+        rbPrincipal.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         rbPrincipal.setText("Principal");
         pnRadios.add(rbPrincipal);
 
         bgGroup1.add(rbCustomer);
+        rbCustomer.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         rbCustomer.setText("Customer");
         pnRadios.add(rbCustomer);
 
         bgGroup1.add(rbBoth);
+        rbBoth.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         rbBoth.setText("Both");
         pnRadios.add(rbBoth);
 
@@ -64,6 +67,7 @@ public class SelectDownloadModeDialogue extends javax.swing.JDialog {
 
         pnTables.setLayout(new java.awt.BorderLayout());
 
+        jlTables.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         jlTables.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
@@ -79,11 +83,12 @@ public class SelectDownloadModeDialogue extends javax.swing.JDialog {
 
         pnButtons.setLayout(new java.awt.GridLayout(1, 2));
 
+        btDownlaod.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         btDownlaod.setText("Download");
         pnButtons.add(btDownlaod);
 
+        btCancel.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         btCancel.setText("Cancel");
-        btCancel.setActionCommand("Cancel");
         pnButtons.add(btCancel);
 
         getContentPane().add(pnButtons, java.awt.BorderLayout.PAGE_END);
