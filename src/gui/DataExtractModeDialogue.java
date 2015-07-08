@@ -176,6 +176,12 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
         {
             connectionDialogue.setVisible(true);
         }
+        else
+        {
+            dispose();
+            DownloadDialogue downloadDialogue = new DownloadDialogue(null, true);
+            downloadDialogue.setVisible(true);
+        }
         
         if(connectionDialogue.getNewConn() && isOK)
         {

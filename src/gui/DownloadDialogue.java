@@ -17,6 +17,7 @@ public class DownloadDialogue extends javax.swing.JDialog {
     public DownloadDialogue(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setLocationRelativeTo(this);
         this.getContentPane().setBackground(MainWindow.backgroundColorPanel);
     }
 

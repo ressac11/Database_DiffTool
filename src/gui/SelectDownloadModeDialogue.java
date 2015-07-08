@@ -191,8 +191,9 @@ public class SelectDownloadModeDialogue extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void onDownload(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onDownload
-        
         dispose();
+        DownloadDialogue downloadDialogue = new DownloadDialogue(null, true);
+        downloadDialogue.setVisible(true);   
     }//GEN-LAST:event_onDownload
 
     private void onCancel(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCancel

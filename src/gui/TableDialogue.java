@@ -110,6 +110,8 @@ public class TableDialogue extends javax.swing.JDialog {
     private void onOK(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOK
         ok = true;
         dispose();
+        DownloadDialogue downloadDialogue = new DownloadDialogue(null, true);
+        downloadDialogue.setVisible(true);
     }//GEN-LAST:event_onOK
 
     private void onCancel(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCancel
