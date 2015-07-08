@@ -16,11 +16,16 @@ public class MainWindow extends javax.swing.JFrame {
     /**
      * Creates new form DiffToolGui
      */
-   
-    
+    public static final Color backgroundColorPanel = new Color(229, 229, 229);
+    public static final Color backgroundColorButton = new Color(199,199,199);
     public MainWindow() {
         initComponents();
-        this.setResizable(false);
+        this.getContentPane().setBackground(backgroundColorPanel);
+        btCompareData.setBackground(backgroundColorButton);
+        btDownloadData.setBackground(backgroundColorButton);
+        btExtractData1.setBackground(backgroundColorButton);
+        btExtractData2.setBackground(backgroundColorButton);
+        btShowDetails.setBackground(backgroundColorButton);
         this.setLocationRelativeTo(null);
         enableButtons(false);
     }
@@ -92,8 +97,10 @@ public class MainWindow extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(700, 500));
         getContentPane().setLayout(new java.awt.BorderLayout(20, 5));
 
+        pnButtonToolBar.setBackground(new java.awt.Color(229, 229, 229));
         pnButtonToolBar.setLayout(new java.awt.GridLayout(1, 3, 10, 5));
 
+        btCompareData.setBackground(new java.awt.Color(229, 229, 229));
         btCompareData.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         btCompareData.setText("Compare Data");
         btCompareData.setMaximumSize(new java.awt.Dimension(180, 40));
@@ -106,6 +113,7 @@ public class MainWindow extends javax.swing.JFrame {
         });
         pnButtonToolBar.add(btCompareData);
 
+        btShowDetails.setBackground(new java.awt.Color(229, 229, 229));
         btShowDetails.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         btShowDetails.setText("Show Details");
         btShowDetails.setToolTipText("");
@@ -120,6 +128,7 @@ public class MainWindow extends javax.swing.JFrame {
         });
         pnButtonToolBar.add(btShowDetails);
 
+        btDownloadData.setBackground(new java.awt.Color(229, 229, 229));
         btDownloadData.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         btDownloadData.setText("Download data as text");
         btDownloadData.setToolTipText("");
@@ -136,15 +145,19 @@ public class MainWindow extends javax.swing.JFrame {
 
         getContentPane().add(pnButtonToolBar, java.awt.BorderLayout.PAGE_START);
 
+        pnMain.setBackground(new java.awt.Color(229, 229, 229));
         pnMain.setLayout(new java.awt.GridLayout(1, 2, 7, 0));
 
+        pnFirstDatabase.setBackground(new java.awt.Color(229, 229, 229));
         pnFirstDatabase.setLayout(new java.awt.BorderLayout(5, 5));
 
+        pnShowAllTables1.setBackground(new java.awt.Color(229, 229, 229));
         pnShowAllTables1.setMaximumSize(new java.awt.Dimension(100, 160));
         pnShowAllTables1.setMinimumSize(new java.awt.Dimension(100, 160));
         pnShowAllTables1.setPreferredSize(new java.awt.Dimension(100, 160));
         pnShowAllTables1.setLayout(new java.awt.BorderLayout(5, 2));
 
+        btExtractData1.setBackground(new java.awt.Color(229, 229, 229));
         btExtractData1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btExtractData1.setText("Extract Data");
         btExtractData1.setToolTipText("");
@@ -158,16 +171,13 @@ public class MainWindow extends javax.swing.JFrame {
         });
         pnShowAllTables1.add(btExtractData1, java.awt.BorderLayout.PAGE_START);
 
+        spTables1.setBackground(new java.awt.Color(229, 229, 229));
         spTables1.setMaximumSize(new java.awt.Dimension(100, 100));
         spTables1.setMinimumSize(new java.awt.Dimension(100, 100));
         spTables1.setPreferredSize(new java.awt.Dimension(100, 100));
 
+        liTables1.setBackground(new java.awt.Color(229, 229, 229));
         liTables1.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        liTables1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         liTables1.setMaximumSize(new java.awt.Dimension(80, 100));
         liTables1.setMinimumSize(new java.awt.Dimension(80, 100));
         liTables1.setPreferredSize(new java.awt.Dimension(80, 100));
@@ -177,8 +187,10 @@ public class MainWindow extends javax.swing.JFrame {
 
         pnFirstDatabase.add(pnShowAllTables1, java.awt.BorderLayout.WEST);
 
+        pnDetails.setBackground(new java.awt.Color(229, 229, 229));
         pnDetails.setLayout(new java.awt.BorderLayout(10, 0));
 
+        lbPrincipalName.setBackground(new java.awt.Color(229, 229, 229));
         lbPrincipalName.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lbPrincipalName.setText("Principal");
         lbPrincipalName.setMaximumSize(new java.awt.Dimension(40, 45));
@@ -186,12 +198,16 @@ public class MainWindow extends javax.swing.JFrame {
         lbPrincipalName.setPreferredSize(new java.awt.Dimension(40, 45));
         pnDetails.add(lbPrincipalName, java.awt.BorderLayout.PAGE_START);
 
+        pnNamesCounts.setBackground(new java.awt.Color(229, 229, 229));
         pnNamesCounts.setLayout(new java.awt.BorderLayout(10, 0));
 
+        pnTableColumn.setBackground(new java.awt.Color(229, 229, 229));
         pnTableColumn.setLayout(new java.awt.BorderLayout(10, 0));
 
+        pnCounts.setBackground(new java.awt.Color(229, 229, 229));
         pnCounts.setLayout(new java.awt.GridLayout(3, 2, 10, 0));
 
+        lbColumnCount.setBackground(new java.awt.Color(229, 229, 229));
         lbColumnCount.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         lbColumnCount.setText("Column Count:");
         lbColumnCount.setMaximumSize(new java.awt.Dimension(40, 45));
@@ -199,6 +215,7 @@ public class MainWindow extends javax.swing.JFrame {
         lbColumnCount.setPreferredSize(new java.awt.Dimension(40, 45));
         pnCounts.add(lbColumnCount);
 
+        lbColumnCountValue.setBackground(new java.awt.Color(229, 229, 229));
         lbColumnCountValue.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         lbColumnCountValue.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbColumnCountValue.setMaximumSize(new java.awt.Dimension(40, 45));
@@ -206,6 +223,7 @@ public class MainWindow extends javax.swing.JFrame {
         lbColumnCountValue.setPreferredSize(new java.awt.Dimension(40, 45));
         pnCounts.add(lbColumnCountValue);
 
+        lbRowCount.setBackground(new java.awt.Color(229, 229, 229));
         lbRowCount.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         lbRowCount.setText("Row Count:");
         lbRowCount.setMaximumSize(new java.awt.Dimension(40, 45));
@@ -213,6 +231,7 @@ public class MainWindow extends javax.swing.JFrame {
         lbRowCount.setPreferredSize(new java.awt.Dimension(40, 45));
         pnCounts.add(lbRowCount);
 
+        lbRowCountValue.setBackground(new java.awt.Color(229, 229, 229));
         lbRowCountValue.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         lbRowCountValue.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbRowCountValue.setMaximumSize(new java.awt.Dimension(40, 45));
@@ -220,12 +239,14 @@ public class MainWindow extends javax.swing.JFrame {
         lbRowCountValue.setPreferredSize(new java.awt.Dimension(40, 45));
         pnCounts.add(lbRowCountValue);
 
+        lbWhiteSpace3.setBackground(new java.awt.Color(229, 229, 229));
         lbWhiteSpace3.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         lbWhiteSpace3.setMaximumSize(new java.awt.Dimension(40, 45));
         lbWhiteSpace3.setMinimumSize(new java.awt.Dimension(40, 45));
         lbWhiteSpace3.setPreferredSize(new java.awt.Dimension(40, 45));
         pnCounts.add(lbWhiteSpace3);
 
+        lbDistinctionCount.setBackground(new java.awt.Color(229, 229, 229));
         lbDistinctionCount.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lbDistinctionCount.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbDistinctionCount.setText("Distinction Count:");
@@ -236,8 +257,10 @@ public class MainWindow extends javax.swing.JFrame {
 
         pnTableColumn.add(pnCounts, java.awt.BorderLayout.SOUTH);
 
+        pnTableName.setBackground(new java.awt.Color(229, 229, 229));
         pnTableName.setLayout(new java.awt.GridLayout(1, 2, 10, 0));
 
+        lbTableName.setBackground(new java.awt.Color(229, 229, 229));
         lbTableName.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         lbTableName.setText("Table name:");
         lbTableName.setMaximumSize(new java.awt.Dimension(40, 45));
@@ -245,6 +268,7 @@ public class MainWindow extends javax.swing.JFrame {
         lbTableName.setPreferredSize(new java.awt.Dimension(40, 45));
         pnTableName.add(lbTableName);
 
+        lbTableNameValue.setBackground(new java.awt.Color(229, 229, 229));
         lbTableNameValue.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         lbTableNameValue.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbTableNameValue.setMaximumSize(new java.awt.Dimension(40, 45));
@@ -254,8 +278,10 @@ public class MainWindow extends javax.swing.JFrame {
 
         pnTableColumn.add(pnTableName, java.awt.BorderLayout.NORTH);
 
+        pnColumnNames.setBackground(new java.awt.Color(229, 229, 229));
         pnColumnNames.setLayout(new java.awt.BorderLayout(10, 0));
 
+        lbColumnNames.setBackground(new java.awt.Color(229, 229, 229));
         lbColumnNames.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         lbColumnNames.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lbColumnNames.setText("Column Names:");
@@ -264,12 +290,10 @@ public class MainWindow extends javax.swing.JFrame {
         lbColumnNames.setPreferredSize(new java.awt.Dimension(40, 45));
         pnColumnNames.add(lbColumnNames, java.awt.BorderLayout.NORTH);
 
+        spColumnNames.setBackground(new java.awt.Color(229, 229, 229));
+
+        liColumnNamesValue.setBackground(new java.awt.Color(229, 229, 229));
         liColumnNamesValue.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        liColumnNamesValue.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         spColumnNames.setViewportView(liColumnNamesValue);
 
         pnColumnNames.add(spColumnNames, java.awt.BorderLayout.CENTER);
@@ -284,13 +308,16 @@ public class MainWindow extends javax.swing.JFrame {
 
         pnMain.add(pnFirstDatabase);
 
+        pnSecondDatabase.setBackground(new java.awt.Color(229, 229, 229));
         pnSecondDatabase.setLayout(new java.awt.BorderLayout(5, 5));
 
+        pnShowAllTables2.setBackground(new java.awt.Color(229, 229, 229));
         pnShowAllTables2.setMaximumSize(new java.awt.Dimension(100, 160));
         pnShowAllTables2.setMinimumSize(new java.awt.Dimension(100, 160));
         pnShowAllTables2.setPreferredSize(new java.awt.Dimension(100, 160));
         pnShowAllTables2.setLayout(new java.awt.BorderLayout(5, 2));
 
+        btExtractData2.setBackground(new java.awt.Color(229, 229, 229));
         btExtractData2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btExtractData2.setText("Extract Data");
         btExtractData2.setToolTipText("");
@@ -304,16 +331,13 @@ public class MainWindow extends javax.swing.JFrame {
         });
         pnShowAllTables2.add(btExtractData2, java.awt.BorderLayout.PAGE_START);
 
+        spTables2.setBackground(new java.awt.Color(229, 229, 229));
         spTables2.setMaximumSize(new java.awt.Dimension(100, 100));
         spTables2.setMinimumSize(new java.awt.Dimension(100, 100));
         spTables2.setPreferredSize(new java.awt.Dimension(100, 100));
 
+        liTablesC.setBackground(new java.awt.Color(229, 229, 229));
         liTablesC.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        liTablesC.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         liTablesC.setMaximumSize(new java.awt.Dimension(80, 100));
         liTablesC.setMinimumSize(new java.awt.Dimension(80, 100));
         liTablesC.setPreferredSize(new java.awt.Dimension(80, 100));
@@ -323,8 +347,10 @@ public class MainWindow extends javax.swing.JFrame {
 
         pnSecondDatabase.add(pnShowAllTables2, java.awt.BorderLayout.EAST);
 
+        pnDetails1.setBackground(new java.awt.Color(229, 229, 229));
         pnDetails1.setLayout(new java.awt.BorderLayout());
 
+        lbCustomerName.setBackground(new java.awt.Color(229, 229, 229));
         lbCustomerName.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lbCustomerName.setText("Customer");
         lbCustomerName.setMaximumSize(new java.awt.Dimension(40, 45));
@@ -332,12 +358,16 @@ public class MainWindow extends javax.swing.JFrame {
         lbCustomerName.setPreferredSize(new java.awt.Dimension(40, 45));
         pnDetails1.add(lbCustomerName, java.awt.BorderLayout.PAGE_START);
 
+        pnNamesCounts1.setBackground(new java.awt.Color(229, 229, 229));
         pnNamesCounts1.setLayout(new java.awt.BorderLayout());
 
+        pnTableColumn1.setBackground(new java.awt.Color(229, 229, 229));
         pnTableColumn1.setLayout(new java.awt.BorderLayout());
 
+        pnCounts1.setBackground(new java.awt.Color(229, 229, 229));
         pnCounts1.setLayout(new java.awt.GridLayout(3, 2));
 
+        lbColumnCountC.setBackground(new java.awt.Color(229, 229, 229));
         lbColumnCountC.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         lbColumnCountC.setText("Column Count:");
         lbColumnCountC.setMaximumSize(new java.awt.Dimension(40, 45));
@@ -345,6 +375,7 @@ public class MainWindow extends javax.swing.JFrame {
         lbColumnCountC.setPreferredSize(new java.awt.Dimension(40, 45));
         pnCounts1.add(lbColumnCountC);
 
+        lbColumnCountValueC.setBackground(new java.awt.Color(229, 229, 229));
         lbColumnCountValueC.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         lbColumnCountValueC.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbColumnCountValueC.setMaximumSize(new java.awt.Dimension(40, 45));
@@ -352,6 +383,7 @@ public class MainWindow extends javax.swing.JFrame {
         lbColumnCountValueC.setPreferredSize(new java.awt.Dimension(40, 45));
         pnCounts1.add(lbColumnCountValueC);
 
+        lbRowCountC.setBackground(new java.awt.Color(229, 229, 229));
         lbRowCountC.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         lbRowCountC.setText("Row Count:");
         lbRowCountC.setMaximumSize(new java.awt.Dimension(40, 45));
@@ -359,6 +391,7 @@ public class MainWindow extends javax.swing.JFrame {
         lbRowCountC.setPreferredSize(new java.awt.Dimension(40, 45));
         pnCounts1.add(lbRowCountC);
 
+        lbRowCountValueC.setBackground(new java.awt.Color(229, 229, 229));
         lbRowCountValueC.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         lbRowCountValueC.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbRowCountValueC.setMaximumSize(new java.awt.Dimension(40, 45));
@@ -366,6 +399,7 @@ public class MainWindow extends javax.swing.JFrame {
         lbRowCountValueC.setPreferredSize(new java.awt.Dimension(40, 45));
         pnCounts1.add(lbRowCountValueC);
 
+        lbDistinctionCountValue.setBackground(new java.awt.Color(229, 229, 229));
         lbDistinctionCountValue.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         lbDistinctionCountValue.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lbDistinctionCountValue.setMaximumSize(new java.awt.Dimension(40, 45));
@@ -373,6 +407,7 @@ public class MainWindow extends javax.swing.JFrame {
         lbDistinctionCountValue.setPreferredSize(new java.awt.Dimension(40, 45));
         pnCounts1.add(lbDistinctionCountValue);
 
+        lbWhiteSpaceC.setBackground(new java.awt.Color(229, 229, 229));
         lbWhiteSpaceC.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         lbWhiteSpaceC.setMaximumSize(new java.awt.Dimension(40, 45));
         lbWhiteSpaceC.setMinimumSize(new java.awt.Dimension(40, 45));
@@ -381,8 +416,10 @@ public class MainWindow extends javax.swing.JFrame {
 
         pnTableColumn1.add(pnCounts1, java.awt.BorderLayout.SOUTH);
 
+        pnTableName1.setBackground(new java.awt.Color(229, 229, 229));
         pnTableName1.setLayout(new java.awt.GridLayout(1, 2));
 
+        lbTableNameC.setBackground(new java.awt.Color(229, 229, 229));
         lbTableNameC.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         lbTableNameC.setText("Table name:");
         lbTableNameC.setMaximumSize(new java.awt.Dimension(40, 45));
@@ -390,6 +427,7 @@ public class MainWindow extends javax.swing.JFrame {
         lbTableNameC.setPreferredSize(new java.awt.Dimension(40, 45));
         pnTableName1.add(lbTableNameC);
 
+        lbTableNameValueC.setBackground(new java.awt.Color(229, 229, 229));
         lbTableNameValueC.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         lbTableNameValueC.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbTableNameValueC.setMaximumSize(new java.awt.Dimension(40, 45));
@@ -399,8 +437,10 @@ public class MainWindow extends javax.swing.JFrame {
 
         pnTableColumn1.add(pnTableName1, java.awt.BorderLayout.NORTH);
 
+        pnColumnNames1.setBackground(new java.awt.Color(229, 229, 229));
         pnColumnNames1.setLayout(new java.awt.BorderLayout());
 
+        lbColumnNamesC.setBackground(new java.awt.Color(229, 229, 229));
         lbColumnNamesC.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         lbColumnNamesC.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lbColumnNamesC.setText("Column Names:");
@@ -409,12 +449,10 @@ public class MainWindow extends javax.swing.JFrame {
         lbColumnNamesC.setPreferredSize(new java.awt.Dimension(40, 45));
         pnColumnNames1.add(lbColumnNamesC, java.awt.BorderLayout.NORTH);
 
+        spColumnNames1.setBackground(new java.awt.Color(229, 229, 229));
+
+        liColumnNamesValueC.setBackground(new java.awt.Color(229, 229, 229));
         liColumnNamesValueC.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        liColumnNamesValueC.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         spColumnNames1.setViewportView(liColumnNamesValueC);
 
         pnColumnNames1.add(spColumnNames1, java.awt.BorderLayout.CENTER);

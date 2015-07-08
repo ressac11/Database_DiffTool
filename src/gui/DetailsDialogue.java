@@ -22,7 +22,9 @@ public class DetailsDialogue extends javax.swing.JDialog {
     {
         super(parent, modal);
         initComponents();
-        this.setSize(700,500);
+        this.getContentPane().setBackground(MainWindow.backgroundColorPanel);
+        btNextSide.setBackground(MainWindow.backgroundColorButton);
+        btPreviousSide.setBackground(MainWindow.backgroundColorButton);
         this.setResizable(false);
         setLocationRelativeTo(parent);
     }
@@ -56,13 +58,17 @@ public class DetailsDialogue extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        pnBottomBar.setBackground(new java.awt.Color(229, 229, 229));
         pnBottomBar.setLayout(new java.awt.BorderLayout());
 
+        lbDate.setBackground(new java.awt.Color(229, 229, 229));
         lbDate.setFont(new java.awt.Font("Arial", 0, 10)); // NOI18N
         lbDate.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbDate.setText("08.07.2015");
+        lbDate.setOpaque(true);
         pnBottomBar.add(lbDate, java.awt.BorderLayout.CENTER);
 
+        btPreviousSide.setBackground(new java.awt.Color(229, 229, 229));
         btPreviousSide.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         btPreviousSide.setText("<");
         btPreviousSide.setMaximumSize(new java.awt.Dimension(50, 35));
@@ -75,6 +81,7 @@ public class DetailsDialogue extends javax.swing.JDialog {
         });
         pnBottomBar.add(btPreviousSide, java.awt.BorderLayout.WEST);
 
+        btNextSide.setBackground(new java.awt.Color(229, 229, 229));
         btNextSide.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         btNextSide.setText(">");
         btNextSide.setMaximumSize(new java.awt.Dimension(50, 35));
@@ -89,68 +96,65 @@ public class DetailsDialogue extends javax.swing.JDialog {
 
         getContentPane().add(pnBottomBar, java.awt.BorderLayout.SOUTH);
 
+        pnContainer.setBackground(new java.awt.Color(229, 229, 229));
         pnContainer.setLayout(new java.awt.GridLayout(1, 2));
 
+        pnCompany.setBackground(new java.awt.Color(229, 229, 229));
         pnCompany.setLayout(new java.awt.BorderLayout());
 
+        spDetailsCompany.setBackground(new java.awt.Color(229, 229, 229));
+
+        tbDetailsCompany.setBackground(new java.awt.Color(229, 229, 229));
         tbDetailsCompany.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tbDetailsCompany.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
         spDetailsCompany.setViewportView(tbDetailsCompany);
 
         pnCompany.add(spDetailsCompany, java.awt.BorderLayout.CENTER);
 
+        pnCompanyText.setBackground(new java.awt.Color(229, 229, 229));
         pnCompanyText.setLayout(new java.awt.GridLayout(2, 1));
 
+        lbCompanyName.setBackground(new java.awt.Color(229, 229, 229));
         lbCompanyName.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         lbCompanyName.setText("Principal");
+        lbCompanyName.setOpaque(true);
         pnCompanyText.add(lbCompanyName);
 
+        lbCompanyTableName.setBackground(new java.awt.Color(229, 229, 229));
         lbCompanyTableName.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lbCompanyTableName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbCompanyTableName.setText("Table Name");
+        lbCompanyTableName.setOpaque(true);
         pnCompanyText.add(lbCompanyTableName);
 
         pnCompany.add(pnCompanyText, java.awt.BorderLayout.PAGE_START);
 
         pnContainer.add(pnCompany);
 
+        pnCustomer.setBackground(new java.awt.Color(229, 229, 229));
         pnCustomer.setLayout(new java.awt.BorderLayout());
 
+        spDetailsCustomer.setBackground(new java.awt.Color(229, 229, 229));
+
+        tbDetailsCustomer.setBackground(new java.awt.Color(229, 229, 229));
         tbDetailsCustomer.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tbDetailsCustomer.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
         spDetailsCustomer.setViewportView(tbDetailsCustomer);
 
         pnCustomer.add(spDetailsCustomer, java.awt.BorderLayout.CENTER);
 
+        pnCustomerText.setBackground(new java.awt.Color(229, 229, 229));
         pnCustomerText.setLayout(new java.awt.GridLayout(2, 1));
 
+        lbCustomerName.setBackground(new java.awt.Color(229, 229, 229));
         lbCustomerName.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         lbCustomerName.setText("Customer");
+        lbCustomerName.setOpaque(true);
         pnCustomerText.add(lbCustomerName);
 
+        lbCustomerTableName.setBackground(new java.awt.Color(229, 229, 229));
         lbCustomerTableName.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lbCustomerTableName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbCustomerTableName.setText("Table Name");
+        lbCustomerTableName.setOpaque(true);
         pnCustomerText.add(lbCustomerTableName);
 
         pnCustomer.add(pnCustomerText, java.awt.BorderLayout.PAGE_START);

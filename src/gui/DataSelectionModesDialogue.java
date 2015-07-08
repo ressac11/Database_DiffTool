@@ -19,6 +19,9 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog {
     public DataSelectionModesDialogue(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.getContentPane().setBackground(MainWindow.backgroundColorPanel);
+        btCancel.setBackground(MainWindow.backgroundColorButton);
+        btOK.setBackground(MainWindow.backgroundColorButton);
         this.setLocationRelativeTo(null);
     }
  
@@ -48,8 +51,10 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        pnCompanyName.setBackground(new java.awt.Color(229, 229, 229));
         pnCompanyName.setLayout(new java.awt.GridLayout(1, 1));
 
+        lbCompanyName.setBackground(new java.awt.Color(229, 229, 229));
         lbCompanyName.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         lbCompanyName.setText("Company Name");
         lbCompanyName.setMaximumSize(new java.awt.Dimension(40, 45));
@@ -59,11 +64,16 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog {
 
         getContentPane().add(pnCompanyName, java.awt.BorderLayout.NORTH);
 
+        pnOptions.setBackground(new java.awt.Color(229, 229, 229));
         pnOptions.setLayout(new java.awt.BorderLayout(20, 30));
 
+        pnRadioButton.setBackground(new java.awt.Color(229, 229, 229));
         pnRadioButton.setLayout(new java.awt.GridLayout(2, 3, 0, 15));
+
+        lbWhiteSpace1.setBackground(new java.awt.Color(229, 229, 229));
         pnRadioButton.add(lbWhiteSpace1);
 
+        rbParticularTables.setBackground(new java.awt.Color(229, 229, 229));
         bgGroup1.add(rbParticularTables);
         rbParticularTables.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         rbParticularTables.setSelected(true);
@@ -74,9 +84,14 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog {
             }
         });
         pnRadioButton.add(rbParticularTables);
+
+        lbWhiteSpace2.setBackground(new java.awt.Color(229, 229, 229));
         pnRadioButton.add(lbWhiteSpace2);
+
+        lbWhiteSpace3.setBackground(new java.awt.Color(229, 229, 229));
         pnRadioButton.add(lbWhiteSpace3);
 
+        rbEntireDB.setBackground(new java.awt.Color(229, 229, 229));
         bgGroup1.add(rbEntireDB);
         rbEntireDB.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         rbEntireDB.setText("entire Database");
@@ -86,12 +101,16 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog {
             }
         });
         pnRadioButton.add(rbEntireDB);
+
+        lbWhiteSpace4.setBackground(new java.awt.Color(229, 229, 229));
         pnRadioButton.add(lbWhiteSpace4);
 
         pnOptions.add(pnRadioButton, java.awt.BorderLayout.CENTER);
 
+        jPanel1.setBackground(new java.awt.Color(229, 229, 229));
         jPanel1.setLayout(new java.awt.GridLayout(1, 2));
 
+        btOK.setBackground(new java.awt.Color(229, 229, 229));
         btOK.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         btOK.setText("OK");
         btOK.setMaximumSize(new java.awt.Dimension(50, 40));
@@ -104,6 +123,7 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog {
         });
         jPanel1.add(btOK);
 
+        btCancel.setBackground(new java.awt.Color(229, 229, 229));
         btCancel.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         btCancel.setText("Cancel");
         btCancel.setMaximumSize(new java.awt.Dimension(50, 40));
