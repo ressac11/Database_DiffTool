@@ -17,6 +17,9 @@ public class SelectDownloadModeDialogue extends javax.swing.JDialog {
     public SelectDownloadModeDialogue(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.getContentPane().setBackground(MainWindow.backgroundColorPanel);
+        btCancel.setBackground(MainWindow.backgroundColorButton);
+        btDownlaod.setBackground(MainWindow.backgroundColorButton);
         this.setLocationRelativeTo(null);
     }
  
@@ -54,26 +57,34 @@ public class SelectDownloadModeDialogue extends javax.swing.JDialog {
         setPreferredSize(new java.awt.Dimension(400, 350));
         getContentPane().setLayout(new java.awt.BorderLayout(10, 10));
 
+        lbTitle.setBackground(new java.awt.Color(229, 229, 229));
         lbTitle.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         lbTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbTitle.setText("Select Download Mode");
         lbTitle.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         lbTitle.setMaximumSize(new java.awt.Dimension(185, 40));
         lbTitle.setMinimumSize(new java.awt.Dimension(185, 40));
+        lbTitle.setOpaque(true);
         lbTitle.setPreferredSize(new java.awt.Dimension(185, 40));
         getContentPane().add(lbTitle, java.awt.BorderLayout.PAGE_START);
 
+        pnSelectionModes.setBackground(new java.awt.Color(229, 229, 229));
         pnSelectionModes.setLayout(new java.awt.GridLayout(1, 2, 10, 10));
 
+        pnRadios.setBackground(new java.awt.Color(229, 229, 229));
         pnRadios.setLayout(new java.awt.BorderLayout());
 
+        lbWhiteSpace.setBackground(new java.awt.Color(229, 229, 229));
         lbWhiteSpace.setMaximumSize(new java.awt.Dimension(20, 20));
         lbWhiteSpace.setMinimumSize(new java.awt.Dimension(20, 20));
+        lbWhiteSpace.setOpaque(true);
         lbWhiteSpace.setPreferredSize(new java.awt.Dimension(20, 20));
         pnRadios.add(lbWhiteSpace, java.awt.BorderLayout.WEST);
 
+        pnRadioButtons.setBackground(new java.awt.Color(229, 229, 229));
         pnRadioButtons.setLayout(new java.awt.GridLayout(3, 1, 0, -30));
 
+        rbPrincipal.setBackground(new java.awt.Color(229, 229, 229));
         bgGroup1.add(rbPrincipal);
         rbPrincipal.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         rbPrincipal.setSelected(true);
@@ -83,6 +94,7 @@ public class SelectDownloadModeDialogue extends javax.swing.JDialog {
         rbPrincipal.setPreferredSize(new java.awt.Dimension(100, 40));
         pnRadioButtons.add(rbPrincipal);
 
+        rbCustomer.setBackground(new java.awt.Color(229, 229, 229));
         bgGroup1.add(rbCustomer);
         rbCustomer.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         rbCustomer.setText("Customer");
@@ -91,6 +103,7 @@ public class SelectDownloadModeDialogue extends javax.swing.JDialog {
         rbCustomer.setPreferredSize(new java.awt.Dimension(100, 40));
         pnRadioButtons.add(rbCustomer);
 
+        rbBoth.setBackground(new java.awt.Color(229, 229, 229));
         bgGroup1.add(rbBoth);
         rbBoth.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         rbBoth.setText("Both");
@@ -103,14 +116,13 @@ public class SelectDownloadModeDialogue extends javax.swing.JDialog {
 
         pnSelectionModes.add(pnRadios);
 
+        pnTables.setBackground(new java.awt.Color(229, 229, 229));
         pnTables.setLayout(new java.awt.BorderLayout());
 
+        spTables.setBackground(new java.awt.Color(229, 229, 229));
+
+        jlTables.setBackground(new java.awt.Color(229, 229, 229));
         jlTables.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        jlTables.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         jlTables.setMaximumSize(new java.awt.Dimension(36, 40));
         jlTables.setMinimumSize(new java.awt.Dimension(36, 40));
         jlTables.setPreferredSize(new java.awt.Dimension(36, 40));
@@ -118,19 +130,25 @@ public class SelectDownloadModeDialogue extends javax.swing.JDialog {
 
         pnTables.add(spTables, java.awt.BorderLayout.CENTER);
 
+        lbWhiteSpace5.setBackground(new java.awt.Color(229, 229, 229));
         lbWhiteSpace5.setMaximumSize(new java.awt.Dimension(20, 20));
         lbWhiteSpace5.setMinimumSize(new java.awt.Dimension(20, 20));
+        lbWhiteSpace5.setOpaque(true);
         lbWhiteSpace5.setPreferredSize(new java.awt.Dimension(20, 20));
         pnTables.add(lbWhiteSpace5, java.awt.BorderLayout.PAGE_START);
 
+        lbWhiteSpace6.setBackground(new java.awt.Color(229, 229, 229));
         lbWhiteSpace6.setMaximumSize(new java.awt.Dimension(20, 20));
         lbWhiteSpace6.setMinimumSize(new java.awt.Dimension(20, 20));
+        lbWhiteSpace6.setOpaque(true);
         lbWhiteSpace6.setPreferredSize(new java.awt.Dimension(20, 20));
         pnTables.add(lbWhiteSpace6, java.awt.BorderLayout.PAGE_END);
 
+        lbWhiteSpace7.setBackground(new java.awt.Color(229, 229, 229));
         lbWhiteSpace7.setMaximumSize(new java.awt.Dimension(10, 10));
         lbWhiteSpace7.setMinimumSize(new java.awt.Dimension(10, 10));
         lbWhiteSpace7.setName(""); // NOI18N
+        lbWhiteSpace7.setOpaque(true);
         lbWhiteSpace7.setPreferredSize(new java.awt.Dimension(10, 10));
         pnTables.add(lbWhiteSpace7, java.awt.BorderLayout.LINE_END);
 
@@ -138,8 +156,10 @@ public class SelectDownloadModeDialogue extends javax.swing.JDialog {
 
         getContentPane().add(pnSelectionModes, java.awt.BorderLayout.CENTER);
 
+        pnButtons.setBackground(new java.awt.Color(229, 229, 229));
         pnButtons.setLayout(new java.awt.GridLayout(1, 2, 10, 0));
 
+        btDownlaod.setBackground(new java.awt.Color(229, 229, 229));
         btDownlaod.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         btDownlaod.setText("Download");
         btDownlaod.setMaximumSize(new java.awt.Dimension(50, 40));
@@ -147,6 +167,7 @@ public class SelectDownloadModeDialogue extends javax.swing.JDialog {
         btDownlaod.setPreferredSize(new java.awt.Dimension(50, 40));
         pnButtons.add(btDownlaod);
 
+        btCancel.setBackground(new java.awt.Color(229, 229, 229));
         btCancel.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         btCancel.setText("Cancel");
         btCancel.setMaximumSize(new java.awt.Dimension(50, 40));
