@@ -170,7 +170,6 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog {
     }//GEN-LAST:event_onOK
 
     private void onCancel(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCancel
-
         dispose();
     }//GEN-LAST:event_onCancel
 

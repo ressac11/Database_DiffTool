@@ -177,6 +177,8 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
 
     private void onOK(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOK
         newConn=true;
+        DataSelectionModesDialogue dataSelectDialogue = new DataSelectionModesDialogue(null, true);
+        dataSelectDialogue.setVisible(true);
         dispose();
     }//GEN-LAST:event_onOK
 
