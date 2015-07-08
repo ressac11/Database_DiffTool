@@ -6,6 +6,7 @@
 package gui;
 
 import java.awt.Dimension;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -27,6 +28,7 @@ public class DetailsDialogue extends javax.swing.JDialog {
         btPreviousSide.setBackground(MainWindow.backgroundColorButton);
         this.setResizable(false);
         setLocationRelativeTo(parent);
+        this.setIconImage(new ImageIcon(getClass().getResource("jhlogo.jpg")).getImage()); 
     }
 
     /**
@@ -57,6 +59,7 @@ public class DetailsDialogue extends javax.swing.JDialog {
         lbCustomerTableName = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Details Dialogue");
 
         pnBottomBar.setBackground(new java.awt.Color(229, 229, 229));
         pnBottomBar.setLayout(new java.awt.BorderLayout());

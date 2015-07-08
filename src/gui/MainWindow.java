@@ -6,6 +6,12 @@
 package gui;
 
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -28,6 +34,8 @@ public class MainWindow extends javax.swing.JFrame {
         btShowDetails.setBackground(backgroundColorButton);
         this.setLocationRelativeTo(null);
         enableButtons(false);
+        
+        this.setIconImage(new ImageIcon(getClass().getResource("jhlogo.jpg")).getImage()); 
     }
   
     /**
@@ -92,9 +100,11 @@ public class MainWindow extends javax.swing.JFrame {
         liColumnNamesValueC = new javax.swing.JList();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Main Window");
         setMaximumSize(new java.awt.Dimension(700, 500));
         setMinimumSize(new java.awt.Dimension(700, 500));
         setPreferredSize(new java.awt.Dimension(700, 500));
+        setResizable(false);
         getContentPane().setLayout(new java.awt.BorderLayout(20, 5));
 
         pnButtonToolBar.setBackground(new java.awt.Color(229, 229, 229));
