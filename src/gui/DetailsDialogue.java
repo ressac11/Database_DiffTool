@@ -106,6 +106,16 @@ public class DetailsDialogue extends javax.swing.JDialog {
 
         tbDetailsCompany.setBackground(new java.awt.Color(229, 229, 229));
         tbDetailsCompany.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        tbDetailsCompany.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"1", "xy", "25"},
+                {"2", "me", "87"},
+                {"23", "njnj", null}
+            },
+            new String [] {
+                "Column 1", "Column 2", "Column 3"
+            }
+        ));
         spDetailsCompany.setViewportView(tbDetailsCompany);
 
         pnCompany.add(spDetailsCompany, java.awt.BorderLayout.CENTER);
@@ -137,6 +147,15 @@ public class DetailsDialogue extends javax.swing.JDialog {
 
         tbDetailsCustomer.setBackground(new java.awt.Color(229, 229, 229));
         tbDetailsCustomer.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        tbDetailsCustomer.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"1", "xy", "25"},
+                {"2", "me", "87"}
+            },
+            new String [] {
+                "Column 1", "Column 2", "Column 3"
+            }
+        ));
         spDetailsCustomer.setViewportView(tbDetailsCustomer);
 
         pnCustomer.add(spDetailsCustomer, java.awt.BorderLayout.CENTER);
