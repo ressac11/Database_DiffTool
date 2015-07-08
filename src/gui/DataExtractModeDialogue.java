@@ -17,11 +17,9 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
      * Creates new form DataExtractModeDialogue
      */
     
-
     public boolean isOK = false;
     public static final Color backgroundColorPanel = new Color(229, 229, 229);
     public static final Color backgroundColorButton = new Color(199,199,199);
-
     public DataExtractModeDialogue(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
