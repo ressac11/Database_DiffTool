@@ -65,6 +65,9 @@
               <Dimension value="[180, 40]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onCompareData"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btShowDetails">
           <Properties>
@@ -73,6 +76,7 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Show Details"/>
             <Property name="toolTipText" type="java.lang.String" value=""/>
+            <Property name="enabled" type="boolean" value="false"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[180, 40]"/>
             </Property>
@@ -83,6 +87,9 @@
               <Dimension value="[180, 40]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onShowDetails"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btDownloadData">
           <Properties>
@@ -91,6 +98,7 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Download data as text"/>
             <Property name="toolTipText" type="java.lang.String" value=""/>
+            <Property name="enabled" type="boolean" value="false"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[180, 40]"/>
             </Property>
@@ -101,6 +109,9 @@
               <Dimension value="[180, 40]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onDownloadData"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -164,6 +175,9 @@
                       <Dimension value="[40, 45]"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onExtractData1"/>
+                  </Events>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
                       <BorderConstraints direction="First"/>
@@ -312,6 +326,7 @@
                                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                   <Font name="Arial" size="11" style="0"/>
                                 </Property>
+                                <Property name="horizontalAlignment" type="int" value="4"/>
                                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                   <Dimension value="[40, 45]"/>
                                 </Property>
@@ -345,6 +360,7 @@
                                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                   <Font name="Arial" size="11" style="0"/>
                                 </Property>
+                                <Property name="horizontalAlignment" type="int" value="4"/>
                                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                   <Dimension value="[40, 45]"/>
                                 </Property>
@@ -427,6 +443,7 @@
                                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                   <Font name="Arial" size="11" style="0"/>
                                 </Property>
+                                <Property name="horizontalAlignment" type="int" value="4"/>
                                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                   <Dimension value="[40, 45]"/>
                                 </Property>
@@ -561,6 +578,9 @@
                       <Dimension value="[40, 45]"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onExtractData2"/>
+                  </Events>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
                       <BorderConstraints direction="First"/>
@@ -702,6 +722,7 @@
                                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                   <Font name="Arial" size="11" style="0"/>
                                 </Property>
+                                <Property name="horizontalAlignment" type="int" value="4"/>
                                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                   <Dimension value="[40, 45]"/>
                                 </Property>
@@ -735,6 +756,7 @@
                                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                   <Font name="Arial" size="11" style="0"/>
                                 </Property>
+                                <Property name="horizontalAlignment" type="int" value="4"/>
                                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                   <Dimension value="[40, 45]"/>
                                 </Property>
@@ -815,6 +837,7 @@
                                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                                   <Font name="Arial" size="11" style="0"/>
                                 </Property>
+                                <Property name="horizontalAlignment" type="int" value="4"/>
                                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                                   <Dimension value="[40, 45]"/>
                                 </Property>

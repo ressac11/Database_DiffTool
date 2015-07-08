@@ -14,6 +14,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
     /**
      * Creates new form DatabaseConnectionDialogue
      */
+    private boolean newConn = false;
     public DatabaseConnectionDialogue(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -140,7 +141,8 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         paButtons.add(btOK);
 
         btCancel.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        btCancel.setText("CANCEL");
+        btCancel.setText("Cancel");
+        btCancel.setToolTipText("");
         btCancel.setMaximumSize(new java.awt.Dimension(80, 40));
         btCancel.setMinimumSize(new java.awt.Dimension(80, 40));
         btCancel.setPreferredSize(new java.awt.Dimension(80, 40));
@@ -157,13 +159,20 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void onCancel(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCancel
-        // TODO add your handling code here:
+        
+        dispose();
     }//GEN-LAST:event_onCancel
 
     private void onOK(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOK
-        // TODO add your handling code here:
+        newConn=true;
+        dispose();
     }//GEN-LAST:event_onOK
 
+    public boolean getNewConn()
+    {
+        return newConn;
+    }
+    
     /**
      * @param args the command line arguments
      */

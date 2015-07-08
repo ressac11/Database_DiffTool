@@ -103,7 +103,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btOkActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onOK"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btCancel">
@@ -122,6 +122,9 @@
                   <Dimension value="[50, 30]"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onCancel"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

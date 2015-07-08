@@ -145,6 +145,11 @@ public class SelectDownloadModeDialogue extends javax.swing.JDialog {
         btDownlaod.setMaximumSize(new java.awt.Dimension(50, 40));
         btDownlaod.setMinimumSize(new java.awt.Dimension(50, 40));
         btDownlaod.setPreferredSize(new java.awt.Dimension(50, 40));
+        btDownlaod.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onDownload(evt);
+            }
+        });
         pnButtons.add(btDownlaod);
 
         btCancel.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -152,12 +157,26 @@ public class SelectDownloadModeDialogue extends javax.swing.JDialog {
         btCancel.setMaximumSize(new java.awt.Dimension(50, 40));
         btCancel.setMinimumSize(new java.awt.Dimension(50, 40));
         btCancel.setPreferredSize(new java.awt.Dimension(50, 40));
+        btCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onCancel(evt);
+            }
+        });
         pnButtons.add(btCancel);
 
         getContentPane().add(pnButtons, java.awt.BorderLayout.PAGE_END);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void onDownload(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onDownload
+        
+        dispose();
+    }//GEN-LAST:event_onDownload
+
+    private void onCancel(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCancel
+        dispose();
+    }//GEN-LAST:event_onCancel
 
     /**
      * @param args the command line arguments

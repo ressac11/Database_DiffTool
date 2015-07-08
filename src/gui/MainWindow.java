@@ -5,6 +5,8 @@
  */
 package gui;
 
+import java.awt.Color;
+
 /**
  *
  * @author Steffie
@@ -14,9 +16,13 @@ public class MainWindow extends javax.swing.JFrame {
     /**
      * Creates new form DiffToolGui
      */
+   
+    
     public MainWindow() {
         initComponents();
+        this.setResizable(false);
         this.setLocationRelativeTo(null);
+        enableButtons(false);
     }
   
     /**
@@ -93,22 +99,39 @@ public class MainWindow extends javax.swing.JFrame {
         btCompareData.setMaximumSize(new java.awt.Dimension(180, 40));
         btCompareData.setMinimumSize(new java.awt.Dimension(180, 40));
         btCompareData.setPreferredSize(new java.awt.Dimension(180, 40));
+        btCompareData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onCompareData(evt);
+            }
+        });
         pnButtonToolBar.add(btCompareData);
 
         btShowDetails.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         btShowDetails.setText("Show Details");
         btShowDetails.setToolTipText("");
+        btShowDetails.setEnabled(false);
         btShowDetails.setMaximumSize(new java.awt.Dimension(180, 40));
         btShowDetails.setMinimumSize(new java.awt.Dimension(180, 40));
         btShowDetails.setPreferredSize(new java.awt.Dimension(180, 40));
+        btShowDetails.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onShowDetails(evt);
+            }
+        });
         pnButtonToolBar.add(btShowDetails);
 
         btDownloadData.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         btDownloadData.setText("Download data as text");
         btDownloadData.setToolTipText("");
+        btDownloadData.setEnabled(false);
         btDownloadData.setMaximumSize(new java.awt.Dimension(180, 40));
         btDownloadData.setMinimumSize(new java.awt.Dimension(180, 40));
         btDownloadData.setPreferredSize(new java.awt.Dimension(180, 40));
+        btDownloadData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onDownloadData(evt);
+            }
+        });
         pnButtonToolBar.add(btDownloadData);
 
         getContentPane().add(pnButtonToolBar, java.awt.BorderLayout.PAGE_START);
@@ -128,6 +151,11 @@ public class MainWindow extends javax.swing.JFrame {
         btExtractData1.setMaximumSize(new java.awt.Dimension(40, 45));
         btExtractData1.setMinimumSize(new java.awt.Dimension(40, 45));
         btExtractData1.setPreferredSize(new java.awt.Dimension(40, 45));
+        btExtractData1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onExtractData1(evt);
+            }
+        });
         pnShowAllTables1.add(btExtractData1, java.awt.BorderLayout.PAGE_START);
 
         spTables1.setMaximumSize(new java.awt.Dimension(100, 100));
@@ -172,6 +200,7 @@ public class MainWindow extends javax.swing.JFrame {
         pnCounts.add(lbColumnCount);
 
         lbColumnCountValue.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        lbColumnCountValue.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbColumnCountValue.setMaximumSize(new java.awt.Dimension(40, 45));
         lbColumnCountValue.setMinimumSize(new java.awt.Dimension(40, 45));
         lbColumnCountValue.setPreferredSize(new java.awt.Dimension(40, 45));
@@ -185,6 +214,7 @@ public class MainWindow extends javax.swing.JFrame {
         pnCounts.add(lbRowCount);
 
         lbRowCountValue.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        lbRowCountValue.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbRowCountValue.setMaximumSize(new java.awt.Dimension(40, 45));
         lbRowCountValue.setMinimumSize(new java.awt.Dimension(40, 45));
         lbRowCountValue.setPreferredSize(new java.awt.Dimension(40, 45));
@@ -216,6 +246,7 @@ public class MainWindow extends javax.swing.JFrame {
         pnTableName.add(lbTableName);
 
         lbTableNameValue.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        lbTableNameValue.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbTableNameValue.setMaximumSize(new java.awt.Dimension(40, 45));
         lbTableNameValue.setMinimumSize(new java.awt.Dimension(40, 45));
         lbTableNameValue.setPreferredSize(new java.awt.Dimension(40, 45));
@@ -266,6 +297,11 @@ public class MainWindow extends javax.swing.JFrame {
         btExtractData2.setMaximumSize(new java.awt.Dimension(40, 45));
         btExtractData2.setMinimumSize(new java.awt.Dimension(40, 45));
         btExtractData2.setPreferredSize(new java.awt.Dimension(40, 45));
+        btExtractData2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onExtractData2(evt);
+            }
+        });
         pnShowAllTables2.add(btExtractData2, java.awt.BorderLayout.PAGE_START);
 
         spTables2.setMaximumSize(new java.awt.Dimension(100, 100));
@@ -310,6 +346,7 @@ public class MainWindow extends javax.swing.JFrame {
         pnCounts1.add(lbColumnCountC);
 
         lbColumnCountValueC.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        lbColumnCountValueC.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbColumnCountValueC.setMaximumSize(new java.awt.Dimension(40, 45));
         lbColumnCountValueC.setMinimumSize(new java.awt.Dimension(40, 45));
         lbColumnCountValueC.setPreferredSize(new java.awt.Dimension(40, 45));
@@ -323,6 +360,7 @@ public class MainWindow extends javax.swing.JFrame {
         pnCounts1.add(lbRowCountC);
 
         lbRowCountValueC.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        lbRowCountValueC.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbRowCountValueC.setMaximumSize(new java.awt.Dimension(40, 45));
         lbRowCountValueC.setMinimumSize(new java.awt.Dimension(40, 45));
         lbRowCountValueC.setPreferredSize(new java.awt.Dimension(40, 45));
@@ -353,6 +391,7 @@ public class MainWindow extends javax.swing.JFrame {
         pnTableName1.add(lbTableNameC);
 
         lbTableNameValueC.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        lbTableNameValueC.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbTableNameValueC.setMaximumSize(new java.awt.Dimension(40, 45));
         lbTableNameValueC.setMinimumSize(new java.awt.Dimension(40, 45));
         lbTableNameValueC.setPreferredSize(new java.awt.Dimension(40, 45));
@@ -395,6 +434,42 @@ public class MainWindow extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void onCompareData(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCompareData
+        DataSelectionModesDialogue selectDialogue = new DataSelectionModesDialogue(this,true);
+        selectDialogue.setVisible(true);
+        enableButtons(selectDialogue.isOK());
+        
+    }//GEN-LAST:event_onCompareData
+
+    private void onShowDetails(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onShowDetails
+        DetailsDialogue detailsDialogue = new DetailsDialogue(this, true);
+        detailsDialogue.setVisible(true);
+    }//GEN-LAST:event_onShowDetails
+
+    private void onDownloadData(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onDownloadData
+        SelectDownloadModeDialogue downloadDialogue = new SelectDownloadModeDialogue(this, true);
+        downloadDialogue.setVisible(true);
+    }//GEN-LAST:event_onDownloadData
+
+    private void onExtractData1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onExtractData1
+        DataExtractModeDialogue dataExtractDialogue = new DataExtractModeDialogue(this, true);
+        dataExtractDialogue.setVisible(true);
+        
+    }//GEN-LAST:event_onExtractData1
+
+    private void onExtractData2(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onExtractData2
+        DataExtractModeDialogue dataExtractDialogue = new DataExtractModeDialogue(this, true);
+        dataExtractDialogue.setVisible(true);
+    }//GEN-LAST:event_onExtractData2
+
+    public void enableButtons(boolean b)
+    {
+        btShowDetails.setEnabled(b);
+        btDownloadData.setEnabled(b);
+    }
+    
+    
+    
     /**
      * @param args the command line arguments
      */

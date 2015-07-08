@@ -14,6 +14,8 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog {
     /**
      * Creates new form DataSelectionModesDialogue
      */
+    private boolean ok = false;
+    
     public DataSelectionModesDialogue(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -66,6 +68,11 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog {
         rbParticularTables.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         rbParticularTables.setSelected(true);
         rbParticularTables.setText("particular Tables");
+        rbParticularTables.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onParticularTables(evt);
+            }
+        });
         pnRadioButton.add(rbParticularTables);
         pnRadioButton.add(lbWhiteSpace2);
         pnRadioButton.add(lbWhiteSpace3);
@@ -73,6 +80,11 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog {
         bgGroup1.add(rbEntireDB);
         rbEntireDB.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         rbEntireDB.setText("entire Database");
+        rbEntireDB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onEntireDatabase(evt);
+            }
+        });
         pnRadioButton.add(rbEntireDB);
         pnRadioButton.add(lbWhiteSpace4);
 
@@ -82,10 +94,26 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog {
 
         btOK.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         btOK.setText("OK");
+        btOK.setMaximumSize(new java.awt.Dimension(50, 40));
+        btOK.setMinimumSize(new java.awt.Dimension(50, 40));
+        btOK.setPreferredSize(new java.awt.Dimension(50, 40));
+        btOK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onOK(evt);
+            }
+        });
         jPanel1.add(btOK);
 
         btCancel.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         btCancel.setText("Cancel");
+        btCancel.setMaximumSize(new java.awt.Dimension(50, 40));
+        btCancel.setMinimumSize(new java.awt.Dimension(50, 40));
+        btCancel.setPreferredSize(new java.awt.Dimension(50, 40));
+        btCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onCancel(evt);
+            }
+        });
         jPanel1.add(btCancel);
 
         pnOptions.add(jPanel1, java.awt.BorderLayout.SOUTH);
@@ -95,6 +123,44 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void onParticularTables(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onParticularTables
+        // TODO add your handling code here:
+    }//GEN-LAST:event_onParticularTables
+
+    private void onEntireDatabase(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onEntireDatabase
+        // TODO add your handling code here:
+    }//GEN-LAST:event_onEntireDatabase
+
+    private void onOK(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOK
+        ok = true;
+        TableDialogue tableDialogue = new TableDialogue(null, true);
+        if(rbParticularTables.isSelected())
+        {           
+            tableDialogue.setVisible(true);
+        }
+        else
+        {
+            dispose();
+        }
+        if(tableDialogue.getOK() && ok)
+        {
+            dispose();
+        }
+        
+    }//GEN-LAST:event_onOK
+
+    private void onCancel(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCancel
+
+        dispose();
+    }//GEN-LAST:event_onCancel
+
+    public boolean isOK() 
+    {
+        return ok;
+    }
+
+    
+    
     /**
      * @param args the command line arguments
      */

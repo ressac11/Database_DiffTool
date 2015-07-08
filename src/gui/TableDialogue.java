@@ -14,6 +14,8 @@ public class TableDialogue extends javax.swing.JDialog {
     /**
      * Creates new form TableDialogue
      */
+    private boolean ok = false;
+    
     public TableDialogue(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -64,7 +66,7 @@ public class TableDialogue extends javax.swing.JDialog {
         btOk.setPreferredSize(new java.awt.Dimension(50, 30));
         btOk.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btOkActionPerformed(evt);
+                onOK(evt);
             }
         });
         pnButtons.add(btOk);
@@ -74,6 +76,11 @@ public class TableDialogue extends javax.swing.JDialog {
         btCancel.setMaximumSize(new java.awt.Dimension(50, 30));
         btCancel.setMinimumSize(new java.awt.Dimension(50, 30));
         btCancel.setPreferredSize(new java.awt.Dimension(50, 30));
+        btCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onCancel(evt);
+            }
+        });
         pnButtons.add(btCancel);
 
         pnTableButton.add(pnButtons, java.awt.BorderLayout.PAGE_END);
@@ -94,10 +101,20 @@ public class TableDialogue extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btOkActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btOkActionPerformed
+    private void onOK(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOK
+        ok = true;
+        dispose();
+    }//GEN-LAST:event_onOK
 
+    private void onCancel(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCancel
+        dispose();
+    }//GEN-LAST:event_onCancel
+
+    public boolean getOK() 
+    {
+        return ok;
+    }
+    
     /**
      * @param args the command line arguments
      */

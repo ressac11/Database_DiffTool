@@ -16,6 +16,8 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
     /**
      * Creates new form DataExtractModeDialogue
      */
+    
+    public boolean isOK = false;
     public static final Color backgroundColorPanel = new Color(229, 229, 229);
     public static final Color backgroundColorButton = new Color(199,199,199);
     public DataExtractModeDialogue(java.awt.Frame parent, boolean modal) {
@@ -159,7 +161,8 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void onNewDBDump(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onNewDBDump
-        // TODO add your handling code here:
+        
+        
     }//GEN-LAST:event_onNewDBDump
 
     private void onExistingDBDump(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onExistingDBDump
@@ -167,7 +170,19 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
     }//GEN-LAST:event_onExistingDBDump
 
     private void onOK(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOK
-        // TODO add your handling code here:
+        DatabaseConnectionDialogue connectionDialogue = new DatabaseConnectionDialogue(null, true);
+        isOK=true;
+        if(rbNewDBDump.isSelected())
+        {
+            connectionDialogue.setVisible(true);
+        }
+        
+        if(connectionDialogue.getNewConn() && isOK)
+        {
+            dispose();
+        }
+        
+        
     }//GEN-LAST:event_onOK
 
     /**
