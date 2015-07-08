@@ -84,32 +84,45 @@ public class MainWindow extends javax.swing.JFrame {
         setMaximumSize(new java.awt.Dimension(700, 500));
         setMinimumSize(new java.awt.Dimension(700, 500));
         setPreferredSize(new java.awt.Dimension(700, 500));
+        getContentPane().setLayout(new java.awt.BorderLayout(20, 5));
 
-        pnButtonToolBar.setLayout(new java.awt.GridLayout(1, 3, 5, 5));
+        pnButtonToolBar.setLayout(new java.awt.GridLayout(1, 3, 10, 5));
 
-        btCompareData.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
+        btCompareData.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         btCompareData.setText("Compare Data");
+        btCompareData.setMaximumSize(new java.awt.Dimension(180, 40));
+        btCompareData.setMinimumSize(new java.awt.Dimension(180, 40));
+        btCompareData.setPreferredSize(new java.awt.Dimension(180, 40));
         pnButtonToolBar.add(btCompareData);
 
-        btShowDetails.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
+        btShowDetails.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         btShowDetails.setText("Show Details");
         btShowDetails.setToolTipText("");
+        btShowDetails.setMaximumSize(new java.awt.Dimension(180, 40));
+        btShowDetails.setMinimumSize(new java.awt.Dimension(180, 40));
+        btShowDetails.setPreferredSize(new java.awt.Dimension(180, 40));
         pnButtonToolBar.add(btShowDetails);
 
-        btDownloadData.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
+        btDownloadData.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         btDownloadData.setText("Download data as text");
         btDownloadData.setToolTipText("");
+        btDownloadData.setMaximumSize(new java.awt.Dimension(180, 40));
+        btDownloadData.setMinimumSize(new java.awt.Dimension(180, 40));
+        btDownloadData.setPreferredSize(new java.awt.Dimension(180, 40));
         pnButtonToolBar.add(btDownloadData);
 
         getContentPane().add(pnButtonToolBar, java.awt.BorderLayout.PAGE_START);
 
-        pnMain.setLayout(new java.awt.GridLayout(1, 2));
+        pnMain.setLayout(new java.awt.GridLayout(1, 2, 7, 0));
 
-        pnFirstDatabase.setLayout(new java.awt.BorderLayout());
+        pnFirstDatabase.setLayout(new java.awt.BorderLayout(5, 5));
 
-        pnShowAllTables1.setLayout(new java.awt.BorderLayout());
+        pnShowAllTables1.setMaximumSize(new java.awt.Dimension(100, 160));
+        pnShowAllTables1.setMinimumSize(new java.awt.Dimension(100, 160));
+        pnShowAllTables1.setPreferredSize(new java.awt.Dimension(100, 160));
+        pnShowAllTables1.setLayout(new java.awt.BorderLayout(5, 2));
 
-        btExtractData1.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        btExtractData1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btExtractData1.setText("Extract Data");
         btExtractData1.setToolTipText("");
         btExtractData1.setMaximumSize(new java.awt.Dimension(40, 45));
@@ -127,31 +140,31 @@ public class MainWindow extends javax.swing.JFrame {
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        liTables1.setMaximumSize(new java.awt.Dimension(100, 100));
-        liTables1.setMinimumSize(new java.awt.Dimension(100, 100));
-        liTables1.setPreferredSize(new java.awt.Dimension(100, 100));
+        liTables1.setMaximumSize(new java.awt.Dimension(80, 100));
+        liTables1.setMinimumSize(new java.awt.Dimension(80, 100));
+        liTables1.setPreferredSize(new java.awt.Dimension(80, 100));
         spTables1.setViewportView(liTables1);
 
         pnShowAllTables1.add(spTables1, java.awt.BorderLayout.CENTER);
 
         pnFirstDatabase.add(pnShowAllTables1, java.awt.BorderLayout.WEST);
 
-        pnDetails.setLayout(new java.awt.BorderLayout());
+        pnDetails.setLayout(new java.awt.BorderLayout(10, 0));
 
-        lbPrincipalName.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        lbPrincipalName.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lbPrincipalName.setText("Principal");
         lbPrincipalName.setMaximumSize(new java.awt.Dimension(40, 45));
         lbPrincipalName.setMinimumSize(new java.awt.Dimension(40, 45));
         lbPrincipalName.setPreferredSize(new java.awt.Dimension(40, 45));
         pnDetails.add(lbPrincipalName, java.awt.BorderLayout.PAGE_START);
 
-        pnNamesCounts.setLayout(new java.awt.BorderLayout());
+        pnNamesCounts.setLayout(new java.awt.BorderLayout(10, 0));
 
-        pnTableColumn.setLayout(new java.awt.BorderLayout());
+        pnTableColumn.setLayout(new java.awt.BorderLayout(10, 0));
 
-        pnCounts.setLayout(new java.awt.GridLayout(3, 2));
+        pnCounts.setLayout(new java.awt.GridLayout(3, 2, 10, 0));
 
-        lbColumnCount.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        lbColumnCount.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         lbColumnCount.setText("Column Count:");
         lbColumnCount.setMaximumSize(new java.awt.Dimension(40, 45));
         lbColumnCount.setMinimumSize(new java.awt.Dimension(40, 45));
@@ -164,7 +177,7 @@ public class MainWindow extends javax.swing.JFrame {
         lbColumnCountValue.setPreferredSize(new java.awt.Dimension(40, 45));
         pnCounts.add(lbColumnCountValue);
 
-        lbRowCount.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        lbRowCount.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         lbRowCount.setText("Row Count:");
         lbRowCount.setMaximumSize(new java.awt.Dimension(40, 45));
         lbRowCount.setMinimumSize(new java.awt.Dimension(40, 45));
@@ -183,7 +196,7 @@ public class MainWindow extends javax.swing.JFrame {
         lbWhiteSpace3.setPreferredSize(new java.awt.Dimension(40, 45));
         pnCounts.add(lbWhiteSpace3);
 
-        lbDistinctionCount.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        lbDistinctionCount.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lbDistinctionCount.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbDistinctionCount.setText("Distinction Count:");
         lbDistinctionCount.setMaximumSize(new java.awt.Dimension(40, 45));
@@ -193,9 +206,9 @@ public class MainWindow extends javax.swing.JFrame {
 
         pnTableColumn.add(pnCounts, java.awt.BorderLayout.SOUTH);
 
-        pnTableName.setLayout(new java.awt.GridLayout(1, 2));
+        pnTableName.setLayout(new java.awt.GridLayout(1, 2, 10, 0));
 
-        lbTableName.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        lbTableName.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         lbTableName.setText("Table name:");
         lbTableName.setMaximumSize(new java.awt.Dimension(40, 45));
         lbTableName.setMinimumSize(new java.awt.Dimension(40, 45));
@@ -210,9 +223,9 @@ public class MainWindow extends javax.swing.JFrame {
 
         pnTableColumn.add(pnTableName, java.awt.BorderLayout.NORTH);
 
-        pnColumnNames.setLayout(new java.awt.BorderLayout());
+        pnColumnNames.setLayout(new java.awt.BorderLayout(10, 0));
 
-        lbColumnNames.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        lbColumnNames.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         lbColumnNames.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lbColumnNames.setText("Column Names:");
         lbColumnNames.setMaximumSize(new java.awt.Dimension(40, 45));
@@ -240,11 +253,14 @@ public class MainWindow extends javax.swing.JFrame {
 
         pnMain.add(pnFirstDatabase);
 
-        pnSecondDatabase.setLayout(new java.awt.BorderLayout());
+        pnSecondDatabase.setLayout(new java.awt.BorderLayout(5, 5));
 
-        pnShowAllTables2.setLayout(new java.awt.BorderLayout());
+        pnShowAllTables2.setMaximumSize(new java.awt.Dimension(100, 160));
+        pnShowAllTables2.setMinimumSize(new java.awt.Dimension(100, 160));
+        pnShowAllTables2.setPreferredSize(new java.awt.Dimension(100, 160));
+        pnShowAllTables2.setLayout(new java.awt.BorderLayout(5, 2));
 
-        btExtractData2.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        btExtractData2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btExtractData2.setText("Extract Data");
         btExtractData2.setToolTipText("");
         btExtractData2.setMaximumSize(new java.awt.Dimension(40, 45));
@@ -262,9 +278,9 @@ public class MainWindow extends javax.swing.JFrame {
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        liTablesC.setMaximumSize(new java.awt.Dimension(100, 100));
-        liTablesC.setMinimumSize(new java.awt.Dimension(100, 100));
-        liTablesC.setPreferredSize(new java.awt.Dimension(100, 100));
+        liTablesC.setMaximumSize(new java.awt.Dimension(80, 100));
+        liTablesC.setMinimumSize(new java.awt.Dimension(80, 100));
+        liTablesC.setPreferredSize(new java.awt.Dimension(80, 100));
         spTables2.setViewportView(liTablesC);
 
         pnShowAllTables2.add(spTables2, java.awt.BorderLayout.CENTER);
@@ -273,7 +289,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         pnDetails1.setLayout(new java.awt.BorderLayout());
 
-        lbCustomerName.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        lbCustomerName.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lbCustomerName.setText("Customer");
         lbCustomerName.setMaximumSize(new java.awt.Dimension(40, 45));
         lbCustomerName.setMinimumSize(new java.awt.Dimension(40, 45));
@@ -286,7 +302,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         pnCounts1.setLayout(new java.awt.GridLayout(3, 2));
 
-        lbColumnCountC.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        lbColumnCountC.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         lbColumnCountC.setText("Column Count:");
         lbColumnCountC.setMaximumSize(new java.awt.Dimension(40, 45));
         lbColumnCountC.setMinimumSize(new java.awt.Dimension(40, 45));
@@ -299,7 +315,7 @@ public class MainWindow extends javax.swing.JFrame {
         lbColumnCountValueC.setPreferredSize(new java.awt.Dimension(40, 45));
         pnCounts1.add(lbColumnCountValueC);
 
-        lbRowCountC.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        lbRowCountC.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         lbRowCountC.setText("Row Count:");
         lbRowCountC.setMaximumSize(new java.awt.Dimension(40, 45));
         lbRowCountC.setMinimumSize(new java.awt.Dimension(40, 45));
@@ -312,7 +328,7 @@ public class MainWindow extends javax.swing.JFrame {
         lbRowCountValueC.setPreferredSize(new java.awt.Dimension(40, 45));
         pnCounts1.add(lbRowCountValueC);
 
-        lbDistinctionCountValue.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        lbDistinctionCountValue.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         lbDistinctionCountValue.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lbDistinctionCountValue.setMaximumSize(new java.awt.Dimension(40, 45));
         lbDistinctionCountValue.setMinimumSize(new java.awt.Dimension(40, 45));
@@ -329,7 +345,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         pnTableName1.setLayout(new java.awt.GridLayout(1, 2));
 
-        lbTableNameC.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        lbTableNameC.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         lbTableNameC.setText("Table name:");
         lbTableNameC.setMaximumSize(new java.awt.Dimension(40, 45));
         lbTableNameC.setMinimumSize(new java.awt.Dimension(40, 45));
@@ -346,7 +362,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         pnColumnNames1.setLayout(new java.awt.BorderLayout());
 
-        lbColumnNamesC.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        lbColumnNamesC.setFont(new java.awt.Font("Arial", 0, 13)); // NOI18N
         lbColumnNamesC.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lbColumnNamesC.setText("Column Names:");
         lbColumnNamesC.setMaximumSize(new java.awt.Dimension(40, 45));

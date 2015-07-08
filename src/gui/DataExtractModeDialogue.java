@@ -17,7 +17,7 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
     public DataExtractModeDialogue(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        this.setSize(400, 250);
+        this.setSize(380, 250);
         this.setResizable(false);
         setLocationRelativeTo(parent);
     }
@@ -31,27 +31,33 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        bgDatabase = new javax.swing.ButtonGroup();
         lbText = new javax.swing.JLabel();
         pnExistingDump = new javax.swing.JPanel();
         rbExistingDBDump = new javax.swing.JRadioButton();
         lbPlaceholder1 = new javax.swing.JLabel();
         pnNewDump = new javax.swing.JPanel();
         rbNewDBDump = new javax.swing.JRadioButton();
-        lbPlaceholder2 = new javax.swing.JLabel();
+        lbPlaceholder4 = new javax.swing.JLabel();
         pnButton = new javax.swing.JPanel();
         btOK = new javax.swing.JButton();
+        lbPlaceholder2 = new javax.swing.JLabel();
+        lbPlaceholder5 = new javax.swing.JLabel();
+        lbPlaceholder7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new java.awt.GridLayout(4, 1, 0, 5));
 
-        lbText.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        lbText.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         lbText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbText.setText("Choose Data Extract Mode");
         getContentPane().add(lbText);
 
         pnExistingDump.setLayout(new java.awt.BorderLayout());
 
+        bgDatabase.add(rbExistingDBDump);
         rbExistingDBDump.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        rbExistingDBDump.setSelected(true);
         rbExistingDBDump.setText("existing Database dump");
         rbExistingDBDump.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         rbExistingDBDump.addActionListener(new java.awt.event.ActionListener() {
@@ -62,13 +68,16 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
         pnExistingDump.add(rbExistingDBDump, java.awt.BorderLayout.CENTER);
 
         lbPlaceholder1.setForeground(new java.awt.Color(240, 240, 240));
-        lbPlaceholder1.setText("placeholderplaceh");
+        lbPlaceholder1.setMaximumSize(new java.awt.Dimension(95, 2));
+        lbPlaceholder1.setMinimumSize(new java.awt.Dimension(95, 2));
+        lbPlaceholder1.setPreferredSize(new java.awt.Dimension(95, 2));
         pnExistingDump.add(lbPlaceholder1, java.awt.BorderLayout.LINE_START);
 
         getContentPane().add(pnExistingDump);
 
         pnNewDump.setLayout(new java.awt.BorderLayout());
 
+        bgDatabase.add(rbNewDBDump);
         rbNewDBDump.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         rbNewDBDump.setText("new Database dump");
         rbNewDBDump.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -79,35 +88,43 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
         });
         pnNewDump.add(rbNewDBDump, java.awt.BorderLayout.CENTER);
 
-        lbPlaceholder2.setForeground(new java.awt.Color(240, 240, 240));
-        lbPlaceholder2.setText("placeholderplaceh");
-        pnNewDump.add(lbPlaceholder2, java.awt.BorderLayout.LINE_START);
+        lbPlaceholder4.setForeground(new java.awt.Color(240, 240, 240));
+        lbPlaceholder4.setMaximumSize(new java.awt.Dimension(95, 2));
+        lbPlaceholder4.setMinimumSize(new java.awt.Dimension(95, 2));
+        lbPlaceholder4.setName(""); // NOI18N
+        lbPlaceholder4.setPreferredSize(new java.awt.Dimension(95, 2));
+        pnNewDump.add(lbPlaceholder4, java.awt.BorderLayout.WEST);
 
         getContentPane().add(pnNewDump);
 
-        btOK.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        pnButton.setLayout(new java.awt.BorderLayout(5, 0));
+
+        btOK.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         btOK.setText("OK");
         btOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onOK(evt);
             }
         });
+        pnButton.add(btOK, java.awt.BorderLayout.CENTER);
 
-        javax.swing.GroupLayout pnButtonLayout = new javax.swing.GroupLayout(pnButton);
-        pnButton.setLayout(pnButtonLayout);
-        pnButtonLayout.setHorizontalGroup(
-            pnButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnButtonLayout.createSequentialGroup()
-                .addGap(131, 131, 131)
-                .addComponent(btOK, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(134, Short.MAX_VALUE))
-        );
-        pnButtonLayout.setVerticalGroup(
-            pnButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnButtonLayout.createSequentialGroup()
-                .addComponent(btOK, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
-                .addContainerGap())
-        );
+        lbPlaceholder2.setForeground(new java.awt.Color(240, 240, 240));
+        lbPlaceholder2.setMaximumSize(new java.awt.Dimension(130, 20));
+        lbPlaceholder2.setMinimumSize(new java.awt.Dimension(130, 20));
+        lbPlaceholder2.setPreferredSize(new java.awt.Dimension(130, 20));
+        pnButton.add(lbPlaceholder2, java.awt.BorderLayout.WEST);
+
+        lbPlaceholder5.setForeground(new java.awt.Color(240, 240, 240));
+        lbPlaceholder5.setMaximumSize(new java.awt.Dimension(130, 20));
+        lbPlaceholder5.setMinimumSize(new java.awt.Dimension(130, 20));
+        lbPlaceholder5.setName(""); // NOI18N
+        lbPlaceholder5.setPreferredSize(new java.awt.Dimension(130, 20));
+        pnButton.add(lbPlaceholder5, java.awt.BorderLayout.EAST);
+
+        lbPlaceholder7.setMaximumSize(new java.awt.Dimension(0, 8));
+        lbPlaceholder7.setMinimumSize(new java.awt.Dimension(0, 8));
+        lbPlaceholder7.setPreferredSize(new java.awt.Dimension(0, 8));
+        pnButton.add(lbPlaceholder7, java.awt.BorderLayout.PAGE_END);
 
         getContentPane().add(pnButton);
 
@@ -169,9 +186,13 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup bgDatabase;
     private javax.swing.JButton btOK;
     private javax.swing.JLabel lbPlaceholder1;
     private javax.swing.JLabel lbPlaceholder2;
+    private javax.swing.JLabel lbPlaceholder4;
+    private javax.swing.JLabel lbPlaceholder5;
+    private javax.swing.JLabel lbPlaceholder7;
     private javax.swing.JLabel lbText;
     private javax.swing.JPanel pnButton;
     private javax.swing.JPanel pnExistingDump;

@@ -38,17 +38,30 @@ public class TableDialogue extends javax.swing.JDialog {
         liTables = new javax.swing.JList();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(300, 400));
+        setMinimumSize(new java.awt.Dimension(300, 400));
+        setPreferredSize(new java.awt.Dimension(300, 400));
+        getContentPane().setLayout(new java.awt.BorderLayout(10, 10));
 
-        lbTables.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
-        lbTables.setText("Tabellen");
+        lbTables.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        lbTables.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbTables.setText("Tables");
+        lbTables.setToolTipText("");
+        lbTables.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        lbTables.setMaximumSize(new java.awt.Dimension(55, 35));
+        lbTables.setMinimumSize(new java.awt.Dimension(55, 35));
+        lbTables.setPreferredSize(new java.awt.Dimension(55, 35));
         getContentPane().add(lbTables, java.awt.BorderLayout.PAGE_START);
 
-        pnTableButton.setLayout(new java.awt.BorderLayout());
+        pnTableButton.setLayout(new java.awt.BorderLayout(10, 10));
 
-        pnButtons.setLayout(new java.awt.GridLayout(1, 2));
+        pnButtons.setLayout(new java.awt.GridLayout(1, 2, 10, 10));
 
-        btOk.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        btOk.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         btOk.setText("OK");
+        btOk.setMaximumSize(new java.awt.Dimension(50, 30));
+        btOk.setMinimumSize(new java.awt.Dimension(50, 30));
+        btOk.setPreferredSize(new java.awt.Dimension(50, 30));
         btOk.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btOkActionPerformed(evt);
@@ -56,13 +69,17 @@ public class TableDialogue extends javax.swing.JDialog {
         });
         pnButtons.add(btOk);
 
-        btCancel.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        btCancel.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         btCancel.setText("Cancel");
+        btCancel.setMaximumSize(new java.awt.Dimension(50, 30));
+        btCancel.setMinimumSize(new java.awt.Dimension(50, 30));
+        btCancel.setPreferredSize(new java.awt.Dimension(50, 30));
         pnButtons.add(btCancel);
 
         pnTableButton.add(pnButtons, java.awt.BorderLayout.PAGE_END);
 
-        liTables.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
+        liTables.setBackground(new java.awt.Color(214, 217, 223));
+        liTables.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         liTables.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }

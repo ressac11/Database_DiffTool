@@ -17,8 +17,8 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
     public DatabaseConnectionDialogue(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        this.setSize(400,450);
-        this.setResizable(false);
+//        this.setSize(400,450);
+//        this.setResizable(false);
         setLocationRelativeTo(parent);
     }
  
@@ -32,28 +32,13 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
     private void initComponents() {
 
         lbText = new javax.swing.JLabel();
-        pnUser = new javax.swing.JPanel();
-        lbPlaceholder1 = new javax.swing.JLabel();
-        lbPlaceholder2 = new javax.swing.JLabel();
-        pnUserText = new javax.swing.JPanel();
+        pnContainer = new javax.swing.JPanel();
         lbUser = new javax.swing.JLabel();
         tfUser = new javax.swing.JTextField();
-        pnPassword = new javax.swing.JPanel();
-        lbPlaceholder3 = new javax.swing.JLabel();
-        lbPlaceholder4 = new javax.swing.JLabel();
-        pnPasswordText = new javax.swing.JPanel();
         lbPassword = new javax.swing.JLabel();
         tfPassword = new javax.swing.JTextField();
-        pnDriver = new javax.swing.JPanel();
-        lbPlaceholder5 = new javax.swing.JLabel();
-        lbPlaceholder6 = new javax.swing.JLabel();
-        pnDriverText = new javax.swing.JPanel();
         lbDriver = new javax.swing.JLabel();
         tfDriver = new javax.swing.JTextField();
-        pnCompanyName = new javax.swing.JPanel();
-        lbPlaceholder7 = new javax.swing.JLabel();
-        lbPlaceholder8 = new javax.swing.JLabel();
-        pnCompanyText = new javax.swing.JPanel();
         lbCompanyName = new javax.swing.JLabel();
         tfCompanyName = new javax.swing.JTextField();
         paButtons = new javax.swing.JPanel();
@@ -61,194 +46,112 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         btCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        getContentPane().setLayout(new java.awt.GridLayout(6, 1, 20, 15));
+        setLocationByPlatform(true);
+        setMaximumSize(new java.awt.Dimension(350, 380));
+        setMinimumSize(new java.awt.Dimension(350, 380));
+        setPreferredSize(new java.awt.Dimension(350, 380));
+        getContentPane().setLayout(new java.awt.BorderLayout(0, 15));
 
-        lbText.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        lbText.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         lbText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbText.setText("Create Database Connection");
-        getContentPane().add(lbText);
+        lbText.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        lbText.setMaximumSize(new java.awt.Dimension(150, 40));
+        lbText.setMinimumSize(new java.awt.Dimension(150, 40));
+        lbText.setPreferredSize(new java.awt.Dimension(150, 40));
+        getContentPane().add(lbText, java.awt.BorderLayout.PAGE_START);
 
-        pnUser.setLayout(new java.awt.BorderLayout());
+        pnContainer.setLayout(new java.awt.GridLayout(4, 2, 20, 20));
 
-        lbPlaceholder1.setForeground(new java.awt.Color(240, 240, 240));
-        lbPlaceholder1.setMaximumSize(new java.awt.Dimension(80, 6));
-        lbPlaceholder1.setMinimumSize(new java.awt.Dimension(80, 6));
-        lbPlaceholder1.setPreferredSize(new java.awt.Dimension(80, 6));
-        pnUser.add(lbPlaceholder1, java.awt.BorderLayout.EAST);
-
-        lbPlaceholder2.setForeground(new java.awt.Color(240, 240, 240));
-        lbPlaceholder2.setMaximumSize(new java.awt.Dimension(80, 6));
-        lbPlaceholder2.setMinimumSize(new java.awt.Dimension(80, 6));
-        lbPlaceholder2.setPreferredSize(new java.awt.Dimension(80, 6));
-        pnUser.add(lbPlaceholder2, java.awt.BorderLayout.LINE_START);
-
-        pnUserText.setLayout(new java.awt.BorderLayout());
-
-        lbUser.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        lbUser.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        lbUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbUser.setText("User: ");
-        lbUser.setMaximumSize(new java.awt.Dimension(120, 6));
-        lbUser.setMinimumSize(new java.awt.Dimension(120, 6));
-        lbUser.setPreferredSize(new java.awt.Dimension(120, 6));
-        pnUserText.add(lbUser, java.awt.BorderLayout.LINE_START);
+        lbUser.setMaximumSize(new java.awt.Dimension(150, 40));
+        lbUser.setMinimumSize(new java.awt.Dimension(150, 40));
+        lbUser.setPreferredSize(new java.awt.Dimension(150, 40));
+        pnContainer.add(lbUser);
 
-        tfUser.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        tfUser.setMaximumSize(new java.awt.Dimension(3, 10));
-        tfUser.setMinimumSize(new java.awt.Dimension(3, 10));
-        tfUser.setPreferredSize(new java.awt.Dimension(3, 10));
-        pnUserText.add(tfUser, java.awt.BorderLayout.CENTER);
+        tfUser.setBackground(new java.awt.Color(214, 217, 223));
+        tfUser.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        tfUser.setMaximumSize(new java.awt.Dimension(150, 40));
+        tfUser.setMinimumSize(new java.awt.Dimension(150, 40));
+        tfUser.setPreferredSize(new java.awt.Dimension(150, 40));
+        pnContainer.add(tfUser);
 
-        pnUser.add(pnUserText, java.awt.BorderLayout.CENTER);
-
-        getContentPane().add(pnUser);
-
-        pnPassword.setLayout(new java.awt.BorderLayout());
-
-        lbPlaceholder3.setForeground(new java.awt.Color(240, 240, 240));
-        lbPlaceholder3.setMaximumSize(new java.awt.Dimension(80, 6));
-        lbPlaceholder3.setMinimumSize(new java.awt.Dimension(80, 6));
-        lbPlaceholder3.setPreferredSize(new java.awt.Dimension(80, 6));
-        pnPassword.add(lbPlaceholder3, java.awt.BorderLayout.EAST);
-
-        lbPlaceholder4.setForeground(new java.awt.Color(240, 240, 240));
-        lbPlaceholder4.setMaximumSize(new java.awt.Dimension(80, 6));
-        lbPlaceholder4.setMinimumSize(new java.awt.Dimension(80, 6));
-        lbPlaceholder4.setPreferredSize(new java.awt.Dimension(80, 6));
-        pnPassword.add(lbPlaceholder4, java.awt.BorderLayout.LINE_START);
-
-        pnPasswordText.setLayout(new java.awt.BorderLayout());
-
-        lbPassword.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        lbPassword.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        lbPassword.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbPassword.setText("Password: ");
-        lbPassword.setMaximumSize(new java.awt.Dimension(120, 6));
-        lbPassword.setMinimumSize(new java.awt.Dimension(120, 6));
-        lbPassword.setPreferredSize(new java.awt.Dimension(120, 6));
-        pnPasswordText.add(lbPassword, java.awt.BorderLayout.LINE_START);
+        lbPassword.setMaximumSize(new java.awt.Dimension(150, 40));
+        lbPassword.setMinimumSize(new java.awt.Dimension(150, 40));
+        lbPassword.setPreferredSize(new java.awt.Dimension(150, 40));
+        pnContainer.add(lbPassword);
 
-        tfPassword.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        tfPassword.setMaximumSize(new java.awt.Dimension(3, 10));
-        tfPassword.setMinimumSize(new java.awt.Dimension(3, 10));
-        tfPassword.setPreferredSize(new java.awt.Dimension(3, 10));
-        pnPasswordText.add(tfPassword, java.awt.BorderLayout.CENTER);
+        tfPassword.setBackground(new java.awt.Color(214, 217, 223));
+        tfPassword.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        tfPassword.setMaximumSize(new java.awt.Dimension(150, 40));
+        tfPassword.setMinimumSize(new java.awt.Dimension(150, 40));
+        tfPassword.setPreferredSize(new java.awt.Dimension(150, 40));
+        pnContainer.add(tfPassword);
 
-        pnPassword.add(pnPasswordText, java.awt.BorderLayout.CENTER);
-
-        getContentPane().add(pnPassword);
-
-        pnDriver.setLayout(new java.awt.BorderLayout());
-
-        lbPlaceholder5.setForeground(new java.awt.Color(240, 240, 240));
-        lbPlaceholder5.setMaximumSize(new java.awt.Dimension(80, 6));
-        lbPlaceholder5.setMinimumSize(new java.awt.Dimension(80, 6));
-        lbPlaceholder5.setPreferredSize(new java.awt.Dimension(80, 6));
-        pnDriver.add(lbPlaceholder5, java.awt.BorderLayout.EAST);
-
-        lbPlaceholder6.setForeground(new java.awt.Color(240, 240, 240));
-        lbPlaceholder6.setMaximumSize(new java.awt.Dimension(80, 6));
-        lbPlaceholder6.setMinimumSize(new java.awt.Dimension(80, 6));
-        lbPlaceholder6.setPreferredSize(new java.awt.Dimension(80, 6));
-        pnDriver.add(lbPlaceholder6, java.awt.BorderLayout.LINE_START);
-
-        pnDriverText.setMaximumSize(new java.awt.Dimension(60, 6));
-        pnDriverText.setMinimumSize(new java.awt.Dimension(60, 6));
-        pnDriverText.setPreferredSize(new java.awt.Dimension(60, 6));
-        pnDriverText.setLayout(new java.awt.BorderLayout());
-
-        lbDriver.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        lbDriver.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        lbDriver.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbDriver.setText("Driver: ");
-        lbDriver.setMaximumSize(new java.awt.Dimension(120, 6));
-        lbDriver.setMinimumSize(new java.awt.Dimension(120, 6));
-        lbDriver.setPreferredSize(new java.awt.Dimension(120, 6));
-        pnDriverText.add(lbDriver, java.awt.BorderLayout.LINE_START);
+        lbDriver.setMaximumSize(new java.awt.Dimension(150, 40));
+        lbDriver.setMinimumSize(new java.awt.Dimension(150, 40));
+        lbDriver.setPreferredSize(new java.awt.Dimension(150, 40));
+        pnContainer.add(lbDriver);
 
-        tfDriver.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        tfDriver.setMaximumSize(new java.awt.Dimension(3, 10));
-        tfDriver.setMinimumSize(new java.awt.Dimension(3, 10));
-        tfDriver.setPreferredSize(new java.awt.Dimension(3, 10));
-        pnDriverText.add(tfDriver, java.awt.BorderLayout.CENTER);
+        tfDriver.setBackground(new java.awt.Color(214, 217, 223));
+        tfDriver.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        tfDriver.setMaximumSize(new java.awt.Dimension(150, 40));
+        tfDriver.setMinimumSize(new java.awt.Dimension(150, 40));
+        tfDriver.setPreferredSize(new java.awt.Dimension(150, 40));
+        pnContainer.add(tfDriver);
 
-        pnDriver.add(pnDriverText, java.awt.BorderLayout.CENTER);
-
-        getContentPane().add(pnDriver);
-
-        pnCompanyName.setLayout(new java.awt.BorderLayout());
-
-        lbPlaceholder7.setForeground(new java.awt.Color(240, 240, 240));
-        lbPlaceholder7.setMaximumSize(new java.awt.Dimension(80, 6));
-        lbPlaceholder7.setMinimumSize(new java.awt.Dimension(80, 6));
-        lbPlaceholder7.setPreferredSize(new java.awt.Dimension(80, 6));
-        pnCompanyName.add(lbPlaceholder7, java.awt.BorderLayout.EAST);
-
-        lbPlaceholder8.setForeground(new java.awt.Color(240, 240, 240));
-        lbPlaceholder8.setMaximumSize(new java.awt.Dimension(80, 6));
-        lbPlaceholder8.setMinimumSize(new java.awt.Dimension(80, 6));
-        lbPlaceholder8.setPreferredSize(new java.awt.Dimension(80, 6));
-        pnCompanyName.add(lbPlaceholder8, java.awt.BorderLayout.LINE_START);
-
-        pnCompanyText.setMaximumSize(new java.awt.Dimension(90, 6));
-        pnCompanyText.setMinimumSize(new java.awt.Dimension(90, 6));
-        pnCompanyText.setPreferredSize(new java.awt.Dimension(90, 6));
-        pnCompanyText.setLayout(new java.awt.BorderLayout());
-
-        lbCompanyName.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        lbCompanyName.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        lbCompanyName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbCompanyName.setText("Company name:");
-        lbCompanyName.setMaximumSize(new java.awt.Dimension(120, 6));
-        lbCompanyName.setMinimumSize(new java.awt.Dimension(120, 6));
-        lbCompanyName.setPreferredSize(new java.awt.Dimension(120, 6));
-        pnCompanyText.add(lbCompanyName, java.awt.BorderLayout.LINE_START);
+        lbCompanyName.setMaximumSize(new java.awt.Dimension(150, 40));
+        lbCompanyName.setMinimumSize(new java.awt.Dimension(150, 40));
+        lbCompanyName.setPreferredSize(new java.awt.Dimension(150, 40));
+        pnContainer.add(lbCompanyName);
 
-        tfCompanyName.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        tfCompanyName.setMaximumSize(new java.awt.Dimension(3, 10));
-        tfCompanyName.setMinimumSize(new java.awt.Dimension(3, 10));
-        tfCompanyName.setPreferredSize(new java.awt.Dimension(3, 10));
-        pnCompanyText.add(tfCompanyName, java.awt.BorderLayout.CENTER);
+        tfCompanyName.setBackground(new java.awt.Color(214, 217, 223));
+        tfCompanyName.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        tfCompanyName.setMaximumSize(new java.awt.Dimension(150, 40));
+        tfCompanyName.setMinimumSize(new java.awt.Dimension(150, 40));
+        tfCompanyName.setPreferredSize(new java.awt.Dimension(150, 40));
+        pnContainer.add(tfCompanyName);
 
-        pnCompanyName.add(pnCompanyText, java.awt.BorderLayout.CENTER);
+        getContentPane().add(pnContainer, java.awt.BorderLayout.CENTER);
 
-        getContentPane().add(pnCompanyName);
+        paButtons.setLayout(new java.awt.GridLayout(1, 2, 15, 0));
 
-        btOK.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btOK.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         btOK.setText("OK");
-        btOK.setMaximumSize(new java.awt.Dimension(100, 25));
-        btOK.setMinimumSize(new java.awt.Dimension(100, 25));
-        btOK.setPreferredSize(new java.awt.Dimension(100, 25));
+        btOK.setMaximumSize(new java.awt.Dimension(80, 40));
+        btOK.setMinimumSize(new java.awt.Dimension(80, 40));
+        btOK.setPreferredSize(new java.awt.Dimension(80, 40));
         btOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onOK(evt);
             }
         });
+        paButtons.add(btOK);
 
-        btCancel.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btCancel.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         btCancel.setText("CANCEL");
-        btCancel.setMaximumSize(new java.awt.Dimension(100, 25));
-        btCancel.setMinimumSize(new java.awt.Dimension(100, 25));
-        btCancel.setPreferredSize(new java.awt.Dimension(100, 25));
+        btCancel.setMaximumSize(new java.awt.Dimension(80, 40));
+        btCancel.setMinimumSize(new java.awt.Dimension(80, 40));
+        btCancel.setPreferredSize(new java.awt.Dimension(80, 40));
         btCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onCancel(evt);
             }
         });
+        paButtons.add(btCancel);
 
-        javax.swing.GroupLayout paButtonsLayout = new javax.swing.GroupLayout(paButtons);
-        paButtons.setLayout(paButtonsLayout);
-        paButtonsLayout.setHorizontalGroup(
-            paButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(paButtonsLayout.createSequentialGroup()
-                .addGap(92, 92, 92)
-                .addComponent(btOK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
-                .addComponent(btCancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(97, Short.MAX_VALUE))
-        );
-        paButtonsLayout.setVerticalGroup(
-            paButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(paButtonsLayout.createSequentialGroup()
-                .addGroup(paButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btCancel, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
-                    .addComponent(btOK, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(13, 13, 13))
-        );
-
-        getContentPane().add(paButtons);
+        getContentPane().add(paButtons, java.awt.BorderLayout.PAGE_END);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -309,25 +212,10 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
     private javax.swing.JLabel lbCompanyName;
     private javax.swing.JLabel lbDriver;
     private javax.swing.JLabel lbPassword;
-    private javax.swing.JLabel lbPlaceholder1;
-    private javax.swing.JLabel lbPlaceholder2;
-    private javax.swing.JLabel lbPlaceholder3;
-    private javax.swing.JLabel lbPlaceholder4;
-    private javax.swing.JLabel lbPlaceholder5;
-    private javax.swing.JLabel lbPlaceholder6;
-    private javax.swing.JLabel lbPlaceholder7;
-    private javax.swing.JLabel lbPlaceholder8;
     private javax.swing.JLabel lbText;
     private javax.swing.JLabel lbUser;
     private javax.swing.JPanel paButtons;
-    private javax.swing.JPanel pnCompanyName;
-    private javax.swing.JPanel pnCompanyText;
-    private javax.swing.JPanel pnDriver;
-    private javax.swing.JPanel pnDriverText;
-    private javax.swing.JPanel pnPassword;
-    private javax.swing.JPanel pnPasswordText;
-    private javax.swing.JPanel pnUser;
-    private javax.swing.JPanel pnUserText;
+    private javax.swing.JPanel pnContainer;
     private javax.swing.JTextField tfCompanyName;
     private javax.swing.JTextField tfDriver;
     private javax.swing.JTextField tfPassword;
