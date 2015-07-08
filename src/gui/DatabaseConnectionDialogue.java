@@ -63,7 +63,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new java.awt.GridLayout(6, 1, 20, 15));
 
-        lbText.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lbText.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lbText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbText.setText("Create Database Connection");
         getContentPane().add(lbText);
@@ -84,14 +84,14 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
 
         pnUserText.setLayout(new java.awt.BorderLayout());
 
-        lbUser.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lbUser.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lbUser.setText("User: ");
         lbUser.setMaximumSize(new java.awt.Dimension(120, 6));
         lbUser.setMinimumSize(new java.awt.Dimension(120, 6));
         lbUser.setPreferredSize(new java.awt.Dimension(120, 6));
         pnUserText.add(lbUser, java.awt.BorderLayout.LINE_START);
 
-        tfUser.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        tfUser.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         tfUser.setMaximumSize(new java.awt.Dimension(3, 10));
         tfUser.setMinimumSize(new java.awt.Dimension(3, 10));
         tfUser.setPreferredSize(new java.awt.Dimension(3, 10));
@@ -117,14 +117,14 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
 
         pnPasswordText.setLayout(new java.awt.BorderLayout());
 
-        lbPassword.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lbPassword.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lbPassword.setText("Password: ");
         lbPassword.setMaximumSize(new java.awt.Dimension(120, 6));
         lbPassword.setMinimumSize(new java.awt.Dimension(120, 6));
         lbPassword.setPreferredSize(new java.awt.Dimension(120, 6));
         pnPasswordText.add(lbPassword, java.awt.BorderLayout.LINE_START);
 
-        tfPassword.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        tfPassword.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         tfPassword.setMaximumSize(new java.awt.Dimension(3, 10));
         tfPassword.setMinimumSize(new java.awt.Dimension(3, 10));
         tfPassword.setPreferredSize(new java.awt.Dimension(3, 10));
@@ -153,14 +153,14 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         pnDriverText.setPreferredSize(new java.awt.Dimension(60, 6));
         pnDriverText.setLayout(new java.awt.BorderLayout());
 
-        lbDriver.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lbDriver.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lbDriver.setText("Driver: ");
         lbDriver.setMaximumSize(new java.awt.Dimension(120, 6));
         lbDriver.setMinimumSize(new java.awt.Dimension(120, 6));
         lbDriver.setPreferredSize(new java.awt.Dimension(120, 6));
         pnDriverText.add(lbDriver, java.awt.BorderLayout.LINE_START);
 
-        tfDriver.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        tfDriver.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         tfDriver.setMaximumSize(new java.awt.Dimension(3, 10));
         tfDriver.setMinimumSize(new java.awt.Dimension(3, 10));
         tfDriver.setPreferredSize(new java.awt.Dimension(3, 10));
@@ -189,14 +189,14 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         pnCompanyText.setPreferredSize(new java.awt.Dimension(90, 6));
         pnCompanyText.setLayout(new java.awt.BorderLayout());
 
-        lbCompanyName.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lbCompanyName.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         lbCompanyName.setText("Company name:");
         lbCompanyName.setMaximumSize(new java.awt.Dimension(120, 6));
         lbCompanyName.setMinimumSize(new java.awt.Dimension(120, 6));
         lbCompanyName.setPreferredSize(new java.awt.Dimension(120, 6));
         pnCompanyText.add(lbCompanyName, java.awt.BorderLayout.LINE_START);
 
-        tfCompanyName.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        tfCompanyName.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         tfCompanyName.setMaximumSize(new java.awt.Dimension(3, 10));
         tfCompanyName.setMinimumSize(new java.awt.Dimension(3, 10));
         tfCompanyName.setPreferredSize(new java.awt.Dimension(3, 10));
@@ -206,7 +206,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
 
         getContentPane().add(pnCompanyName);
 
-        btOK.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btOK.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btOK.setText("OK");
         btOK.setMaximumSize(new java.awt.Dimension(100, 25));
         btOK.setMinimumSize(new java.awt.Dimension(100, 25));
@@ -217,7 +217,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
             }
         });
 
-        btCancel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btCancel.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         btCancel.setText("CANCEL");
         btCancel.setMaximumSize(new java.awt.Dimension(100, 25));
         btCancel.setMinimumSize(new java.awt.Dimension(100, 25));

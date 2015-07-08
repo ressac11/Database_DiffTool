@@ -44,14 +44,14 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new java.awt.GridLayout(4, 1, 0, 5));
 
-        lbText.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lbText.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         lbText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbText.setText("Choose Data Extract Mode");
         getContentPane().add(lbText);
 
         pnExistingDump.setLayout(new java.awt.BorderLayout());
 
-        rbExistingDBDump.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        rbExistingDBDump.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         rbExistingDBDump.setText("existing Database dump");
         rbExistingDBDump.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         rbExistingDBDump.addActionListener(new java.awt.event.ActionListener() {
@@ -69,7 +69,7 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
 
         pnNewDump.setLayout(new java.awt.BorderLayout());
 
-        rbNewDBDump.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        rbNewDBDump.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         rbNewDBDump.setText("new Database dump");
         rbNewDBDump.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         rbNewDBDump.addActionListener(new java.awt.event.ActionListener() {
@@ -85,7 +85,7 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
 
         getContentPane().add(pnNewDump);
 
-        btOK.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btOK.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         btOK.setText("OK");
         btOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

@@ -49,12 +49,14 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog {
 
         pnCompanyName.setLayout(new java.awt.GridLayout(1, 2));
 
+        lbCompanyName.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         lbCompanyName.setText("Company Name:");
         lbCompanyName.setMaximumSize(new java.awt.Dimension(40, 45));
         lbCompanyName.setMinimumSize(new java.awt.Dimension(40, 45));
         lbCompanyName.setPreferredSize(new java.awt.Dimension(40, 45));
         pnCompanyName.add(lbCompanyName);
 
+        jLabel1.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         jLabel1.setMaximumSize(new java.awt.Dimension(40, 45));
         jLabel1.setMinimumSize(new java.awt.Dimension(40, 45));
         jLabel1.setPreferredSize(new java.awt.Dimension(40, 45));
@@ -68,12 +70,14 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog {
         pnRadioButton.add(lbWhiteSpace1);
 
         bgGroup1.add(rbParticularTables);
+        rbParticularTables.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         rbParticularTables.setText("particular Tables");
         pnRadioButton.add(rbParticularTables);
         pnRadioButton.add(lbWhiteSpace2);
         pnRadioButton.add(lbWhiteSpace3);
 
         bgGroup1.add(rbEntireDB);
+        rbEntireDB.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         rbEntireDB.setText("entire Database");
         pnRadioButton.add(rbEntireDB);
         pnRadioButton.add(lbWhiteSpace4);
@@ -82,9 +86,11 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog {
 
         jPanel1.setLayout(new java.awt.GridLayout(1, 2));
 
+        btOK.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         btOK.setText("OK");
         jPanel1.add(btOK);
 
+        btCancel.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         btCancel.setText("Cancel");
         jPanel1.add(btCancel);
 
