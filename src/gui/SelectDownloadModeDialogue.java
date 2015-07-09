@@ -22,7 +22,7 @@ public class SelectDownloadModeDialogue extends javax.swing.JDialog {
         this.getContentPane().setBackground(MainWindow.backgroundColorPanel);
         btCancel.setBackground(MainWindow.backgroundColorButton);
         btDownlaod.setBackground(MainWindow.backgroundColorButton);
-        this.setLocationRelativeTo(null);
+        this.setLocationRelativeTo(parent);
         this.setIconImage(new ImageIcon(getClass().getResource("jhlogo.jpg")).getImage()); 
     }
  
