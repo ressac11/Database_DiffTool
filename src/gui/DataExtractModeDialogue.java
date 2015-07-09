@@ -54,7 +54,6 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
         lbPlaceholder7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Data Extract Mode Dialogue");
         setBackground(new java.awt.Color(255, 230, 201));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setForeground(new java.awt.Color(255, 230, 201));

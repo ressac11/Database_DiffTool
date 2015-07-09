@@ -46,7 +46,6 @@ public class TableDialogue extends javax.swing.JDialog {
         liTables = new javax.swing.JList();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Table Dialog");
         setMaximumSize(new java.awt.Dimension(500, 500));
         setMinimumSize(new java.awt.Dimension(500, 500));
         setPreferredSize(new java.awt.Dimension(500, 500));

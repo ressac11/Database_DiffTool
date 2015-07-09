@@ -39,7 +39,6 @@ public class DownloadDialogue extends javax.swing.JDialog {
         jProgressBar1 = new javax.swing.JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Download Dialogue");
         setResizable(false);
         getContentPane().setLayout(new java.awt.BorderLayout(10, 10));
 

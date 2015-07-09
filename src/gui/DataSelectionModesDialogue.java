@@ -53,7 +53,6 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog {
         btCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Data Selection Modes Dialogue");
         setResizable(false);
 
         pnCompanyName.setBackground(new java.awt.Color(229, 229, 229));

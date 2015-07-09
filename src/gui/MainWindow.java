@@ -100,7 +100,7 @@ public class MainWindow extends javax.swing.JFrame {
         liColumnNamesValueC = new javax.swing.JList();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Main Window");
+        setTitle("Database Diff-Tool");
         setMaximumSize(new java.awt.Dimension(1100, 700));
         setMinimumSize(new java.awt.Dimension(700, 500));
         setPreferredSize(new java.awt.Dimension(1100, 700));
