@@ -59,6 +59,7 @@ public class DetailsDialogue extends javax.swing.JDialog {
         lbCustomerTableName = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         pnBottomBar.setBackground(new java.awt.Color(229, 229, 229));
         pnBottomBar.setLayout(new java.awt.BorderLayout());

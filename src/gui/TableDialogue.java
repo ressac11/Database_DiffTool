@@ -50,6 +50,7 @@ public class TableDialogue extends javax.swing.JDialog {
         setMaximumSize(new java.awt.Dimension(500, 500));
         setMinimumSize(new java.awt.Dimension(500, 500));
         setPreferredSize(new java.awt.Dimension(500, 500));
+        setResizable(false);
         getContentPane().setLayout(new java.awt.BorderLayout(10, 10));
 
         lbTables.setBackground(new java.awt.Color(229, 229, 229));

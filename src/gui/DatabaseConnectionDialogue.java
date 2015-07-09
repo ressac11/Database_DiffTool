@@ -56,6 +56,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         setMaximumSize(new java.awt.Dimension(400, 400));
         setMinimumSize(new java.awt.Dimension(400, 400));
         setPreferredSize(new java.awt.Dimension(400, 400));
+        setResizable(false);
         getContentPane().setLayout(new java.awt.BorderLayout(0, 15));
 
         lbText.setBackground(new java.awt.Color(229, 229, 229));

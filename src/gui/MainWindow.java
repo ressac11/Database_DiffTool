@@ -102,7 +102,7 @@ public class MainWindow extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Main Window");
         setMaximumSize(new java.awt.Dimension(1100, 700));
-        setMinimumSize(new java.awt.Dimension(800, 400));
+        setMinimumSize(new java.awt.Dimension(700, 500));
         setPreferredSize(new java.awt.Dimension(1100, 700));
         getContentPane().setLayout(new java.awt.BorderLayout(20, 5));
 

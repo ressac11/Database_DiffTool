@@ -55,9 +55,11 @@ public class SelectDownloadModeDialogue extends javax.swing.JDialog {
         btCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Select Download Mode Dialogue");
         setMaximumSize(new java.awt.Dimension(400, 350));
         setMinimumSize(new java.awt.Dimension(400, 350));
         setPreferredSize(new java.awt.Dimension(400, 350));
+        setResizable(false);
         getContentPane().setLayout(new java.awt.BorderLayout(10, 10));
 
         lbTitle.setBackground(new java.awt.Color(229, 229, 229));
