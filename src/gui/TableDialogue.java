@@ -5,6 +5,8 @@
  */
 package gui;
 
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author Sarah
@@ -23,6 +25,7 @@ public class TableDialogue extends javax.swing.JDialog {
         btCancel.setBackground(MainWindow.backgroundColorButton);
         btOk.setBackground(MainWindow.backgroundColorButton);
         this.setLocationRelativeTo(null);
+        this.setIconImage(new ImageIcon(getClass().getResource("jhlogo.jpg")).getImage()); 
     }
  
     /**

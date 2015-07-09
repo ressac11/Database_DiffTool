@@ -5,6 +5,8 @@
  */
 package gui;
 
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author Sarah
@@ -21,6 +23,7 @@ public class SelectDownloadModeDialogue extends javax.swing.JDialog {
         btCancel.setBackground(MainWindow.backgroundColorButton);
         btDownlaod.setBackground(MainWindow.backgroundColorButton);
         this.setLocationRelativeTo(null);
+        this.setIconImage(new ImageIcon(getClass().getResource("jhlogo.jpg")).getImage()); 
     }
  
     /**

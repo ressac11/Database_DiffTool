@@ -5,6 +5,8 @@
  */
 package gui;
 
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author Sarah
@@ -19,6 +21,7 @@ public class DownloadDialogue extends javax.swing.JDialog {
         initComponents();
         this.setLocationRelativeTo(this);
         this.getContentPane().setBackground(MainWindow.backgroundColorPanel);
+        this.setIconImage(new ImageIcon(getClass().getResource("jhlogo.jpg")).getImage()); 
     }
 
     /**

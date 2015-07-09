@@ -6,6 +6,7 @@
 package gui;
 
 import java.awt.Color;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -18,8 +19,6 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
      */
     
     public boolean isOK = false;
-    public static final Color backgroundColorPanel = new Color(229, 229, 229);
-    public static final Color backgroundColorButton = new Color(199,199,199);
     public DataExtractModeDialogue(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -28,6 +27,7 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
         this.setSize(380, 250);
         this.setResizable(false);
         setLocationRelativeTo(parent);
+        this.setIconImage(new ImageIcon(getClass().getResource("jhlogo.jpg")).getImage()); 
     }
 
     /**
