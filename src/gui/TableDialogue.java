@@ -46,9 +46,10 @@ public class TableDialogue extends javax.swing.JDialog {
         liTables = new javax.swing.JList();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(300, 400));
-        setMinimumSize(new java.awt.Dimension(300, 400));
-        setPreferredSize(new java.awt.Dimension(300, 400));
+        setTitle("Table Dialog");
+        setMaximumSize(new java.awt.Dimension(500, 500));
+        setMinimumSize(new java.awt.Dimension(500, 500));
+        setPreferredSize(new java.awt.Dimension(500, 500));
         getContentPane().setLayout(new java.awt.BorderLayout(10, 10));
 
         lbTables.setBackground(new java.awt.Color(229, 229, 229));
@@ -70,11 +71,11 @@ public class TableDialogue extends javax.swing.JDialog {
         pnButtons.setLayout(new java.awt.GridLayout(1, 2, 10, 10));
 
         btOk.setBackground(new java.awt.Color(229, 229, 229));
-        btOk.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btOk.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         btOk.setText("OK");
-        btOk.setMaximumSize(new java.awt.Dimension(50, 30));
-        btOk.setMinimumSize(new java.awt.Dimension(50, 30));
-        btOk.setPreferredSize(new java.awt.Dimension(50, 30));
+        btOk.setMaximumSize(new java.awt.Dimension(50, 70));
+        btOk.setMinimumSize(new java.awt.Dimension(50, 70));
+        btOk.setPreferredSize(new java.awt.Dimension(50, 70));
         btOk.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onOK(evt);
@@ -83,11 +84,11 @@ public class TableDialogue extends javax.swing.JDialog {
         pnButtons.add(btOk);
 
         btCancel.setBackground(new java.awt.Color(229, 229, 229));
-        btCancel.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btCancel.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         btCancel.setText("Cancel");
-        btCancel.setMaximumSize(new java.awt.Dimension(50, 30));
-        btCancel.setMinimumSize(new java.awt.Dimension(50, 30));
-        btCancel.setPreferredSize(new java.awt.Dimension(50, 30));
+        btCancel.setMaximumSize(new java.awt.Dimension(50, 70));
+        btCancel.setMinimumSize(new java.awt.Dimension(50, 70));
+        btCancel.setPreferredSize(new java.awt.Dimension(50, 70));
         btCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 onCancel(evt);
@@ -100,7 +101,7 @@ public class TableDialogue extends javax.swing.JDialog {
         spTables.setBackground(new java.awt.Color(229, 229, 229));
 
         liTables.setBackground(new java.awt.Color(229, 229, 229));
-        liTables.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        liTables.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         spTables.setViewportView(liTables);
 
         pnTableButton.add(spTables, java.awt.BorderLayout.CENTER);

@@ -53,9 +53,9 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setLocationByPlatform(true);
-        setMaximumSize(new java.awt.Dimension(350, 380));
-        setMinimumSize(new java.awt.Dimension(350, 380));
-        setPreferredSize(new java.awt.Dimension(350, 380));
+        setMaximumSize(new java.awt.Dimension(400, 400));
+        setMinimumSize(new java.awt.Dimension(400, 400));
+        setPreferredSize(new java.awt.Dimension(400, 400));
         getContentPane().setLayout(new java.awt.BorderLayout(0, 15));
 
         lbText.setBackground(new java.awt.Color(229, 229, 229));
@@ -73,7 +73,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         pnContainer.setLayout(new java.awt.GridLayout(4, 2, 20, 20));
 
         lbUser.setBackground(new java.awt.Color(229, 229, 229));
-        lbUser.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        lbUser.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lbUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbUser.setText("User: ");
         lbUser.setMaximumSize(new java.awt.Dimension(150, 40));
@@ -89,7 +89,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         pnContainer.add(tfUser);
 
         lbPassword.setBackground(new java.awt.Color(229, 229, 229));
-        lbPassword.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        lbPassword.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lbPassword.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbPassword.setText("Password: ");
         lbPassword.setMaximumSize(new java.awt.Dimension(150, 40));
@@ -105,7 +105,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         pnContainer.add(tfPassword);
 
         lbDriver.setBackground(new java.awt.Color(229, 229, 229));
-        lbDriver.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        lbDriver.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lbDriver.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbDriver.setText("Driver: ");
         lbDriver.setMaximumSize(new java.awt.Dimension(150, 40));
@@ -121,7 +121,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         pnContainer.add(tfDriver);
 
         lbCompanyName.setBackground(new java.awt.Color(229, 229, 229));
-        lbCompanyName.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        lbCompanyName.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lbCompanyName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbCompanyName.setText("Company name:");
         lbCompanyName.setMaximumSize(new java.awt.Dimension(150, 40));
@@ -142,7 +142,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         paButtons.setLayout(new java.awt.GridLayout(1, 2, 15, 0));
 
         btOK.setBackground(new java.awt.Color(229, 229, 229));
-        btOK.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btOK.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         btOK.setText("OK");
         btOK.setMaximumSize(new java.awt.Dimension(80, 40));
         btOK.setMinimumSize(new java.awt.Dimension(80, 40));
@@ -155,7 +155,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         paButtons.add(btOK);
 
         btCancel.setBackground(new java.awt.Color(229, 229, 229));
-        btCancel.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btCancel.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         btCancel.setText("Cancel");
         btCancel.setToolTipText("");
         btCancel.setMaximumSize(new java.awt.Dimension(80, 40));
