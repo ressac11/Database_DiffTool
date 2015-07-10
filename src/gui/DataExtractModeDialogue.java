@@ -6,7 +6,10 @@
 package gui;
 
 import java.awt.Color;
+import java.io.File;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -19,6 +22,8 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
      */
     
     public boolean isOK = false;
+    public static File selectedDBDump;
+    
     public DataExtractModeDialogue(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -180,8 +185,19 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
         else
         {
             dispose();
-            DownloadDialogue downloadDialogue = new DownloadDialogue(null, true);
-            downloadDialogue.setVisible(true);
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Choose existing Database Dump");   
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Database Dump", "dmp");
+            fileChooser.setFileFilter(filter);
+            int userSelection = fileChooser.showOpenDialog(null);
+
+            if (userSelection == JFileChooser.APPROVE_OPTION) 
+            {
+                selectedDBDump = fileChooser.getSelectedFile();
+//                System.out.println("Selected file: " + selectedDBDump.getAbsolutePath());
+                DownloadDialogue downloadDialogue = new DownloadDialogue(null, true);
+                downloadDialogue.setVisible(true);
+            }
         }
         
         if(connectionDialogue.getNewConn() && isOK)

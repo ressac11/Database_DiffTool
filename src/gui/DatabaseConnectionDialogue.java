@@ -5,7 +5,10 @@
  */
 package gui;
 
+import java.io.File;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -17,6 +20,8 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
      * Creates new form DatabaseConnectionDialogue
      */
     private boolean newConn = false;
+    public static File newDBDump;
+    
     public DatabaseConnectionDialogue(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -196,8 +201,20 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
 
     private void onOK(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOK
         newConn=true;
-        
         dispose();
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Choose directory to save Database Dump");   
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Database Dump", "dmp");
+        fileChooser.setFileFilter(filter);
+        int userSelection = fileChooser.showOpenDialog(null);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) 
+        {
+            newDBDump = fileChooser.getSelectedFile();
+//                System.out.println("Selected file: " + selectedDBDump.getAbsolutePath());
+            DownloadDialogue downloadDialogue = new DownloadDialogue(null, true);
+            downloadDialogue.setVisible(true);
+        }
     }//GEN-LAST:event_onOK
 
     public boolean getNewConn()

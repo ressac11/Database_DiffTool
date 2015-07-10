@@ -17,6 +17,7 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog {
      * Creates new form DataSelectionModesDialogue
      */
     private boolean ok = false;
+
     
     public DataSelectionModesDialogue(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -41,19 +42,25 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog {
         pnCompanyName = new javax.swing.JPanel();
         lbCompanyName = new javax.swing.JLabel();
         pnOptions = new javax.swing.JPanel();
-        pnRadioButton = new javax.swing.JPanel();
+        pnContent = new javax.swing.JPanel();
+        pnRadioButton1 = new javax.swing.JPanel();
         lbWhiteSpace1 = new javax.swing.JLabel();
         rbParticularTables = new javax.swing.JRadioButton();
         lbWhiteSpace2 = new javax.swing.JLabel();
+        pnRadioButton = new javax.swing.JPanel();
         lbWhiteSpace3 = new javax.swing.JLabel();
         rbEntireDB = new javax.swing.JRadioButton();
         lbWhiteSpace4 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
+        pnButtons = new javax.swing.JPanel();
         btOK = new javax.swing.JButton();
         btCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(350, 230));
+        setMinimumSize(new java.awt.Dimension(350, 230));
+        setPreferredSize(new java.awt.Dimension(350, 230));
         setResizable(false);
+        getContentPane().setLayout(new java.awt.BorderLayout(0, -10));
 
         pnCompanyName.setBackground(new java.awt.Color(229, 229, 229));
         pnCompanyName.setLayout(new java.awt.GridLayout(1, 1));
@@ -69,50 +76,63 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog {
         getContentPane().add(pnCompanyName, java.awt.BorderLayout.NORTH);
 
         pnOptions.setBackground(new java.awt.Color(229, 229, 229));
-        pnOptions.setLayout(new java.awt.BorderLayout(20, 30));
+        pnOptions.setLayout(new java.awt.BorderLayout());
 
-        pnRadioButton.setBackground(new java.awt.Color(229, 229, 229));
-        pnRadioButton.setLayout(new java.awt.GridLayout(2, 3, 0, 15));
+        pnContent.setLayout(new java.awt.GridLayout(2, 1, -5, -25));
+
+        pnRadioButton1.setBackground(new java.awt.Color(229, 229, 229));
+        pnRadioButton1.setLayout(new java.awt.BorderLayout());
 
         lbWhiteSpace1.setBackground(new java.awt.Color(229, 229, 229));
-        pnRadioButton.add(lbWhiteSpace1);
+        lbWhiteSpace1.setMaximumSize(new java.awt.Dimension(80, 60));
+        lbWhiteSpace1.setMinimumSize(new java.awt.Dimension(80, 60));
+        lbWhiteSpace1.setOpaque(true);
+        lbWhiteSpace1.setPreferredSize(new java.awt.Dimension(80, 60));
+        pnRadioButton1.add(lbWhiteSpace1, java.awt.BorderLayout.EAST);
 
         rbParticularTables.setBackground(new java.awt.Color(229, 229, 229));
         bgGroup1.add(rbParticularTables);
         rbParticularTables.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         rbParticularTables.setSelected(true);
         rbParticularTables.setText("particular Tables");
-        rbParticularTables.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onParticularTables(evt);
-            }
-        });
-        pnRadioButton.add(rbParticularTables);
+        pnRadioButton1.add(rbParticularTables, java.awt.BorderLayout.CENTER);
 
         lbWhiteSpace2.setBackground(new java.awt.Color(229, 229, 229));
-        pnRadioButton.add(lbWhiteSpace2);
+        lbWhiteSpace2.setMaximumSize(new java.awt.Dimension(80, 60));
+        lbWhiteSpace2.setMinimumSize(new java.awt.Dimension(80, 60));
+        lbWhiteSpace2.setOpaque(true);
+        lbWhiteSpace2.setPreferredSize(new java.awt.Dimension(80, 60));
+        pnRadioButton1.add(lbWhiteSpace2, java.awt.BorderLayout.WEST);
+
+        pnContent.add(pnRadioButton1);
+
+        pnRadioButton.setBackground(new java.awt.Color(229, 229, 229));
+        pnRadioButton.setLayout(new java.awt.BorderLayout());
 
         lbWhiteSpace3.setBackground(new java.awt.Color(229, 229, 229));
-        pnRadioButton.add(lbWhiteSpace3);
+        lbWhiteSpace3.setMaximumSize(new java.awt.Dimension(80, 60));
+        lbWhiteSpace3.setMinimumSize(new java.awt.Dimension(80, 60));
+        lbWhiteSpace3.setPreferredSize(new java.awt.Dimension(80, 60));
+        pnRadioButton.add(lbWhiteSpace3, java.awt.BorderLayout.WEST);
 
         rbEntireDB.setBackground(new java.awt.Color(229, 229, 229));
         bgGroup1.add(rbEntireDB);
         rbEntireDB.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         rbEntireDB.setText("entire Database");
-        rbEntireDB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onEntireDatabase(evt);
-            }
-        });
-        pnRadioButton.add(rbEntireDB);
+        pnRadioButton.add(rbEntireDB, java.awt.BorderLayout.CENTER);
 
         lbWhiteSpace4.setBackground(new java.awt.Color(229, 229, 229));
-        pnRadioButton.add(lbWhiteSpace4);
+        lbWhiteSpace4.setMaximumSize(new java.awt.Dimension(80, 60));
+        lbWhiteSpace4.setMinimumSize(new java.awt.Dimension(80, 60));
+        lbWhiteSpace4.setPreferredSize(new java.awt.Dimension(80, 60));
+        pnRadioButton.add(lbWhiteSpace4, java.awt.BorderLayout.EAST);
 
-        pnOptions.add(pnRadioButton, java.awt.BorderLayout.CENTER);
+        pnContent.add(pnRadioButton);
 
-        jPanel1.setBackground(new java.awt.Color(229, 229, 229));
-        jPanel1.setLayout(new java.awt.GridLayout(1, 2));
+        pnOptions.add(pnContent, java.awt.BorderLayout.CENTER);
+
+        pnButtons.setBackground(new java.awt.Color(229, 229, 229));
+        pnButtons.setLayout(new java.awt.GridLayout(1, 2));
 
         btOK.setBackground(new java.awt.Color(229, 229, 229));
         btOK.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -125,7 +145,7 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog {
                 onOK(evt);
             }
         });
-        jPanel1.add(btOK);
+        pnButtons.add(btOK);
 
         btCancel.setBackground(new java.awt.Color(229, 229, 229));
         btCancel.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -138,22 +158,14 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog {
                 onCancel(evt);
             }
         });
-        jPanel1.add(btCancel);
+        pnButtons.add(btCancel);
 
-        pnOptions.add(jPanel1, java.awt.BorderLayout.SOUTH);
+        pnOptions.add(pnButtons, java.awt.BorderLayout.SOUTH);
 
         getContentPane().add(pnOptions, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void onParticularTables(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onParticularTables
-        // TODO add your handling code here:
-    }//GEN-LAST:event_onParticularTables
-
-    private void onEntireDatabase(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onEntireDatabase
-        // TODO add your handling code here:
-    }//GEN-LAST:event_onEntireDatabase
 
     private void onOK(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOK
         ok = true;
@@ -184,8 +196,6 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog {
         return ok;
     }
 
-    
-    
     /**
      * @param args the command line arguments
      */
@@ -232,15 +242,17 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog {
     private javax.swing.ButtonGroup bgGroup1;
     private javax.swing.JButton btCancel;
     private javax.swing.JButton btOK;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lbCompanyName;
     private javax.swing.JLabel lbWhiteSpace1;
     private javax.swing.JLabel lbWhiteSpace2;
     private javax.swing.JLabel lbWhiteSpace3;
     private javax.swing.JLabel lbWhiteSpace4;
+    private javax.swing.JPanel pnButtons;
     private javax.swing.JPanel pnCompanyName;
+    private javax.swing.JPanel pnContent;
     private javax.swing.JPanel pnOptions;
     private javax.swing.JPanel pnRadioButton;
+    private javax.swing.JPanel pnRadioButton1;
     private javax.swing.JRadioButton rbEntireDB;
     private javax.swing.JRadioButton rbParticularTables;
     // End of variables declaration//GEN-END:variables

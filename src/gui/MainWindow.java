@@ -511,7 +511,7 @@ public class MainWindow extends javax.swing.JFrame {
 
     public void enableButtons(boolean b)
     {
-        btShowDetails.setEnabled(b);
+        btShowDetails.setEnabled(false);
         btDownloadData.setEnabled(b);
     }
     
