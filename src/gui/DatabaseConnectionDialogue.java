@@ -45,6 +45,8 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         tfPassword = new javax.swing.JTextField();
         lbDriver = new javax.swing.JLabel();
         tfDriver = new javax.swing.JTextField();
+        lbDatabase = new javax.swing.JLabel();
+        cbDatabase = new javax.swing.JComboBox();
         lbCompanyName = new javax.swing.JLabel();
         tfCompanyName = new javax.swing.JTextField();
         paButtons = new javax.swing.JPanel();
@@ -71,7 +73,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         getContentPane().add(lbText, java.awt.BorderLayout.PAGE_START);
 
         pnContainer.setBackground(new java.awt.Color(229, 229, 229));
-        pnContainer.setLayout(new java.awt.GridLayout(4, 2, 20, 20));
+        pnContainer.setLayout(new java.awt.GridLayout(5, 2, 20, 20));
 
         lbUser.setBackground(new java.awt.Color(229, 229, 229));
         lbUser.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -120,6 +122,19 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         tfDriver.setMinimumSize(new java.awt.Dimension(150, 40));
         tfDriver.setPreferredSize(new java.awt.Dimension(150, 40));
         pnContainer.add(tfDriver);
+
+        lbDatabase.setBackground(new java.awt.Color(229, 229, 229));
+        lbDatabase.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lbDatabase.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbDatabase.setText("Database:");
+        lbDatabase.setMaximumSize(new java.awt.Dimension(150, 40));
+        lbDatabase.setMinimumSize(new java.awt.Dimension(150, 40));
+        lbDatabase.setPreferredSize(new java.awt.Dimension(150, 40));
+        pnContainer.add(lbDatabase);
+
+        cbDatabase.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        cbDatabase.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Oracle", "MSSQL" }));
+        pnContainer.add(cbDatabase);
 
         lbCompanyName.setBackground(new java.awt.Color(229, 229, 229));
         lbCompanyName.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -181,8 +196,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
 
     private void onOK(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOK
         newConn=true;
-        DataSelectionModesDialogue dataSelectDialogue = new DataSelectionModesDialogue(null, true);
-        dataSelectDialogue.setVisible(true);
+        
         dispose();
     }//GEN-LAST:event_onOK
 
@@ -236,7 +250,9 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCancel;
     private javax.swing.JButton btOK;
+    private javax.swing.JComboBox cbDatabase;
     private javax.swing.JLabel lbCompanyName;
+    private javax.swing.JLabel lbDatabase;
     private javax.swing.JLabel lbDriver;
     private javax.swing.JLabel lbPassword;
     private javax.swing.JLabel lbText;

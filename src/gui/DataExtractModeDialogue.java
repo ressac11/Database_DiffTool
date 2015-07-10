@@ -188,8 +188,7 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
         {
             dispose();
         }
-        
-        
+              
     }//GEN-LAST:event_onOK
 
     /**
