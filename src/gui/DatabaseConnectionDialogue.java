@@ -54,6 +54,8 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         cbDatabase = new javax.swing.JComboBox();
         lbCompanyName = new javax.swing.JLabel();
         tfCompanyName = new javax.swing.JTextField();
+        lbUrl = new javax.swing.JLabel();
+        tfUrl = new javax.swing.JTextField();
         paButtons = new javax.swing.JPanel();
         btOK = new javax.swing.JButton();
         btCancel = new javax.swing.JButton();
@@ -78,12 +80,12 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         getContentPane().add(lbText, java.awt.BorderLayout.PAGE_START);
 
         pnContainer.setBackground(new java.awt.Color(229, 229, 229));
-        pnContainer.setLayout(new java.awt.GridLayout(5, 2, 20, 20));
+        pnContainer.setLayout(new java.awt.GridLayout(6, 2, 20, 20));
 
         lbUser.setBackground(new java.awt.Color(229, 229, 229));
         lbUser.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lbUser.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbUser.setText("User: ");
+        lbUser.setText("User:");
         lbUser.setMaximumSize(new java.awt.Dimension(150, 40));
         lbUser.setMinimumSize(new java.awt.Dimension(150, 40));
         lbUser.setPreferredSize(new java.awt.Dimension(150, 40));
@@ -144,7 +146,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         lbCompanyName.setBackground(new java.awt.Color(229, 229, 229));
         lbCompanyName.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lbCompanyName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbCompanyName.setText("Company name:");
+        lbCompanyName.setText("Database name:");
         lbCompanyName.setMaximumSize(new java.awt.Dimension(150, 40));
         lbCompanyName.setMinimumSize(new java.awt.Dimension(150, 40));
         lbCompanyName.setPreferredSize(new java.awt.Dimension(150, 40));
@@ -156,6 +158,22 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         tfCompanyName.setMinimumSize(new java.awt.Dimension(150, 40));
         tfCompanyName.setPreferredSize(new java.awt.Dimension(150, 40));
         pnContainer.add(tfCompanyName);
+
+        lbUrl.setBackground(new java.awt.Color(229, 229, 229));
+        lbUrl.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        lbUrl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbUrl.setText("URL:");
+        lbUrl.setMaximumSize(new java.awt.Dimension(150, 40));
+        lbUrl.setMinimumSize(new java.awt.Dimension(150, 40));
+        lbUrl.setPreferredSize(new java.awt.Dimension(150, 40));
+        pnContainer.add(lbUrl);
+
+        tfUrl.setBackground(new java.awt.Color(229, 229, 229));
+        tfUrl.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        tfUrl.setMaximumSize(new java.awt.Dimension(150, 40));
+        tfUrl.setMinimumSize(new java.awt.Dimension(150, 40));
+        tfUrl.setPreferredSize(new java.awt.Dimension(150, 40));
+        pnContainer.add(tfUrl);
 
         getContentPane().add(pnContainer, java.awt.BorderLayout.CENTER);
 
@@ -273,12 +291,14 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
     private javax.swing.JLabel lbDriver;
     private javax.swing.JLabel lbPassword;
     private javax.swing.JLabel lbText;
+    private javax.swing.JLabel lbUrl;
     private javax.swing.JLabel lbUser;
     private javax.swing.JPanel paButtons;
     private javax.swing.JPanel pnContainer;
     private javax.swing.JTextField tfCompanyName;
     private javax.swing.JTextField tfDriver;
     private javax.swing.JTextField tfPassword;
+    private javax.swing.JTextField tfUrl;
     private javax.swing.JTextField tfUser;
     // End of variables declaration//GEN-END:variables
 }
