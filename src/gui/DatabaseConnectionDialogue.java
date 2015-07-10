@@ -31,6 +31,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         btOK.setBackground(MainWindow.backgroundColorButton);
         setLocationRelativeTo(parent);
         this.setIconImage(new ImageIcon(getClass().getResource("jhlogo.jpg")).getImage()); 
+        
     }
  
     /**

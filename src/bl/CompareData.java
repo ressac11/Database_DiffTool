@@ -9,6 +9,6 @@ package bl;
  *
  * @author Steffie
  */
-public class NewClass {
+public class CompareData {
     
 }
