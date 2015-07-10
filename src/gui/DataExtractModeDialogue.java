@@ -167,8 +167,7 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void onNewDBDump(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onNewDBDump
-        
-        
+               
     }//GEN-LAST:event_onNewDBDump
 
     private void onExistingDBDump(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onExistingDBDump
@@ -203,8 +202,7 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
         if(connectionDialogue.getNewConn() && isOK)
         {
             dispose();
-        }
-              
+        }              
     }//GEN-LAST:event_onOK
 
     /**
