@@ -254,18 +254,24 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
             DBConnectionPool.DB_PASSWD=password;
             DBConnectionPool.DB_URL=uRL;
             DBConnectionPool.DB_USER=user;
-            try {
-                dba = DBAccess.getTheInstance();
-            JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setDialogTitle("Choose directory to save Database file");   
-            int userSelection = fileChooser.showOpenDialog(null);
-
-            if (userSelection == JFileChooser.APPROVE_OPTION) 
+            try 
             {
-                newDBDump = fileChooser.getSelectedFile();
-                DownloadDialogue downloadDialogue = new DownloadDialogue(null, true);
-                downloadDialogue.setVisible(true);
-            }
+                dba = DBAccess.getTheInstance();
+                int i = JOptionPane.showConfirmDialog(null, "Do you want to save the Database Extract as file?", "Save Database Extract", JOptionPane.YES_NO_OPTION);
+                if(i == JOptionPane.OK_OPTION)
+                {
+                    JFileChooser fileChooser = new JFileChooser();
+                    fileChooser.setDialogTitle("Choose directory to save Database file");   
+                    int userSelection = fileChooser.showOpenDialog(null);
+
+                    if (userSelection == JFileChooser.APPROVE_OPTION) 
+                    {
+                        newDBDump = fileChooser.getSelectedFile();
+                        DownloadDialogue downloadDialogue = new DownloadDialogue(null, true);
+                        downloadDialogue.setVisible(true);
+                    }
+                }
+
             } catch (Exception ex) {
                 Logger.getLogger(DatabaseConnectionDialogue.class.getName()).log(Level.SEVERE, null, ex);
             }

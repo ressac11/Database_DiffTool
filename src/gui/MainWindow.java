@@ -508,12 +508,20 @@ public class MainWindow extends javax.swing.JFrame {
     public void onExtractData() {
         try {
             dba = DBAccess.getTheInstance();
-            if (extractData == 1) {
+            if (extractData == 1) 
+            {
+                liTables1.removeAll();
+                liAllTablesLeftDB.clear();
                 tnlmLeft = new TableNamesLM(dba.getAllTables(liAllTablesLeftDB));
                 liTables1.setModel(tnlmLeft);
-            } else if (extractData == 2) {
-                tnlmRight = new TableNamesLM(dba.getAllTables(liAllTablesRightDB));
+               
+            } 
+            else if (extractData == 2) 
+            {
                 liTablesC.setModel(tnlmRight);
+                liAllTablesRightDB.clear();
+                liTablesC.removeAll();
+                tnlmRight = new TableNamesLM(dba.getAllTables(liAllTablesRightDB));                
             }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
