@@ -79,7 +79,8 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
         bgDatabase.add(rbExistingDBDump);
         rbExistingDBDump.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         rbExistingDBDump.setSelected(true);
-        rbExistingDBDump.setText("existing Database dump");
+        rbExistingDBDump.setText("existing Database file");
+        rbExistingDBDump.setToolTipText("");
         rbExistingDBDump.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         rbExistingDBDump.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -104,7 +105,7 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
         rbNewDBDump.setBackground(new java.awt.Color(229, 229, 229));
         bgDatabase.add(rbNewDBDump);
         rbNewDBDump.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        rbNewDBDump.setText("new Database dump");
+        rbNewDBDump.setText("new Database file");
         rbNewDBDump.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         rbNewDBDump.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
