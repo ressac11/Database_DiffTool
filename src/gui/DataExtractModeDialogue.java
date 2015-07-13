@@ -168,7 +168,7 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
         {
             dispose();
             JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setDialogTitle("Choose existing Database Dump");   
+            fileChooser.setDialogTitle("Choose existing Database file");   
             FileNameExtensionFilter filter = new FileNameExtensionFilter("Database file", "txt");
             fileChooser.setFileFilter(filter);
             int userSelection = fileChooser.showOpenDialog(null);

@@ -234,8 +234,8 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         newConn=true;
         dispose();
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Choose directory to save Database Dump");   
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Database Dump", "dmp");
+        fileChooser.setDialogTitle("Choose directory to save Database file");   
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Database file", "txt");
         fileChooser.setFileFilter(filter);
         int userSelection = fileChooser.showOpenDialog(null);
 

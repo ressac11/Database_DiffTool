@@ -15,7 +15,7 @@ import java.sql.DriverManager;
 public class DBConfig 
 {
     
-    private DBConfig() 
+    public DBConfig() 
     {
         
     }
