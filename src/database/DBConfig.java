@@ -20,10 +20,11 @@ public class DBConfig
         
     }
     
-    public void createDBDump(String User, String Password, String Driver, String Database, String Database_Name, String URL) throws Exception //muss synchronized sein um Fehler zu vermeiden -> ganz wichtig !!!
+    public Connection getConnection(String User, String Password, String Driver, String Database, String Database_Name, String URL) throws Exception //muss synchronized sein um Fehler zu vermeiden -> ganz wichtig !!!
     {
         Class.forName(Driver);
         Connection conn = DriverManager.getConnection(URL+Database_Name, User, Password);
+        return conn;
     }
     
 }
