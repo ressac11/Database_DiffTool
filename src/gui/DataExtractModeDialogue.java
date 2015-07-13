@@ -46,11 +46,11 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
 
         bgDatabase = new javax.swing.ButtonGroup();
         lbText = new javax.swing.JLabel();
-        pnExistingDump = new javax.swing.JPanel();
-        rbExistingDBDump = new javax.swing.JRadioButton();
+        pnExistingFile = new javax.swing.JPanel();
+        rbExistingDBFile = new javax.swing.JRadioButton();
         lbPlaceholder1 = new javax.swing.JLabel();
-        pnNewDump = new javax.swing.JPanel();
-        rbNewDBDump = new javax.swing.JRadioButton();
+        pnNewFile = new javax.swing.JPanel();
+        rbNewDBFile = new javax.swing.JRadioButton();
         lbPlaceholder4 = new javax.swing.JLabel();
         pnButton = new javax.swing.JPanel();
         btOK = new javax.swing.JButton();
@@ -72,22 +72,17 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
         lbText.setOpaque(true);
         getContentPane().add(lbText);
 
-        pnExistingDump.setBackground(new java.awt.Color(229, 229, 229));
-        pnExistingDump.setLayout(new java.awt.BorderLayout());
+        pnExistingFile.setBackground(new java.awt.Color(229, 229, 229));
+        pnExistingFile.setLayout(new java.awt.BorderLayout());
 
-        rbExistingDBDump.setBackground(new java.awt.Color(229, 229, 229));
-        bgDatabase.add(rbExistingDBDump);
-        rbExistingDBDump.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        rbExistingDBDump.setSelected(true);
-        rbExistingDBDump.setText("existing Database file");
-        rbExistingDBDump.setToolTipText("");
-        rbExistingDBDump.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        rbExistingDBDump.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onExistingDBDump(evt);
-            }
-        });
-        pnExistingDump.add(rbExistingDBDump, java.awt.BorderLayout.CENTER);
+        rbExistingDBFile.setBackground(new java.awt.Color(229, 229, 229));
+        bgDatabase.add(rbExistingDBFile);
+        rbExistingDBFile.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        rbExistingDBFile.setSelected(true);
+        rbExistingDBFile.setText("existing Database file");
+        rbExistingDBFile.setToolTipText("");
+        rbExistingDBFile.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        pnExistingFile.add(rbExistingDBFile, java.awt.BorderLayout.CENTER);
 
         lbPlaceholder1.setBackground(new java.awt.Color(229, 229, 229));
         lbPlaceholder1.setForeground(new java.awt.Color(240, 240, 240));
@@ -95,24 +90,19 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
         lbPlaceholder1.setMinimumSize(new java.awt.Dimension(95, 2));
         lbPlaceholder1.setOpaque(true);
         lbPlaceholder1.setPreferredSize(new java.awt.Dimension(95, 2));
-        pnExistingDump.add(lbPlaceholder1, java.awt.BorderLayout.LINE_START);
+        pnExistingFile.add(lbPlaceholder1, java.awt.BorderLayout.LINE_START);
 
-        getContentPane().add(pnExistingDump);
+        getContentPane().add(pnExistingFile);
 
-        pnNewDump.setBackground(new java.awt.Color(229, 229, 229));
-        pnNewDump.setLayout(new java.awt.BorderLayout());
+        pnNewFile.setBackground(new java.awt.Color(229, 229, 229));
+        pnNewFile.setLayout(new java.awt.BorderLayout());
 
-        rbNewDBDump.setBackground(new java.awt.Color(229, 229, 229));
-        bgDatabase.add(rbNewDBDump);
-        rbNewDBDump.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        rbNewDBDump.setText("new Database file");
-        rbNewDBDump.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        rbNewDBDump.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onNewDBDump(evt);
-            }
-        });
-        pnNewDump.add(rbNewDBDump, java.awt.BorderLayout.CENTER);
+        rbNewDBFile.setBackground(new java.awt.Color(229, 229, 229));
+        bgDatabase.add(rbNewDBFile);
+        rbNewDBFile.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        rbNewDBFile.setText("new Database file");
+        rbNewDBFile.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        pnNewFile.add(rbNewDBFile, java.awt.BorderLayout.CENTER);
 
         lbPlaceholder4.setBackground(new java.awt.Color(229, 229, 229));
         lbPlaceholder4.setForeground(new java.awt.Color(240, 240, 240));
@@ -121,9 +111,9 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
         lbPlaceholder4.setName(""); // NOI18N
         lbPlaceholder4.setOpaque(true);
         lbPlaceholder4.setPreferredSize(new java.awt.Dimension(95, 2));
-        pnNewDump.add(lbPlaceholder4, java.awt.BorderLayout.WEST);
+        pnNewFile.add(lbPlaceholder4, java.awt.BorderLayout.WEST);
 
-        getContentPane().add(pnNewDump);
+        getContentPane().add(pnNewFile);
 
         pnButton.setBackground(new java.awt.Color(229, 229, 229));
         pnButton.setLayout(new java.awt.BorderLayout(5, 0));
@@ -167,18 +157,10 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void onNewDBDump(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onNewDBDump
-               
-    }//GEN-LAST:event_onNewDBDump
-
-    private void onExistingDBDump(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onExistingDBDump
-        // TODO add your handling code here:
-    }//GEN-LAST:event_onExistingDBDump
-
     private void onOK(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOK
         DatabaseConnectionDialogue connectionDialogue = new DatabaseConnectionDialogue(null, true);
         isOK=true;
-        if(rbNewDBDump.isSelected())
+        if(rbNewDBFile.isSelected())
         {
             connectionDialogue.setVisible(true);
         }
@@ -187,7 +169,7 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
             dispose();
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setDialogTitle("Choose existing Database Dump");   
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("Database Dump", "dmp");
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Database file", "txt");
             fileChooser.setFileFilter(filter);
             int userSelection = fileChooser.showOpenDialog(null);
 
@@ -258,9 +240,9 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
     private javax.swing.JLabel lbPlaceholder7;
     private javax.swing.JLabel lbText;
     private javax.swing.JPanel pnButton;
-    private javax.swing.JPanel pnExistingDump;
-    private javax.swing.JPanel pnNewDump;
-    private javax.swing.JRadioButton rbExistingDBDump;
-    private javax.swing.JRadioButton rbNewDBDump;
+    private javax.swing.JPanel pnExistingFile;
+    private javax.swing.JPanel pnNewFile;
+    private javax.swing.JRadioButton rbExistingDBFile;
+    private javax.swing.JRadioButton rbNewDBFile;
     // End of variables declaration//GEN-END:variables
 }
