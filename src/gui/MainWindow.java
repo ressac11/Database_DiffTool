@@ -187,7 +187,7 @@ public class MainWindow extends javax.swing.JFrame {
         btExtractData1.setPreferredSize(new java.awt.Dimension(40, 55));
         btExtractData1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onExtractData1(evt);
+                onExtractDatas(evt);
             }
         });
         pnShowAllTables1.add(btExtractData1, java.awt.BorderLayout.PAGE_START);
@@ -337,7 +337,7 @@ public class MainWindow extends javax.swing.JFrame {
         btExtractData2.setPreferredSize(new java.awt.Dimension(40, 55));
         btExtractData2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onExtractData2(evt);
+                onExtractDatas(evt);
             }
         });
         pnShowAllTables2.add(btExtractData2, java.awt.BorderLayout.PAGE_START);
@@ -488,20 +488,6 @@ public class MainWindow extends javax.swing.JFrame {
         downloadDialogue.setVisible(true);
     }//GEN-LAST:event_onDownloadData
 
-    private void onExtractData1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onExtractData1
-        DataExtractModeDialogue dataExtractDialogue = new DataExtractModeDialogue(this, true);
-        dataExtractDialogue.setVisible(true);
-        extractData = Integer.parseInt(evt.getActionCommand());
-        onExtractData();
-    }//GEN-LAST:event_onExtractData1
-
-    private void onExtractData2(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onExtractData2
-        DataExtractModeDialogue dataExtractDialogue = new DataExtractModeDialogue(this, true);
-        dataExtractDialogue.setVisible(true);
-        extractData = Integer.parseInt(evt.getActionCommand());
-        onExtractData();
-    }//GEN-LAST:event_onExtractData2
-
     private void onNewSelectedItemLeft(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_onNewSelectedItemLeft
         leftList = true;
         onNewSelectedItem();
@@ -511,6 +497,13 @@ public class MainWindow extends javax.swing.JFrame {
         leftList = false;
         onNewSelectedItem();       
     }//GEN-LAST:event_onNewSelectedItemRight
+
+    private void onExtractDatas(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onExtractDatas
+        DataExtractModeDialogue dataExtractDialogue = new DataExtractModeDialogue(this, true);
+        dataExtractDialogue.setVisible(true);
+        extractData=Integer.parseInt(evt.getActionCommand());
+        onExtractData();
+    }//GEN-LAST:event_onExtractDatas
 
     public void onExtractData() {
         try {
