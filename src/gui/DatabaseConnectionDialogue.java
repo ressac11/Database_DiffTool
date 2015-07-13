@@ -8,6 +8,7 @@ package gui;
 import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -54,7 +55,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         lbDatabase = new javax.swing.JLabel();
         cbDatabase = new javax.swing.JComboBox();
         lbCompanyName = new javax.swing.JLabel();
-        tfCompanyName = new javax.swing.JTextField();
+        tfDatabaseName = new javax.swing.JTextField();
         lbUrl = new javax.swing.JLabel();
         tfUrl = new javax.swing.JTextField();
         paButtons = new javax.swing.JPanel();
@@ -92,6 +93,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         lbUser.setPreferredSize(new java.awt.Dimension(150, 40));
         pnContainer.add(lbUser);
 
+        tfUser.setEditable(false);
         tfUser.setBackground(new java.awt.Color(229, 229, 229));
         tfUser.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         tfUser.setText("postgres");
@@ -110,6 +112,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         lbPassword.setPreferredSize(new java.awt.Dimension(150, 40));
         pnContainer.add(lbPassword);
 
+        tfPassword.setEditable(false);
         tfPassword.setBackground(new java.awt.Color(229, 229, 229));
         tfPassword.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         tfPassword.setText("postgres");
@@ -129,6 +132,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         lbDriver.setPreferredSize(new java.awt.Dimension(150, 40));
         pnContainer.add(lbDriver);
 
+        tfDriver.setEditable(false);
         tfDriver.setBackground(new java.awt.Color(229, 229, 229));
         tfDriver.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         tfDriver.setText("org.postgresql.Driver");
@@ -149,7 +153,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
 
         cbDatabase.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         cbDatabase.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Oracle", "MSSQL" }));
-        cbDatabase.setNextFocusableComponent(tfCompanyName);
+        cbDatabase.setNextFocusableComponent(tfDatabaseName);
         cbDatabase.setVerifyInputWhenFocusTarget(false);
         pnContainer.add(cbDatabase);
 
@@ -162,14 +166,15 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         lbCompanyName.setPreferredSize(new java.awt.Dimension(150, 40));
         pnContainer.add(lbCompanyName);
 
-        tfCompanyName.setBackground(new java.awt.Color(229, 229, 229));
-        tfCompanyName.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tfCompanyName.setText("testdb");
-        tfCompanyName.setMaximumSize(new java.awt.Dimension(150, 40));
-        tfCompanyName.setMinimumSize(new java.awt.Dimension(150, 40));
-        tfCompanyName.setNextFocusableComponent(tfUrl);
-        tfCompanyName.setPreferredSize(new java.awt.Dimension(150, 40));
-        pnContainer.add(tfCompanyName);
+        tfDatabaseName.setEditable(false);
+        tfDatabaseName.setBackground(new java.awt.Color(229, 229, 229));
+        tfDatabaseName.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        tfDatabaseName.setText("testdb");
+        tfDatabaseName.setMaximumSize(new java.awt.Dimension(150, 40));
+        tfDatabaseName.setMinimumSize(new java.awt.Dimension(150, 40));
+        tfDatabaseName.setNextFocusableComponent(tfUrl);
+        tfDatabaseName.setPreferredSize(new java.awt.Dimension(150, 40));
+        pnContainer.add(tfDatabaseName);
 
         lbUrl.setBackground(new java.awt.Color(229, 229, 229));
         lbUrl.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -180,6 +185,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         lbUrl.setPreferredSize(new java.awt.Dimension(150, 40));
         pnContainer.add(lbUrl);
 
+        tfUrl.setEditable(false);
         tfUrl.setBackground(new java.awt.Color(229, 229, 229));
         tfUrl.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         tfUrl.setText("jdbc:postgresql://localhost/");
@@ -226,25 +232,37 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void onCancel(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCancel
-        
-        dispose();
+      dispose();
     }//GEN-LAST:event_onCancel
 
     private void onOK(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOK
         newConn=true;
-        dispose();
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Choose directory to save Database file");   
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Database file", "txt");
-        fileChooser.setFileFilter(filter);
-        int userSelection = fileChooser.showOpenDialog(null);
-
-        if (userSelection == JFileChooser.APPROVE_OPTION) 
+        String User = tfUser.getText().trim();
+        String Password = tfPassword.getText().trim();
+        String URL = tfUrl.getText().trim();
+        String Database_Name = tfDatabaseName.getText().trim();
+        String Driver = tfDriver.getText().trim();
+        String Database_Provider = (String)cbDatabase.getSelectedItem();
+        if(User.isEmpty() || Password.isEmpty() || URL.isEmpty() || Database_Name.isEmpty() || Driver.isEmpty() || Database_Provider.isEmpty())
         {
-            newDBDump = fileChooser.getSelectedFile();
-//                System.out.println("Selected file: " + selectedDBDump.getAbsolutePath());
-            DownloadDialogue downloadDialogue = new DownloadDialogue(null, true);
-            downloadDialogue.setVisible(true);
+            JOptionPane.showMessageDialog(this, "Please do not enter wrong values!");
+        }
+        else
+        {
+            dispose();
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Choose directory to save Database file");   
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Database file", "txt");
+            fileChooser.setFileFilter(filter);
+            int userSelection = fileChooser.showOpenDialog(null);
+
+            if (userSelection == JFileChooser.APPROVE_OPTION) 
+            {
+                newDBDump = fileChooser.getSelectedFile();
+    //                System.out.println("Selected file: " + selectedDBDump.getAbsolutePath());
+                DownloadDialogue downloadDialogue = new DownloadDialogue(null, true);
+                downloadDialogue.setVisible(true);
+            }
         }
     }//GEN-LAST:event_onOK
 
@@ -308,7 +326,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
     private javax.swing.JLabel lbUser;
     private javax.swing.JPanel paButtons;
     private javax.swing.JPanel pnContainer;
-    private javax.swing.JTextField tfCompanyName;
+    private javax.swing.JTextField tfDatabaseName;
     private javax.swing.JTextField tfDriver;
     private javax.swing.JTextField tfPassword;
     private javax.swing.JTextField tfUrl;
