@@ -13,10 +13,13 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.image.ImageObserver;
 import java.awt.image.ImageProducer;
+import java.io.File;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import listModel.ColumnNamesLM;
 import listModel.TableNamesLM;
 
@@ -503,6 +506,32 @@ public class MainWindow extends javax.swing.JFrame {
         dataExtractDialogue.setVisible(true);
         extractData=Integer.parseInt(evt.getActionCommand());
         onExtractData();
+        try 
+        {
+            dba = DBAccess.getTheInstance();
+            int i = JOptionPane.showConfirmDialog(null, "Do you want to save the Database Extract as file?", "Save Database Extract", JOptionPane.YES_NO_OPTION);
+            if(i == JOptionPane.OK_OPTION)
+            {
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setDialogType(JFileChooser.SAVE_DIALOG); 
+                fileChooser.setDialogTitle("Choose directory to save Database file");   
+                int userSelection = fileChooser.showSaveDialog(null);
+
+                if (userSelection == JFileChooser.APPROVE_OPTION) 
+                {
+                    File path = fileChooser.getSelectedFile();
+                    dba.saveDatabaseFile(path);
+//                        DownloadDialogue downloadDialogue = new DownloadDialogue(null, true);
+//                        downloadDialogue.setVisible(true);
+                }
+            }
+
+        } 
+        catch (Exception ex) 
+        {
+            System.out.println("Main Window : onExtractDatas : "+ex.toString());
+        }
+            
     }//GEN-LAST:event_onExtractDatas
 
     public void onExtractData() {
@@ -514,7 +543,7 @@ public class MainWindow extends javax.swing.JFrame {
                 liAllTablesLeftDB.clear();
                 tnlmLeft = new TableNamesLM(dba.getAllTables(liAllTablesLeftDB));
                 liTables1.setModel(tnlmLeft);
-               
+                
             } 
             else if (extractData == 2) 
             {
@@ -523,11 +552,10 @@ public class MainWindow extends javax.swing.JFrame {
                 liTablesC.removeAll();
                 tnlmRight = new TableNamesLM(dba.getAllTables(liAllTablesRightDB));                
             }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } catch (Exception ex) 
+        {
+            System.out.println("Main Window : onExtractData : "+ex.toString());
+        } 
     }
 
     public void onNewSelectedItem() {
