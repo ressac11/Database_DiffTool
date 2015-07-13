@@ -25,7 +25,7 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog {
         this.getContentPane().setBackground(MainWindow.backgroundColorPanel);
         btCancel.setBackground(MainWindow.backgroundColorButton);
         btOK.setBackground(MainWindow.backgroundColorButton);
-        this.setIconImage(new ImageIcon(getClass().getResource("jhlogo.jpg")).getImage()); 
+        
         this.setLocationRelativeTo(parent);
     }
  

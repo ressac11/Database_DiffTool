@@ -28,7 +28,7 @@ public class DetailsDialogue extends javax.swing.JDialog {
         btPreviousSide.setBackground(MainWindow.backgroundColorButton);
         this.setResizable(false);
         setLocationRelativeTo(parent);
-        this.setIconImage(new ImageIcon(getClass().getResource("jhlogo.jpg")).getImage()); 
+        
     }
 
     /**

@@ -32,7 +32,7 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
         this.setSize(380, 250);
         this.setResizable(false);
         setLocationRelativeTo(parent);
-        this.setIconImage(new ImageIcon(getClass().getResource("jhlogo.jpg")).getImage()); 
+        
     }
 
     /**

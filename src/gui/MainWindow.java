@@ -35,7 +35,7 @@ public class MainWindow extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         enableButtons(false);
         
-        this.setIconImage(new ImageIcon(getClass().getResource("jhlogo.jpg")).getImage()); 
+        
     }
   
     /**

@@ -25,7 +25,7 @@ public class TableDialogue extends javax.swing.JDialog {
         btCancel.setBackground(MainWindow.backgroundColorButton);
         btOk.setBackground(MainWindow.backgroundColorButton);
         this.setLocationRelativeTo(parent);
-        this.setIconImage(new ImageIcon(getClass().getResource("jhlogo.jpg")).getImage()); 
+        
     }
  
     /**

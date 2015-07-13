@@ -30,7 +30,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         btCancel.setBackground(MainWindow.backgroundColorButton);
         btOK.setBackground(MainWindow.backgroundColorButton);
         setLocationRelativeTo(parent);
-        this.setIconImage(new ImageIcon(getClass().getResource("jhlogo.jpg")).getImage()); 
+        
         
     }
  
