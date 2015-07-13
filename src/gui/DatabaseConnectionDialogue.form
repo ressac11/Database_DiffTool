@@ -106,6 +106,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="tfUser">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="e5" green="e5" red="e5" type="rgb"/>
             </Property>
@@ -150,6 +151,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="tfPassword">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="e5" green="e5" red="e5" type="rgb"/>
             </Property>
@@ -197,6 +199,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="tfDriver">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="e5" green="e5" red="e5" type="rgb"/>
             </Property>
@@ -251,7 +254,7 @@
               </StringArray>
             </Property>
             <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-              <ComponentRef name="tfCompanyName"/>
+              <ComponentRef name="tfDatabaseName"/>
             </Property>
             <Property name="verifyInputWhenFocusTarget" type="boolean" value="false"/>
           </Properties>
@@ -277,8 +280,9 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="tfCompanyName">
+        <Component class="javax.swing.JTextField" name="tfDatabaseName">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="e5" green="e5" red="e5" type="rgb"/>
             </Property>
@@ -323,6 +327,7 @@
         </Component>
         <Component class="javax.swing.JTextField" name="tfUrl">
           <Properties>
+            <Property name="editable" type="boolean" value="false"/>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="e5" green="e5" red="e5" type="rgb"/>
             </Property>
