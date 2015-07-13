@@ -22,7 +22,8 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
      */
     
     public boolean isOK = false;
-    public static File selectedDBDump;
+    public File selectedDBDump;
+    public boolean existingFile = false;
     
     public DataExtractModeDialogue(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -166,21 +167,23 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
         }
         else
         {
-            dispose();
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setDialogTitle("Choose existing Database file");   
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("Database file", "txt");
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Database .txt file", "txt");
             fileChooser.setFileFilter(filter);
             int userSelection = fileChooser.showOpenDialog(null);
 
             if (userSelection == JFileChooser.APPROVE_OPTION) 
             {
                 selectedDBDump = fileChooser.getSelectedFile();
+                existingFile = true;
 //                System.out.println("Selected file: " + selectedDBDump.getAbsolutePath());
-                DownloadDialogue downloadDialogue = new DownloadDialogue(null, true);
-                downloadDialogue.setVisible(true);
+//                DownloadDialogue downloadDialogue = new DownloadDialogue(null, true);
+//                downloadDialogue.setVisible(true);
             }
+            dispose();
         }
+              
         
         if(connectionDialogue.getNewConn() && isOK)
         {
@@ -188,6 +191,16 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
         }              
     }//GEN-LAST:event_onOK
 
+    public File getSelectedDBDump() {
+        return selectedDBDump;
+    }
+
+    public boolean isExistingFile() {
+        return existingFile;
+    }
+
+    
+    
     /**
      * @param args the command line arguments
      */

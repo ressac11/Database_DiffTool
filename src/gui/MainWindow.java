@@ -37,7 +37,7 @@ public class MainWindow extends javax.swing.JFrame {
     private TableNamesLM tnlmLeft;
     private TableNamesLM tnlmRight;
     private ColumnNamesLM cnlm;
-    private DBAccess dba;
+    public DBAccess dba;
     private LinkedList<Table> liAllTablesLeftDB = new LinkedList<>();
     private LinkedList<Table> liAllTablesRightDB = new LinkedList<>();
     private int extractData;
@@ -53,7 +53,7 @@ public class MainWindow extends javax.swing.JFrame {
         btShowDetails.setBackground(backgroundColorButton);
         this.setLocationRelativeTo(null);
         enableButtons(false);
-
+       
     }
 
     /**
@@ -505,38 +505,63 @@ public class MainWindow extends javax.swing.JFrame {
         DataExtractModeDialogue dataExtractDialogue = new DataExtractModeDialogue(this, true);
         dataExtractDialogue.setVisible(true);
         extractData=Integer.parseInt(evt.getActionCommand());
-        onExtractData();
+        
         try 
         {
             dba = DBAccess.getTheInstance();
-            int i = JOptionPane.showConfirmDialog(null, "Do you want to save the Database Extract as file?", "Save Database Extract", JOptionPane.YES_NO_OPTION);
-            if(i == JOptionPane.OK_OPTION)
+            if(dataExtractDialogue.isExistingFile())
             {
-                JFileChooser fileChooser = new JFileChooser();
-                fileChooser.setDialogType(JFileChooser.SAVE_DIALOG); 
-                fileChooser.setDialogTitle("Choose directory to save Database file");   
-                int userSelection = fileChooser.showSaveDialog(null);
-
-                if (userSelection == JFileChooser.APPROVE_OPTION) 
+                if(dataExtractDialogue.getSelectedDBDump() != null)
                 {
-                    File path = fileChooser.getSelectedFile();
-                    dba.saveDatabaseFile(path);
-//                        DownloadDialogue downloadDialogue = new DownloadDialogue(null, true);
-//                        downloadDialogue.setVisible(true);
+                    if (extractData == 1) 
+                    {
+                        liTables1.removeAll();
+                        liAllTablesLeftDB.clear();
+                        liAllTablesLeftDB = dba.loadData(dataExtractDialogue.getSelectedDBDump());
+                        tnlmLeft = new TableNamesLM(dba.getAllTables(liAllTablesLeftDB));
+                        liTables1.setModel(tnlmLeft);
+                    } 
+                    else if (extractData == 2) 
+                    {
+                        
+                        liAllTablesRightDB.clear();
+                        liTablesC.removeAll();
+                        liAllTablesRightDB = dba.loadData(dataExtractDialogue.getSelectedDBDump());
+                        tnlmRight = new TableNamesLM(dba.getAllTables(liAllTablesRightDB));       
+                        liTablesC.setModel(tnlmRight);
+                    }
                 }
             }
+            else
+            {
+                onExtractData();
+                int i = JOptionPane.showConfirmDialog(null, "Do you want to save the Database Extract as file?", "Save Database Extract", JOptionPane.YES_NO_OPTION);
+                if(i == JOptionPane.OK_OPTION)
+                {
+                    JFileChooser fileChooser = new JFileChooser();
+                    fileChooser.setDialogType(JFileChooser.SAVE_DIALOG); 
+                    fileChooser.setDialogTitle("Choose directory to save Database file");   
+                    int userSelection = fileChooser.showSaveDialog(null);
 
+                    if (userSelection == JFileChooser.APPROVE_OPTION) 
+                    {
+                        File path = fileChooser.getSelectedFile();
+                        dba.saveDatabaseFile(path);
+    //                        DownloadDialogue downloadDialogue = new DownloadDialogue(null, true);
+    //                        downloadDialogue.setVisible(true);
+                    }
+                }
+            }
         } 
         catch (Exception ex) 
         {
             System.out.println("Main Window : onExtractDatas : "+ex.toString());
-        }
-            
+        } 
     }//GEN-LAST:event_onExtractDatas
 
     public void onExtractData() {
         try {
-            dba = DBAccess.getTheInstance();
+            
             if (extractData == 1) 
             {
                 liTables1.removeAll();
