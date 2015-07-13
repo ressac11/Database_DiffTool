@@ -16,11 +16,9 @@ import javax.swing.AbstractListModel;
  */
 public class TableNamesLM extends AbstractListModel{
 
-    private DBAccess dba;
     private LinkedList<Table> liAllTables;
 
     public TableNamesLM(LinkedList<Table> allTablesFirst) throws ClassNotFoundException {
-        this.dba = DBAccess.getTheInstance();
         liAllTables=allTablesFirst;
     }
     

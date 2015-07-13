@@ -5,6 +5,7 @@
  */
 package database;
 
+import beans.Row;
 import beans.Table;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -18,6 +19,7 @@ import java.util.LinkedList;
 public class DBAccess {
     private DBConnectionPool connPool;
     private static DBAccess theInstance = null;
+    
    
     public static DBAccess getTheInstance() throws ClassNotFoundException {
         if (theInstance == null) {
@@ -43,9 +45,47 @@ public class DBAccess {
         while(rs.next())
         {
             String tableName = rs.getString(1);
-            liAllTables.add(new Table(tableName));
+            LinkedList<String> columnNames = getColumnNames(tableName);
+            LinkedList<Row> liAttributes = getAttributesForOneTable(tableName, columnNames);
+            liAllTables.add(new Table(tableName, columnNames, liAttributes));
         }
         return liAllTables;
-    }      
+    }   
+    
+    public LinkedList<String> getColumnNames(String tableName) throws Exception
+    {
+        LinkedList<String> columnNames = new LinkedList<>();
+        Connection conn = connPool.getConnection();
+        Statement stat = conn.createStatement();
+        String sqlString = "select column_name from information_schema.columns where " +
+                            " table_name='"+tableName+"'";
+        ResultSet rs = stat.executeQuery(sqlString);
+        while(rs.next())
+        {
+            String colName = rs.getString(1);
+            columnNames.add(colName);
+        }
+        return columnNames;
+    }
+    
+    public LinkedList<Row> getAttributesForOneTable(String tableName, LinkedList<String> columnNames) throws Exception
+    {
+        LinkedList<Row> liAttributes = new LinkedList<Row>();
+        Connection conn = connPool.getConnection();
+        Statement stat = conn.createStatement();       
+        String sqlString = "SELECT * "
+                + " FROM "+tableName+" ";
+        ResultSet rs = stat.executeQuery(sqlString);
+        while(rs.next())
+        {
+            for (int i = 0; i < columnNames.size(); i++) 
+            {
+                String str = rs.getString(i+1);
+                Row r = new Row(i, str);
+                liAttributes.add(r);
+            }   
+        }  
+        return liAttributes;
+    }
     
 }

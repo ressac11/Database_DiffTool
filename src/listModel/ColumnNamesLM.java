@@ -5,6 +5,9 @@
  */
 package listModel;
 
+import beans.Row;
+import database.DBAccess;
+import java.util.LinkedList;
 import javax.swing.AbstractListModel;
 
 /**
@@ -13,14 +16,20 @@ import javax.swing.AbstractListModel;
  */
 public class ColumnNamesLM extends AbstractListModel{
 
+    private LinkedList<String> liColumn;
+
+    public ColumnNamesLM(LinkedList<String> liColumns) {
+        this.liColumn=liColumns;
+    }
+
     @Override
     public int getSize() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return liColumn.size();
     }
 
     @Override
     public Object getElementAt(int index) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return liColumn.get(index);
     }
     
 }
