@@ -94,8 +94,10 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
 
         tfUser.setBackground(new java.awt.Color(229, 229, 229));
         tfUser.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        tfUser.setText("postgres");
         tfUser.setMaximumSize(new java.awt.Dimension(150, 40));
         tfUser.setMinimumSize(new java.awt.Dimension(150, 40));
+        tfUser.setNextFocusableComponent(tfPassword);
         tfUser.setPreferredSize(new java.awt.Dimension(150, 40));
         pnContainer.add(tfUser);
 
@@ -110,8 +112,11 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
 
         tfPassword.setBackground(new java.awt.Color(229, 229, 229));
         tfPassword.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        tfPassword.setText("postgres");
+        tfPassword.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         tfPassword.setMaximumSize(new java.awt.Dimension(150, 40));
         tfPassword.setMinimumSize(new java.awt.Dimension(150, 40));
+        tfPassword.setNextFocusableComponent(tfDriver);
         tfPassword.setPreferredSize(new java.awt.Dimension(150, 40));
         pnContainer.add(tfPassword);
 
@@ -126,8 +131,10 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
 
         tfDriver.setBackground(new java.awt.Color(229, 229, 229));
         tfDriver.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        tfDriver.setText("org.postgresql.Driver");
         tfDriver.setMaximumSize(new java.awt.Dimension(150, 40));
         tfDriver.setMinimumSize(new java.awt.Dimension(150, 40));
+        tfDriver.setNextFocusableComponent(cbDatabase);
         tfDriver.setPreferredSize(new java.awt.Dimension(150, 40));
         pnContainer.add(tfDriver);
 
@@ -142,6 +149,8 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
 
         cbDatabase.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         cbDatabase.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Oracle", "MSSQL" }));
+        cbDatabase.setNextFocusableComponent(tfCompanyName);
+        cbDatabase.setVerifyInputWhenFocusTarget(false);
         pnContainer.add(cbDatabase);
 
         lbCompanyName.setBackground(new java.awt.Color(229, 229, 229));
@@ -155,8 +164,10 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
 
         tfCompanyName.setBackground(new java.awt.Color(229, 229, 229));
         tfCompanyName.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        tfCompanyName.setText("testdb");
         tfCompanyName.setMaximumSize(new java.awt.Dimension(150, 40));
         tfCompanyName.setMinimumSize(new java.awt.Dimension(150, 40));
+        tfCompanyName.setNextFocusableComponent(tfUrl);
         tfCompanyName.setPreferredSize(new java.awt.Dimension(150, 40));
         pnContainer.add(tfCompanyName);
 
@@ -171,6 +182,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
 
         tfUrl.setBackground(new java.awt.Color(229, 229, 229));
         tfUrl.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        tfUrl.setText("jdbc:postgresql://localhost/");
         tfUrl.setMaximumSize(new java.awt.Dimension(150, 40));
         tfUrl.setMinimumSize(new java.awt.Dimension(150, 40));
         tfUrl.setPreferredSize(new java.awt.Dimension(150, 40));
