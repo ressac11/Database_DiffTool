@@ -5,9 +5,11 @@
  */
 package database;
 
+import beans.Table;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.LinkedList;
 
 /**
  *
@@ -16,7 +18,6 @@ import java.sql.Statement;
 public class DBAccess {
     private DBConnectionPool connPool;
     private static DBAccess theInstance = null;
-    
    
     public static DBAccess getTheInstance() throws ClassNotFoundException {
         if (theInstance == null) {
@@ -29,20 +30,22 @@ public class DBAccess {
         connPool = DBConnectionPool.getTheInstance();
     }
     
-    public void testConnection() throws Exception
-    {
-        int reID = 0;
+    
+    
+    public LinkedList<Table> getAllTables(LinkedList<Table> liAllTables) throws Exception
+    {     
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
-        String sqlString = "SELECT MAX(reservationid)"
-                + "FROM reservation;";
+        String sqlString = "SELECT table_name "
+                + " FROM information_schema.tables "
+                + " WHERE table_schema = 'public' ";
         ResultSet rs = stat.executeQuery(sqlString);
-        while (rs.next()) {
-            reID = Integer.parseInt(rs.getString(1)) + 1;
+        while(rs.next())
+        {
+            String tableName = rs.getString(1);
+            liAllTables.add(new Table(tableName));
         }
-        connPool.releaseConnection(conn);
-        System.out.println(reID);
-    }
-  
+        return liAllTables;
+    }      
     
 }

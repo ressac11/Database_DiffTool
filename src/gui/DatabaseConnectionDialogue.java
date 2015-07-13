@@ -68,7 +68,6 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         btCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setLocationByPlatform(true);
         setMaximumSize(new java.awt.Dimension(400, 400));
         setMinimumSize(new java.awt.Dimension(400, 400));
         setPreferredSize(new java.awt.Dimension(400, 400));
@@ -98,7 +97,6 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         lbUser.setPreferredSize(new java.awt.Dimension(150, 40));
         pnContainer.add(lbUser);
 
-        tfUser.setEditable(false);
         tfUser.setBackground(new java.awt.Color(229, 229, 229));
         tfUser.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         tfUser.setText("postgres");
@@ -117,7 +115,6 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         lbPassword.setPreferredSize(new java.awt.Dimension(150, 40));
         pnContainer.add(lbPassword);
 
-        tfPassword.setEditable(false);
         tfPassword.setBackground(new java.awt.Color(229, 229, 229));
         tfPassword.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         tfPassword.setText("postgres");
@@ -137,7 +134,6 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         lbDriver.setPreferredSize(new java.awt.Dimension(150, 40));
         pnContainer.add(lbDriver);
 
-        tfDriver.setEditable(false);
         tfDriver.setBackground(new java.awt.Color(229, 229, 229));
         tfDriver.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         tfDriver.setText("org.postgresql.Driver");
@@ -171,7 +167,6 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         lbCompanyName.setPreferredSize(new java.awt.Dimension(150, 40));
         pnContainer.add(lbCompanyName);
 
-        tfDatabaseName.setEditable(false);
         tfDatabaseName.setBackground(new java.awt.Color(229, 229, 229));
         tfDatabaseName.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         tfDatabaseName.setText("testdb");
@@ -190,7 +185,6 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         lbUrl.setPreferredSize(new java.awt.Dimension(150, 40));
         pnContainer.add(lbUrl);
 
-        tfUrl.setEditable(false);
         tfUrl.setBackground(new java.awt.Color(229, 229, 229));
         tfUrl.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         tfUrl.setText("jdbc:postgresql://localhost/");
@@ -262,17 +256,13 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
             DBConnectionPool.DB_USER=user;
             try {
                 dba = DBAccess.getTheInstance();
-                dba.testConnection();
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setDialogTitle("Choose directory to save Database file");   
-            FileNameExtensionFilter filter = new FileNameExtensionFilter("Database file", "txt");
-            fileChooser.setFileFilter(filter);
             int userSelection = fileChooser.showOpenDialog(null);
 
             if (userSelection == JFileChooser.APPROVE_OPTION) 
             {
                 newDBDump = fileChooser.getSelectedFile();
-    //                System.out.println("Selected file: " + selectedDBDump.getAbsolutePath());
                 DownloadDialogue downloadDialogue = new DownloadDialogue(null, true);
                 downloadDialogue.setVisible(true);
             }

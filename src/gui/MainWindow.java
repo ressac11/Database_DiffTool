@@ -5,13 +5,19 @@
  */
 package gui;
 
+import beans.Table;
+import database.DBAccess;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.image.ImageObserver;
 import java.awt.image.ImageProducer;
+import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import listModel.TableNamesLM;
 
 /**
  *
@@ -24,6 +30,10 @@ public class MainWindow extends javax.swing.JFrame {
      */
     public static final Color backgroundColorPanel = new Color(229, 229, 229);
     public static final Color backgroundColorButton = new Color(199,199,199);
+    private TableNamesLM tnlm;
+    private DBAccess dba;
+    private LinkedList<Table> liAllTablesLeftDB = new LinkedList<>();
+    private LinkedList<Table> liAllTablesRightDB = new LinkedList<>();
     public MainWindow() {
         initComponents();
         this.getContentPane().setBackground(backgroundColorPanel);
@@ -34,7 +44,6 @@ public class MainWindow extends javax.swing.JFrame {
         btShowDetails.setBackground(backgroundColorButton);
         this.setLocationRelativeTo(null);
         enableButtons(false);
-        
         
     }
   
@@ -501,12 +510,25 @@ public class MainWindow extends javax.swing.JFrame {
     private void onExtractData1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onExtractData1
         DataExtractModeDialogue dataExtractDialogue = new DataExtractModeDialogue(this, true);
         dataExtractDialogue.setVisible(true);
-        
+        try {
+            dba = DBAccess.getTheInstance();
+            tnlm = new TableNamesLM(dba.getAllTables(liAllTablesLeftDB));
+            liTables1.setModel(tnlm);
+        } catch (Exception ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }       
     }//GEN-LAST:event_onExtractData1
 
     private void onExtractData2(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onExtractData2
         DataExtractModeDialogue dataExtractDialogue = new DataExtractModeDialogue(this, true);
         dataExtractDialogue.setVisible(true);
+        try {
+            dba = DBAccess.getTheInstance();
+            tnlm = new TableNamesLM(dba.getAllTables(liAllTablesRightDB));
+            liTablesC.setModel(tnlm);
+        } catch (Exception ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }       
     }//GEN-LAST:event_onExtractData2
 
     public void enableButtons(boolean b)

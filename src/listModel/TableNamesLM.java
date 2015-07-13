@@ -5,6 +5,9 @@
  */
 package listModel;
 
+import beans.Table;
+import database.DBAccess;
+import java.util.LinkedList;
 import javax.swing.AbstractListModel;
 
 /**
@@ -13,14 +16,22 @@ import javax.swing.AbstractListModel;
  */
 public class TableNamesLM extends AbstractListModel{
 
+    private DBAccess dba;
+    private LinkedList<Table> liAllTables;
+
+    public TableNamesLM(LinkedList<Table> allTablesFirst) throws ClassNotFoundException {
+        this.dba = DBAccess.getTheInstance();
+        liAllTables=allTablesFirst;
+    }
+    
     @Override
     public int getSize() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return liAllTables.size();
     }
 
     @Override
     public Object getElementAt(int index) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return liAllTables.get(index);
     }
     
 }
