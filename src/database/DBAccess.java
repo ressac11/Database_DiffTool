@@ -6,16 +6,18 @@
 package database;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 /**
  *
  * @author Sarah
  */
 public class DBAccess {
-    private Connection con;
+    private DBConnectionPool connPool;
     private static DBAccess theInstance = null;
-    private DBConfig dbc = new DBConfig();
     
+   
     public static DBAccess getTheInstance() throws ClassNotFoundException {
         if (theInstance == null) {
             theInstance = new DBAccess();
@@ -23,10 +25,24 @@ public class DBAccess {
         return theInstance;
     }
 
-    public void createConnection(String User, String Password, String Driver, String Database, String Database_Name, String URL) throws Exception
-    {
-        con = dbc.getConnection(User, Password, Driver, Database, Database_Name, URL);
+    private DBAccess() throws ClassNotFoundException {
+        connPool = DBConnectionPool.getTheInstance();
     }
-
+    
+    public void testConnection() throws Exception
+    {
+        int reID = 0;
+        Connection conn = connPool.getConnection();
+        Statement stat = conn.createStatement();
+        String sqlString = "SELECT MAX(reservationid)"
+                + "FROM reservation;";
+        ResultSet rs = stat.executeQuery(sqlString);
+        while (rs.next()) {
+            reID = Integer.parseInt(rs.getString(1)) + 1;
+        }
+        connPool.releaseConnection(conn);
+        System.out.println(reID);
+    }
+  
     
 }

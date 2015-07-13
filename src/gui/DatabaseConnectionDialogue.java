@@ -5,7 +5,11 @@
  */
 package gui;
 
+import database.DBAccess;
+import database.DBConnectionPool;
 import java.io.File;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -22,6 +26,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
      */
     private boolean newConn = false;
     public static File newDBDump;
+    private DBAccess dba;
     
     public DatabaseConnectionDialogue(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -237,19 +242,27 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
 
     private void onOK(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOK
         newConn=true;
-        String User = tfUser.getText().trim();
-        String Password = tfPassword.getText().trim();
-        String URL = tfUrl.getText().trim();
-        String Database_Name = tfDatabaseName.getText().trim();
-        String Driver = tfDriver.getText().trim();
-        String Database_Provider = (String)cbDatabase.getSelectedItem();
-        if(User.isEmpty() || Password.isEmpty() || URL.isEmpty() || Database_Name.isEmpty() || Driver.isEmpty() || Database_Provider.isEmpty())
+        String user = tfUser.getText().trim();
+        String password = tfPassword.getText().trim();
+        String uRL = tfUrl.getText().trim();
+        String database_Name = tfDatabaseName.getText().trim();
+        String driver = tfDriver.getText().trim();
+        String database_Provider = (String)cbDatabase.getSelectedItem();
+        if(user.isEmpty() || password.isEmpty() || uRL.isEmpty() || database_Name.isEmpty() || driver.isEmpty() || database_Provider.isEmpty())
         {
             JOptionPane.showMessageDialog(this, "Please do not enter wrong values!");
         }
         else
         {
             dispose();
+            DBConnectionPool.DB_DRIVER=driver;
+            DBConnectionPool.DB_NAME=database_Name;
+            DBConnectionPool.DB_PASSWD=password;
+            DBConnectionPool.DB_URL=uRL;
+            DBConnectionPool.DB_USER=user;
+            try {
+                dba = DBAccess.getTheInstance();
+                dba.testConnection();
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setDialogTitle("Choose directory to save Database file");   
             FileNameExtensionFilter filter = new FileNameExtensionFilter("Database file", "txt");
@@ -263,6 +276,10 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
                 DownloadDialogue downloadDialogue = new DownloadDialogue(null, true);
                 downloadDialogue.setVisible(true);
             }
+            } catch (Exception ex) {
+                Logger.getLogger(DatabaseConnectionDialogue.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
         }
     }//GEN-LAST:event_onOK
 
