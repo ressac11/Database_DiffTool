@@ -33,18 +33,21 @@ public class DBAccess {
     private static final String tableDelim = "#end#";
     private static final String delim = "#";
 
-    public static DBAccess getTheInstance() throws ClassNotFoundException {
+    public static DBAccess getTheInstance() throws ClassNotFoundException 
+    {
         if (theInstance == null) {
             theInstance = new DBAccess();
         }
         return theInstance;
     }
 
-    private DBAccess() throws ClassNotFoundException {
+    private DBAccess() throws ClassNotFoundException 
+    {
         connPool = DBConnectionPool.getTheInstance();
     }
 
-    public LinkedList<Table> getAllTables(LinkedList<Table> liAllTables) throws Exception {
+    public LinkedList<Table> getAllTables(LinkedList<Table> liAllTables) throws Exception 
+    {
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
         String sqlString = "SELECT table_name "
@@ -61,7 +64,8 @@ public class DBAccess {
         return liAllTables;
     }
 
-    public LinkedList<String> getColumnNames(String tableName) throws Exception {
+    public LinkedList<String> getColumnNames(String tableName) throws Exception 
+    {
         LinkedList<String> columnNames = new LinkedList<>();
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
@@ -75,7 +79,8 @@ public class DBAccess {
         return columnNames;
     }
 
-    public LinkedList<Row> getAttributesForOneTable(String tableName, LinkedList<String> columnNames) throws Exception {
+    public LinkedList<Row> getAttributesForOneTable(String tableName, LinkedList<String> columnNames) throws Exception 
+    {
         LinkedList<Row> liAttributes = new LinkedList<Row>();
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
@@ -94,7 +99,8 @@ public class DBAccess {
         return liAttributes;
     }
 
-    public void saveDatabaseFile(File f) throws IOException {
+    public void saveDatabaseFile(File f) throws IOException 
+    {
         File file = f;
         FileWriter fw = new FileWriter(file);
         BufferedWriter bw = new BufferedWriter(fw);
@@ -135,7 +141,8 @@ public class DBAccess {
         bw.close();
     }
 
-    public LinkedList<Table> loadData(File f) throws FileNotFoundException, IOException {
+    public LinkedList<Table> loadData(File f) throws FileNotFoundException, IOException 
+    {
         File file = f;
         FileReader fr = new FileReader(file);
         BufferedReader br = new BufferedReader(fr);
