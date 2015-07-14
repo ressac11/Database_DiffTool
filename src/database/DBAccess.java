@@ -7,6 +7,7 @@ package database;
 
 import beans.Row;
 import beans.Table;
+import gui.DatabaseConnectionDialogue;
 import java.io.BufferedReader;
 import java.util.List;
 import java.io.BufferedWriter;
@@ -50,9 +51,20 @@ public class DBAccess {
     {
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
-        String sqlString = "SELECT table_name "
+        
+        String sqlString = ""; 
+        switch(DatabaseConnectionDialogue.selectedDB)
+            {
+                case "postgres": sqlString = "SELECT table_name "
                 + " FROM information_schema.tables "
-                + " WHERE table_schema = 'public' ";
+                + " WHERE table_schema = 'public' ";break;
+                case "oracle": sqlString = "SELECT table_name "
+                + " FROM information_schema.tables "
+                + " WHERE table_schema = 'public' ";break;
+                case "mssql": sqlString = "SELECT table_name "
+                + " FROM information_schema.tables "
+                + " WHERE table_schema = 'public' ";break;                
+            }
         ResultSet rs = stat.executeQuery(sqlString);
         while (rs.next()) {
             String tableName = rs.getString(1);

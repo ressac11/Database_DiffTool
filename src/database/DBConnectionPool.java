@@ -48,7 +48,7 @@ public class DBConnectionPool {
             {
                 case "postgres": conn = DriverManager.getConnection(DB_URL + DB_NAME, DB_USER, DB_PASSWD);break;
                 case "oracle": conn=DriverManager.getConnection(DB_URL + DB_NAME, DB_USER, DB_PASSWD);break;
-                case "mssql": conn=DriverManager.getConnection(DB_URL+";databaseName="+DB_NAME+";user="+DB_USER+";password="+DB_PASSWD);break;                
+                case "mssql": conn=DriverManager.getConnection(DB_URL+"databaseName="+DB_NAME+";user="+DB_USER+";password="+DB_PASSWD);break;                
             }          
             num_conn++;
             return conn;

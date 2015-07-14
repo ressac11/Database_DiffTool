@@ -9,7 +9,10 @@ import beans.Table;
 import database.DBAccess;
 import java.awt.Color;
 import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import listModel.ColumnNamesLM;
@@ -26,7 +29,6 @@ public class MainWindow extends javax.swing.JFrame {
     public static final Color backgroundColorButton = new Color(199, 199, 199);
     private TableNamesLM tnlmLeft;
     private TableNamesLM tnlmRight;
-    private ColumnNamesLM cnlm;
     public DBAccess dba;
     private LinkedList<Table> liAllTablesLeftDB = new LinkedList<>();
     private LinkedList<Table> liAllTablesRightDB = new LinkedList<>();
@@ -575,11 +577,14 @@ public class MainWindow extends javax.swing.JFrame {
                     }
                 }
             }
+        } catch (IOException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         } 
-        catch (Exception ex) 
-        {
-            System.out.println("Main Window : onExtractDatas : "+ex.toString());
-        } 
+        
     }//GEN-LAST:event_onExtractDatas
 
     private void onOpenDatabaseFile(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOpenDatabaseFile
@@ -607,11 +612,12 @@ public class MainWindow extends javax.swing.JFrame {
                 tnlmRight = new TableNamesLM(dba.getAllTables(liAllTablesRightDB));        
                 liTablesC.setSelectedIndex(0);
             }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         } 
-        catch (Exception ex) 
-        {
-            System.out.println("Main Window : onExtractData : "+ex.toString());
-        } 
+        
     }
 
     public void onNewSelectedItem() 
