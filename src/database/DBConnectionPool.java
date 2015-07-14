@@ -9,6 +9,7 @@ import gui.DatabaseConnectionDialogue;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.LinkedList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -39,7 +40,6 @@ public class DBConnectionPool {
 
     public synchronized Connection getConnection() throws Exception {
         if (connections.isEmpty()) {
-
             if (num_conn == MAX_CONN) {
                 throw new Exception("Maximum number of connections reached");
             }

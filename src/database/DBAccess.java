@@ -21,6 +21,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Iterator;
 import java.util.LinkedList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -33,51 +34,52 @@ public class DBAccess {
     private LinkedList<Table> liAllTables = new LinkedList<>();
     private static final String tableDelim = "#end#";
     private static final String delim = "#";
+    private String rowCounter;
 
-    public static DBAccess getTheInstance() throws ClassNotFoundException 
-    {
+    public static DBAccess getTheInstance() throws ClassNotFoundException {
         if (theInstance == null) {
             theInstance = new DBAccess();
         }
         return theInstance;
     }
 
-    private DBAccess() throws ClassNotFoundException 
-    {
+    private DBAccess() throws ClassNotFoundException {
         connPool = DBConnectionPool.getTheInstance();
     }
 
-    public LinkedList<Table> getAllTables(LinkedList<Table> liAllTables) throws Exception 
-    {
+    public LinkedList<Table> getAllTables(LinkedList<Table> liAllTables) throws Exception {
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
-        
-        String sqlString = ""; 
-        switch(DatabaseConnectionDialogue.selectedDB)
-            {
-                case "postgres": sqlString = "SELECT table_name "
-                + " FROM information_schema.tables "
-                + " WHERE table_schema = 'public' ";break;
-                case "oracle": sqlString = "SELECT table_name "
-                + " FROM information_schema.tables "
-                + " WHERE table_schema = 'public' ";break;
-                case "mssql": sqlString = "SELECT table_name "
-                + " FROM information_schema.tables "
-                + " WHERE table_schema = 'public' ";break;                
-            }
+        String sqlString = "";
+        switch (DatabaseConnectionDialogue.selectedDB) {
+            case "postgres":
+                sqlString = "SELECT table_name "
+                        + " FROM information_schema.tables "
+                        + " WHERE table_schema = 'public' ";
+                break;
+            case "oracle":
+                sqlString = "SELECT owner, table_name "
+                        + "  FROM dba_tables";
+                break;
+            case "mssql":
+                sqlString = "SELECT TABLE_NAME "
+                        + "FROM INFORMATION_SCHEMA.TABLES "
+                        + "WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_CATALOG='" + DBConnectionPool.DB_NAME + "'";
+                break;
+        }
         ResultSet rs = stat.executeQuery(sqlString);
         while (rs.next()) {
             String tableName = rs.getString(1);
             LinkedList<String> columnNames = getColumnNames(tableName);
             LinkedList<Row> liAttributes = getAttributesForOneTable(tableName, columnNames);
-            liAllTables.add(new Table(tableName, columnNames, liAttributes));
+            liAllTables.add(new Table(tableName, rowCounter, columnNames, liAttributes));
+
         }
         this.liAllTables = liAllTables;
         return liAllTables;
     }
 
-    public LinkedList<String> getColumnNames(String tableName) throws Exception 
-    {
+    public LinkedList<String> getColumnNames(String tableName) throws Exception {
         LinkedList<String> columnNames = new LinkedList<>();
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
@@ -91,8 +93,7 @@ public class DBAccess {
         return columnNames;
     }
 
-    public LinkedList<Row> getAttributesForOneTable(String tableName, LinkedList<String> columnNames) throws Exception 
-    {
+    public LinkedList<Row> getAttributesForOneTable(String tableName, LinkedList<String> columnNames) throws Exception {
         LinkedList<Row> liAttributes = new LinkedList<Row>();
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
@@ -100,19 +101,27 @@ public class DBAccess {
                 + " FROM " + tableName + " ";
         int count = 0;
         ResultSet rs = stat.executeQuery(sqlString);
+        String value = "";
         while (rs.next()) {
             for (int i = 0; i < columnNames.size(); i++) {
                 String str = rs.getString(i + 1);
-                Row r = new Row(count, str);
-                liAttributes.add(r);
+                value += str + ";";
             }
+            Row r = new Row(count, value);
+            liAttributes.add(r);
+            System.out.println(value);
+            value = "";
             count++;
+        }
+        sqlString = "SELECT COUNT(*) FROM " + tableName + " ";
+        rs = stat.executeQuery(sqlString);
+        while (rs.next()) {
+            rowCounter = rs.getString(1);
         }
         return liAttributes;
     }
 
-    public void saveDatabaseFile(File f) throws IOException 
-    {
+    public void saveDatabaseFile(File f) throws IOException {
         File file = f;
         FileWriter fw = new FileWriter(file);
         BufferedWriter bw = new BufferedWriter(fw);
@@ -120,9 +129,12 @@ public class DBAccess {
 
         while (it.hasNext()) {
             Table table = it.next();
+            bw.newLine();
             bw.write(tableDelim);
+            bw.newLine();
             bw.write(table.getTableName());
-            System.out.println("Name: " + table.getTableName());
+            bw.write(delim);
+            bw.write(table.getRowCounter());
             bw.newLine();
             List<String> columns = table.getColumnNames();
             int c = 0;
@@ -143,82 +155,14 @@ public class DBAccess {
                 if (r2.getRID() != rAlterWert.getRID()) {
                     bw.newLine();
                     rAlterWert = r2;
-                    //System.out.println("alte rid: "+rAlterWert.getRID() + "      neue rid: "+);
                 }
                 bw.write(r2.getValue() + delim);
             }
         }
-        bw.write(tableDelim);
+        bw.newLine();
+        bw.write("endDatabase");
         bw.flush();
         bw.close();
     }
 
-    public LinkedList<Table> loadData(File f) throws FileNotFoundException, IOException 
-    {
-        File file = f;
-        FileReader fr = new FileReader(file);
-        BufferedReader br = new BufferedReader(fr);
-
-        String str;
-        String[] strArray;
-        String tablename = "";
-        LinkedList<String> columns = new LinkedList<>();
-        LinkedList<Row> rows = new LinkedList<>();
-        int counter = 0;
-        int cRow = 0;
-        LinkedList<Table> allTables = new LinkedList<>();
-
-        while ((str = br.readLine()) != null) 
-        {
-            if (str.equals(tableDelim)) 
-            {
-                counter = 1;
-            } 
-            else 
-            {
-                if (counter == 1) 
-                {
-                    tablename = str;
-                    counter=2;
-                }
-                else
-                {
-                    if(counter==2)
-                    {
-                        String[] array = str.split(delim);
-                        columns = new LinkedList<>();
-                        for (String array1 : array) 
-                        {
-                            columns.add(array1);
-                        }
-                        counter++;
-                    }
-                    else
-                    {
-                        if(str.equals(tableDelim))
-                        {                            
-                            Table table = new Table(tablename, columns, rows);
-                            allTables.add(table);
-                            cRow = 0;
-                            tablename = "";
-                            columns.clear();
-                            rows.clear();
-                        }
-                        else
-                        {
-                            String[] array = str.split(delim);
-                            for (String array1 : array) 
-                            {
-                                Row r = new Row(cRow, array1);
-                                rows.add(r);
-                            }
-                            cRow++;
-                        }
-                    }
-                }
-            }
-        }
-        br.close();
-        return allTables;
-    }
 }
