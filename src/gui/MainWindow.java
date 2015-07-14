@@ -8,27 +8,17 @@ package gui;
 import beans.Table;
 import database.DBAccess;
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
 import java.io.File;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import listModel.ColumnNamesLM;
 import listModel.TableNamesLM;
-
 /**
  *
  * @author Steffie
  */
 public class MainWindow extends javax.swing.JFrame {
-
     /**
      * Creates new form DiffToolGui
      */
@@ -43,7 +33,8 @@ public class MainWindow extends javax.swing.JFrame {
     private int extractData;
     private boolean leftList;
 
-    public MainWindow() {
+    public MainWindow() 
+    {
         initComponents();
         this.getContentPane().setBackground(backgroundColorPanel);
         btCompareData.setBackground(backgroundColorButton);
@@ -52,8 +43,7 @@ public class MainWindow extends javax.swing.JFrame {
         btExtractData2.setBackground(backgroundColorButton);
         btShowDetails.setBackground(backgroundColorButton);
         this.setLocationRelativeTo(null);
-        enableButtons(false);
-       
+        enableButtons(false);      
     }
 
     /**
@@ -504,8 +494,7 @@ public class MainWindow extends javax.swing.JFrame {
     private void onExtractDatas(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onExtractDatas
         DataExtractModeDialogue dataExtractDialogue = new DataExtractModeDialogue(this, true);
         dataExtractDialogue.setVisible(true);
-        extractData=Integer.parseInt(evt.getActionCommand());
-        
+        extractData=Integer.parseInt(evt.getActionCommand());       
         try 
         {
             dba = DBAccess.getTheInstance();
@@ -520,6 +509,7 @@ public class MainWindow extends javax.swing.JFrame {
                         liAllTablesLeftDB = dba.loadData(dataExtractDialogue.getSelectedDBDump());
                         tnlmLeft = new TableNamesLM(dba.getAllTables(liAllTablesLeftDB));
                         liTables1.setModel(tnlmLeft);
+                        liTables1.setSelectedIndex(0);
                     } 
                     else if (extractData == 2) 
                     {
@@ -529,6 +519,7 @@ public class MainWindow extends javax.swing.JFrame {
                         liAllTablesRightDB = dba.loadData(dataExtractDialogue.getSelectedDBDump());
                         tnlmRight = new TableNamesLM(dba.getAllTables(liAllTablesRightDB));       
                         liTablesC.setModel(tnlmRight);
+                        liTablesC.setSelectedIndex(0);
                     }
                 }
             }
@@ -546,6 +537,11 @@ public class MainWindow extends javax.swing.JFrame {
                     if (userSelection == JFileChooser.APPROVE_OPTION) 
                     {
                         File path = fileChooser.getSelectedFile();
+                        if(!path.getPath().endsWith(".txt"))
+                        {
+                            String pathNew = path.getPath()+".txt";
+                            path = new File(pathNew);
+                        }
                         dba.saveDatabaseFile(path);
     //                        DownloadDialogue downloadDialogue = new DownloadDialogue(null, true);
     //                        downloadDialogue.setVisible(true);
@@ -559,8 +555,10 @@ public class MainWindow extends javax.swing.JFrame {
         } 
     }//GEN-LAST:event_onExtractDatas
 
-    public void onExtractData() {
-        try {
+    public void onExtractData() 
+    {
+        try 
+        {
             
             if (extractData == 1) 
             {
@@ -568,23 +566,27 @@ public class MainWindow extends javax.swing.JFrame {
                 liAllTablesLeftDB.clear();
                 tnlmLeft = new TableNamesLM(dba.getAllTables(liAllTablesLeftDB));
                 liTables1.setModel(tnlmLeft);
-                
+                liTables1.setSelectedIndex(0);
             } 
             else if (extractData == 2) 
             {
                 liTablesC.setModel(tnlmRight);
                 liAllTablesRightDB.clear();
                 liTablesC.removeAll();
-                tnlmRight = new TableNamesLM(dba.getAllTables(liAllTablesRightDB));                
+                tnlmRight = new TableNamesLM(dba.getAllTables(liAllTablesRightDB));        
+                liTablesC.setSelectedIndex(0);
             }
-        } catch (Exception ex) 
+        } 
+        catch (Exception ex) 
         {
             System.out.println("Main Window : onExtractData : "+ex.toString());
         } 
     }
 
-    public void onNewSelectedItem() {
-        if (leftList) {
+    public void onNewSelectedItem() 
+    {
+        if (leftList) 
+        {
             lbTableNameValue.setText(liAllTablesLeftDB.get(liTables1.getSelectedIndex()).getTableName());
             cnlm = new ColumnNamesLM(liAllTablesLeftDB.get(liTables1.getSelectedIndex()).getColumnNames());
             liColumnNamesValue.setModel(cnlm);
@@ -599,7 +601,8 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }
 
-    public void enableButtons(boolean b) {
+    public void enableButtons(boolean b) 
+    {
         btShowDetails.setEnabled(false);
         btDownloadData.setEnabled(b);
     }

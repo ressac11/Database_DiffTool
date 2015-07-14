@@ -4,21 +4,19 @@
  * and open the template in the editor.
  */
 package gui;
-
 import javax.swing.ImageIcon;
 
 /**
  *
  * @author Sarah
  */
-public class DataSelectionModesDialogue extends javax.swing.JDialog {
-
+public class DataSelectionModesDialogue extends javax.swing.JDialog 
+{
     /**
      * Creates new form DataSelectionModesDialogue
      */
     private boolean ok = false;
-
-    
+ 
     public DataSelectionModesDialogue(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -28,7 +26,6 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog {
         
         this.setLocationRelativeTo(parent);
     }
- 
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

@@ -18,17 +18,20 @@ public class TableNamesLM extends AbstractListModel{
 
     private LinkedList<Table> liAllTables;
 
-    public TableNamesLM(LinkedList<Table> allTablesFirst) throws ClassNotFoundException {
+    public TableNamesLM(LinkedList<Table> allTablesFirst) throws ClassNotFoundException 
+    {
         liAllTables=allTablesFirst;
     }
     
     @Override
-    public int getSize() {
+    public int getSize() 
+    {
         return liAllTables.size();
     }
 
     @Override
-    public Object getElementAt(int index) {
+    public Object getElementAt(int index) 
+    {
         return liAllTables.get(index);
     }
     
