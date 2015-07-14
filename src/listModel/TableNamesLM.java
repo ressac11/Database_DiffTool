@@ -18,9 +18,9 @@ public class TableNamesLM extends AbstractListModel{
 
     private LinkedList<Table> liAllTables;
 
-    public TableNamesLM(LinkedList<Table> allTablesFirst) throws ClassNotFoundException 
+    public TableNamesLM(LinkedList<Table> allTables) throws ClassNotFoundException 
     {
-        liAllTables=allTablesFirst;
+        this.liAllTables=allTables;
     }
     
     @Override

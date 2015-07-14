@@ -6,11 +6,15 @@
 package gui;
 
 import beans.Table;
+import bl.LoadData;
 import database.DBAccess;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import listModel.ColumnNamesLM;
@@ -557,47 +561,33 @@ public class MainWindow extends javax.swing.JFrame
     private void onExtractDatas(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onExtractDatas
         DataExtractModeDialogue dataExtractDialogue = new DataExtractModeDialogue(this, true);
         dataExtractDialogue.setVisible(true);
-        extractData=Integer.parseInt(evt.getActionCommand());       
+        extractData=Integer.parseInt(evt.getActionCommand());
+        JOptionPane.showMessageDialog(this, "onExtractDatas1");
         try 
         {
-            dba = DBAccess.getTheInstance();
+            LoadData ld = new LoadData();
             if(dataExtractDialogue.isExistingFile())
-            {
-//                if(dataExtractDialogue.getSelectedDBDump() != null)
-//                {
-//                    if (extractData == 1) 
-//                    {
-//                        existingFile1 = dataExtractDialogue.getSelectedDBDump();
-//                        liTables1.removeAll();
-//                        liAllTablesLeftDB.clear();
-//                        liAllTablesLeftDB = dba.loadData(dataExtractDialogue.getSelectedDBDump());
-////                        tnlmLeft = new TableNamesLM(dba.getAllTables(liAllTablesLeftDB));
-//                        liTables1.setModel(tnlmLeft);
-//                        liTables1.setSelectedIndex(0);
-//                        btOpenDBFile1.setEnabled(true);
-////                        enableCounter++;
-//                    } 
-//                    else if (extractData == 2) 
-//                    {
-//                        existingFile2 = dataExtractDialogue.getSelectedDBDump();
-//                        liAllTablesRightDB.clear();
-//                        liTablesC.removeAll();
-//                        liAllTablesRightDB = dba.loadData(dataExtractDialogue.getSelectedDBDump());
-//                        tnlmRight = new TableNamesLM(dba.getAllTables(liAllTablesRightDB));       
-//                        liTablesC.setModel(tnlmRight);
-//                        liTablesC.setSelectedIndex(0);
-//                        btOpenDBFile2.setEnabled(true);
-////                        enableCounter++;
-//                    }
-//                    if(enableCounter==2)
-//                    {
-//                        enableButtons(true);
-//                        enableCounter = 0;
-//                    }
-//                }
+            {          
+                    if (extractData == 1) 
+                    {                   
+                        liTables1.removeAll();
+                        liAllTablesLeftDB.clear();                        
+                        tnlmLeft = new TableNamesLM(ld.loadData(dataExtractDialogue.getSelectedDBDump()));
+                        liTables1.setModel(tnlmLeft);
+                        liTables1.setSelectedIndex(0);
+                    } 
+                    else if (extractData == 2) 
+                    {                                 
+                        liTablesC.removeAll();
+                        liAllTablesRightDB.clear();
+                        tnlmRight = new TableNamesLM(ld.loadData(dataExtractDialogue.getSelectedDBDump()));       
+                        liTablesC.setModel(tnlmRight);
+                        liTablesC.setSelectedIndex(0);
+                    }   
             }
             else
             {
+                dba = DBAccess.getTheInstance();
                 onExtractData();
                 int i = JOptionPane.showConfirmDialog(null, "Do you want to save the Database Extract as file?", "Save Database Extract", JOptionPane.YES_NO_OPTION);
                 if(i == JOptionPane.OK_OPTION)
@@ -606,7 +596,6 @@ public class MainWindow extends javax.swing.JFrame
                     fileChooser.setDialogType(JFileChooser.SAVE_DIALOG); 
                     fileChooser.setDialogTitle("Choose directory to save Database file");   
                     int userSelection = fileChooser.showSaveDialog(null);
-
                     if (userSelection == JFileChooser.APPROVE_OPTION) 
                     {
                         File f = fileChooser.getSelectedFile();
@@ -715,10 +704,10 @@ public class MainWindow extends javax.swing.JFrame
                 btOpenDBFile1.setEnabled(true);
             } 
             else if (extractData == 2) 
-            {
-                liAllTablesRightDB.clear();
+            {                         
                 liTablesC.removeAll();
-                tnlmRight = new TableNamesLM(dba.getAllTables(liAllTablesRightDB)); 
+                liAllTablesRightDB.clear();
+                tnlmRight = new TableNamesLM(dba.getAllTables(liAllTablesRightDB));  
                 liTablesC.setModel(tnlmRight);
                 liTablesC.setSelectedIndex(0);
                 btOpenDBFile2.setEnabled(true);

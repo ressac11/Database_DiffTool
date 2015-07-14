@@ -9,6 +9,7 @@ import gui.DatabaseConnectionDialogue;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.LinkedList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -39,7 +40,6 @@ public class DBConnectionPool {
 
     public synchronized Connection getConnection() throws Exception {
         if (connections.isEmpty()) {
-
             if (num_conn == MAX_CONN) {
                 throw new Exception("Maximum number of connections reached");
             }
@@ -48,7 +48,7 @@ public class DBConnectionPool {
             {
                 case "postgres": conn = DriverManager.getConnection(DB_URL + DB_NAME, DB_USER, DB_PASSWD);break;
                 case "oracle": conn=DriverManager.getConnection(DB_URL + DB_NAME, DB_USER, DB_PASSWD);break;
-                case "mssql": conn=DriverManager.getConnection(DB_URL+";databaseName="+DB_NAME+";user="+DB_USER+";password="+DB_PASSWD);break;                
+                case "mssql": conn=DriverManager.getConnection(DB_URL+"databaseName="+DB_NAME+";user="+DB_USER+";password="+DB_PASSWD);break;                
             }          
             num_conn++;
             return conn;
