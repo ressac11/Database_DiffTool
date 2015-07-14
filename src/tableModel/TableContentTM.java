@@ -23,22 +23,11 @@ public class TableContentTM extends AbstractTableModel
         this.columns = column;
         this.rows = row;
     }
-   
+    
     @Override
     public int getRowCount() 
     {
-        int count = 1;
-        Row alt = rows.get(0);
-        for (int i = 1; i < rows.size(); i++) 
-        {
-            Row neu = rows.get(i);
-            if (neu.getRID() != alt.getRID()) 
-            {
-                alt = neu;
-                count++;
-            }
-        }
-        return count;
+        return rows.size();
     }
 
     @Override

@@ -6,15 +6,13 @@
 package gui;
 
 import beans.Table;
-import bl.LoadData;
+import bl.LoadAndSaveData;
 import database.DBAccess;
+import database.DBConnectionPool;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.io.File;
-import java.io.IOException;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import listModel.ColumnNamesLM;
@@ -46,6 +44,9 @@ public class MainWindow extends javax.swing.JFrame
     private File existingFile2 = null;
     private int enableCounter = 0;
     private boolean enableItemSelect = false;
+    private String databaseName1 = "";
+    private String databaseName2 = "";
+    private boolean automaticallySelectingTables = false;
 
     public MainWindow() 
     {
@@ -60,6 +61,7 @@ public class MainWindow extends javax.swing.JFrame
         this.setLocationRelativeTo(null);
         enableButtons(false); 
         btDownloadData.setEnabled(false);
+        
     }
 
     /**
@@ -87,8 +89,8 @@ public class MainWindow extends javax.swing.JFrame
         pnTableDisplayOptions = new javax.swing.JPanel();
         lbPlaceholder14 = new javax.swing.JLabel();
         pnRadioButtonsTable = new javax.swing.JPanel();
-        rbTableSeperate = new javax.swing.JRadioButton();
         rbTableBothAuto = new javax.swing.JRadioButton();
+        rbTableSeperate = new javax.swing.JRadioButton();
         rbDisplayDifferences = new javax.swing.JRadioButton();
         lbPlaceholder13 = new javax.swing.JLabel();
         pnMain = new javax.swing.JPanel();
@@ -121,7 +123,7 @@ public class MainWindow extends javax.swing.JFrame
         spTables2 = new javax.swing.JScrollPane();
         liTablesC = new javax.swing.JList();
         pnDetails1 = new javax.swing.JPanel();
-        lbDatabaseName = new javax.swing.JLabel();
+        lbDatabaseName2 = new javax.swing.JLabel();
         spTableContent2 = new javax.swing.JScrollPane();
         tbTableContent2 = new javax.swing.JTable();
 
@@ -226,39 +228,42 @@ public class MainWindow extends javax.swing.JFrame
         pnRadioButtonsTable.setPreferredSize(new java.awt.Dimension(75, 50));
         pnRadioButtonsTable.setLayout(new java.awt.GridLayout(3, 1, 5, -12));
 
+        rbTableBothAuto.setBackground(new java.awt.Color(229, 229, 229));
+        bgTableGroup.add(rbTableBothAuto);
+        rbTableBothAuto.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        rbTableBothAuto.setText("Table choosing automatically");
+        rbTableBothAuto.setActionCommand("2");
+        rbTableBothAuto.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        rbTableBothAuto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onTableDisplayOption(evt);
+            }
+        });
+        pnRadioButtonsTable.add(rbTableBothAuto);
+
         rbTableSeperate.setBackground(new java.awt.Color(229, 229, 229));
         bgTableGroup.add(rbTableSeperate);
         rbTableSeperate.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         rbTableSeperate.setSelected(true);
         rbTableSeperate.setText("Table choosing seperate");
+        rbTableSeperate.setActionCommand("1");
         rbTableSeperate.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        rbTableSeperate.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                onTableDisplayOptions(evt);
+        rbTableSeperate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onTableDisplayOption(evt);
             }
         });
         pnRadioButtonsTable.add(rbTableSeperate);
-
-        rbTableBothAuto.setBackground(new java.awt.Color(229, 229, 229));
-        bgTableGroup.add(rbTableBothAuto);
-        rbTableBothAuto.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        rbTableBothAuto.setText("Table choosing automatically");
-        rbTableBothAuto.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        rbTableBothAuto.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                onTableDisplayOptions(evt);
-            }
-        });
-        pnRadioButtonsTable.add(rbTableBothAuto);
 
         rbDisplayDifferences.setBackground(new java.awt.Color(229, 229, 229));
         bgTableGroup.add(rbDisplayDifferences);
         rbDisplayDifferences.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         rbDisplayDifferences.setText("Display Data Differences");
+        rbDisplayDifferences.setActionCommand("3");
         rbDisplayDifferences.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        rbDisplayDifferences.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                onTableDisplayOptions(evt);
+        rbDisplayDifferences.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onTableDisplayOption(evt);
             }
         });
         pnRadioButtonsTable.add(rbDisplayDifferences);
@@ -373,7 +378,6 @@ public class MainWindow extends javax.swing.JFrame
 
         lbDatabaseName1.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         lbDatabaseName1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbDatabaseName1.setText("Database 1");
         lbDatabaseName1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         lbDatabaseName1.setMaximumSize(new java.awt.Dimension(70, 40));
         lbDatabaseName1.setMinimumSize(new java.awt.Dimension(70, 40));
@@ -385,13 +389,24 @@ public class MainWindow extends javax.swing.JFrame
 
         tbTableContent1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "", "", "", "", ""
             }
         ));
         spTableContent1.setViewportView(tbTableContent1);
@@ -495,27 +510,37 @@ public class MainWindow extends javax.swing.JFrame
         pnDetails1.setBackground(new java.awt.Color(229, 229, 229));
         pnDetails1.setLayout(new java.awt.BorderLayout(10, 20));
 
-        lbDatabaseName.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        lbDatabaseName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbDatabaseName.setText("Database 2");
-        lbDatabaseName.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        lbDatabaseName.setMaximumSize(new java.awt.Dimension(70, 40));
-        lbDatabaseName.setMinimumSize(new java.awt.Dimension(70, 40));
-        lbDatabaseName.setPreferredSize(new java.awt.Dimension(70, 40));
-        pnDetails1.add(lbDatabaseName, java.awt.BorderLayout.PAGE_START);
+        lbDatabaseName2.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        lbDatabaseName2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbDatabaseName2.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        lbDatabaseName2.setMaximumSize(new java.awt.Dimension(70, 40));
+        lbDatabaseName2.setMinimumSize(new java.awt.Dimension(70, 40));
+        lbDatabaseName2.setPreferredSize(new java.awt.Dimension(70, 40));
+        pnDetails1.add(lbDatabaseName2, java.awt.BorderLayout.PAGE_START);
 
         spTableContent2.setBackground(new java.awt.Color(229, 229, 229));
         spTableContent2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         tbTableContent2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "", "", "", "", ""
             }
         ));
         spTableContent2.setViewportView(tbTableContent2);
@@ -559,13 +584,14 @@ public class MainWindow extends javax.swing.JFrame
     }//GEN-LAST:event_onNewSelectedItemRight
 
     private void onExtractDatas(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onExtractDatas
+        extractData=Integer.parseInt(evt.getActionCommand());  
         DataExtractModeDialogue dataExtractDialogue = new DataExtractModeDialogue(this, true);
-        dataExtractDialogue.setVisible(true);
-        extractData=Integer.parseInt(evt.getActionCommand());
+        dataExtractDialogue.setDataExctractActionCommand(extractData);
+        dataExtractDialogue.setVisible(true);      
         JOptionPane.showMessageDialog(this, "onExtractDatas1");
         try 
         {
-            LoadData ld = new LoadData();
+            LoadAndSaveData ld = new LoadAndSaveData();
             if(dataExtractDialogue.isExistingFile())
             {          
                     if (extractData == 1) 
@@ -583,12 +609,23 @@ public class MainWindow extends javax.swing.JFrame
                         tnlmRight = new TableNamesLM(ld.loadData(dataExtractDialogue.getSelectedDBDump()));       
                         liTablesC.setModel(tnlmRight);
                         liTablesC.setSelectedIndex(0);
-                    }   
+                    }
             }
             else
             {
                 dba = DBAccess.getTheInstance();
                 onExtractData();
+                //set database name on each label
+                if(dataExtractDialogue.getFinalDatabaseName().startsWith("1"))
+                {
+                    databaseName1 = dataExtractDialogue.getFinalDatabaseName().substring(1);
+                    lbDatabaseName1.setText(databaseName1);
+                }
+                else
+                {
+                    databaseName2 = dataExtractDialogue.getFinalDatabaseName().substring(1);
+                    lbDatabaseName2.setText(databaseName2);
+                }
                 int i = JOptionPane.showConfirmDialog(null, "Do you want to save the Database Extract as file?", "Save Database Extract", JOptionPane.YES_NO_OPTION);
                 if(i == JOptionPane.OK_OPTION)
                 {
@@ -603,15 +640,17 @@ public class MainWindow extends javax.swing.JFrame
                         {
                             String pathNew = f.getPath()+".txt";
                             f = new File(pathNew);
-                        }
-                        dba.saveDatabaseFile(f);
+                        } 
+                        
                         if(extractData==1)
                         {
                             savedFile1 = f;
+                            ld.saveDatabaseFile(f, liAllTablesLeftDB, databaseName1);
                         }
                         else
                         {
                             savedFile2 = f;
+                            ld.saveDatabaseFile(f, liAllTablesLeftDB, databaseName2);
                         }
     //                        DownloadDialogue downloadDialogue = new DownloadDialogue(null, true);
     //                        downloadDialogue.setVisible(true);
@@ -626,7 +665,6 @@ public class MainWindow extends javax.swing.JFrame
             System.out.println("Main Window : onExtractDatas : "+ex.toString());
         } 
     }//GEN-LAST:event_onExtractDatas
-
     private void onOpenDatabaseFile(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOpenDatabaseFile
         try 
         {
@@ -686,9 +724,21 @@ public class MainWindow extends javax.swing.JFrame
         
     }//GEN-LAST:event_onOpenDatabaseFile
 
-    private void onTableDisplayOptions(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_onTableDisplayOptions
-        // TODO add your handling code here:
-    }//GEN-LAST:event_onTableDisplayOptions
+    private void onTableDisplayOption(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onTableDisplayOption
+        switch(evt.getActionCommand())
+        {
+            case "1": 
+                automaticallySelectingTables = false;
+                break;
+            case "2":
+                automaticallySelectingTables = true;
+                break;
+            case "3": 
+                JOptionPane.showMessageDialog(this, "Sorry, this function is not implemented yet"); 
+                break;
+            default: break;
+        }
+    }//GEN-LAST:event_onTableDisplayOption
 
     public void onExtractData() 
     {
@@ -698,9 +748,11 @@ public class MainWindow extends javax.swing.JFrame
             {
                 liTables1.removeAll();
                 liAllTablesLeftDB.clear();
-                tnlmLeft = new TableNamesLM(dba.getAllTables(liAllTablesLeftDB));
+                tnlmLeft = new TableNamesLM(dba.getAllTables(liAllTablesLeftDB));              
                 liTables1.setModel(tnlmLeft);
                 liTables1.setSelectedIndex(0);
+                leftList=true;
+                onNewSelectedItem();
                 btOpenDBFile1.setEnabled(true);
             } 
             else if (extractData == 2) 
@@ -710,9 +762,11 @@ public class MainWindow extends javax.swing.JFrame
                 tnlmRight = new TableNamesLM(dba.getAllTables(liAllTablesRightDB));  
                 liTablesC.setModel(tnlmRight);
                 liTablesC.setSelectedIndex(0);
+                leftList=false;
+                onNewSelectedItem();
                 btOpenDBFile2.setEnabled(true);
             }
-            
+                   
         } 
         catch (Exception ex) 
         {
@@ -722,17 +776,65 @@ public class MainWindow extends javax.swing.JFrame
 
     public void onNewSelectedItem() 
     {
-        if (leftList) 
+        if(automaticallySelectingTables)
         {
-            Table table = (Table) this.liTables1.getSelectedValue();
-            tctm = new TableContentTM(table.getColumnNames(), table.getAttributes());
-            tbTableContent1.setModel(tctm);
+            try 
+            {
+                if (leftList) 
+                {                
+                    Table table = (Table) this.liTables1.getSelectedValue();
+                    int index = this.liTables1.getSelectedIndex();
+
+                        if(liAllTablesRightDB.get(index).toString().equals(liTables1.getSelectedValue().toString()))
+                        {
+                            tctm = new TableContentTM(table.getColumnNames(), table.getAttributes());
+                            tbTableContent1.setModel(tctm);
+                            this.liTablesC.setSelectedIndex(index);
+                            tbTableContent2.setModel(tctm);
+                        }
+                        else
+                        {
+                            throw new IndexOutOfBoundsException();
+                        }
+                    }
+                
+                else
+                {
+                    Table table = (Table) this.liTablesC.getSelectedValue();
+                    int index = this.liTablesC.getSelectedIndex();
+                    if(liAllTablesLeftDB.get(index).toString().equals(liTablesC.getSelectedValue().toString()))
+                    {
+                        tctm = new TableContentTM(table.getColumnNames(), table.getAttributes());
+                        tbTableContent2.setModel(tctm);
+                        this.liTables1.setSelectedIndex(index);
+                        tbTableContent1.setModel(tctm);
+                    }
+                    else
+                    {
+                        throw new IndexOutOfBoundsException();
+                    }
+                }
+            } 
+            catch (IndexOutOfBoundsException e) 
+            {
+                JOptionPane.showMessageDialog(this, "Sorry, there is no such table present.");
+            }
+            
         }
         else
         {
-            Table table = (Table) this.liTablesC.getSelectedValue();
-            tctm = new TableContentTM(table.getColumnNames(), table.getAttributes());
-            tbTableContent2.setModel(tctm);
+            if (leftList) 
+            {
+                Table table = (Table) this.liTables1.getSelectedValue();
+                tctm = new TableContentTM(table.getColumnNames(), table.getAttributes());
+                tbTableContent1.setModel(tctm);
+            }
+            else
+            {
+                Table table = (Table) this.liTablesC.getSelectedValue();
+                tctm = new TableContentTM(table.getColumnNames(), table.getAttributes());
+                tbTableContent2.setModel(tctm);
+            }
         }
     }
 
@@ -788,8 +890,8 @@ public class MainWindow extends javax.swing.JFrame
     private javax.swing.JButton btOpenDBFile1;
     private javax.swing.JButton btOpenDBFile2;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel lbDatabaseName;
     private javax.swing.JLabel lbDatabaseName1;
+    private javax.swing.JLabel lbDatabaseName2;
     private javax.swing.JLabel lbPlaceholder;
     private javax.swing.JLabel lbPlaceholder1;
     private javax.swing.JLabel lbPlaceholder10;

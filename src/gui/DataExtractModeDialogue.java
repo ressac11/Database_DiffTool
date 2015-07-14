@@ -5,9 +5,7 @@
  */
 package gui;
 
-import java.awt.Color;
 import java.io.File;
-import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -24,8 +22,11 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
     public boolean isOK = false;
     public File selectedDBDump;
     public boolean existingFile = false;
+    private int dataExtractActionCommand = 0;
+    private String finalDatabaseName = "";
     
-    public DataExtractModeDialogue(java.awt.Frame parent, boolean modal) {
+    public DataExtractModeDialogue(java.awt.Frame parent, boolean modal) 
+    {
         super(parent, modal);
         initComponents();
         this.getContentPane().setBackground(MainWindow.backgroundColorPanel);
@@ -33,9 +34,7 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
         this.setSize(380, 250);
         this.setResizable(false);
         setLocationRelativeTo(parent);
-        
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -157,7 +156,6 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
     private void onOK(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOK
         DatabaseConnectionDialogue connectionDialogue = new DatabaseConnectionDialogue(null, true);
         isOK=true;
@@ -184,9 +182,10 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
             dispose();
         }
               
-        
         if(connectionDialogue.getNewConn() && isOK)
         {
+            finalDatabaseName = dataExtractActionCommand+connectionDialogue.getDatabaseName();
+            System.out.println("in data extract dialogue: "+finalDatabaseName);
             dispose();
         }              
     }//GEN-LAST:event_onOK
@@ -197,6 +196,14 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
 
     public boolean isExistingFile() {
         return existingFile;
+    }
+
+    public void setDataExctractActionCommand(int dataextract) {
+        this.dataExtractActionCommand = dataextract;
+    }
+
+    public String getFinalDatabaseName() {
+        return finalDatabaseName;
     }
 
     
