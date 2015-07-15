@@ -35,7 +35,7 @@ public class LoadAndSaveData
     private int counter;
     private int cRow;
     private int c;
-    private int rowCounter;
+    private String rowCounter;
     private String rc;
     private LinkedList<Table> allTables = new LinkedList<>();
 
@@ -43,72 +43,84 @@ public class LoadAndSaveData
     {
         FileReader fr = new FileReader(f);
         BufferedReader br = new BufferedReader(fr);
-        counter = 0;
-        cRow = 0;
-        rowCounter = -1;
-        rc = "";
+        counter = -1;
         allTables.clear();
-        
-        while ((str = br.readLine()) != null) 
-        {
-            if (str.equals(tableDelim)) 
-            {
-                counter = 1;
-            }
-            else if(str.equals("endDatabase"))
-            {
-                onCreateTable();
-                return allTables;
-            }
-            else 
-            {
-                if (counter == 1) 
-                {
-                    onCreateTable();
-                    strArray = str.split(delim);
-//                    System.out.println(tablename);
-                    tablename = strArray[0];
-                    rowCounter = Integer.parseInt(strArray[1]);
-                    counter = 2;
-                } 
-                else if (rowCounter != -10) 
-                {
-                    if (counter == 2) 
-                    {
-                        strArray = str.split(delim);
-                        for (String array1 : strArray) 
-                        {
-                            columns.add(array1);
-                        }
-                        counter++;
-                    } 
-                    else 
-                    {
-                        strArray = str.split(delim);
-                        for (String array1 : strArray)
-                        {
-                            Row r = new Row(cRow, array1);
-                            rows.add(r);
-                        }
-                        cRow++;
-                    }
-                }
-            }
-        }
-        br.close();
-//        System.out.println(allTables.size());
-        return allTables;
-    }
-
-    public void onCreateTable() 
-    {
-        Table table = new Table(tablename, Integer.toString(rowCounter), columns, rows);
-        allTables.add(table);
-        cRow = 0;
         tablename = "";
-        columns.clear();
-        rows.clear();
-        c = 0;
+        LinkedList<Row> liRows = new LinkedList<>();
+        while ((str = br.readLine()) != null) {
+            if (counter != -1) {
+                if (counter == 0) {
+                    if (str.equals("#end#")) {
+                        counter = 0;
+                    } else {
+                        tablename = str.split("#")[0];
+                        rowCounter=str.split("#")[1];
+                        counter=1;
+                    }
+                } else if (counter == 1) {
+                    strArray = str.split("#");
+                    for (int i = 0; i < strArray.length; i++) {
+                        String str2 = strArray[i];
+                        columns.add(str2);
+                        System.out.println(str2 + " ");
+                    }
+                    counter++;
+                } else {
+                    if (str.equals("#end#")) {
+                        LinkedList<String> c2 = new LinkedList<>(columns);  
+                        LinkedList<Row> r2 = new LinkedList<>(liRows);
+                        counter = 0;
+                        Table t = new Table(tablename, rowCounter, c2, r2);
+                        allTables.add(t);
+                        for (int i = 0; i < allTables.size(); i++) 
+                        {
+                            t = allTables.get(i);
+                            System.out.println("nach einfügen: "+t.getTableName());
+                            LinkedList<String> strList = t.getColumnNames();
+                            for (int j = 0; j < strList.size(); j++) 
+                            {
+                                System.out.println(strList.get(j));
+                            }
+                            LinkedList<Row> rowListe = t.getAttributes();
+                            for (int j = 0; j < rowListe.size(); j++) 
+                            {
+                                System.out.println(rowListe.get(j).getValue());
+                            }                           
+                        }
+                        columns.clear();
+                        liRows.clear();
+                        tablename="";
+                        for (int i = 0; i < allTables.size(); i++) 
+                        {
+                            t = allTables.get(i);
+                            System.out.println("nach clear: "+t.getTableName());
+                            LinkedList<String> strList = t.getColumnNames();
+                            for (int j = 0; j < strList.size(); j++) 
+                            {
+                                System.out.println(strList.get(j));
+                            }
+                            LinkedList<Row> rowListe = t.getAttributes();
+                            for (int j = 0; j < rowListe.size(); j++) 
+                            {
+                                System.out.println(rowListe.get(j).getValue());
+                            }                           
+                        }
+                    } else {
+                        Row r = new Row(counter, str.split("#")[0]);
+                        liRows.add(r);
+                        //System.out.println("Size der Liste mit den Rows"+liRows.size());
+                    }
+
+                }
+
+            } else {
+                counter++;
+            }
+
+        }
+
+        br.close();
+        return allTables;
     }
     
     public void saveDatabaseFile(File f, LinkedList<Table> tables, String DatabaseName) throws IOException 
