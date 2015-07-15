@@ -8,12 +8,7 @@ package gui;
 import database.DBAccess;
 import database.DBConnectionPool;
 import java.io.File;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -28,8 +23,10 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
     public static File newDBDump;
     private DBAccess dba;
     public static String selectedDB;
+    private String databaseName = "";
 
-    public DatabaseConnectionDialogue(java.awt.Frame parent, boolean modal) {
+    public DatabaseConnectionDialogue(java.awt.Frame parent, boolean modal) 
+    {
         super(parent, modal);
         initComponents();
         this.setResizable(false);
@@ -37,7 +34,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         btCancel.setBackground(MainWindow.backgroundColorButton);
         btOK.setBackground(MainWindow.backgroundColorButton);
         setLocationRelativeTo(parent);
-        tfUrl.setEditable(false);
+        tfUrl.setEditable(false);   
         selectedDB="postgres";
     }
 
@@ -299,15 +296,19 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         String user = tfUser.getText().trim();
         String password = tfPassword.getText().trim();
         String uRL = tfUrl.getText().trim();
-        String database_Name = tfDatabaseName.getText().trim();
+        databaseName = tfDatabaseName.getText().trim();
+        System.out.println("in database dialogue: "+databaseName);
         String driver = tfDriver.getText().trim();
         String database_Provider = (String) cbDatabase.getSelectedItem();
-        if (user.isEmpty() || password.isEmpty() || uRL.isEmpty() || database_Name.isEmpty() || driver.isEmpty() || database_Provider.isEmpty()) {
+        if (user.isEmpty() || password.isEmpty() || uRL.isEmpty() || databaseName.isEmpty() || driver.isEmpty() || database_Provider.isEmpty()) 
+        {
             JOptionPane.showMessageDialog(this, "Please do not enter wrong values!");
-        } else {
+        } 
+        else 
+        {
             dispose();
             DBConnectionPool.DB_DRIVER = driver;
-            DBConnectionPool.DB_NAME = database_Name;
+            DBConnectionPool.DB_NAME = databaseName;
             DBConnectionPool.DB_PASSWD = password;
             DBConnectionPool.DB_URL = uRL;
             DBConnectionPool.DB_USER = user;
@@ -348,15 +349,24 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
                     break;
             }
             tfUrl.setEditable(false);
-        } else if (rbOwnIP.isSelected()) {
+        } else if (rbOwnIP.isSelected()) 
+        {
             tfUrl.setEditable(true);
         }
     }//GEN-LAST:event_onNewURL
 
-    public boolean getNewConn() {
+    public boolean getNewConn() 
+    {
         return newConn;
     }
 
+    public String getDatabaseName() 
+    {
+        return databaseName;
+    }
+
+    
+    
     /**
      * @param args the command line arguments
      */

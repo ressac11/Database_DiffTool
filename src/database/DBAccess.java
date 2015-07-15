@@ -8,20 +8,10 @@ package database;
 import beans.Row;
 import beans.Table;
 import gui.DatabaseConnectionDialogue;
-import java.io.BufferedReader;
-import java.util.List;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.Iterator;
 import java.util.LinkedList;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -119,49 +109,4 @@ public class DBAccess {
         }
         return liAttributes;
     }
-
-    public void saveDatabaseFile(File f) throws IOException {
-        File file = f;
-        FileWriter fw = new FileWriter(file);
-        BufferedWriter bw = new BufferedWriter(fw);
-        Iterator<Table> it = liAllTables.iterator();
-
-        while (it.hasNext()) {
-            Table table = it.next();
-            bw.newLine();
-            bw.write(tableDelim);
-            bw.newLine();
-            bw.write(table.getTableName());
-            bw.write(delim);
-            bw.write(table.getRowCounter());
-            bw.newLine();
-            List<String> columns = table.getColumnNames();
-            int c = 0;
-            for (String column : columns) {
-                bw.write(column + delim);
-                c++;
-                if (c == columns.size()) {
-                    bw.newLine();
-                }
-            }
-
-            List<Row> rows = table.getAttributes();
-            Row rAlterWert = rows.get(0);
-            bw.write(rAlterWert.getValue() + delim);
-
-            for (int i = 1; i < rows.size(); i++) {
-                Row r2 = rows.get(i);
-                if (r2.getRID() != rAlterWert.getRID()) {
-                    bw.newLine();
-                    rAlterWert = r2;
-                }
-                bw.write(r2.getValue() + delim);
-            }
-        }
-        bw.newLine();
-        bw.write("endDatabase");
-        bw.flush();
-        bw.close();
-    }
-
 }
