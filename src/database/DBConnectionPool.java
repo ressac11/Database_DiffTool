@@ -8,7 +8,10 @@ package database;
 import gui.DatabaseConnectionDialogue;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -34,27 +37,39 @@ public class DBConnectionPool {
         return theInstance;
     }
 
-    private DBConnectionPool() throws ClassNotFoundException {
-        Class.forName(DB_DRIVER);
+    private DBConnectionPool(){
+        try {
+            Class.forName(DB_DRIVER);
+        } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "Driverisfalsch");
+        }
     }
 
-    public synchronized Connection getConnection() throws Exception {
+    public synchronized Connection getConnection() {
         if (connections.isEmpty()) {
-            if (num_conn == MAX_CONN) {
-                throw new Exception("Maximum number of connections reached");
+            try {
+                if (num_conn == MAX_CONN) {
+                    
+                        //throw new Exception("Maximum number of connections reached");
+                    
+                }
+                Connection conn=null;
+                switch(DatabaseConnectionDialogue.selectedDB)
+                {
+                    case "postgres": conn = DriverManager.getConnection(DB_URL + DB_NAME, DB_USER, DB_PASSWD);break;
+                    case "oracle": conn=DriverManager.getConnection(DB_URL + DB_NAME, DB_USER, DB_PASSWD);break;
+                    case "mssql": conn=DriverManager.getConnection(DB_URL+"databaseName="+DB_NAME+";user="+DB_USER+";password="+DB_PASSWD);break;
+                }
+                num_conn++;
+                return conn;
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "kaVerbindung");
+                ex.printStackTrace();
             }
-            Connection conn=null;
-            switch(DatabaseConnectionDialogue.selectedDB)
-            {
-                case "postgres": conn = DriverManager.getConnection(DB_URL + DB_NAME, DB_USER, DB_PASSWD);break;
-                case "oracle": conn=DriverManager.getConnection(DB_URL + DB_NAME, DB_USER, DB_PASSWD);break;
-                case "mssql": conn=DriverManager.getConnection(DB_URL+"databaseName="+DB_NAME+";user="+DB_USER+";password="+DB_PASSWD);break;                
-            }          
-            num_conn++;
-            return conn;
         } else {
             return connections.poll();
         }
+        return null;
     }
     
     public synchronized void releaseConnection(Connection conn) {

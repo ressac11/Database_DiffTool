@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.LinkedList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -48,8 +49,8 @@ public class DBAccess {
                         + " WHERE table_schema = 'public' ";
                 break;
             case "oracle":
-                sqlString = "SELECT owner, table_name "
-                        + "  FROM dba_tables";
+                sqlString = "SELECT table_name "
+                        + "  FROM dba_tables where owner='"+DBConnectionPool.DB_USER+"'";
                 break;
             case "mssql":
                 sqlString = "SELECT TABLE_NAME "
@@ -72,9 +73,28 @@ public class DBAccess {
     public LinkedList<String> getColumnNames(String tableName) throws Exception {
         LinkedList<String> columnNames = new LinkedList<>();
         Connection conn = connPool.getConnection();
+        if(conn!=null)
+        {
+            JOptionPane.showMessageDialog(null, "Connection established");
+        }
         Statement stat = conn.createStatement();
-        String sqlString = "select column_name from information_schema.columns where "
-                + " table_name='" + tableName + "'";
+        String sqlString = "";
+        switch (DatabaseConnectionDialogue.selectedDB) {
+            case "postgres":
+                sqlString = "select column_name from information_schema.columns where "
+                        + " table_name='" + tableName + "'";
+                break;
+            case "oracle":
+                sqlString = "select column_name from all_tab_cols where table_name = '"+tableName+"'"+
+                "and owner = '"+DBConnectionPool.DB_USER+"'";
+                break;
+            case "mssql":
+                sqlString = "SELECT TABLE_NAME "
+                        + "FROM INFORMATION_SCHEMA.TABLES "
+                        + "WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_CATALOG='" + DBConnectionPool.DB_NAME + "'";
+                break;
+        }
+
         ResultSet rs = stat.executeQuery(sqlString);
         while (rs.next()) {
             String colName = rs.getString(1);
