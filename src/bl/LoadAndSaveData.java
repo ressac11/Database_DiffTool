@@ -22,25 +22,19 @@ import java.util.List;
  *
  * @author Sarah
  */
-public class LoadAndSaveData 
-{
+public class LoadAndSaveData {
+
     private final String tableDelim = "#end#";
     private final String delim = "#";
-
     private String str;
     private String[] strArray;
     private String tablename = "";
     private LinkedList<String> columns = new LinkedList<>();
-    private LinkedList<Row> rows = new LinkedList<>();
     private int counter;
-    private int cRow;
-    private int c;
     private String rowCounter;
-    private String rc;
     private LinkedList<Table> allTables = new LinkedList<>();
 
-    public LinkedList<Table> loadData(File f) throws FileNotFoundException, IOException 
-    {
+    public LinkedList<Table> loadData(File f) throws FileNotFoundException, IOException {
         FileReader fr = new FileReader(f);
         BufferedReader br = new BufferedReader(fr);
         counter = -1;
@@ -54,87 +48,48 @@ public class LoadAndSaveData
                         counter = 0;
                     } else {
                         tablename = str.split("#")[0];
-                        rowCounter=str.split("#")[1];
-                        counter=1;
+                        rowCounter = str.split("#")[1];
+                        counter = 1;
                     }
                 } else if (counter == 1) {
                     strArray = str.split("#");
                     for (int i = 0; i < strArray.length; i++) {
                         String str2 = strArray[i];
                         columns.add(str2);
-                        System.out.println(str2 + " ");
                     }
                     counter++;
                 } else {
                     if (str.equals("#end#")) {
-                        LinkedList<String> c2 = new LinkedList<>(columns);  
+                        LinkedList<String> c2 = new LinkedList<>(columns);
                         LinkedList<Row> r2 = new LinkedList<>(liRows);
                         counter = 0;
                         Table t = new Table(tablename, rowCounter, c2, r2);
                         allTables.add(t);
-                        for (int i = 0; i < allTables.size(); i++) 
-                        {
-                            t = allTables.get(i);
-                            System.out.println("nach einfügen: "+t.getTableName());
-                            LinkedList<String> strList = t.getColumnNames();
-                            for (int j = 0; j < strList.size(); j++) 
-                            {
-                                System.out.println(strList.get(j));
-                            }
-                            LinkedList<Row> rowListe = t.getAttributes();
-                            for (int j = 0; j < rowListe.size(); j++) 
-                            {
-                                System.out.println(rowListe.get(j).getValue());
-                            }                           
-                        }
                         columns.clear();
                         liRows.clear();
-                        tablename="";
-                        for (int i = 0; i < allTables.size(); i++) 
-                        {
-                            t = allTables.get(i);
-                            System.out.println("nach clear: "+t.getTableName());
-                            LinkedList<String> strList = t.getColumnNames();
-                            for (int j = 0; j < strList.size(); j++) 
-                            {
-                                System.out.println(strList.get(j));
-                            }
-                            LinkedList<Row> rowListe = t.getAttributes();
-                            for (int j = 0; j < rowListe.size(); j++) 
-                            {
-                                System.out.println(rowListe.get(j).getValue());
-                            }                           
-                        }
+
+                        tablename = "";
                     } else {
                         Row r = new Row(counter, str.split("#")[0]);
                         liRows.add(r);
-                        //System.out.println("Size der Liste mit den Rows"+liRows.size());
                     }
-
                 }
-
             } else {
                 counter++;
             }
-
         }
-
         br.close();
         return allTables;
     }
-    
-    public void saveDatabaseFile(File f, LinkedList<Table> tables, String DatabaseName) throws IOException 
-    {
+
+    public void saveDatabaseFile(File f, LinkedList<Table> tables, String DatabaseName) throws IOException {
         File file = f;
         FileWriter fw = new FileWriter(file);
         BufferedWriter bw = new BufferedWriter(fw);
         Iterator<Table> it = tables.iterator();
 
-        while (it.hasNext()) 
-        {
+        while (it.hasNext()) {
             Table table = it.next();
-//            bw.newLine();
-//            bw.write(DatabaseName);
             bw.newLine();
             bw.write(tableDelim);
             bw.newLine();
@@ -144,25 +99,20 @@ public class LoadAndSaveData
             bw.newLine();
             List<String> columns = table.getColumnNames();
             int c = 0;
-            for (String column : columns) 
-            {
+            for (String column : columns) {
                 bw.write(column + delim);
                 c++;
-                if (c == columns.size()) 
-                {
+                if (c == columns.size()) {
                     bw.newLine();
                 }
             }
-
             List<Row> rows = table.getAttributes();
             Row oldValue = rows.get(0);
             bw.write(oldValue.getValue() + delim);
 
-            for (int i = 1; i < rows.size(); i++)
-            {
+            for (int i = 1; i < rows.size(); i++) {
                 Row r2 = rows.get(i);
-                if (r2.getRID() != oldValue.getRID()) 
-                {
+                if (r2.getRID() != oldValue.getRID()) {
                     bw.newLine();
                     oldValue = r2;
                 }
@@ -174,5 +124,4 @@ public class LoadAndSaveData
         bw.flush();
         bw.close();
     }
-
 }
