@@ -33,8 +33,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         this.getContentPane().setBackground(MainWindow.backgroundColorPanel);
         btCancel.setBackground(MainWindow.backgroundColorButton);
         btOK.setBackground(MainWindow.backgroundColorButton);
-        setLocationRelativeTo(parent);
-        tfUrl.setEditable(false);   
+        setLocationRelativeTo(parent);       
         selectedDB="postgres";
     }
 
@@ -64,9 +63,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         cbDatabase = new javax.swing.JComboBox();
         tfDriver = new javax.swing.JTextField();
         tfDatabaseName = new javax.swing.JTextField();
-        pnRadioButtons = new javax.swing.JPanel();
-        rbLocalhost = new javax.swing.JRadioButton();
-        rbOwnIP = new javax.swing.JRadioButton();
+        lbUrlEx = new javax.swing.JLabel();
         tfUrl = new javax.swing.JTextField();
         paButtons = new javax.swing.JPanel();
         btOK = new javax.swing.JButton();
@@ -161,7 +158,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
 
         tfUser.setBackground(new java.awt.Color(229, 229, 229));
         tfUser.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tfUser.setText("postgres");
+        tfUser.setText("ressac11");
         tfUser.setMaximumSize(new java.awt.Dimension(150, 40));
         tfUser.setMinimumSize(new java.awt.Dimension(150, 40));
         tfUser.setNextFocusableComponent(tfPassword);
@@ -170,7 +167,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
 
         tfPassword.setBackground(new java.awt.Color(229, 229, 229));
         tfPassword.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tfPassword.setText("postgres");
+        tfPassword.setText("ressac11");
         tfPassword.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         tfPassword.setMaximumSize(new java.awt.Dimension(150, 40));
         tfPassword.setMinimumSize(new java.awt.Dimension(150, 40));
@@ -201,47 +198,16 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
 
         tfDatabaseName.setBackground(new java.awt.Color(229, 229, 229));
         tfDatabaseName.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tfDatabaseName.setText("testdb");
+        tfDatabaseName.setText("ORCL");
         tfDatabaseName.setMaximumSize(new java.awt.Dimension(150, 40));
         tfDatabaseName.setMinimumSize(new java.awt.Dimension(150, 40));
         tfDatabaseName.setNextFocusableComponent(tfUrl);
         tfDatabaseName.setPreferredSize(new java.awt.Dimension(150, 40));
         jPanel2.add(tfDatabaseName);
-
-        pnRadioButtons.setBackground(new java.awt.Color(229, 229, 229));
-        pnRadioButtons.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                onNewURL(evt);
-            }
-        });
-        pnRadioButtons.setLayout(new java.awt.GridLayout(1, 2));
-
-        rbLocalhost.setBackground(new java.awt.Color(229, 229, 229));
-        bgGroup1.add(rbLocalhost);
-        rbLocalhost.setSelected(true);
-        rbLocalhost.setText("Localhost");
-        rbLocalhost.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                onNewURL(evt);
-            }
-        });
-        pnRadioButtons.add(rbLocalhost);
-
-        rbOwnIP.setBackground(new java.awt.Color(229, 229, 229));
-        bgGroup1.add(rbOwnIP);
-        rbOwnIP.setText("specific IP");
-        rbOwnIP.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                onNewURL(evt);
-            }
-        });
-        pnRadioButtons.add(rbOwnIP);
-
-        jPanel2.add(pnRadioButtons);
+        jPanel2.add(lbUrlEx);
 
         tfUrl.setBackground(new java.awt.Color(229, 229, 229));
         tfUrl.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tfUrl.setText("jdbc:postgresql://localhost/");
         tfUrl.setMaximumSize(new java.awt.Dimension(150, 40));
         tfUrl.setMinimumSize(new java.awt.Dimension(150, 40));
         tfUrl.setPreferredSize(new java.awt.Dimension(150, 40));
@@ -296,6 +262,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         String user = tfUser.getText().trim();
         String password = tfPassword.getText().trim();
         String uRL = tfUrl.getText().trim();
+        System.out.println("url"+uRL);
         databaseName = tfDatabaseName.getText().trim();
         System.out.println("in database dialogue: "+databaseName);
         String driver = tfDriver.getText().trim();
@@ -320,40 +287,20 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
             case 0:
                 selectedDB = "postgres";
                 tfDriver.setText("org.postgresql.Driver");
-                tfUrl.setText("jdbc:postgresql://localhost/");
+                lbUrlEx.setText("for example: jdbc:postgresql://localhost/");
                 break;
             case 1:
                 selectedDB = "oracle";
                 tfDriver.setText("oracle.jdbc.driver.OracleDriver");
-                tfUrl.setText("jdbc:oracle:thin:@localhost:1521:");
+                lbUrlEx.setText("for example: jdbc:oracle:thin:@localhost:1521:");
                 break;
             case 2:
                 selectedDB = "mssql";
                 tfDriver.setText("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-                tfUrl.setText("jdbc:sqlserver://localhost:1433;");
+                lbUrlEx.setText("for example: jdbc:sqlserver://localhost:1433;");
                 break;
         }
     }//GEN-LAST:event_onNewDriver
-
-    private void onNewURL(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_onNewURL
-        if (rbLocalhost.isSelected()) {
-            switch (selectedDB) {
-                case "postgres":
-                    tfUrl.setText("jdbc:postgresql://localhost/");
-                    break;
-                case "oracle":
-                    tfUrl.setText("jdbc:oracle:thin:@localhost:1521:");
-                    break;
-                case "mssql":
-                    tfUrl.setText("jdbc:sqlserver://localhost:1433;");
-                    break;
-            }
-            tfUrl.setEditable(false);
-        } else if (rbOwnIP.isSelected()) 
-        {
-            tfUrl.setEditable(true);
-        }
-    }//GEN-LAST:event_onNewURL
 
     public boolean getNewConn() 
     {
@@ -422,13 +369,11 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
     private javax.swing.JLabel lbPassword;
     private javax.swing.JLabel lbText;
     private javax.swing.JLabel lbUrl;
+    private javax.swing.JLabel lbUrlEx;
     private javax.swing.JLabel lbUser;
     private javax.swing.JLabel lbWhitespace;
     private javax.swing.JPanel paButtons;
     private javax.swing.JPanel pnContainer;
-    private javax.swing.JPanel pnRadioButtons;
-    private javax.swing.JRadioButton rbLocalhost;
-    private javax.swing.JRadioButton rbOwnIP;
     private javax.swing.JTextField tfDatabaseName;
     private javax.swing.JTextField tfDriver;
     private javax.swing.JTextField tfPassword;

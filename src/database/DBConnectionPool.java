@@ -20,7 +20,8 @@ import javax.swing.JOptionPane;
  */
 public class DBConnectionPool {
     
-    private LinkedList<Connection> connections = new LinkedList<>();
+    private LinkedList<Connection> connections = new LinkedList();
+    //private LinkedList<Connection> connections = new LinkedList();
     private static final int MAX_CONN = 100;
     private static int num_conn = 0;
     private static DBConnectionPool theInstance = null;
@@ -28,7 +29,7 @@ public class DBConnectionPool {
     public static String DB_USER;
     public static String DB_PASSWD;
     public static String DB_URL;
-    public static String DB_DRIVER;  
+    public static String DB_DRIVER;
 
     public static DBConnectionPool getTheInstance() throws ClassNotFoundException {
         if (theInstance == null) {
@@ -37,9 +38,9 @@ public class DBConnectionPool {
         return theInstance;
     }
 
-    private DBConnectionPool(){
+    private DBConnectionPool() {
         try {
-            Class.forName(DB_DRIVER);
+            Class.forName("oracle.jdbc.driver.OracleDriver");
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "Driverisfalsch");
         }
@@ -49,17 +50,20 @@ public class DBConnectionPool {
         if (connections.isEmpty()) {
             try {
                 if (num_conn == MAX_CONN) {
-                    
-                        //throw new Exception("Maximum number of connections reached");
-                    
+
+                    //throw new Exception("Maximum number of connections reached");
                 }
-                Connection conn=null;
-                switch(DatabaseConnectionDialogue.selectedDB)
-                {
-                    case "postgres": conn = DriverManager.getConnection(DB_URL + DB_NAME, DB_USER, DB_PASSWD);break;
-                    case "oracle": conn=DriverManager.getConnection(DB_URL + DB_NAME, DB_USER, DB_PASSWD);break;
-                    case "mssql": conn=DriverManager.getConnection(DB_URL+"databaseName="+DB_NAME+";user="+DB_USER+";password="+DB_PASSWD);break;
-                }
+                Connection conn = null;
+                
+//                String host = JOptionPane.showInputDialog("hostname (nur hostname port bleibt):");
+//                
+//                String data = JOptionPane.showInputDialog("SID: ");
+//               
+//                String user = JOptionPane.showInputDialog("user:");
+//                String pw = JOptionPane.showInputDialog("pw:");
+                System.out.println(DB_URL);
+                conn = DriverManager.getConnection(DB_URL + DB_NAME, DB_USER, DB_PASSWD);
+                JOptionPane.showMessageDialog(null, "success");
                 num_conn++;
                 return conn;
             } catch (SQLException ex) {
@@ -71,9 +75,11 @@ public class DBConnectionPool {
         }
         return null;
     }
-    
+
     public synchronized void releaseConnection(Connection conn) {
         connections.offer(conn);
-    }   
+    }
+    
+    
     
 }

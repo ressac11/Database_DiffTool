@@ -39,6 +39,7 @@ public class DBAccess {
     }
 
     public LinkedList<Table> getAllTables(LinkedList<Table> liAllTables) throws Exception {
+        connPool=DBConnectionPool.getTheInstance();
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
         String sqlString = "";
@@ -61,10 +62,10 @@ public class DBAccess {
         ResultSet rs = stat.executeQuery(sqlString);
         while (rs.next()) {
             String tableName = rs.getString(1);
+            System.out.println(tableName);
             LinkedList<String> columnNames = getColumnNames(tableName);
             LinkedList<Row> liAttributes = getAttributesForOneTable(tableName, columnNames);
             liAllTables.add(new Table(tableName, rowCounter, columnNames, liAttributes));
-
         }
         this.liAllTables = liAllTables;
         return liAllTables;
