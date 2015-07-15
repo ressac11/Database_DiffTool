@@ -109,7 +109,6 @@ public class DBAccess {
             }
             Row r = new Row(count, value);
             liAttributes.add(r);
-            System.out.println(value);
             value = "";
             count++;
         }

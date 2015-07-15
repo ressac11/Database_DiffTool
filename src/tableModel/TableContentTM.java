@@ -17,28 +17,19 @@ public class TableContentTM extends AbstractTableModel
 {
     LinkedList<String> columns = new LinkedList<>();
     LinkedList<Row> rows = new LinkedList<>();
+    
 
     public TableContentTM(LinkedList<String> column, LinkedList<Row> row) 
     {
         this.columns = column;
         this.rows = row;
+        fireTableRowsInserted(0, rows.size());
     }
    
     @Override
     public int getRowCount() 
     {
-        int count = 1;
-        Row alt = rows.get(0);
-        for (int i = 1; i < rows.size(); i++) 
-        {
-            Row neu = rows.get(i);
-            if (neu.getRID() != alt.getRID()) 
-            {
-                alt = neu;
-                count++;
-            }
-        }
-        return count;
+        return rows.size();
     }
 
     @Override
