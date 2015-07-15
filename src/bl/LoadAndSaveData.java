@@ -67,54 +67,19 @@ public class LoadAndSaveData
                         LinkedList<Row> r2 = new LinkedList<>(liRows);
                         counter = 0;
                         Table t = new Table(tablename, rowCounter, c2, r2);
-                        allTables.add(t);
-                        for (int i = 0; i < allTables.size(); i++) 
-                        {
-                            t = allTables.get(i);
-                            System.out.println("nach einfügen: "+t.getTableName());
-                            LinkedList<String> strList = t.getColumnNames();
-                            for (int j = 0; j < strList.size(); j++) 
-                            {
-                                System.out.println(strList.get(j));
-                            }
-                            LinkedList<Row> rowListe = t.getAttributes();
-                            for (int j = 0; j < rowListe.size(); j++) 
-                            {
-                                System.out.println(rowListe.get(j).getValue());
-                            }                           
-                        }
+                        allTables.add(t);                       
                         columns.clear();
                         liRows.clear();
-                        tablename="";
-                        for (int i = 0; i < allTables.size(); i++) 
-                        {
-                            t = allTables.get(i);
-                            System.out.println("nach clear: "+t.getTableName());
-                            LinkedList<String> strList = t.getColumnNames();
-                            for (int j = 0; j < strList.size(); j++) 
-                            {
-                                System.out.println(strList.get(j));
-                            }
-                            LinkedList<Row> rowListe = t.getAttributes();
-                            for (int j = 0; j < rowListe.size(); j++) 
-                            {
-                                System.out.println(rowListe.get(j).getValue());
-                            }                           
-                        }
+                        tablename="";                       
                     } else {
                         Row r = new Row(counter, str.split("#")[0]);
                         liRows.add(r);
-                        //System.out.println("Size der Liste mit den Rows"+liRows.size());
                     }
-
                 }
-
             } else {
                 counter++;
             }
-
         }
-
         br.close();
         return allTables;
     }
@@ -129,8 +94,6 @@ public class LoadAndSaveData
         while (it.hasNext()) 
         {
             Table table = it.next();
-//            bw.newLine();
-//            bw.write(DatabaseName);
             bw.newLine();
             bw.write(tableDelim);
             bw.newLine();
