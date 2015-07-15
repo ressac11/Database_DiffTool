@@ -11,21 +11,21 @@ import javax.swing.ImageIcon;
  *
  * @author Sarah
  */
-public class TableDialogue extends javax.swing.JDialog {
-
+public class TableDialogue extends javax.swing.JDialog 
+{
     /**
      * Creates new form TableDialogue
      */
     private boolean ok = false;
     
-    public TableDialogue(java.awt.Frame parent, boolean modal) {
+    public TableDialogue(java.awt.Frame parent, boolean modal) 
+    {
         super(parent, modal);
         initComponents();
         this.getContentPane().setBackground(MainWindow.backgroundColorPanel);
         btCancel.setBackground(MainWindow.backgroundColorButton);
         btOk.setBackground(MainWindow.backgroundColorButton);
         this.setLocationRelativeTo(parent);
-        
     }
  
     /**

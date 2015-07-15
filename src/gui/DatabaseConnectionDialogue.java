@@ -262,9 +262,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         String user = tfUser.getText().trim();
         String password = tfPassword.getText().trim();
         String uRL = tfUrl.getText().trim();
-        System.out.println("url"+uRL);
         databaseName = tfDatabaseName.getText().trim();
-        System.out.println("in database dialogue: "+databaseName);
         String driver = tfDriver.getText().trim();
         String database_Provider = (String) cbDatabase.getSelectedItem();
         if (user.isEmpty() || password.isEmpty() || uRL.isEmpty() || databaseName.isEmpty() || driver.isEmpty() || database_Provider.isEmpty()) 

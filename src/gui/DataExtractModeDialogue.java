@@ -185,7 +185,6 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
         if(connectionDialogue.getNewConn() && isOK)
         {
             finalDatabaseName = dataExtractActionCommand+connectionDialogue.getDatabaseName();
-            System.out.println("in data extract dialogue: "+finalDatabaseName);
             dispose();
         }              
     }//GEN-LAST:event_onOK

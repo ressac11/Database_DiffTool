@@ -620,13 +620,11 @@ public class MainWindow extends javax.swing.JFrame {
                 
                 if (dataExtractDialogue.getFinalDatabaseName().startsWith("1")) 
                 {
-                    System.out.println("in data extract db connection left db "+dataExtractDialogue.getFinalDatabaseName());
                     databaseName1 = dataExtractDialogue.getFinalDatabaseName().substring(1);
                     lbDatabaseName1.setText(databaseName1);
                 } 
                 else 
                 {
-                    System.out.println("in data extract db connection right db "+dataExtractDialogue.getFinalDatabaseName());
                     databaseName2 = dataExtractDialogue.getFinalDatabaseName().substring(1);
                     lbDatabaseName2.setText(databaseName2);
                 }
@@ -657,7 +655,8 @@ public class MainWindow extends javax.swing.JFrame {
                 enableItemSelect = true;
             }
             enableButtons(true);
-        } catch (Exception ex) {
+        } catch (Exception ex) 
+        {
             System.out.println("Main Window : onExtractDatas : " + ex.toString());
         }
     }//GEN-LAST:event_onExtractDatas
@@ -666,8 +665,6 @@ public class MainWindow extends javax.swing.JFrame {
         try {
             String openFile = evt.getActionCommand();
             if (Integer.parseInt(openFile) == 1) {
-//                System.out.println(savedFile1.getName());
-//                System.out.println(existingFile1.getName());
                 if (savedFile1 == null) {
                     JOptionPane.showMessageDialog(this, "No Database File has been saved.");
                 }
@@ -696,7 +693,9 @@ public class MainWindow extends javax.swing.JFrame {
                 }
             }
 
-        } catch (Exception e) {
+        } catch (Exception e) 
+        {
+            System.out.println("Main Window : openDatabaseFile : "+e.toString());
         }
 
     }//GEN-LAST:event_onOpenDatabaseFile
