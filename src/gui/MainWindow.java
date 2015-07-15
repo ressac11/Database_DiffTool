@@ -648,12 +648,12 @@ public class MainWindow extends javax.swing.JFrame
                         if(extractData==1)
                         {
                             savedFile1 = f;
-                            ld.saveDatabaseFile(f, liAllTablesLeftDB, databaseName1);
+                            ld.saveDatabaseFile(f, liTables, databaseName1);
                         }
                         else
                         {
                             savedFile2 = f;
-                            ld.saveDatabaseFile(f, liAllTablesLeftDB, databaseName2);
+                            ld.saveDatabaseFile(f, liTables, databaseName2);
                         }
     //                        DownloadDialogue downloadDialogue = new DownloadDialogue(null, true);
     //                        downloadDialogue.setVisible(true);
@@ -662,16 +662,13 @@ public class MainWindow extends javax.swing.JFrame
                 enableItemSelect = true;
             }
             enableButtons(true);
-        } catch (IOException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         } 
         catch (Exception ex) 
         {
             System.out.println("Main Window : onExtractDatas : "+ex.toString());
+        }
     }//GEN-LAST:event_onExtractDatas
-    }
+
     private void onOpenDatabaseFile(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOpenDatabaseFile
         try 
         {
@@ -754,8 +751,8 @@ public class MainWindow extends javax.swing.JFrame
             if (extractData == 1) 
             {
                 liTables1.removeAll();
-                liAllTablesLeftDB.clear();
-                tnlmLeft = new TableNamesLM(dba.getAllTables(liAllTablesLeftDB));              
+                liTables.clear();
+                tnlmLeft = new TableNamesLM(dba.getAllTables(liTables));              
                 liTables1.setModel(tnlmLeft);
                 liTables1.setSelectedIndex(0);
                 leftList=true;
@@ -793,7 +790,7 @@ public class MainWindow extends javax.swing.JFrame
                     Table table = (Table) this.liTables1.getSelectedValue();
                     int index = this.liTables1.getSelectedIndex();
 
-                        if(liAllTablesRightDB.get(index).toString().equals(liTables1.getSelectedValue().toString()))
+                        if(liTables.get(index).toString().equals(liTables1.getSelectedValue().toString()))
                         {
                             tctm = new TableContentTM(table.getColumnNames(), table.getAttributes());
                             tbTableContent1.setModel(tctm);
@@ -810,7 +807,7 @@ public class MainWindow extends javax.swing.JFrame
                 {
                     Table table = (Table) this.liTablesC.getSelectedValue();
                     int index = this.liTablesC.getSelectedIndex();
-                    if(liAllTablesLeftDB.get(index).toString().equals(liTablesC.getSelectedValue().toString()))
+                    if(liTables.get(index).toString().equals(liTablesC.getSelectedValue().toString()))
                     {
                         tctm = new TableContentTM(table.getColumnNames(), table.getAttributes());
                         tbTableContent2.setModel(tctm);
