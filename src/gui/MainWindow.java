@@ -532,6 +532,8 @@ public class MainWindow extends javax.swing.JFrame {
                 "", "", "", "", ""
             }
         ));
+        tbTableContent2.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        tbTableContent2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         spTableContent2.setViewportView(tbTableContent2);
 
         pnDetails1.add(spTableContent2, java.awt.BorderLayout.CENTER);
