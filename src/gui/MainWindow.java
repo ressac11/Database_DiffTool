@@ -16,6 +16,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import listModel.ColumnNamesLM;
 import listModel.TableNamesLM;
+import renderer.TableRenderer;
 import tableModel.TableContentTM;
 
 /**
@@ -64,6 +65,8 @@ public class MainWindow extends javax.swing.JFrame {
         liTablesRight.clear();
         liTables1.removeAll();
         liTablesC.removeAll();
+        tbTableContent1.setDefaultRenderer(Object.class, new TableRenderer());
+        tbTableContent2.setDefaultRenderer(Object.class, new TableRenderer());
     }
 
     /**
@@ -382,6 +385,7 @@ public class MainWindow extends javax.swing.JFrame {
         spTableContent1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         spTableContent1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
+        tbTableContent1.setBackground(new java.awt.Color(229, 229, 229));
         tbTableContent1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -510,6 +514,7 @@ public class MainWindow extends javax.swing.JFrame {
         spTableContent2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         spTableContent2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
+        tbTableContent2.setBackground(new java.awt.Color(229, 229, 229));
         tbTableContent2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -553,10 +558,10 @@ public class MainWindow extends javax.swing.JFrame {
         //btDownloadData.setEnabled(selectDialogue.isOK());
         
         
-        if(liTablesLeft.get(1).getColumnNames().contains(liTablesRight.get(1).getColumnNames().get(1)))
-        {
-            JOptionPane.showMessageDialog(this, "geht");
-        }
+//        if(liTablesLeft.get(1).getColumnNames().contains(liTablesRight.get(1).getColumnNames().get(1)))
+//        {
+//            JOptionPane.showMessageDialog(this, "geht");
+//        }
     }//GEN-LAST:event_onCompareData
 
     private void onDownloadData(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onDownloadData
