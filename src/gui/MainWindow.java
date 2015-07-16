@@ -184,7 +184,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         btDownloadData.setBackground(new java.awt.Color(229, 229, 229));
         btDownloadData.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        btDownloadData.setText("Download data as text");
+        btDownloadData.setText("Download Comparison Output as .txt file");
         btDownloadData.setToolTipText("");
         btDownloadData.setEnabled(false);
         btDownloadData.setMaximumSize(new java.awt.Dimension(180, 60));
@@ -355,6 +355,11 @@ public class MainWindow extends javax.swing.JFrame {
         pnShowAllTables1.add(paExtractData, java.awt.BorderLayout.PAGE_START);
 
         liTables1.setBackground(new java.awt.Color(229, 229, 229));
+        liTables1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                onSelectTableItem(evt);
+            }
+        });
         spTable1.setViewportView(liTables1);
 
         pnShowAllTables1.add(spTable1, java.awt.BorderLayout.CENTER);
@@ -373,6 +378,8 @@ public class MainWindow extends javax.swing.JFrame {
         pnDetails.add(lbDatabaseName1, java.awt.BorderLayout.PAGE_START);
 
         spTableContent1.setBackground(new java.awt.Color(229, 229, 229));
+        spTableContent1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        spTableContent1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         spTableContent1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         tbTableContent1.setModel(new javax.swing.table.DefaultTableModel(
@@ -397,6 +404,7 @@ public class MainWindow extends javax.swing.JFrame {
                 "", "", "", "", ""
             }
         ));
+        tbTableContent1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
         spTableContent1.setViewportView(tbTableContent1);
 
         pnDetails.add(spTableContent1, java.awt.BorderLayout.CENTER);
@@ -475,6 +483,11 @@ public class MainWindow extends javax.swing.JFrame {
         pnShowAllTables2.add(pnExtractData, java.awt.BorderLayout.PAGE_START);
 
         liTablesC.setBackground(new java.awt.Color(229, 229, 229));
+        liTablesC.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                onSelectTableItem1(evt);
+            }
+        });
         spTableC.setViewportView(liTablesC);
 
         pnShowAllTables2.add(spTableC, java.awt.BorderLayout.CENTER);
@@ -493,6 +506,8 @@ public class MainWindow extends javax.swing.JFrame {
         pnDetails1.add(lbDatabaseName2, java.awt.BorderLayout.PAGE_START);
 
         spTableContent2.setBackground(new java.awt.Color(229, 229, 229));
+        spTableContent2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        spTableContent2.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         spTableContent2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
 
         tbTableContent2.setModel(new javax.swing.table.DefaultTableModel(
@@ -672,6 +687,22 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_onTableDisplayOption
 
+    private void onSelectTableItem(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_onSelectTableItem
+       if(enableItemSelect)
+       {
+           leftList = true;
+           onNewSelectedItem();
+       }
+    }//GEN-LAST:event_onSelectTableItem
+
+    private void onSelectTableItem1(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_onSelectTableItem1
+        if(enableItemSelect)
+       {
+           leftList = false;
+           onNewSelectedItem();
+       }
+    }//GEN-LAST:event_onSelectTableItem1
+
     public void onExtractData() {
         try
         {
@@ -733,6 +764,7 @@ public class MainWindow extends javax.swing.JFrame {
                         if(count == 0)
                         {
                             throw new IndexOutOfBoundsException();
+                            
                         }
                     }
                     else
@@ -748,10 +780,11 @@ public class MainWindow extends javax.swing.JFrame {
                     {
                         for (int i = 0; i < liTablesLeft.size(); i++) 
                         {
-                            count++;
+                            
                             Table t1 = liTablesLeft.get(i);
                             if (t1.getTableName().equals(table.getTableName())) 
                             {
+                                count++;
                                 tctm = new TableContentTM(table.getColumnNames(), table.getAttributes());
                                 tbTableContent2.setModel(tctm);
                                 this.liTables1.setSelectedIndex(i);
@@ -768,16 +801,35 @@ public class MainWindow extends javax.swing.JFrame {
                         throw new IndexOutOfBoundsException();
                     }
                 }
-            } catch (IndexOutOfBoundsException e) {
+            } 
+            catch (IndexOutOfBoundsException e) 
+            {
                 JOptionPane.showMessageDialog(this, "Sorry, there is no such table present.");
+                if (leftList) 
+                {
+                    Table table = (Table) this.liTables1.getSelectedValue();
+                    tctm = new TableContentTM(table.getColumnNames(), table.getAttributes());
+                    tbTableContent1.setModel(tctm);
+                } 
+                else 
+                {
+                    Table table = (Table) this.liTablesC.getSelectedValue();
+                    tctm = new TableContentTM(table.getColumnNames(), table.getAttributes());
+                    tbTableContent2.setModel(tctm);
+                }
             }
 
-        } else {
-            if (leftList) {
+        } 
+        else 
+        {
+            if (leftList) 
+            {
                 Table table = (Table) this.liTables1.getSelectedValue();
                 tctm = new TableContentTM(table.getColumnNames(), table.getAttributes());
                 tbTableContent1.setModel(tctm);
-            } else {
+            } 
+            else 
+            {
                 Table table = (Table) this.liTablesC.getSelectedValue();
                 tctm = new TableContentTM(table.getColumnNames(), table.getAttributes());
                 tbTableContent2.setModel(tctm);

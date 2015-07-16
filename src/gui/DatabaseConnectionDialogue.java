@@ -22,7 +22,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
     private boolean newConn = false;
     public static File newDBDump;
     private DBAccess dba;
-    public static String selectedDB;
+    public static String selectedDB = "";
     private String databaseName = "";
 
     public DatabaseConnectionDialogue(java.awt.Frame parent, boolean modal) 
@@ -158,7 +158,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
 
         tfUser.setBackground(new java.awt.Color(229, 229, 229));
         tfUser.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tfUser.setText("ressac11");
+        tfUser.setText("postgres");
         tfUser.setMaximumSize(new java.awt.Dimension(150, 40));
         tfUser.setMinimumSize(new java.awt.Dimension(150, 40));
         tfUser.setNextFocusableComponent(tfPassword);
@@ -167,7 +167,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
 
         tfPassword.setBackground(new java.awt.Color(229, 229, 229));
         tfPassword.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tfPassword.setText("ressac11");
+        tfPassword.setText("postgres");
         tfPassword.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         tfPassword.setMaximumSize(new java.awt.Dimension(150, 40));
         tfPassword.setMinimumSize(new java.awt.Dimension(150, 40));
@@ -198,12 +198,15 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
 
         tfDatabaseName.setBackground(new java.awt.Color(229, 229, 229));
         tfDatabaseName.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tfDatabaseName.setText("ORCL");
+        tfDatabaseName.setText("sakila");
         tfDatabaseName.setMaximumSize(new java.awt.Dimension(150, 40));
         tfDatabaseName.setMinimumSize(new java.awt.Dimension(150, 40));
         tfDatabaseName.setNextFocusableComponent(tfUrl);
         tfDatabaseName.setPreferredSize(new java.awt.Dimension(150, 40));
         jPanel2.add(tfDatabaseName);
+
+        lbUrlEx.setText("for example: jdbc:postgresql://localhost/");
+        lbUrlEx.setToolTipText("");
         jPanel2.add(lbUrlEx);
 
         tfUrl.setBackground(new java.awt.Color(229, 229, 229));
