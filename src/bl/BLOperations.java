@@ -22,7 +22,7 @@ import java.util.List;
  *
  * @author Sarah
  */
-public class LoadAndSaveData 
+public class BLOperations 
 {
     private final String tableDelim = "#end#";
     private final String delim = "#";

@@ -6,7 +6,7 @@
 package gui;
 
 import beans.Table;
-import bl.LoadAndSaveData;
+import bl.BLOperations;
 import database.DBAccess;
 import java.awt.Color;
 import java.awt.Desktop;
@@ -571,7 +571,7 @@ public class MainWindow extends javax.swing.JFrame {
         dataExtractDialogue.setVisible(true);      
         try 
         {
-            LoadAndSaveData ld = new LoadAndSaveData();
+            BLOperations ld = new BLOperations();
             if (dataExtractDialogue.isExistingFile()) 
             {
                 if (extractData == 1) {
