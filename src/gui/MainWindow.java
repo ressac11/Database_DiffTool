@@ -548,9 +548,15 @@ public class MainWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void onCompareData(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCompareData
-        DataSelectionModesDialogue selectDialogue = new DataSelectionModesDialogue(this, true);
-        selectDialogue.setVisible(true);
-        btDownloadData.setEnabled(selectDialogue.isOK());
+//        DataSelectionModesDialogue selectDialogue = new DataSelectionModesDialogue(this, true);
+//        selectDialogue.setVisible(true);
+        //btDownloadData.setEnabled(selectDialogue.isOK());
+        
+        
+        if(liTablesLeft.get(1).getColumnNames().contains(liTablesRight.get(1).getColumnNames().get(1)))
+        {
+            JOptionPane.showMessageDialog(this, "geht");
+        }
     }//GEN-LAST:event_onCompareData
 
     private void onDownloadData(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onDownloadData
