@@ -182,22 +182,47 @@ public class BLOperations
 
         for (int i = 0; i < colLeft.size(); i++) 
         {
-            if(colLeft.contains(colRight.get(i)))
+            if(colLeft.size() == colRight.size())
             {
-                System.out.println("contains colLeft colRight? "+colLeft.contains(colRight.get(i)));
-                ColumnInformation colinfoRight = new ColumnInformation(tRight.getTableName(), i, colRight.get(i));
-                allColsRight.add(colinfoRight);
-                System.out.println("Col Info Right: "+colinfoRight.toString());
-                ColumnInformation colinfoLeft = new ColumnInformation(tLeft.getTableName(), colLeft.indexOf(colRight.get(i)), colLeft.get(colLeft.indexOf(colRight.get(i))));
-                allColsLeft.add(colinfoLeft);
-                System.out.println("Col Info Left: "+colinfoLeft.toString());
-                System.out.println("index of works");
+                if(colLeft.contains(colRight.get(i)))
+                {
+                    System.out.println("contains colLeft colRight? "+colLeft.contains(colRight.get(i)));
+                    ColumnInformation colinfoRight = new ColumnInformation(tRight.getTableName(), i, colRight.get(i));
+                    allColsRight.add(colinfoRight);
+                    System.out.println("Col Info Right: "+colinfoRight.toString());
+                    ColumnInformation colinfoLeft = new ColumnInformation(tLeft.getTableName(), colLeft.indexOf(colRight.get(i)), colLeft.get(colLeft.indexOf(colRight.get(i))));
+                    allColsLeft.add(colinfoLeft);
+                    System.out.println("Col Info Left: "+colinfoLeft.toString());
+                    System.out.println("index of works");
+                }
+                else
+                {
+                    NewColumns newCol = new NewColumns(companyNameRight, tRight.getTableName(), colRight.get(i), i);
+                    allNewCols.add(newCol);
+                    System.out.println("New Cols: "+newCol.toString());
+                }
             }
             else
             {
-                NewColumns newCol = new NewColumns(companyNameRight, tRight.getTableName(), colRight.get(i), i);
-                allNewCols.add(newCol);
-                System.out.println("New Cols: "+newCol.toString());
+                int size = colLeft.size();
+                int sizeM = colRight.size();
+                String companyName = companyNameLeft;
+                String tablename = tLeft.getTableName();
+                LinkedList<String> cols = (LinkedList<String>) colLeft.clone();
+                if(colLeft.size() < colRight.size())
+                {
+                    size = colRight.size();
+                    sizeM = colLeft.size();
+                    companyName = companyNameRight;
+                    tablename = tRight.getTableName();
+                    cols = (LinkedList<String>) colRight.clone();
+                }
+                for (int j = sizeM; j < size; j++) 
+                {
+                    NewColumns newCol = new NewColumns(companyName, tablename, cols.get(j), j);
+                    allNewCols.add(newCol);
+                    System.out.println("New Cols: "+newCol.toString());
+                }
             }
         }
         
@@ -238,7 +263,7 @@ public class BLOperations
                 if(!strLeft[indexLeft].equals(strRight[indexRigt]))
                 {
                     Differences diffLeft = new Differences(companyNameLeft, tLeft.getTableName(), indexLeft, rLeft.getRID(), rLeft.getValue().split(";")[indexLeft]);
-                    Differences diffRight = new Differences(companyNameRight, tRight.getTableName(), indexRigt, rRight.getRID(), rLeft.getValue().split(";")[indexRigt]);
+                    Differences diffRight = new Differences(companyNameRight, tRight.getTableName(), indexRigt, rRight.getRID(), rRight.getValue().split(";")[indexRigt]);
                     allDiffs.add(diffLeft);
                     allDiffs.add(diffRight);
                 }
