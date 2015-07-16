@@ -9,7 +9,8 @@ package beans;
  *
  * @author Sarah
  */
-public class ColumnInformation {
+public class ColumnInformation 
+{
     private String tableName;
     private int columnIndex;
     private String columnName;

@@ -63,4 +63,11 @@ public class Differences {
     public void setValue(String value) {
         this.value = value;
     }
+
+    @Override
+    public String toString() {
+        return "Differences{" + "companyName=" + companyName + ", tableName=" + tableName + ", columnIndex=" + columnIndex + ", rowIndex=" + rowIndex + ", value=" + value + '}';
+    }
+    
+    
 }

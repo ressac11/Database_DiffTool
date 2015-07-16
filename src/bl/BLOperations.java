@@ -4,7 +4,9 @@
  * and open the template in the editor.
  */
 package bl;
-
+import beans.ColumnInformation;
+import beans.Differences;
+import beans.NewColumns;
 import beans.Row;
 import beans.Table;
 import java.io.BufferedReader;
@@ -17,7 +19,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-
+import javax.swing.JOptionPane;
 /**
  *
  * @author Sarah
@@ -26,7 +28,6 @@ public class BLOperations
 {
     private final String tableDelim = "#end#";
     private final String delim = "#";
-
     private String str;
     private String[] strArray;
     private String tablename = "";
@@ -34,6 +35,10 @@ public class BLOperations
     private int counter;
     private String rowCounter;
     private LinkedList<Table> allTables = new LinkedList<>();
+    private LinkedList<NewColumns> allNewCols = new LinkedList<>();
+    private LinkedList<Differences> allDiffs = new LinkedList<>();
+    private LinkedList<ColumnInformation> allColsLeft = new LinkedList<>();
+    private LinkedList<ColumnInformation> allColsRight = new LinkedList<>();
 
     public LinkedList<Table> loadData(File f) throws FileNotFoundException, IOException 
     {
@@ -132,6 +137,99 @@ public class BLOperations
         bw.write("endDatabase");
         bw.flush();
         bw.close();
+    }
+    
+    public void compareDatabases(String companyNameLeft, String companyNameRight, LinkedList<Table> tablesLeft, LinkedList<Table> tablesRight)
+    {
+        LinkedList<Table> liAllTablesLeft = tablesLeft;
+        LinkedList<Table> liAllTablesRight = tablesRight;
+        int count = 0;
+        for (int i = 0; i < liAllTablesLeft.size(); i++) 
+        {
+            for (int j = 0; j < liAllTablesRight.size(); j++) 
+            {
+                if (liAllTablesLeft.get(i).getTableName().equals(liAllTablesRight.get(j).getTableName())) 
+                {
+                    count++;
+                    System.out.println("Table left: "+liAllTablesLeft.get(i).getTableName());
+                    System.out.println("Table right: "+liAllTablesRight.get(j).getTableName());
+                    compare(liAllTablesLeft.get(i), liAllTablesRight.get(j),companyNameLeft, companyNameRight);
+                }
+            }
+        }
+        if(count == 0)
+        {
+            JOptionPane.showMessageDialog(null, "The Tables can not be compared because non are equal");
+        }
+    }
+    
+    private void compare(Table tLeft, Table tRight, String companyNameLeft, String companyNameRight)
+    {
+        LinkedList<String> colLeft = tLeft.getColumnNames();
+        LinkedList<String> colRight = tRight.getColumnNames();
+//        if(colLeft.size() == colLeft.size())
+//        {
+//            
+//        }
+        //alle Spalten beider Tabellen auf Listen speichern, alle neuen Spalten einer Tabelle auf separate Liste speichern
+        for (int i = 0; i < colLeft.size(); i++) 
+        {
+            if(colLeft.contains(colRight.get(i)))
+            {
+                ColumnInformation colinfoRight = new ColumnInformation(tRight.getTableName(), i, colRight.get(i));
+                allColsRight.add(colinfoRight);
+                ColumnInformation colinfoLeft = new ColumnInformation(tLeft.getTableName(), colLeft.indexOf(colRight.get(i)), colLeft.get(colLeft.indexOf(colRight.get(i))));
+                allColsLeft.add(colinfoLeft);
+            }
+            else
+            {
+                NewColumns newCol = new NewColumns(companyNameRight, tRight.getTableName(), colRight.get(i), i);
+                allNewCols.add(newCol);
+            }
+        }
+        
+        LinkedList<Row> valuesLeft = tLeft.getAttributes();
+        LinkedList<Row> valuesRight = tRight.getAttributes();
+        
+        int size = valuesLeft.size();
+        if(valuesLeft.size() > valuesRight.size())
+        {
+            size = valuesRight.size();
+        }
+        //Inhalte jeder Zelle der Tabellen vergleichen
+        for (int r = 0; r < size; r++) 
+        {
+            Row rLeft = valuesLeft.get(r);
+            Row rRight = valuesRight.get(r);
+            for (int i = 0; i < allColsLeft.size(); i++)
+            {
+                int indexLeft = allColsLeft.get(i).getColumnIndex();
+                int indexRigt = allColsRight.get(i).getColumnIndex();
+
+                if(!rLeft.getValue().split(";")[indexLeft].equals(rRight.getValue().split(";")[indexRigt]))
+                {
+                    Differences diffLeft = new Differences(companyNameLeft, tLeft.getTableName(), indexLeft, rLeft.getRID(), rLeft.getValue().split(";")[indexLeft]);
+                    Differences diffRight = new Differences(companyNameRight, tRight.getTableName(), indexRigt, rRight.getRID(), rLeft.getValue().split(";")[indexRigt]);
+                    allDiffs.add(diffLeft);
+                    allDiffs.add(diffRight);
+                }
+            }
+        }
+    }
+    
+    public void ComparisonOutput()
+    {
+        System.out.println("All new Columns: ");
+        for (NewColumns newCol : allNewCols) 
+        {
+            System.out.println(newCol.toString());
+        }
+        System.out.println("");
+        System.out.println("All Differences: ");
+        for (Differences diff : allDiffs) 
+        {
+            System.out.println(diff.toString());
+        }
     }
 
 }
