@@ -156,6 +156,9 @@ public class BLOperations
                     System.out.println("Table right: "+liAllTablesRight.get(j).getTableName());
                     System.out.println("");
                     compare(liAllTablesLeft.get(i), liAllTablesRight.get(j),companyNameLeft, companyNameRight);
+                    allColsLeft.clear();
+                    allColsRight.clear();
+                    System.out.println("\n----- new table ------\n");
                 }
             }
         }
@@ -174,16 +177,21 @@ public class BLOperations
 //            
 //        }
         //alle Spalten beider Tabellen auf Listen speichern, alle neuen Spalten einer Tabelle auf separate Liste speichern
+        System.out.println("columns left size: "+colLeft.size());
+        System.out.println("columns right size: "+colRight.size());
+
         for (int i = 0; i < colLeft.size(); i++) 
         {
             if(colLeft.contains(colRight.get(i)))
             {
+                System.out.println("contains colLeft colRight? "+colLeft.contains(colRight.get(i)));
                 ColumnInformation colinfoRight = new ColumnInformation(tRight.getTableName(), i, colRight.get(i));
                 allColsRight.add(colinfoRight);
-                System.out.println("Col Info Left: "+colinfoRight.toString());
+                System.out.println("Col Info Right: "+colinfoRight.toString());
                 ColumnInformation colinfoLeft = new ColumnInformation(tLeft.getTableName(), colLeft.indexOf(colRight.get(i)), colLeft.get(colLeft.indexOf(colRight.get(i))));
                 allColsLeft.add(colinfoLeft);
-                System.out.println("Col Info Right: "+colinfoLeft.toString());
+                System.out.println("Col Info Left: "+colinfoLeft.toString());
+                System.out.println("index of works");
             }
             else
             {
@@ -209,13 +217,16 @@ public class BLOperations
             Row rRight = valuesRight.get(r);
             System.out.println("Row Left: "+rLeft.toString());
             System.out.println("Row Right: "+rRight.toString());
-            
+            int indexLeft = 0;
+            int indexRigt = 0;
+            int countForSchleife = 0;
             for (int i = 0; i < allColsLeft.size(); i++)
             {
+                countForSchleife++;
                 System.out.println("all cols left size: "+allColsLeft.size());
                 System.out.println("all cols right size: "+allColsRight.size());
-                int indexLeft = allColsLeft.get(i).getColumnIndex();
-                int indexRigt = allColsRight.get(i).getColumnIndex();
+                indexLeft = allColsLeft.get(i).getColumnIndex();
+                indexRigt = allColsRight.get(i).getColumnIndex();
                 System.out.println("index of act left column: "+indexLeft);
                 System.out.println("index of akt right column: "+indexRigt);
                 
@@ -231,6 +242,7 @@ public class BLOperations
                     allDiffs.add(diffLeft);
                     allDiffs.add(diffRight);
                 }
+                System.out.println("count in for schleife: "+countForSchleife);
                 
             }
         }

@@ -563,7 +563,15 @@ public class MainWindow extends javax.swing.JFrame {
 //        {
 //            JOptionPane.showMessageDialog(this, "geht");
 //        }
-        bl.compareDatabases(databaseName1, databaseName1, liTablesLeft, liTablesRight);
+        try 
+        {
+            bl.compareDatabases(databaseName1, databaseName1, liTablesLeft, liTablesRight);
+        } 
+        catch (Exception e) 
+        {
+            System.out.println("Main Window : onCompareData : "+e.toString()+"\n");
+            e.printStackTrace();
+        }
         bl.comparisonOutput();
     }//GEN-LAST:event_onCompareData
 
