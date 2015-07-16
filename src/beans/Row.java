@@ -33,5 +33,11 @@ public class Row {
     public void setValue(String value) {
         this.value = value;
     }
+
+    @Override
+    public String toString() {
+        return "Row{" + "RID=" + RID + ", value=" + value + '}';
+    }
    
+    
 }

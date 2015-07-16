@@ -151,8 +151,10 @@ public class BLOperations
                 if (liAllTablesLeft.get(i).getTableName().equals(liAllTablesRight.get(j).getTableName())) 
                 {
                     count++;
+                    System.out.println("Tables are equal: ");
                     System.out.println("Table left: "+liAllTablesLeft.get(i).getTableName());
                     System.out.println("Table right: "+liAllTablesRight.get(j).getTableName());
+                    System.out.println("");
                     compare(liAllTablesLeft.get(i), liAllTablesRight.get(j),companyNameLeft, companyNameRight);
                 }
             }
@@ -178,13 +180,16 @@ public class BLOperations
             {
                 ColumnInformation colinfoRight = new ColumnInformation(tRight.getTableName(), i, colRight.get(i));
                 allColsRight.add(colinfoRight);
+                System.out.println("Col Info Left: "+colinfoRight.toString());
                 ColumnInformation colinfoLeft = new ColumnInformation(tLeft.getTableName(), colLeft.indexOf(colRight.get(i)), colLeft.get(colLeft.indexOf(colRight.get(i))));
                 allColsLeft.add(colinfoLeft);
+                System.out.println("Col Info Right: "+colinfoLeft.toString());
             }
             else
             {
                 NewColumns newCol = new NewColumns(companyNameRight, tRight.getTableName(), colRight.get(i), i);
                 allNewCols.add(newCol);
+                System.out.println("New Cols: "+newCol.toString());
             }
         }
         
@@ -196,28 +201,42 @@ public class BLOperations
         {
             size = valuesRight.size();
         }
+        System.out.println("row size for comparing: "+size);
         //Inhalte jeder Zelle der Tabellen vergleichen
         for (int r = 0; r < size; r++) 
         {
             Row rLeft = valuesLeft.get(r);
             Row rRight = valuesRight.get(r);
+            System.out.println("Row Left: "+rLeft.toString());
+            System.out.println("Row Right: "+rRight.toString());
+            
             for (int i = 0; i < allColsLeft.size(); i++)
             {
+                System.out.println("all cols left size: "+allColsLeft.size());
+                System.out.println("all cols right size: "+allColsRight.size());
                 int indexLeft = allColsLeft.get(i).getColumnIndex();
                 int indexRigt = allColsRight.get(i).getColumnIndex();
-
-                if(!rLeft.getValue().split(";")[indexLeft].equals(rRight.getValue().split(";")[indexRigt]))
+                System.out.println("index of act left column: "+indexLeft);
+                System.out.println("index of akt right column: "+indexRigt);
+                
+                String[] strLeft = rLeft.getValue().split(";");
+                String[] strRight = rRight.getValue().split(";");
+                System.out.println("value of index left col: "+strLeft[indexLeft]);
+                System.out.println("value of index right col: "+strRight[indexRigt]);
+                
+                if(!strLeft[indexLeft].equals(strRight[indexRigt]))
                 {
                     Differences diffLeft = new Differences(companyNameLeft, tLeft.getTableName(), indexLeft, rLeft.getRID(), rLeft.getValue().split(";")[indexLeft]);
                     Differences diffRight = new Differences(companyNameRight, tRight.getTableName(), indexRigt, rRight.getRID(), rLeft.getValue().split(";")[indexRigt]);
                     allDiffs.add(diffLeft);
                     allDiffs.add(diffRight);
                 }
+                
             }
         }
     }
     
-    public void ComparisonOutput()
+    public void comparisonOutput()
     {
         System.out.println("All new Columns: ");
         for (NewColumns newCol : allNewCols) 

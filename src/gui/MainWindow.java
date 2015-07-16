@@ -48,6 +48,7 @@ public class MainWindow extends javax.swing.JFrame {
     private String databaseName1 = "";
     private String databaseName2 = "";
     private boolean automaticallySelectingTables = false;
+    private BLOperations bl = new BLOperations();
 
     public MainWindow() {
         initComponents();
@@ -562,6 +563,8 @@ public class MainWindow extends javax.swing.JFrame {
 //        {
 //            JOptionPane.showMessageDialog(this, "geht");
 //        }
+        bl.compareDatabases(databaseName1, databaseName1, liTablesLeft, liTablesRight);
+        bl.comparisonOutput();
     }//GEN-LAST:event_onCompareData
 
     private void onDownloadData(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onDownloadData
@@ -576,20 +579,20 @@ public class MainWindow extends javax.swing.JFrame {
         dataExtractDialogue.setVisible(true);      
         try 
         {
-            BLOperations ld = new BLOperations();
+            
             if (dataExtractDialogue.isExistingFile()) 
             {
                 if (extractData == 1) {
                     liTables1.removeAll();
                     liTablesLeft.clear();
-                    liTablesLeft = ld.loadData(dataExtractDialogue.getSelectedDBDump());
+                    liTablesLeft = bl.loadData(dataExtractDialogue.getSelectedDBDump());
                     tnlmLeft = new TableNamesLM(liTablesLeft);
                     liTables1.setModel(tnlmLeft);
                     liTables1.setSelectedIndex(0);
                 } else if (extractData == 2) {
                     liTablesC.removeAll();
                     liTablesRight.clear();
-                    liTablesRight = ld.loadData(dataExtractDialogue.getSelectedDBDump());
+                    liTablesRight = bl.loadData(dataExtractDialogue.getSelectedDBDump());
                     tnlmRight = new TableNamesLM(liTablesRight);
                     liTablesC.setModel(tnlmRight);
                     liTablesC.setSelectedIndex(0);
@@ -627,10 +630,10 @@ public class MainWindow extends javax.swing.JFrame {
 
                         if (extractData == 1) {
                             savedFile1 = f;
-                            ld.saveDatabaseFile(f, liTablesLeft, databaseName1);
+                            bl.saveDatabaseFile(f, liTablesLeft, databaseName1);
                         } else {
                             savedFile2 = f;
-                            ld.saveDatabaseFile(f, liTablesRight, databaseName2);
+                            bl.saveDatabaseFile(f, liTablesRight, databaseName2);
                         }
     //                        DownloadDialogue downloadDialogue = new DownloadDialogue(null, true);
                         //                        downloadDialogue.setVisible(true);
