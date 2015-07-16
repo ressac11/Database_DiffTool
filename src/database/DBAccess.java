@@ -62,7 +62,6 @@ public class DBAccess {
         ResultSet rs = stat.executeQuery(sqlString);
         while (rs.next()) {
             String tableName = rs.getString(1);
-            System.out.println(tableName);
             LinkedList<String> columnNames = getColumnNames(tableName);
             LinkedList<Row> liAttributes = getAttributesForOneTable(tableName, columnNames);
             liAllTables.add(new Table(tableName, rowCounter, columnNames, liAttributes));
@@ -74,12 +73,9 @@ public class DBAccess {
     public LinkedList<String> getColumnNames(String tableName) throws Exception {
         LinkedList<String> columnNames = new LinkedList<>();
         Connection conn = connPool.getConnection();
-        if(conn!=null)
-        {
-            JOptionPane.showMessageDialog(null, "Connection established");
-        }
-        Statement stat = conn.createStatement();
+        Statement stat = conn.createStatement();        
         String sqlString = "";
+
         switch (DatabaseConnectionDialogue.selectedDB) {
             case "postgres":
                 sqlString = "select column_name from information_schema.columns where "
@@ -95,7 +91,6 @@ public class DBAccess {
                         + "WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_CATALOG='" + DBConnectionPool.DB_NAME + "'";
                 break;
         }
-
         ResultSet rs = stat.executeQuery(sqlString);
         while (rs.next()) {
             String colName = rs.getString(1);

@@ -40,7 +40,7 @@ public class DBConnectionPool {
 
     private DBConnectionPool() {
         try {
-            Class.forName("oracle.jdbc.driver.OracleDriver");
+            Class.forName(DB_DRIVER);
         } catch (ClassNotFoundException ex) {
             JOptionPane.showMessageDialog(null, "Driverisfalsch");
         }
@@ -61,9 +61,7 @@ public class DBConnectionPool {
 //               
 //                String user = JOptionPane.showInputDialog("user:");
 //                String pw = JOptionPane.showInputDialog("pw:");
-                System.out.println(DB_URL);
-                conn = DriverManager.getConnection(DB_URL + DB_NAME, DB_USER, DB_PASSWD);
-                JOptionPane.showMessageDialog(null, "success");
+                conn = DriverManager.getConnection(DB_URL + DB_NAME, DB_USER, DB_PASSWD);                
                 num_conn++;
                 return conn;
             } catch (SQLException ex) {

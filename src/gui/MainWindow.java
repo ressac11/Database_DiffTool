@@ -106,7 +106,7 @@ public class MainWindow extends javax.swing.JFrame {
         lbPlaceholder3 = new javax.swing.JLabel();
         lbPlaceholder4 = new javax.swing.JLabel();
         btOpenDBFile1 = new javax.swing.JButton();
-        spTables1 = new javax.swing.JScrollPane();
+        spTable1 = new javax.swing.JScrollPane();
         liTables1 = new javax.swing.JList();
         pnDetails = new javax.swing.JPanel();
         lbDatabaseName1 = new javax.swing.JLabel();
@@ -122,7 +122,7 @@ public class MainWindow extends javax.swing.JFrame {
         lbPlaceholder6 = new javax.swing.JLabel();
         lbPlaceholder7 = new javax.swing.JLabel();
         btOpenDBFile2 = new javax.swing.JButton();
-        spTables2 = new javax.swing.JScrollPane();
+        spTableC = new javax.swing.JScrollPane();
         liTablesC = new javax.swing.JList();
         pnDetails1 = new javax.swing.JPanel();
         lbDatabaseName2 = new javax.swing.JLabel();
@@ -354,24 +354,10 @@ public class MainWindow extends javax.swing.JFrame {
 
         pnShowAllTables1.add(paExtractData, java.awt.BorderLayout.PAGE_START);
 
-        spTables1.setBackground(new java.awt.Color(229, 229, 229));
-        spTables1.setMaximumSize(new java.awt.Dimension(100, 100));
-        spTables1.setMinimumSize(new java.awt.Dimension(100, 100));
-        spTables1.setPreferredSize(new java.awt.Dimension(100, 100));
-
         liTables1.setBackground(new java.awt.Color(229, 229, 229));
-        liTables1.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        liTables1.setMaximumSize(new java.awt.Dimension(80, 100));
-        liTables1.setMinimumSize(new java.awt.Dimension(80, 100));
-        liTables1.setPreferredSize(new java.awt.Dimension(80, 100));
-        liTables1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                onNewSelectedItemLeft(evt);
-            }
-        });
-        spTables1.setViewportView(liTables1);
+        spTable1.setViewportView(liTables1);
 
-        pnShowAllTables1.add(spTables1, java.awt.BorderLayout.CENTER);
+        pnShowAllTables1.add(spTable1, java.awt.BorderLayout.CENTER);
 
         pnFirstDatabase.add(pnShowAllTables1, java.awt.BorderLayout.WEST);
 
@@ -488,24 +474,10 @@ public class MainWindow extends javax.swing.JFrame {
 
         pnShowAllTables2.add(pnExtractData, java.awt.BorderLayout.PAGE_START);
 
-        spTables2.setBackground(new java.awt.Color(229, 229, 229));
-        spTables2.setMaximumSize(new java.awt.Dimension(100, 100));
-        spTables2.setMinimumSize(new java.awt.Dimension(100, 100));
-        spTables2.setPreferredSize(new java.awt.Dimension(100, 100));
-
         liTablesC.setBackground(new java.awt.Color(229, 229, 229));
-        liTablesC.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        liTablesC.setMaximumSize(new java.awt.Dimension(80, 100));
-        liTablesC.setMinimumSize(new java.awt.Dimension(80, 100));
-        liTablesC.setPreferredSize(new java.awt.Dimension(80, 100));
-        liTablesC.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                onNewSelectedItemRight(evt);
-            }
-        });
-        spTables2.setViewportView(liTablesC);
+        spTableC.setViewportView(liTablesC);
 
-        pnShowAllTables2.add(spTables2, java.awt.BorderLayout.CENTER);
+        pnShowAllTables2.add(spTableC, java.awt.BorderLayout.CENTER);
 
         pnSecondDatabase.add(pnShowAllTables2, java.awt.BorderLayout.EAST);
 
@@ -568,22 +540,6 @@ public class MainWindow extends javax.swing.JFrame {
         SelectDownloadModeDialogue downloadDialogue = new SelectDownloadModeDialogue(this, true);
         downloadDialogue.setVisible(true);
     }//GEN-LAST:event_onDownloadData
-
-    private void onNewSelectedItemLeft(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_onNewSelectedItemLeft
-        if (enableItemSelect) {
-            leftList = true;
-            onNewSelectedItem();
-            tbTableContent1.updateUI();
-        }
-    }//GEN-LAST:event_onNewSelectedItemLeft
-
-    private void onNewSelectedItemRight(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_onNewSelectedItemRight
-        if (enableItemSelect) {
-            leftList = false;
-            onNewSelectedItem();
-            tbTableContent2.updateUI();
-        }
-    }//GEN-LAST:event_onNewSelectedItemRight
 
     private void onExtractDatas(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onExtractDatas
         extractData = Integer.parseInt(evt.getActionCommand());
@@ -919,10 +875,10 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JRadioButton rbDisplayDifferences;
     private javax.swing.JRadioButton rbTableBothAuto;
     private javax.swing.JRadioButton rbTableSeperate;
+    private javax.swing.JScrollPane spTable1;
+    private javax.swing.JScrollPane spTableC;
     private javax.swing.JScrollPane spTableContent1;
     private javax.swing.JScrollPane spTableContent2;
-    private javax.swing.JScrollPane spTables1;
-    private javax.swing.JScrollPane spTables2;
     private javax.swing.JTable tbTableContent1;
     private javax.swing.JTable tbTableContent2;
     // End of variables declaration//GEN-END:variables
