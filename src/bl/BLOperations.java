@@ -240,9 +240,10 @@ public class BLOperations
                 String[] strLeft = rLeft.getValue().split(";");
                 String[] strRight = rRight.getValue().split(";");
 
-                
+                System.out.println(strLeft[indexLeft] + "    "+ strRight[indexRigt]);
                 if(!strLeft[indexLeft].equals(strRight[indexRigt]))
                 {
+                    System.out.println("difference");
                     Differences diffLeft = new Differences(companyNameLeft, tLeft.getTableName(), indexLeft, rLeft.getRID(), rLeft.getValue().split(";")[indexLeft]);
                     Differences diffRight = new Differences(companyNameRight, tRight.getTableName(), indexRigt, rRight.getRID(), rRight.getValue().split(";")[indexRigt]);
                     allDiffs.add(diffLeft);
