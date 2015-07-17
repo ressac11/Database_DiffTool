@@ -575,6 +575,12 @@ public class MainWindow extends javax.swing.JFrame {
                 }
                 onExtractData1 = false;
                 onExtractData2 = false;
+                for (int i = 0; i < bl.getAllNewCols().size(); i++) 
+        {
+            TableRenderer.newCols.add(bl.getAllNewCols().get(i).getColumnIndex());           
+        }
+                tbTableContent1.repaint();
+            tbTableContent2.repaint();
             } 
             catch (Exception e) 
             {

@@ -359,4 +359,10 @@ public class BLOperations
         bw.flush();
         bw.close();
     }
+
+    public LinkedList<NewColumns> getAllNewCols() {
+        return allNewCols;
+    }
+
+    
 }
