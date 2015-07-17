@@ -9,7 +9,8 @@ package beans;
  *
  * @author Sarah
  */
-public class NewColumns {
+public class NewColumns 
+{
     private String companyName;
     private String tableName;
     private String columnName;
@@ -55,8 +56,9 @@ public class NewColumns {
     }
 
     @Override
-    public String toString() {
-        return "NewColumns{" + "companyName=" + companyName + ", tableName=" + tableName + ", columnName=" + columnName + ", columnIndex=" + columnIndex + '}';
+    public String toString() 
+    {
+        return "Table name = " + tableName + ", Column name = " + columnName + ", Column index = " + columnIndex;
     }
     
     

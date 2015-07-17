@@ -7,19 +7,18 @@ package beans;
 
 /**
  *
- * @author Sarah
+ * @author Steffie
  */
-public class Differences {
+public class NewRow 
+{
     private String companyName;
     private String tableName;
-    private int columnIndex;
     private int rowIndex;
     private String value;
 
-    public Differences(String companyName, String tableName, int columnIndex, int rowIndex, String value) {
+    public NewRow(String companyName, String tableName, int rowIndex, String value) {
         this.companyName = companyName;
         this.tableName = tableName;
-        this.columnIndex = columnIndex;
         this.rowIndex = rowIndex;
         this.value = value;
     }
@@ -40,14 +39,6 @@ public class Differences {
         this.tableName = tableName;
     }
 
-    public int getColumnIndex() {
-        return columnIndex;
-    }
-
-    public void setColumnIndex(int columnIndex) {
-        this.columnIndex = columnIndex;
-    }
-
     public int getRowIndex() {
         return rowIndex;
     }
@@ -66,8 +57,9 @@ public class Differences {
 
     @Override
     public String toString() {
-        return "Differences{" + "companyName=" + companyName + ", tableName=" + tableName + ", columnIndex=" + columnIndex + ", rowIndex=" + rowIndex + ", value=" + value + '}';
+        return "Table name = " + tableName + ", Row index = " + rowIndex + ", Value = " + value;
     }
+    
     
     
 }

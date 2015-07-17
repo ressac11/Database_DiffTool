@@ -5,8 +5,8 @@
  */
 package bl;
 import beans.ColumnInformation;
-import beans.Differences;
 import beans.NewColumns;
+import beans.NewRow;
 import beans.Row;
 import beans.Table;
 import java.io.BufferedReader;
@@ -36,9 +36,14 @@ public class BLOperations
     private String rowCounter;
     private LinkedList<Table> allTables = new LinkedList<>();
     private LinkedList<NewColumns> allNewCols = new LinkedList<>();
-    private LinkedList<Differences> allDiffs = new LinkedList<>();
     private LinkedList<ColumnInformation> allColsLeft = new LinkedList<>();
     private LinkedList<ColumnInformation> allColsRight = new LinkedList<>();
+    private LinkedList<NewRow> allNewRowsRight = new LinkedList<>();
+    private LinkedList<NewRow> allNewRowsLeft = new LinkedList<>();
+    private int sizeMin;
+    private String companyLeft = "";
+    private String companyRight = "";
+
 
     public LinkedList<Table> loadData(File f) throws FileNotFoundException, IOException 
     {
@@ -63,7 +68,6 @@ public class BLOperations
                     for (int i = 0; i < strArray.length; i++) {
                         String str2 = strArray[i];
                         columns.add(str2);
-                        System.out.println(str2 + " ");
                     }
                     counter++;
                 } else {
@@ -141,6 +145,13 @@ public class BLOperations
     
     public void compareDatabases(String companyNameLeft, String companyNameRight, LinkedList<Table> tablesLeft, LinkedList<Table> tablesRight)
     {
+        companyLeft = companyNameLeft;
+        companyRight = companyNameRight;
+        allColsLeft.clear();
+        allColsRight.clear();
+        allNewCols.clear();
+        allNewRowsLeft.clear();
+        allNewRowsRight.clear();
         LinkedList<Table> liAllTablesLeft = tablesLeft;
         LinkedList<Table> liAllTablesRight = tablesRight;
         int count = 0;
@@ -168,11 +179,23 @@ public class BLOperations
         LinkedList<String> colLeft = tLeft.getColumnNames();
         LinkedList<String> colRight = tRight.getColumnNames();
 
-        
-            if(colLeft.size() == colRight.size())
-            {
-                for (int i = 0; i < colLeft.size(); i++) 
+        int sizeMax = colLeft.size();
+        this.sizeMin = colRight.size();
+        String companyName = companyNameLeft;
+        String tablename = tLeft.getTableName();
+        LinkedList<String> cols = (LinkedList<String>) colLeft.clone();
+        if(colLeft.size() < colRight.size())
         {
+            sizeMax = colRight.size();
+            this.sizeMin = colLeft.size();
+            companyName = companyNameRight;
+            tablename = tRight.getTableName();
+            cols = (LinkedList<String>) colRight.clone();
+        }
+        for (int i = 0; i < sizeMax; i++) 
+        {
+            if(i < sizeMin)
+            {
                 if(colLeft.contains(colRight.get(i)))
                 {
                     ColumnInformation colinfoRight = new ColumnInformation(tRight.getTableName(), i, colRight.get(i));
@@ -182,91 +205,158 @@ public class BLOperations
                 }
                 else
                 {
-                    NewColumns newCol = new NewColumns(companyNameRight, tRight.getTableName(), colRight.get(i), i);
+                    NewColumns newCol = new NewColumns(companyName, tablename, cols.get(i), i);
                     allNewCols.add(newCol);
-                    System.out.println("New Cols1: "+newCol.toString());
                 }
-        }
             }
             else
             {
-                int size = colLeft.size();
-                int sizeM = colRight.size();
-                String companyName = companyNameLeft;
-                String tablename = tLeft.getTableName();
-                LinkedList<String> cols = (LinkedList<String>) colLeft.clone();
-                if(colLeft.size() < colRight.size())
-                {
-                    size = colRight.size();
-                    sizeM = colLeft.size();
-                    companyName = companyNameRight;
-                    tablename = tRight.getTableName();
-                    cols = (LinkedList<String>) colRight.clone();
-                }
-                for (int j = sizeM; j < size; j++) 
+                for (int j = this.sizeMin; j < sizeMax; j++) 
                 {
                     NewColumns newCol = new NewColumns(companyName, tablename, cols.get(j), j);
                     allNewCols.add(newCol);
-                    System.out.println("New Cols2: "+newCol.toString());
                 }
             }
-        
-        
-        LinkedList<Row> valuesLeft = tLeft.getAttributes();
-        LinkedList<Row> valuesRight = tRight.getAttributes();
-        
-        int size = valuesLeft.size();
-        if(valuesLeft.size() > valuesRight.size())
-        {
-            size = valuesRight.size();
         }
-
-        //Inhalte jeder Zelle der Tabellen vergleichen
-        for (int r = 0; r < size; r++) 
+        
+        LinkedList<Row> leftV = tLeft.getAttributes();
+        LinkedList<Row> rightV = tRight.getAttributes();
+        LinkedList<String> valuesRight = new LinkedList<>();
+        LinkedList<String> valuesLeft = new LinkedList<>();
+        for (Row r : rightV) 
         {
-            Row rLeft = valuesLeft.get(r);
-            Row rRight = valuesRight.get(r);
-            int indexLeft = 0;
-            int indexRigt = 0;
-            int countForSchleife = 0;
-            for (int i = 0; i < allColsLeft.size(); i++)
+            valuesRight.add(r.getValue());
+        }
+        for (Row r : leftV) 
+        {
+            valuesLeft.add(r.getValue());
+        }
+        //rechte Liste durchgehen
+        for (int rR = 0; rR < valuesRight.size(); rR++) 
+        {
+            if(!valuesLeft.contains(valuesRight.get(rR)))
             {
-                countForSchleife++;
-
-                indexLeft = allColsLeft.get(i).getColumnIndex();
-                indexRigt = allColsRight.get(i).getColumnIndex();
-
-                
-                String[] strLeft = rLeft.getValue().split(";");
-                String[] strRight = rRight.getValue().split(";");
-
-                System.out.println(strLeft[indexLeft] + "    "+ strRight[indexRigt]);
-                if(!strLeft[indexLeft].equals(strRight[indexRigt]))
-                {
-                    System.out.println("difference");
-                    Differences diffLeft = new Differences(companyNameLeft, tLeft.getTableName(), indexLeft, rLeft.getRID(), rLeft.getValue().split(";")[indexLeft]);
-                    Differences diffRight = new Differences(companyNameRight, tRight.getTableName(), indexRigt, rRight.getRID(), rRight.getValue().split(";")[indexRigt]);
-                    allDiffs.add(diffLeft);
-                    allDiffs.add(diffRight);
-                }
-                
+                NewRow row = new NewRow(companyNameRight, tRight.getTableName(), rR, valuesRight.get(rR));
+                allNewRowsRight.add(row);
             }
         }
+        //linke Liste durchgehen
+        for (int rL = 0; rL < valuesLeft.size(); rL++) 
+        {
+            if(!valuesRight.contains(valuesLeft.get(rL)))
+            {
+                NewRow row = new NewRow(companyNameLeft, tLeft.getTableName(), rL, valuesLeft.get(rL));
+                allNewRowsLeft.add(row);
+            }
+        }
+        System.out.println("comparing successful");
     }
     
-    public void comparisonOutput()
+    public boolean comparisonOutput()
     {
-        System.out.println("All new Columns: ");
-        for (NewColumns newCol : allNewCols) 
+        int count = 0;
+        String str = "There distinctions in the databases concerning";
+        if(allNewCols.isEmpty())
         {
-            System.out.println(newCol.toString());
+            count++;
+//            JOptionPane.showMessageDialog(null, "the databases are completely equal");
         }
-        System.out.println("");
-        System.out.println("All Differences: ");
-        for (Differences diff : allDiffs) 
+        else
         {
-            System.out.println(diff.toString());
+            for (NewColumns newCol : allNewCols) 
+            {
+                System.out.println(newCol.toString());
+            }
+            str = str.concat(" several new Columns");
         }
+        
+        if(allNewRowsLeft.isEmpty())
+        {
+            count++;
+        }
+        else
+        {
+            for (NewRow row : allNewRowsLeft) 
+            {
+                System.out.println("row left");
+                System.out.println(row.toString());
+            }
+            str = str.concat(" several new Rows");
+        }
+        if(allNewRowsRight.isEmpty())
+        {
+            count++;
+        }
+        else
+        {
+            System.out.println("------");
+            for (NewRow row : allNewRowsRight) 
+            {
+                System.out.println("row right");
+                System.out.println(row.toString());
+            }
+            str = str.concat(" several new Rows");
+        }
+        if(count == 3)
+        {
+            JOptionPane.showMessageDialog(null, "the databases are completely equal");
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, str);
+            return true;
+        }
+        return false;
     }
-
+    
+    public void downloadComparisonOutput(File f) throws IOException
+    {
+        File file = f;
+        FileWriter fw = new FileWriter(file);
+        BufferedWriter bw = new BufferedWriter(fw);
+        String firstLine = "Results of Database Comparison: "+(+allNewCols.size()+allNewRowsLeft.size()+allNewRowsRight.size());
+        bw.write(firstLine);
+        bw.newLine();
+        bw.newLine();
+        String titleCol = String.format("Amount of new Columns: %d", allNewCols.size());
+        bw.write(titleCol);
+        bw.newLine();
+        Iterator<NewColumns> itCol = allNewCols.iterator();
+        int countC = 1;
+        
+        while (itCol.hasNext()) 
+        {
+            NewColumns col = itCol.next();
+            bw.write(col.getCompanyName());
+            bw.newLine();
+            bw.write(col.toString());
+            bw.newLine();
+            bw.newLine();
+            countC++;
+        }
+        Iterator<NewRow> itRowL = allNewRowsLeft.iterator();
+        String titleRow = String.format("Amount of different Rows in %s: %d", companyLeft, allNewRowsLeft.size());
+        bw.write(titleRow);
+        bw.newLine();
+        while (itRowL.hasNext()) 
+        {
+            NewRow row = itRowL.next();
+            bw.write(row.toString());
+            bw.newLine();
+        }
+        bw.newLine();
+        bw.newLine();
+        Iterator<NewRow> itRowR = allNewRowsRight.iterator();
+        String titleRow2 = String.format("Amount of different Rows in %s: %d", companyRight, allNewRowsRight.size());
+        bw.write(titleRow2);
+        bw.newLine();
+        while (itRowR.hasNext()) 
+        {
+            NewRow row = itRowR.next();
+            bw.write(row.toString());
+            bw.newLine();
+        }
+        bw.flush();
+        bw.close();
+    }
 }
