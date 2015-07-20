@@ -11,6 +11,7 @@ import database.DBAccess;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -57,6 +58,7 @@ public class MainWindow extends javax.swing.JFrame {
     private boolean newDataL = false;
     private boolean newDataR = false;
     
+    public static boolean existingData=false;
     
     public MainWindow() {
         initComponents();
@@ -611,6 +613,7 @@ public class MainWindow extends javax.swing.JFrame {
         dataExtractDialogue.setVisible(true);
         try {
             if (dataExtractDialogue.isExistingFile()) {
+                existingData=true;
                 if (extractData == 1) {
                     newDataL = true;
                     existingFile1 = dataExtractDialogue.getSelectedDBDump();
@@ -628,9 +631,10 @@ public class MainWindow extends javax.swing.JFrame {
                 }
                 enableItemSelect = true;
                 onNewSelectedItem();
+
             } 
-            else 
-            {
+            else {
+                existingData=false;
                 dba = DBAccess.getTheInstance();
                 if(extractData==1)
                 {
@@ -704,11 +708,12 @@ public class MainWindow extends javax.swing.JFrame {
             {
                 btCompareData.setEnabled(true);
             }
+        } catch (IOException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         } 
-        catch (Exception ex) 
-        {
-            System.out.println("Main Window : onExtractDatas : " + ex.toString());
-        }
+        
     }//GEN-LAST:event_onExtractDatas
 
     private void onOpenDatabaseFile(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOpenDatabaseFile
@@ -897,7 +902,16 @@ public class MainWindow extends javax.swing.JFrame {
                 tbTableContent2.setModel(tctmR);
             } else {
                 if (leftList) {
+                    
                     Table table = (Table) this.liTables1.getSelectedValue();
+                    if(table.getAttributes().isEmpty())
+                    {
+                        System.out.println("leer");
+                    }
+                    else
+                    {
+                        System.out.println("net leer"+table.getAttributes().size());
+                    }
                     tctmL = new TableContentTM(table.getColumnNames(), table.getAttributes());
                     tbTableContent1.setModel(tctmL);
                     
