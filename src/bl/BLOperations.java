@@ -319,4 +319,12 @@ public class BLOperations {
         return allNewCols;
     }
 
+    public LinkedList<NewRow> getAllNewRowsRight() {
+        return allNewRowsRight;
+    }
+
+    public LinkedList<NewRow> getAllNewRowsLeft() {
+        return allNewRowsLeft;
+    }
+
 }

@@ -6,6 +6,7 @@
 package renderer;
 
 import beans.NewColumns;
+import beans.NewRow;
 import bl.BLOperations;
 import java.awt.Color;
 import java.awt.Component;
@@ -22,29 +23,16 @@ import javax.swing.table.TableCellRenderer;
  */
 public class TableRenderer implements TableCellRenderer {
 
-    private LinkedList<Integer> lis = new LinkedList<>();
-    private LinkedList<Integer> list = new LinkedList<>();
-    private LinkedList<Integer> lis1 = new LinkedList<>();
-    private LinkedList<Integer> list2 = new LinkedList<>();
-    private BLOperations bl = new BLOperations();
-    public static LinkedList<Integer> newCols = new LinkedList<>();
-
-    public void add() {
-        lis.add(0);
-        lis.add(3);
-        list.add(2);
-        list.add(5);
-        lis1.add(1);
-        lis1.add(2);
-        list2.add(6);
-        list2.add(7);
-    }
+    public static LinkedList<NewColumns> newCols = new LinkedList<>();
+    public static String selectedTable;
+    public static LinkedList<NewRow> newRowLeft = new LinkedList<NewRow>();
+    public static LinkedList<NewRow> newRowRight = new LinkedList<NewRow>();
 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         JLabel label = new JLabel();
-        Color c1 = new Color(145, 205, 167);
-        Color c2 = new Color(0, 161, 93);
+        Color c1 = new Color(183, 34, 38);
+        Color c2 = new Color(227, 103, 29);
 
         if (value != null) {
             label = new JLabel(value.toString());
@@ -52,13 +40,29 @@ public class TableRenderer implements TableCellRenderer {
             label.setFont(new Font("Arial", Font.LAYOUT_LEFT_TO_RIGHT, 12));
             label.setBackground(new Color(229, 229, 229));
             label.setForeground(Color.BLACK);
-            add();
-            if (newCols.contains(column)) {
-                label.setBackground(c1);
-            } else if (lis1.contains(row)) {
-                label.setBackground(c2);
-            }
 
+            if (table.getName().equals("tbTableContent1")) {
+                for (int i = 0; i < newRowLeft.size(); i++) {
+                    if (newRowLeft.get(i).getRowIndex() == row && newRowLeft.get(i).getTableName().equals(selectedTable)) {
+                        System.out.println("inifleft "+selectedTable);
+                        label.setBackground(c2);
+                    }
+                }
+            } else {
+                for (int i = 0; i < newRowRight.size(); i++) {
+                    if (newRowRight.get(i).getRowIndex() == row && newRowRight.get(i).getTableName().equals(selectedTable)) {
+                        label.setBackground(c2);
+                    }
+                }
+
+            }
+            for (int i = 0; i < newCols.size(); i++) {
+                if (newCols.get(i).getTableName().equals(selectedTable)) {
+                    if (newCols.get(i).getColumnIndex() == column) {
+                        label.setBackground(c1);
+                    }
+                }
+            }
         }
         return label;
     }

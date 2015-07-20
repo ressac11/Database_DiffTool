@@ -71,12 +71,15 @@ public class MainWindow extends javax.swing.JFrame
         liTablesRight.clear();
         liTables1.removeAll();
         liTablesC.removeAll();
+        tbTableContent1.setName("tbTableContent1");
+        tbTableContent2.setName("tbTableContent2");
         tbTableContent1.setDefaultRenderer(Object.class, new TableRenderer());
         tbTableContent2.setDefaultRenderer(Object.class, new TableRenderer());
         btOpenDBFile1.setEnabled(false);
         btCompareData.setEnabled(false);
         btOpenDBFile2.setEnabled(false);
         this.setIconImage(new ImageIcon(getClass().getResource("Logo.png")).getImage());
+        
     }
 
     /**
@@ -566,10 +569,11 @@ public class MainWindow extends javax.swing.JFrame
             }
             enableCompareButton1 = false;
             enableCompareButton2 = false;
-            for (int i = 0; i < bl.getAllNewCols().size(); i++) 
-            {
-                TableRenderer.newCols.add(bl.getAllNewCols().get(i).getColumnIndex());
-            }
+            
+                TableRenderer.newCols = bl.getAllNewCols();
+                TableRenderer.newRowLeft=bl.getAllNewRowsRight();
+                TableRenderer.newRowRight=bl.getAllNewRowsRight();
+            
             tbTableContent1.repaint();
             tbTableContent2.repaint();
         } catch (Exception e) 
@@ -831,6 +835,7 @@ public class MainWindow extends javax.swing.JFrame
                 if (leftList) {
                     int index = this.liTables1.getSelectedIndex();
                     Table tL = liTablesLeft.get(index);
+                    TableRenderer.selectedTable=tL.getTableName();
                     if (!liTablesRight.isEmpty()) {
                         for (int i = 0; i < liTablesRight.size(); i++) {
                             Table tR = liTablesRight.get(i);
@@ -852,6 +857,7 @@ public class MainWindow extends javax.swing.JFrame
                 } else {
                     int index = this.liTablesC.getSelectedIndex();
                     Table tR = liTablesRight.get(index);
+                    TableRenderer.selectedTable=tR.getTableName();
                     if (!liTablesLeft.isEmpty()) {
                         for (int i = 0; i < liTablesLeft.size(); i++) {
                             
@@ -876,12 +882,14 @@ public class MainWindow extends javax.swing.JFrame
             catch (IndexOutOfBoundsException e) 
             {
                 JOptionPane.showMessageDialog(this, "Sorry, there is no such table present.");
-                if (leftList) {
+                if (leftList) {                   
                     Table table = (Table) this.liTables1.getSelectedValue();
+                    TableRenderer.selectedTable=table.getTableName();
                     tctmL = new TableContentTM(table.getColumnNames(), table.getAttributes());
                     tbTableContent1.setModel(tctmL);
                 } else {
                     Table table = (Table) this.liTablesC.getSelectedValue();
+                    TableRenderer.selectedTable=table.getTableName();
                     tctmR = new TableContentTM(table.getColumnNames(), table.getAttributes());
                     tbTableContent2.setModel(tctmR);
                 }
