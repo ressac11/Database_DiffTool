@@ -132,7 +132,6 @@ public class BLOperations {
                     bw.write(r2.getValue() + delim);
                 }
             }
-
         }
         bw.newLine();
         bw.write("endDatabase");

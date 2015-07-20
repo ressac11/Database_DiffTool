@@ -59,6 +59,7 @@ public class MainWindow extends javax.swing.JFrame {
     private boolean downloadEnabled = false;
     private boolean newDataL = false;
     private boolean newDataR = false;
+    public static boolean existingData=false;
     
     public MainWindow() {
         initComponents();
@@ -619,6 +620,7 @@ public class MainWindow extends javax.swing.JFrame {
         dataExtractDialogue.setVisible(true);
         try {
             if (dataExtractDialogue.isExistingFile()) {
+                existingData=true;
                 if (extractData == 1) {
                     newDataL = true;
                     existingFile1 = dataExtractDialogue.getSelectedDBDump();
@@ -649,6 +651,7 @@ public class MainWindow extends javax.swing.JFrame {
                 enableItemSelect = true;
                 onNewSelectedItem();
             } else {
+                existingData=false;
                 dba = DBAccess.getTheInstance();
                 onExtractData();
                 //set database name on each label
@@ -883,7 +886,16 @@ public class MainWindow extends javax.swing.JFrame {
                 tbTableContent2.setModel(tctmR);
             } else {
                 if (leftList) {
+                    
                     Table table = (Table) this.liTables1.getSelectedValue();
+                    if(table.getAttributes().isEmpty())
+                    {
+                        System.out.println("leer");
+                    }
+                    else
+                    {
+                        System.out.println("net leer"+table.getAttributes().size());
+                    }
                     tctmL = new TableContentTM(table.getColumnNames(), table.getAttributes());
                     tbTableContent1.setModel(tctmL);
                     
