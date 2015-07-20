@@ -744,12 +744,16 @@ public class MainWindow extends javax.swing.JFrame {
         if (enableItemSelect) {
             leftList = true;
             onNewSelectedItem();
+            newDataL=false;
+            newDataR=false;
         }
     }//GEN-LAST:event_onSelectTableItem
     private void onSelectTableItem1(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_onSelectTableItem1
         if (enableItemSelect) {
             leftList = false;
             onNewSelectedItem();
+            newDataL=false;
+            newDataR=false;
         }
     }//GEN-LAST:event_onSelectTableItem1
     public void onExtractData() {
