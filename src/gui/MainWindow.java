@@ -559,7 +559,7 @@ public class MainWindow extends javax.swing.JFrame
 //        {
         try {
             bl.compareDatabases(databaseName1, databaseName2, liTablesLeft, liTablesRight);
-            downloadEnabled = bl.comparisonOutput();
+            downloadEnabled = true;
             if (downloadEnabled) 
             {
                 btDownloadData.setEnabled(true);
@@ -575,9 +575,6 @@ public class MainWindow extends javax.swing.JFrame
             TableRenderer.newCols = bl.getAllNewCols();
             TableRenderer.newRowLeft=bl.getAllNewRowsRight();
             TableRenderer.newRowRight=bl.getAllNewRowsRight();
-            System.out.println(TableRenderer.newCols.size());
-            System.out.println(TableRenderer.newRowLeft.size());
-            System.out.println(TableRenderer.newRowRight.size());
             
             tbTableContent1.repaint();
             tbTableContent2.repaint();
