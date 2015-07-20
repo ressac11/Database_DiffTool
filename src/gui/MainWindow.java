@@ -713,11 +713,12 @@ public class MainWindow extends javax.swing.JFrame {
             {
                 btCompareData.setEnabled(true);
             }
+        } catch (IOException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         } 
-        catch (Exception ex) 
-        {
-            System.out.println("Main Window : onExtractDatas : " + ex.toString());
-        }
+        
     }//GEN-LAST:event_onExtractDatas
 
     private void onOpenDatabaseFile(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOpenDatabaseFile
