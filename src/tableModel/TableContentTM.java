@@ -29,7 +29,6 @@ public class TableContentTM extends AbstractTableModel {
     public int getRowCount() {
         if (MainWindow.existingData) {
             if (rows.get(0).getValue().equals("")) {
-                System.out.println("inNull");
                 return 0;
             }
         }
@@ -50,8 +49,6 @@ public class TableContentTM extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
 
         String str = rows.get(rowIndex).getValue();
-        System.out.println("in BL" + rows.size());
-        System.out.println(rows.get(0).getValue());
         String[] strArray = str.split(";");
 
         return strArray[columnIndex];
