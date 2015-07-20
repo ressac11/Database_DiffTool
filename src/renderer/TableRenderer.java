@@ -21,8 +21,8 @@ import javax.swing.table.TableCellRenderer;
  *
  * @author Sarah
  */
-public class TableRenderer implements TableCellRenderer {
-
+public class TableRenderer implements TableCellRenderer 
+{
     public static LinkedList<NewColumns> newCols = new LinkedList<>();
     public static String selectedTable;
     public static LinkedList<NewRow> newRowLeft = new LinkedList<NewRow>();
@@ -34,7 +34,8 @@ public class TableRenderer implements TableCellRenderer {
         Color c1 = new Color(183, 34, 38);
         Color c2 = new Color(227, 103, 29);
 
-        if (value != null) {
+        if (value != null) 
+        {
             label = new JLabel(value.toString());
             label.setOpaque(true);
             label.setFont(new Font("Arial", Font.LAYOUT_LEFT_TO_RIGHT, 12));

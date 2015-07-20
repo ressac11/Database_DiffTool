@@ -227,7 +227,8 @@ public class BLOperations {
         System.out.println("comparing successful");
     }
 
-    public boolean comparisonOutput() {
+    public boolean comparisonOutput() 
+    {
         int count = 0;
         String str = "There distinctions in the databases concerning";
         if (allNewCols.isEmpty()) {
