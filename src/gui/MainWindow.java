@@ -801,7 +801,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
             
         } catch (Exception ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Main Window : onExtractData : " + ex.toString());
         }
     }
     

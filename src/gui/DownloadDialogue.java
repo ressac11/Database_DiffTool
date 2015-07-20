@@ -21,7 +21,7 @@ public class DownloadDialogue extends javax.swing.JDialog {
         initComponents();
         this.setLocationRelativeTo(this);
         this.getContentPane().setBackground(MainWindow.backgroundColorPanel);
-        
+        this.setIconImage(new ImageIcon(getClass().getResource("Logo.png")).getImage()); 
         setLocationRelativeTo(parent);
         
     }
