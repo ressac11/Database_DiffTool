@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import listModel.TableNamesLM;
 import renderer.TableRenderer;
+import static renderer.TableRenderer.selectedTable;
 import tableModel.TableContentTM;
 /**
  *
@@ -570,9 +571,13 @@ public class MainWindow extends javax.swing.JFrame
             enableCompareButton1 = false;
             enableCompareButton2 = false;
             
-                TableRenderer.newCols = bl.getAllNewCols();
-                TableRenderer.newRowLeft=bl.getAllNewRowsRight();
-                TableRenderer.newRowRight=bl.getAllNewRowsRight();
+            
+            TableRenderer.newCols = bl.getAllNewCols();
+            TableRenderer.newRowLeft=bl.getAllNewRowsRight();
+            TableRenderer.newRowRight=bl.getAllNewRowsRight();
+            System.out.println(TableRenderer.newCols.size());
+            System.out.println(TableRenderer.newRowLeft.size());
+            System.out.println(TableRenderer.newRowRight.size());
             
             tbTableContent1.repaint();
             tbTableContent2.repaint();
@@ -622,7 +627,6 @@ public class MainWindow extends javax.swing.JFrame
                     this.extractData1(false);
                     btOpenDBFile1.setEnabled(true);
                     enableCompareButton1 = true;
-                    System.out.println(this.tnlmLeft.toString());
                 } else if (extractData == 2) 
                 {
                     existingFile2 = dataExtractDialogue.getSelectedDBDump();
@@ -630,7 +634,6 @@ public class MainWindow extends javax.swing.JFrame
                     this.extractData2(false);
                     btOpenDBFile2.setEnabled(true);
                     enableCompareButton2 = true;
-                    System.out.println(this.tnlmRight.toString());
                 }
                 enableItemSelect = true;
                 onNewSelectedItem();
@@ -919,6 +922,7 @@ public class MainWindow extends javax.swing.JFrame
                 {
                     System.out.println("in left list - list:"+tnlmLeft.toString());
                     Table table1 = (Table) this.liTables1.getSelectedValue();
+                    TableRenderer.selectedTable=table1.getTableName();
                     tctmL = new TableContentTM(table1.getColumnNames(), table1.getAttributes());
                     tbTableContent1.setModel(tctmL);
                     
@@ -927,6 +931,7 @@ public class MainWindow extends javax.swing.JFrame
                 {
                     System.out.println("in right list - list:"+tnlmRight.toString());
                     Table table2 = (Table) this.liTablesC.getSelectedValue();
+                    TableRenderer.selectedTable=table2.getTableName();
                     tctmR = new TableContentTM(table2.getColumnNames(), table2.getAttributes());
                     tbTableContent2.setModel(tctmR);
                 }

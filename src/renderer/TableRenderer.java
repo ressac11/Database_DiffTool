@@ -40,13 +40,16 @@ public class TableRenderer implements TableCellRenderer {
             label.setFont(new Font("Arial", Font.LAYOUT_LEFT_TO_RIGHT, 12));
             label.setBackground(new Color(229, 229, 229));
             label.setForeground(Color.BLACK);
-
             if (table.getName().equals("tbTableContent1")) {
+                System.out.println("erstenIfLinks");
                 for (int i = 0; i < newRowLeft.size(); i++) {
-                    if (newRowLeft.get(i).getRowIndex() == row && newRowLeft.get(i).getTableName().equals(selectedTable)) {
-                        System.out.println("inifleft "+selectedTable);
+                    System.out.println("  inFor");
+                    if(newRowLeft.get(i).getTableName().equals(selectedTable))
+                    {
+                    if (newRowLeft.get(i).getRowIndex() == row ) {
+                        System.out.println("       inifleft "+selectedTable);
                         label.setBackground(c2);
-                    }
+                    }}
                 }
             } else {
                 for (int i = 0; i < newRowRight.size(); i++) {

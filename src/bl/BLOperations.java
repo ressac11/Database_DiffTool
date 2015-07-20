@@ -316,6 +316,7 @@ public class BLOperations {
     }
 
     public LinkedList<NewColumns> getAllNewCols() {
+        System.out.println(allNewCols.size());
         return allNewCols;
     }
 
