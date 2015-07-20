@@ -11,10 +11,7 @@ import database.DBAccess;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.io.File;
-import java.io.IOException;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -26,8 +23,8 @@ import tableModel.TableContentTM;
  *
  * @author Steffie
  */
-public class MainWindow extends javax.swing.JFrame {
-
+public class MainWindow extends javax.swing.JFrame 
+{
     /**
      * Creates new form DiffToolGui
      */
@@ -46,7 +43,6 @@ public class MainWindow extends javax.swing.JFrame {
     private File savedFile2 = null;
     private File existingFile1 = null;
     private File existingFile2 = null;
-    private int enableCounter = 0;
     private boolean enableItemSelect = false;
     private String databaseName1 = "";
     private String databaseName2 = "";
@@ -612,15 +608,17 @@ public class MainWindow extends javax.swing.JFrame {
         dataExtractDialogue.setDataExctractActionCommand(extractData);
         dataExtractDialogue.setVisible(true);
         try {
-            if (dataExtractDialogue.isExistingFile()) {
+            if (dataExtractDialogue.isExistingFile()) 
+            {
                 existingData=true;
-                if (extractData == 1) {
-                    newDataL = true;
+                if (extractData == 1) 
+                {
                     existingFile1 = dataExtractDialogue.getSelectedDBDump();
                     savedFile1 = null;
                     this.extractData1(false);
                     btOpenDBFile1.setEnabled(true);
                     enableCompareButton1 = true;
+                    System.out.println(this.tnlmLeft.toString());
                 } else if (extractData == 2) 
                 {
                     existingFile2 = dataExtractDialogue.getSelectedDBDump();
@@ -628,10 +626,10 @@ public class MainWindow extends javax.swing.JFrame {
                     this.extractData2(false);
                     btOpenDBFile2.setEnabled(true);
                     enableCompareButton2 = true;
+                    System.out.println(this.tnlmRight.toString());
                 }
                 enableItemSelect = true;
                 onNewSelectedItem();
-
             } 
             else {
                 existingData=false;
@@ -708,10 +706,10 @@ public class MainWindow extends javax.swing.JFrame {
             {
                 btCompareData.setEnabled(true);
             }
-        } catch (IOException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        catch (Exception ex) 
+        {
+            System.out.println("Main Window : onExtractDatas :"+ex.toString());
         }         
     }//GEN-LAST:event_onExtractDatas
 
@@ -838,7 +836,6 @@ public class MainWindow extends javax.swing.JFrame {
                             Table tR = liTablesRight.get(i);
                             if (tR.getTableName().equals(tL.getTableName())) {
                                 count++;
-                                System.out.println("is im automatically dings");
                                 tctmL = new TableContentTM(tL.getColumnNames(), tL.getAttributes());
                                 tctmR = new TableContentTM(tR.getColumnNames(), tR.getAttributes());
                                 tbTableContent1.setModel(tctmL);
@@ -875,7 +872,8 @@ public class MainWindow extends javax.swing.JFrame {
                         throw new IndexOutOfBoundsException();
                     }
                 }
-            } catch (IndexOutOfBoundsException e) 
+            } 
+            catch (IndexOutOfBoundsException e) 
             {
                 JOptionPane.showMessageDialog(this, "Sorry, there is no such table present.");
                 if (leftList) {
@@ -888,35 +886,52 @@ public class MainWindow extends javax.swing.JFrame {
                     tbTableContent2.setModel(tctmR);
                 }
             }
-        } else {
-            if (newDataL) {
+        } 
+        else 
+        {
+            if (newDataL) 
+            {
+                System.out.println("in new dataL");
                 Table t = liTablesLeft.get(0);
                 tctmL = new TableContentTM(t.getColumnNames(), t.getAttributes());
                 tbTableContent1.setModel(tctmL);
-            } else if (newDataR) {
+                newDataL = false;
+            } 
+            else if (newDataR) 
+            {
+                System.out.println("in new dataR");
                 Table table = liTablesRight.get(0);
                 tctmR = new TableContentTM(table.getColumnNames(), table.getAttributes());
                 tbTableContent2.setModel(tctmR);
-            } else {
-                if (leftList) {
-                    
-                    Table table = (Table) this.liTables1.getSelectedValue();
-                    tctmL = new TableContentTM(table.getColumnNames(), table.getAttributes());
+                newDataR = false;
+            } 
+            else 
+            {
+                if (leftList) 
+                {
+                    System.out.println("in left list - list:"+tnlmLeft.toString());
+                    Table table1 = (Table) this.liTables1.getSelectedValue();
+                    tctmL = new TableContentTM(table1.getColumnNames(), table1.getAttributes());
                     tbTableContent1.setModel(tctmL);
                     
-                } else {
-                    Table table = (Table) this.liTablesC.getSelectedValue();
-                    tctmR = new TableContentTM(table.getColumnNames(), table.getAttributes());
+                } 
+                else 
+                {
+                    System.out.println("in right list - list:"+tnlmRight.toString());
+                    Table table2 = (Table) this.liTablesC.getSelectedValue();
+                    tctmR = new TableContentTM(table2.getColumnNames(), table2.getAttributes());
                     tbTableContent2.setModel(tctmR);
                 }
             }
-        }
+//        }
+    }
     }
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String args[]) 
+    {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.

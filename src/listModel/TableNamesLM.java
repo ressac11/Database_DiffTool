@@ -5,6 +5,7 @@
  */
 package listModel;
 
+import beans.Row;
 import beans.Table;
 import database.DBAccess;
 import java.util.LinkedList;
@@ -34,5 +35,27 @@ public class TableNamesLM extends AbstractListModel{
     {
         return liAllTables.get(index);
     }
+
+    @Override
+    public String toString() 
+    {
+        System.out.println("in to string von tables");
+        String s = "";
+        Table table = liAllTables.get(0);
+        for (String str : table.getColumnNames()) 
+        {
+            s = s.concat(String.format("%s   ", str));
+        }
+        s = s.concat("\n");
+        for (Row r : table.getAttributes()) 
+        {
+            s = s.concat(r.getValue()+"\n");
+
+        }
+
+        return s;
+    }
+    
+    
     
 }
