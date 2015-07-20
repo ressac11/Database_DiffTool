@@ -712,8 +712,7 @@ public class MainWindow extends javax.swing.JFrame {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-        
+        }         
     }//GEN-LAST:event_onExtractDatas
 
     private void onOpenDatabaseFile(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOpenDatabaseFile
@@ -736,10 +735,9 @@ public class MainWindow extends javax.swing.JFrame {
                 } else {
                     JOptionPane.showMessageDialog(this, "No Database File has been saved.");
                 }
-            }
-            
+            }        
         } catch (Exception e) {
-//            System.out.println("Main Window : openDatabaseFile : "+e.toString());
+            System.out.println("Main Window : openDatabaseFile : "+e.toString());
         }
     }//GEN-LAST:event_onOpenDatabaseFile
     private void onTableDisplayOption(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onTableDisplayOption
@@ -849,8 +847,7 @@ public class MainWindow extends javax.swing.JFrame {
                             }
                         }
                         if (count == 0) {
-                            throw new IndexOutOfBoundsException();
-                            
+                            throw new IndexOutOfBoundsException();                     
                         }
                     } else {
                         throw new IndexOutOfBoundsException();
@@ -904,14 +901,6 @@ public class MainWindow extends javax.swing.JFrame {
                 if (leftList) {
                     
                     Table table = (Table) this.liTables1.getSelectedValue();
-                    if(table.getAttributes().isEmpty())
-                    {
-                        System.out.println("leer");
-                    }
-                    else
-                    {
-                        System.out.println("net leer"+table.getAttributes().size());
-                    }
                     tctmL = new TableContentTM(table.getColumnNames(), table.getAttributes());
                     tbTableContent1.setModel(tctmL);
                     

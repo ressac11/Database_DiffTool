@@ -50,7 +50,6 @@ public class TableContentTM extends AbstractTableModel {
 
         String str = rows.get(rowIndex).getValue();
         String[] strArray = str.split(";");
-
         return strArray[columnIndex];
 
     }
