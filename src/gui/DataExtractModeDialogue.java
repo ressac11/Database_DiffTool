@@ -178,8 +178,9 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
 //                System.out.println("Selected file: " + selectedDBDump.getAbsolutePath());
 //                DownloadDialogue downloadDialogue = new DownloadDialogue(null, true);
 //                downloadDialogue.setVisible(true);
+                dispose();
             }
-            dispose();
+            //dispose();
         }
               
         if(connectionDialogue.getNewConn() && isOK)

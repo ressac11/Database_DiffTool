@@ -674,7 +674,8 @@ public class MainWindow extends javax.swing.JFrame {
                     if (userSelection == JFileChooser.APPROVE_OPTION) 
                     {
                         File f = fileChooser.getSelectedFile();
-                        if (!f.getPath().endsWith(".txt")) {
+                        if (!f.getPath().endsWith(".txt")) 
+                        {
                             String pathNew = f.getPath() + ".txt";
                             f = new File(pathNew);
                         }
@@ -699,9 +700,27 @@ public class MainWindow extends javax.swing.JFrame {
                         //                        downloadDialogue.setVisible(true);
                     }
                 }
+                else
+                {
+                    if(extractData == 1)
+                    {
+                        existingFile1 = null;
+                        onExtractData1 = true;
+                        btOpenDBFile1.setEnabled(false);
+                    }
+                    if(extractData == 2)
+                    {
+                        existingFile2 = null;
+                        btOpenDBFile2.setEnabled(false);
+                        onExtractData2 = true;
+                    }
+                }
                 enableItemSelect = true;
             }
-            btCompareData.setEnabled(true);
+            if(onExtractData1 && onExtractData2)
+            {
+                btCompareData.setEnabled(true);
+            }
         } catch (Exception ex) 
         {
             System.out.println("Main Window : onExtractDatas : " + ex.toString());
