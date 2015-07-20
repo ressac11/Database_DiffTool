@@ -5,7 +5,9 @@
  */
 package gui;
 
+import java.awt.Image;
 import java.io.File;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -34,6 +36,7 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
         this.setSize(380, 250);
         this.setResizable(false);
         setLocationRelativeTo(parent);
+        this.setIconImage(new ImageIcon(getClass().getResource("Logo.png")).getImage()); 
     }
     /**
      * This method is called from within the constructor to initialize the form.

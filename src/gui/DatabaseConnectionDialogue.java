@@ -8,6 +8,7 @@ package gui;
 import database.DBAccess;
 import database.DBConnectionPool;
 import java.io.File;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -35,6 +36,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         btOK.setBackground(MainWindow.backgroundColorButton);
         setLocationRelativeTo(parent);       
         selectedDB="postgres";
+        this.setIconImage(new ImageIcon(getClass().getResource("Logo.png")).getImage()); 
     }
 
     /**
