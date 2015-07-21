@@ -39,7 +39,7 @@ public class TableNamesLM extends AbstractListModel{
     @Override
     public String toString() 
     {
-        System.out.println("in to string von tables");
+        
         String s = "";
         Table table = liAllTables.get(0);
         for (String str : table.getColumnNames()) 

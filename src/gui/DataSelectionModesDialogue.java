@@ -176,12 +176,7 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog
             dispose();
             DownloadDialogue downloadDialogue = new DownloadDialogue(null, true);
             downloadDialogue.setVisible(true);
-        }
-        if(tableDialogue.getOK() && ok)
-        {
-            dispose();
-        }
-        
+        }       
     }//GEN-LAST:event_onOK
 
     private void onCancel(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCancel

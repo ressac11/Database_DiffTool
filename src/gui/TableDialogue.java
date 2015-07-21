@@ -5,30 +5,41 @@
  */
 package gui;
 
+import beans.Table;
+import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import listModel.TableNamesLM;
 
 /**
  *
  * @author Sarah
  */
-public class TableDialogue extends javax.swing.JDialog 
-{
+public class TableDialogue extends javax.swing.JDialog {
+
     /**
      * Creates new form TableDialogue
      */
-    private boolean ok = false;
-    
-    public TableDialogue(java.awt.Frame parent, boolean modal) 
-    {
+    public static String selectedList;
+    private LinkedList<Table> liTablesList = new LinkedList<>();
+    public static LinkedList<Table> selectedTables = new LinkedList<>();
+
+    public TableDialogue(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.getContentPane().setBackground(MainWindow.backgroundColorPanel);
         btCancel.setBackground(MainWindow.backgroundColorButton);
         btOk.setBackground(MainWindow.backgroundColorButton);
+        btAdd.setBackground(MainWindow.backgroundColorButton);
+        btRemove.setBackground(MainWindow.backgroundColorButton);
         this.setLocationRelativeTo(parent);
-        this.setIconImage(new ImageIcon(getClass().getResource("Logo.png")).getImage()); 
+        this.setIconImage(new ImageIcon(getClass().getResource("Logo.png")).getImage());
+        getList();
+        showList();
+        selectedTables.clear();
     }
- 
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -43,6 +54,16 @@ public class TableDialogue extends javax.swing.JDialog
         pnButtons = new javax.swing.JPanel();
         btOk = new javax.swing.JButton();
         btCancel = new javax.swing.JButton();
+        pnLists = new javax.swing.JPanel();
+        pnButtonsSelection = new javax.swing.JPanel();
+        lbWhiteSpace1 = new javax.swing.JLabel();
+        lbWhiteSpace2 = new javax.swing.JLabel();
+        btAdd = new javax.swing.JButton();
+        btRemove = new javax.swing.JButton();
+        lbWhiteSpace3 = new javax.swing.JLabel();
+        lbWhiteSpace4 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        liList2 = new javax.swing.JList();
         spTables = new javax.swing.JScrollPane();
         liTables = new javax.swing.JList();
 
@@ -69,7 +90,7 @@ public class TableDialogue extends javax.swing.JDialog
         pnTableButton.setLayout(new java.awt.BorderLayout(10, 10));
 
         pnButtons.setBackground(new java.awt.Color(229, 229, 229));
-        pnButtons.setLayout(new java.awt.GridLayout(1, 2, 10, 10));
+        pnButtons.setLayout(new java.awt.GridLayout(1, 2, 25, 10));
 
         btOk.setBackground(new java.awt.Color(229, 229, 229));
         btOk.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
@@ -99,13 +120,77 @@ public class TableDialogue extends javax.swing.JDialog
 
         pnTableButton.add(pnButtons, java.awt.BorderLayout.PAGE_END);
 
+        pnLists.setBackground(new java.awt.Color(229, 229, 229));
+        pnLists.setLayout(new java.awt.BorderLayout(15, 0));
+
+        pnButtonsSelection.setBackground(new java.awt.Color(229, 229, 229));
+        pnButtonsSelection.setToolTipText("");
+        pnButtonsSelection.setLayout(new java.awt.GridLayout(6, 1));
+
+        lbWhiteSpace1.setBackground(new java.awt.Color(229, 229, 229));
+        lbWhiteSpace1.setToolTipText("");
+        pnButtonsSelection.add(lbWhiteSpace1);
+
+        lbWhiteSpace2.setBackground(new java.awt.Color(229, 229, 229));
+        lbWhiteSpace2.setToolTipText("");
+        pnButtonsSelection.add(lbWhiteSpace2);
+
+        btAdd.setBackground(new java.awt.Color(229, 229, 229));
+        btAdd.setText(">");
+        btAdd.setToolTipText("");
+        btAdd.setActionCommand(">");
+        btAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btAddActionPerformed(evt);
+            }
+        });
+        pnButtonsSelection.add(btAdd);
+
+        btRemove.setBackground(new java.awt.Color(229, 229, 229));
+        btRemove.setText("<");
+        btRemove.setToolTipText("");
+        btRemove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btRemoveActionPerformed(evt);
+            }
+        });
+        pnButtonsSelection.add(btRemove);
+
+        lbWhiteSpace3.setBackground(new java.awt.Color(229, 229, 229));
+        lbWhiteSpace3.setToolTipText("");
+        pnButtonsSelection.add(lbWhiteSpace3);
+
+        lbWhiteSpace4.setBackground(new java.awt.Color(229, 229, 229));
+        lbWhiteSpace4.setToolTipText("");
+        pnButtonsSelection.add(lbWhiteSpace4);
+
+        pnLists.add(pnButtonsSelection, java.awt.BorderLayout.CENTER);
+
+        jScrollPane1.setBackground(new java.awt.Color(229, 229, 229));
+        jScrollPane1.setToolTipText("");
+        jScrollPane1.setMaximumSize(new java.awt.Dimension(200, 200));
+        jScrollPane1.setMinimumSize(new java.awt.Dimension(200, 200));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(200, 200));
+
+        liList2.setBackground(new java.awt.Color(229, 229, 229));
+        liList2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        liList2.setToolTipText("");
+        jScrollPane1.setViewportView(liList2);
+
+        pnLists.add(jScrollPane1, java.awt.BorderLayout.EAST);
+
         spTables.setBackground(new java.awt.Color(229, 229, 229));
+        spTables.setMaximumSize(new java.awt.Dimension(200, 200));
+        spTables.setMinimumSize(new java.awt.Dimension(200, 200));
+        spTables.setPreferredSize(new java.awt.Dimension(200, 200));
 
         liTables.setBackground(new java.awt.Color(229, 229, 229));
         liTables.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         spTables.setViewportView(liTables);
 
-        pnTableButton.add(spTables, java.awt.BorderLayout.CENTER);
+        pnLists.add(spTables, java.awt.BorderLayout.WEST);
+
+        pnTableButton.add(pnLists, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(pnTableButton, java.awt.BorderLayout.CENTER);
 
@@ -113,21 +198,51 @@ public class TableDialogue extends javax.swing.JDialog
     }// </editor-fold>//GEN-END:initComponents
 
     private void onOK(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOK
-        ok = true;
         dispose();
-        DownloadDialogue downloadDialogue = new DownloadDialogue(null, true);
-        downloadDialogue.setVisible(true);
     }//GEN-LAST:event_onOK
 
     private void onCancel(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCancel
         dispose();
     }//GEN-LAST:event_onCancel
 
-    public boolean getOK() 
-    {
-        return ok;
+    private void btAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAddActionPerformed
+        try {
+            selectedTables.add(liTablesList.get(liTables.getSelectedIndex()));
+            liTablesList.remove(liTables.getSelectedIndex());
+            liList2.setModel(new TableNamesLM(selectedTables));
+            liTables.updateUI();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(TableDialogue.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btAddActionPerformed
+
+    private void btRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRemoveActionPerformed
+        liTablesList.add(selectedTables.get(liList2.getSelectedIndex()));
+        selectedTables.remove(liList2.getSelectedIndex());
+        liList2.updateUI();
+        liTables.updateUI();
+    }//GEN-LAST:event_btRemoveActionPerformed
+
+    public void getList() {
+        switch (selectedList) {
+            case "left":
+                liTablesList = (LinkedList<Table>)MainWindow.liTablesLeft.clone();
+                break;
+            case "right":
+                liTablesList = (LinkedList<Table>) MainWindow.liTablesRight.clone();
+                break;
+        }
     }
-    
+
+    public void showList() {
+        try {
+            TableNamesLM tn = new TableNamesLM(liTablesList);
+            liTables.setModel(tn);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(TableDialogue.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -171,11 +286,21 @@ public class TableDialogue extends javax.swing.JDialog
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btAdd;
     private javax.swing.JButton btCancel;
     private javax.swing.JButton btOk;
+    private javax.swing.JButton btRemove;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbTables;
+    private javax.swing.JLabel lbWhiteSpace1;
+    private javax.swing.JLabel lbWhiteSpace2;
+    private javax.swing.JLabel lbWhiteSpace3;
+    private javax.swing.JLabel lbWhiteSpace4;
+    private javax.swing.JList liList2;
     private javax.swing.JList liTables;
     private javax.swing.JPanel pnButtons;
+    private javax.swing.JPanel pnButtonsSelection;
+    private javax.swing.JPanel pnLists;
     private javax.swing.JPanel pnTableButton;
     private javax.swing.JScrollPane spTables;
     // End of variables declaration//GEN-END:variables
