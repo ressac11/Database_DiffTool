@@ -10,6 +10,8 @@ import beans.NewColumns;
 import beans.NewRow;
 import beans.Row;
 import beans.Table;
+import static gui.MainWindow.liTablesLeft;
+import static gui.MainWindow.liTablesRight;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
