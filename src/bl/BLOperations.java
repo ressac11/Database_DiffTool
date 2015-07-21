@@ -273,43 +273,42 @@ public class BLOperations {
         bw.close();
     }
     
-    public boolean comparisonOutput() 
+    public boolean differenceExisting() 
     {
+        str = "";
         int count = 0;
-        String str = "There distinctions in the databases concerning";
-        if (allNewCols.isEmpty()) {
+        
+        if (allNewCols.isEmpty()) 
+        {
             count++;
-//            JOptionPane.showMessageDialog(null, "the databases are completely equal");
-        } else {
-            for (NewColumns newCol : allNewCols) {
-                System.out.println(newCol.toString());
-            }
-            str = str.concat(" several new Columns");
+        } 
+        else 
+        {
+            str = allNewCols.get(0).getTableName();
         }
 
-        if (allNewRowsLeft.isEmpty()) {
+        if (allNewRowsLeft.isEmpty()) 
+        {
             count++;
-        } else {
-            for (NewRow row : allNewRowsLeft) {
-                
-            }
-            str = str.concat(" several new Rows");
-        }
+        } 
+        else 
+        {
+            str = allNewRowsLeft.get(0).getTableName();
+        } 
         if (allNewRowsRight.isEmpty()) 
         {
             count++;
-        } else {
-            System.out.println("------");
-            for (NewRow row : allNewRowsRight) {
-                System.out.println("row right");
-                System.out.println(row.toString());
-            }
-            str = str.concat(" several new Rows");
+        } 
+        else 
+        {
+            str = allNewRowsRight.get(0).getTableName();
         }
-        if (count == 3) {
+        if (count == 3) 
+        {
             JOptionPane.showMessageDialog(null, "the databases are completely equal");
-        } else {
-//            JOptionPane.showMessageDialog(null, str);
+        } 
+        else 
+        {
             return true;
         }
         return false;
@@ -341,6 +340,10 @@ public class BLOperations {
 
     public LinkedList<NewRow> getAllNewRowsLeft() {
         return allNewRowsLeft;
+    }
+
+    public String getStr() {
+        return str;
     }
     
     public void clearCompareOutputLists()
