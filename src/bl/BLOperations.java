@@ -350,6 +350,12 @@ public class BLOperations {
         return allNewRowsLeft;
     }
     
+    public void clearCompareOutputLists()
+    {
+        allNewCols.clear();
+        allNewRowsLeft.clear();
+        allNewRowsRight.clear();
+    }
     
 
 }
