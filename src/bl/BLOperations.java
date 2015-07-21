@@ -300,8 +300,7 @@ public class BLOperations {
             count++;
         } else {
             for (NewRow row : allNewRowsLeft) {
-                System.out.println("row left");
-                System.out.println(row.toString());
+                
             }
             str = str.concat(" several new Rows");
         }

@@ -11,7 +11,10 @@ import database.DBAccess;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -775,8 +778,8 @@ public class MainWindow extends javax.swing.JFrame {
                 btCompareData.setEnabled(true);
             }
         } catch (Exception ex) {
-            System.out.println("Main Window : onExtractDatas :" + ex.toString());
-        }
+            System.out.println("MainWindow: onExtractDatas: "+ex.toString());
+        } 
     }//GEN-LAST:event_onExtractDatas
     private void onOpenDatabaseFile(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOpenDatabaseFile
         try {
@@ -1048,33 +1051,7 @@ public class MainWindow extends javax.swing.JFrame {
                     }
                 }
             }
-        } else {
-            if (newDataL) {
-                Table t = liTablesLeft.get(0);
-                tctmL = new TableContentTM(t.getColumnNames(), t.getAttributes());
-                tbTableContent1.setModel(tctmL);
-                newDataL = false;
-            } else if (newDataR) {
-                Table table = liTablesRight.get(0);
-                tctmR = new TableContentTM(table.getColumnNames(), table.getAttributes());
-                tbTableContent2.setModel(tctmR);
-                newDataR = false;
-            } else {
-                if (leftList) {
-                    Table table1 = (Table) this.liTables1.getSelectedValue();
-                    TableRenderer.selectedTable = table1.getTableName();
-                    tctmL = new TableContentTM(table1.getColumnNames(), table1.getAttributes());
-                    tbTableContent1.setModel(tctmL);
-
-                } else {
-                    Table table2 = (Table) this.liTablesC.getSelectedValue();
-                    TableRenderer.selectedTable = table2.getTableName();
-                    tctmR = new TableContentTM(table2.getColumnNames(), table2.getAttributes());
-                    tbTableContent2.setModel(tctmR);
-                }
-            }
-//        }
-        }
+        } 
         counter = -1;
     }
 
