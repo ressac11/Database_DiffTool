@@ -60,6 +60,4 @@ public class Table {
     public String toString() {
         return tableName;
     }
-    
-    
 }

@@ -44,11 +44,4 @@ public class ColumnInformation
     public void setColumnName(String columnName) {
         this.columnName = columnName;
     }
-
-    @Override
-    public String toString() {
-        return "ColumnInformation{" + "tableName=" + tableName + ", columnIndex=" + columnIndex + ", columnName=" + columnName + '}';
-    }
-    
-    
 }

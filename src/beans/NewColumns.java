@@ -54,13 +54,4 @@ public class NewColumns
     public void setColumnIndex(int columnIndex) {
         this.columnIndex = columnIndex;
     }
-
-    @Override
-    public String toString() 
-    {
-        return "Table name = " + tableName + ", Column name = " + columnName + ", Column index = " + columnIndex;
-    }
-    
-    
-    
 }

@@ -209,14 +209,6 @@ public class TableDialogue extends javax.swing.JDialog {
         ok = true;
         if(selectedTables.size() > 0)
         {
-            if(equalTablesList)
-            {
-                for (int index : liTables.getSelectedIndices()) 
-                {
-                    selectedTables.add(liTablesList.get(index));
-                }
-                
-            }
             dispose();
         }
         else

@@ -627,24 +627,43 @@ public class MainWindow extends javax.swing.JFrame {
                     }
                     bl.compareDatabases(databaseName1, databaseName2, liLeft, liRight);
                 }
-                automaticallySelectingTables = true;
+                
                 rbTableBothAuto.setSelected(true);
-                leftList = true;
+                automaticallySelectingTables = true;
+                
                 this.downloadEnabled = bl.differenceExisting();
                 String actTable = bl.getStr();
                 TableRenderer.selectedTable = actTable;
+                int index = 0;
                 for (Table t : liTablesLeft) 
                 {
                     if(t.getTableName().equals(actTable))
                     {
-                        liTables1.setSelectedIndex(liTablesLeft.indexOf(t));
+                        index = liTablesLeft.indexOf(t);
+                        liTables1.setSelectedIndex(index);
+                        break;
                     }
                 }
-                onNewSelectedItem();
+                
+                Table tL = liTablesLeft.get(index);
+                TableRenderer.selectedTable = tL.getTableName();
+                if (!liTablesRight.isEmpty()) {
+                    for (int i = 0; i < liTablesRight.size(); i++) {
+                        Table tR = liTablesRight.get(i);
+                        if (tR.getTableName().equals(tL.getTableName())) {
+                            tctmL = new TableContentTM(tL.getColumnNames(), tL.getAttributes());
+                            tctmR = new TableContentTM(tR.getColumnNames(), tR.getAttributes());
+                            tbTableContent1.setModel(tctmL);
+                            this.liTablesC.setSelectedIndex(i);
+                            tbTableContent2.setModel(tctmR);
+                        }
+                    }}
+                
+                
+                
                 if (downloadEnabled) 
                 {
                     btDownloadData.setEnabled(true);
-                    
                 } 
                 else 
                 {
@@ -701,6 +720,8 @@ public class MainWindow extends javax.swing.JFrame {
     private void onExtractDatas(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onExtractDatas
         extractData = Integer.parseInt(evt.getActionCommand());
         bl.clearCompareOutputLists();
+        rbTableSeperate.setSelected(true);
+        automaticallySelectingTables = false;
         DataExtractModeDialogue dataExtractDialogue = new DataExtractModeDialogue(this, true);
         dataExtractDialogue.setDataExctractActionCommand(extractData);
         dataExtractDialogue.setVisible(true);
@@ -795,7 +816,6 @@ public class MainWindow extends javax.swing.JFrame {
             enableItemSelect = true;
             if (enableCompareButton1 && enableCompareButton2) 
             {
-                System.out.println("in enabling compare button");
                 btCompareData.setEnabled(true);
             }
         } catch (Exception ex) {
@@ -986,12 +1006,17 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }
 
-    private void onNewSelectedItem() {
-        if (counter == 0) {
-            if (automaticallySelectingTables) {
-                try {
+    private void onNewSelectedItem() 
+    {
+        if (counter == 0) 
+        {
+            if (automaticallySelectingTables) 
+            {
+                try 
+                {
                     int count = 0;
-                    if (leftList) {
+                    if (leftList) 
+                    {
                         int index = this.liTables1.getSelectedIndex();
                         Table tL = liTablesLeft.get(index);
                         TableRenderer.selectedTable = tL.getTableName();
@@ -1081,6 +1106,8 @@ public class MainWindow extends javax.swing.JFrame {
             }
         } 
         counter = -1;
+        liTables1.updateUI();
+        liTablesC.updateUI();
     }
 
     /**

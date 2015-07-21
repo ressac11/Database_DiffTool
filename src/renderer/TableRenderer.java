@@ -7,13 +7,11 @@ package renderer;
 
 import beans.NewColumns;
 import beans.NewRow;
-import bl.BLOperations;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.util.LinkedList;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
@@ -48,8 +46,6 @@ public class TableRenderer implements TableCellRenderer
                 {
                     if (newRowLeft1.getTableName().equals(selectedTable)) 
                     {
-                        System.out.println(newRowLeft1.getTableName());
-                        System.out.println(newRowLeft1.getRowIndex());
                         if (newRowLeft1.getRowIndex() == row) 
                         {
                             label.setBackground(c2);
