@@ -181,9 +181,12 @@ public class BLOperations {
             tablename = tRight.getTableName();
             cols = (LinkedList<String>) colRight.clone();
         }
-        for (int i = 0; i < sizeMax; i++) {
-            if (i < sizeMin) {
-                if (colLeft.contains(colRight.get(i))) {
+        for (int i = 0; i < sizeMax; i++) 
+        {
+            if (i < sizeMin) 
+            {
+                if (colLeft.contains(colRight.get(i))) 
+                {
                     ColumnInformation colinfoRight = new ColumnInformation(tRight.getTableName(), i, colRight.get(i));
                     allColsRight.add(colinfoRight);
                     ColumnInformation colinfoLeft = new ColumnInformation(tLeft.getTableName(), colLeft.indexOf(colRight.get(i)), colLeft.get(colLeft.indexOf(colRight.get(i))));
@@ -192,8 +195,10 @@ public class BLOperations {
                     NewColumns newCol = new NewColumns(companyName, tablename, cols.get(i), i);
                     allNewCols.add(newCol);
                 }
-            } else {
-                for (int j = this.sizeMin; j < sizeMax; j++) {
+            } else 
+            {
+                for (int j = this.sizeMin; j < sizeMax; j++) 
+                {
                     NewColumns newCol = new NewColumns(companyName, tablename, cols.get(j), j);
                     allNewCols.add(newCol);
                 }
@@ -226,7 +231,8 @@ public class BLOperations {
         }
     }
 
-    public void downloadComparisonOutput(File f) throws IOException {
+    public void downloadComparisonOutput(File f) throws IOException 
+    {
         File file = f;
         FileWriter fw = new FileWriter(file);
         BufferedWriter bw = new BufferedWriter(fw);
@@ -272,6 +278,65 @@ public class BLOperations {
         bw.flush();
         bw.close();
     }
+    
+    public boolean comparisonOutput() 
+    {
+        int count = 0;
+        String str = "There distinctions in the databases concerning";
+        if (allNewCols.isEmpty()) {
+            count++;
+//            JOptionPane.showMessageDialog(null, "the databases are completely equal");
+        } else {
+            for (NewColumns newCol : allNewCols) {
+                System.out.println(newCol.toString());
+            }
+            str = str.concat(" several new Columns");
+        }
+
+        if (allNewRowsLeft.isEmpty()) {
+            count++;
+        } else {
+            for (NewRow row : allNewRowsLeft) {
+                System.out.println("row left");
+                System.out.println(row.toString());
+            }
+            str = str.concat(" several new Rows");
+        }
+        if (allNewRowsRight.isEmpty()) 
+        {
+            count++;
+        } else {
+            System.out.println("------");
+            for (NewRow row : allNewRowsRight) {
+                System.out.println("row right");
+                System.out.println(row.toString());
+            }
+            str = str.concat(" several new Rows");
+        }
+        if (count == 3) {
+            JOptionPane.showMessageDialog(null, "the databases are completely equal");
+        } else {
+//            JOptionPane.showMessageDialog(null, str);
+            return true;
+        }
+        return false;
+    }
+    
+    public LinkedList<Table> getEqualTables(LinkedList<Table> tablesLeft, LinkedList<Table> tablesRight)
+    {
+        LinkedList<Table> liAllEqualTables = new LinkedList<>();
+        for (Table tL : tablesLeft) 
+        {
+            for (Table tR : tablesRight) 
+            {
+                if (tL.getTableName().equals(tR.getTableName())) 
+                {
+                    liAllEqualTables.add(tL);
+                }
+            }
+        }
+        return liAllEqualTables;
+    }
 
     public LinkedList<NewColumns> getAllNewCols() {
         return allNewCols;
@@ -284,5 +349,7 @@ public class BLOperations {
     public LinkedList<NewRow> getAllNewRowsLeft() {
         return allNewRowsLeft;
     }
+    
+    
 
 }

@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 package gui;
+import beans.Table;
+import java.util.LinkedList;
 import javax.swing.ImageIcon;
 
 /**
@@ -16,6 +18,9 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog
      * Creates new form DataSelectionModesDialogue
      */
     private boolean ok = false;
+    private LinkedList<Table> liSelectedTables = new LinkedList<>();
+    private boolean entireDB = false;
+    private LinkedList<Table> liAllEqualTables = new LinkedList<>();
  
     public DataSelectionModesDialogue(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -92,6 +97,7 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog
         rbParticularTables.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         rbParticularTables.setSelected(true);
         rbParticularTables.setText("particular Tables");
+        rbParticularTables.setActionCommand("1");
         pnRadioButton1.add(rbParticularTables, java.awt.BorderLayout.CENTER);
 
         lbWhiteSpace2.setBackground(new java.awt.Color(229, 229, 229));
@@ -116,6 +122,7 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog
         bgGroup1.add(rbEntireDB);
         rbEntireDB.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         rbEntireDB.setText("entire Database");
+        rbEntireDB.setActionCommand("2");
         pnRadioButton.add(rbEntireDB, java.awt.BorderLayout.CENTER);
 
         lbWhiteSpace4.setBackground(new java.awt.Color(229, 229, 229));
@@ -165,22 +172,28 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog
     }// </editor-fold>//GEN-END:initComponents
 
     private void onOK(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOK
-        ok = true;
-        TableDialogue tableDialogue = new TableDialogue(null, true);
-        if(rbParticularTables.isSelected())
-        {           
-            tableDialogue.setVisible(true);
-        }
-        else
-        {
-            dispose();
-            DownloadDialogue downloadDialogue = new DownloadDialogue(null, true);
-            downloadDialogue.setVisible(true);
-        }
-        if(tableDialogue.getOK() && ok)
-        {
-            dispose();
-        }
+//        ok = true;
+//        TableDialogue tableDialogue = new TableDialogue(null, true);
+//        if(rbParticularTables.isSelected())
+//        {
+//            tableDialogue.setLiAllTables(liAllEqualTables);
+//            tableDialogue.setVisible(true);
+//            if(tableDialogue.isOK())
+//            {
+//                liSelectedTables = tableDialogue.getLiSelectedTables();
+//            }
+//        }
+//        else
+//        {
+//            entireDB = true;
+//            dispose();
+////            DownloadDialogue downloadDialogue = new DownloadDialogue(null, true);
+////            downloadDialogue.setVisible(true);
+//        }
+//        if(tableDialogue.isOK() && ok)
+//        {
+//            dispose();
+//        }
         
     }//GEN-LAST:event_onOK
 
@@ -193,6 +206,20 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog
         return ok;
     }
 
+    public LinkedList<Table> getLiSelectedTables() {
+        return liSelectedTables;
+    }
+
+    public boolean isEntireDB() {
+        return entireDB;
+    }
+
+    public void setLiAllEqualTables(LinkedList<Table> liAllEqualTables) {
+        this.liAllEqualTables = liAllEqualTables;
+    }
+    
+    
+    
     /**
      * @param args the command line arguments
      */

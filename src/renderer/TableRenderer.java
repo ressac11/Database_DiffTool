@@ -25,8 +25,8 @@ public class TableRenderer implements TableCellRenderer
 {
     public static LinkedList<NewColumns> newCols = new LinkedList<>();
     public static String selectedTable;
-    public static LinkedList<NewRow> newRowLeft = new LinkedList<NewRow>();
-    public static LinkedList<NewRow> newRowRight = new LinkedList<NewRow>();
+    public static LinkedList<NewRow> newRowLeft = new LinkedList<>();
+    public static LinkedList<NewRow> newRowRight = new LinkedList<>();
 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
@@ -41,26 +41,42 @@ public class TableRenderer implements TableCellRenderer
             label.setFont(new Font("Arial", Font.LAYOUT_LEFT_TO_RIGHT, 12));
             label.setBackground(new Color(229, 229, 229));
             label.setForeground(Color.BLACK);
-            if (table.getName().equals("tbTableContent1")) {
-                for (int i = 0; i < newRowLeft.size(); i++) {
-                    if(newRowLeft.get(i).getTableName().equals(selectedTable))
+            if (table.getName().equals("tbTableContent1")) 
+            {
+                System.out.println(selectedTable);
+                for (NewRow newRowLeft1 : newRowLeft) 
+                {
+                    if (newRowLeft1.getTableName().equals(selectedTable)) 
                     {
-                    if (newRowLeft.get(i).getRowIndex() == row ) {
-                        label.setBackground(c2);
-                    }}
+                        if (newRowLeft1.getRowIndex() == row) 
+                        {
+                            label.setBackground(c2);
+                        }
+                    }
                 }
-            } else {
-                for (int i = 0; i < newRowRight.size(); i++) {
-                    if (newRowRight.get(i).getRowIndex() == row && newRowRight.get(i).getTableName().equals(selectedTable)) {
-                        label.setBackground(c2);
+            } 
+            else 
+            {
+                for (NewRow newRowRight1 : newRowRight) 
+                {
+                   
+                    if (newRowRight1.getTableName().equals(selectedTable)) 
+                    {
+                        if(newRowRight1.getRowIndex() == row )
+                        {
+                            label.setBackground(c2);
+                        }
                     }
                 }
             }
-            for (int i = 0; i < newCols.size(); i++) {
-                if (newCols.get(i).getTableName().equals(selectedTable)) {
-                    if (newCols.get(i).getColumnIndex() == column) {
+            for (NewColumns newCol : newCols) 
+            {
+                if (newCol.getTableName().equals(selectedTable) && newCol.getColumnIndex() == column) 
+                {
+//                    if (newCol.getColumnIndex() == column) 
+//                    {
                         label.setBackground(c1);
-                    }
+//                    }
                 }
             }
         }

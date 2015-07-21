@@ -5,7 +5,13 @@
  */
 package gui;
 
+import beans.Table;
+import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import listModel.TableNamesLM;
 
 /**
  *
@@ -16,8 +22,6 @@ public class TableDialogue extends javax.swing.JDialog
     /**
      * Creates new form TableDialogue
      */
-    private boolean ok = false;
-    
     public TableDialogue(java.awt.Frame parent, boolean modal) 
     {
         super(parent, modal);
@@ -113,20 +117,12 @@ public class TableDialogue extends javax.swing.JDialog
     }// </editor-fold>//GEN-END:initComponents
 
     private void onOK(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOK
-        ok = true;
-        dispose();
-        DownloadDialogue downloadDialogue = new DownloadDialogue(null, true);
-        downloadDialogue.setVisible(true);
+        
     }//GEN-LAST:event_onOK
-
     private void onCancel(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCancel
         dispose();
     }//GEN-LAST:event_onCancel
 
-    public boolean getOK() 
-    {
-        return ok;
-    }
     
     /**
      * @param args the command line arguments
