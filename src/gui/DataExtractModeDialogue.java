@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gui;
 
 import java.awt.Image;
@@ -11,24 +6,15 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-/**
- *
- * @author Steffie
- */
 public class DataExtractModeDialogue extends javax.swing.JDialog {
 
-    /**
-     * Creates new form DataExtractModeDialogue
-     */
-    
     public boolean isOK = false;
     public File selectedDBDump;
     public boolean existingFile = false;
     private int dataExtractActionCommand = 0;
     private String finalDatabaseName = "";
-    
-    public DataExtractModeDialogue(java.awt.Frame parent, boolean modal) 
-    {
+
+    public DataExtractModeDialogue(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.getContentPane().setBackground(MainWindow.backgroundColorPanel);
@@ -36,8 +22,9 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
         this.setSize(380, 250);
         this.setResizable(false);
         setLocationRelativeTo(parent);
-        this.setIconImage(new ImageIcon(getClass().getResource("Logo.png")).getImage()); 
+        this.setIconImage(new ImageIcon(getClass().getResource("Logo.png")).getImage());
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -161,36 +148,26 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
     private void onOK(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOK
         DatabaseConnectionDialogue connectionDialogue = new DatabaseConnectionDialogue(null, true);
-        isOK=true;
-        if(rbNewDBFile.isSelected())
-        {
+        isOK = true;
+        if (rbNewDBFile.isSelected()) {
             connectionDialogue.setVisible(true);
-        }
-        else
-        {
+        } else {
             JFileChooser fileChooser = new JFileChooser();
-            fileChooser.setDialogTitle("Choose existing Database file");   
+            fileChooser.setDialogTitle("Choose existing Database file");
             FileNameExtensionFilter filter = new FileNameExtensionFilter("Database .txt file", "txt");
             fileChooser.setFileFilter(filter);
             int userSelection = fileChooser.showOpenDialog(null);
 
-            if (userSelection == JFileChooser.APPROVE_OPTION) 
-            {
+            if (userSelection == JFileChooser.APPROVE_OPTION) {
                 selectedDBDump = fileChooser.getSelectedFile();
                 existingFile = true;
-//                System.out.println("Selected file: " + selectedDBDump.getAbsolutePath());
-//                DownloadDialogue downloadDialogue = new DownloadDialogue(null, true);
-//                downloadDialogue.setVisible(true);
                 dispose();
             }
-            //dispose();
         }
-              
-        if(connectionDialogue.getNewConn() && isOK)
-        {
-            finalDatabaseName = dataExtractActionCommand+connectionDialogue.getDatabaseName();
+        if (connectionDialogue.getNewConn() && isOK) {
+            finalDatabaseName = dataExtractActionCommand + connectionDialogue.getDatabaseName();
             dispose();
-        }              
+        }
     }//GEN-LAST:event_onOK
 
     public File getSelectedDBDump() {
@@ -209,8 +186,6 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
         return finalDatabaseName;
     }
 
-    
-    
     /**
      * @param args the command line arguments
      */

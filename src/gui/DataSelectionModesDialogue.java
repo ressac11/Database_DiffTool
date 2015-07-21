@@ -1,35 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gui;
+
 import beans.Table;
 import java.util.LinkedList;
 import javax.swing.ImageIcon;
 
-/**
- *
- * @author Sarah
- */
-public class DataSelectionModesDialogue extends javax.swing.JDialog 
-{
-    /**
-     * Creates new form DataSelectionModesDialogue
-     */
+public class DataSelectionModesDialogue extends javax.swing.JDialog {
+
     private boolean ok = false;
     private boolean entireDB = false;
     private LinkedList<Table> liAllEqualTables = new LinkedList<>();
- 
+
     public DataSelectionModesDialogue(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.getContentPane().setBackground(MainWindow.backgroundColorPanel);
         btCancel.setBackground(MainWindow.backgroundColorButton);
         btOK.setBackground(MainWindow.backgroundColorButton);
-        this.setIconImage(new ImageIcon(getClass().getResource("Logo.png")).getImage()); 
+        this.setIconImage(new ImageIcon(getClass().getResource("Logo.png")).getImage());
         this.setLocationRelativeTo(parent);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -173,21 +163,17 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog
     private void onOK(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOK
         ok = true;
         TableDialogue tableDialogue = new TableDialogue(null, true);
-        if(rbParticularTables.isSelected())
-        {
+        if (rbParticularTables.isSelected()) {
             tableDialogue.setEqualTablesList(true);
             tableDialogue.setLiAllTables(liAllEqualTables);
             tableDialogue.setVisible(true);
-        }
-        else
-        {
+        } else {
             entireDB = true;
             dispose();
 //            DownloadDialogue downloadDialogue = new DownloadDialogue(null, true);
 //            downloadDialogue.setVisible(true);
         }
-        if(tableDialogue.isOK() && ok)
-        {
+        if (tableDialogue.isOK() && ok) {
             dispose();
         }
     }//GEN-LAST:event_onOK
@@ -197,10 +183,10 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog
         dispose();
     }//GEN-LAST:event_onCancel
 
-    public boolean isOK() 
-    {
+    public boolean isOK() {
         return ok;
     }
+
     public boolean isEntireDB() {
         return entireDB;
     }
@@ -208,9 +194,7 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog
     public void setLiAllEqualTables(LinkedList<Table> liAllEqualTables) {
         this.liAllEqualTables = liAllEqualTables;
     }
-    
-    
-    
+
     /**
      * @param args the command line arguments
      */
@@ -252,7 +236,6 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog
             }
         });
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bgGroup1;
     private javax.swing.JButton btCancel;

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package bl;
 
 import beans.ColumnInformation;
@@ -22,10 +17,6 @@ import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Sarah
- */
 public class BLOperations {
 
     private final String tableDelim = "#end#";
@@ -78,7 +69,6 @@ public class BLOperations {
                         LinkedList<Row> r2 = new LinkedList<>(liRows);
                         counter = 0;
                         Table t = new Table(tablename, rowCounter, c2, r2);
-                        
                         allTables.add(t);
                         columns.clear();
                         liRows.clear();
@@ -239,6 +229,7 @@ public class BLOperations {
         File file = f;
         FileWriter fw = new FileWriter(file);
         BufferedWriter bw = new BufferedWriter(fw);
+        
         String firstLine = "Results of Database Comparison: " + (+allNewCols.size() + allNewRowsLeft.size() + allNewRowsRight.size());
         bw.write(firstLine);
         bw.newLine();
@@ -361,6 +352,4 @@ public class BLOperations {
         allNewRowsLeft.clear();
         allNewRowsRight.clear();
     }
-    
-
 }

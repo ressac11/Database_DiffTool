@@ -673,7 +673,7 @@ public class MainWindow extends javax.swing.JFrame {
                 enableCompareButton2 = false;
 
                 TableRenderer.newCols = bl.getAllNewCols();
-                TableRenderer.newRowLeft = bl.getAllNewRowsRight();
+                TableRenderer.newRowLeft = bl.getAllNewRowsLeft();
                 TableRenderer.newRowRight = bl.getAllNewRowsRight();
 
                 tbTableContent1.repaint();
