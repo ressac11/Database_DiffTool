@@ -18,7 +18,6 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog
      * Creates new form DataSelectionModesDialogue
      */
     private boolean ok = false;
-    private LinkedList<Table> liSelectedTables = new LinkedList<>();
     private boolean entireDB = false;
     private LinkedList<Table> liAllEqualTables = new LinkedList<>();
  
@@ -172,32 +171,29 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog
     }// </editor-fold>//GEN-END:initComponents
 
     private void onOK(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOK
-//        ok = true;
-//        TableDialogue tableDialogue = new TableDialogue(null, true);
-//        if(rbParticularTables.isSelected())
-//        {
-//            tableDialogue.setLiAllTables(liAllEqualTables);
-//            tableDialogue.setVisible(true);
-//            if(tableDialogue.isOK())
-//            {
-//                liSelectedTables = tableDialogue.getLiSelectedTables();
-//            }
-//        }
-//        else
-//        {
-//            entireDB = true;
-//            dispose();
-////            DownloadDialogue downloadDialogue = new DownloadDialogue(null, true);
-////            downloadDialogue.setVisible(true);
-//        }
-//        if(tableDialogue.isOK() && ok)
-//        {
-//            dispose();
-//        }
-        
+        ok = true;
+        TableDialogue tableDialogue = new TableDialogue(null, true);
+        if(rbParticularTables.isSelected())
+        {
+            tableDialogue.setEqualTablesList(true);
+            tableDialogue.setLiAllTables(liAllEqualTables);
+            tableDialogue.setVisible(true);
+        }
+        else
+        {
+            entireDB = true;
+            dispose();
+//            DownloadDialogue downloadDialogue = new DownloadDialogue(null, true);
+//            downloadDialogue.setVisible(true);
+        }
+        if(tableDialogue.isOK() && ok)
+        {
+            dispose();
+        }
     }//GEN-LAST:event_onOK
 
     private void onCancel(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCancel
+        ok = false;
         dispose();
     }//GEN-LAST:event_onCancel
 
@@ -205,11 +201,6 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog
     {
         return ok;
     }
-
-    public LinkedList<Table> getLiSelectedTables() {
-        return liSelectedTables;
-    }
-
     public boolean isEntireDB() {
         return entireDB;
     }

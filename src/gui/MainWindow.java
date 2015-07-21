@@ -11,24 +11,19 @@ import database.DBAccess;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.io.File;
-import java.io.IOException;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import listModel.TableNamesLM;
 import renderer.TableRenderer;
-import static renderer.TableRenderer.selectedTable;
 import tableModel.TableContentTM;
 /**
  *
  * @author Steffie
  */
-public class MainWindow extends javax.swing.JFrame 
-{
+public class MainWindow extends javax.swing.JFrame {
     /**
      * Creates new form DiffToolGui
      */
@@ -39,8 +34,8 @@ public class MainWindow extends javax.swing.JFrame
     private TableContentTM tctmL = null;
     private TableContentTM tctmR = null;
     public DBAccess dba;
-    private LinkedList<Table> liTablesLeft = new LinkedList<>();
-    private LinkedList<Table> liTablesRight = new LinkedList<>();
+    public LinkedList<Table> liTablesLeft = new LinkedList<>();
+    public LinkedList<Table> liTablesRight = new LinkedList<>();
     private int extractData;
     private boolean leftList;
     private File savedFile1 = null;
@@ -61,6 +56,11 @@ public class MainWindow extends javax.swing.JFrame
     public static boolean existingData=false;
     private File downloadedFile;
     
+    private int counter = 0;
+    private LinkedList<Table> liSaveListLeft = new LinkedList<>();
+    private LinkedList<Table> liSaveListRight = new LinkedList<>();
+    public static boolean e = false;
+
     public MainWindow() {
         initComponents();
         this.getContentPane().setBackground(backgroundColorPanel);
@@ -83,9 +83,12 @@ public class MainWindow extends javax.swing.JFrame
         btOpenDBFile1.setEnabled(false);
         btCompareData.setEnabled(false);
         btOpenDBFile2.setEnabled(false);
+        liTables1.add(pmSelectTables);
+        liTables1.setComponentPopupMenu(pmSelectTables);
+        liTablesC.add(pmSelectTablesC);
+        liTablesC.setComponentPopupMenu(pmSelectTablesC);
         this.setIconImage(new ImageIcon(getClass().getResource("Logo.png")).getImage());
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -97,6 +100,12 @@ public class MainWindow extends javax.swing.JFrame
 
         jLabel2 = new javax.swing.JLabel();
         bgTableGroup = new javax.swing.ButtonGroup();
+        pmSelectTables = new javax.swing.JPopupMenu();
+        miSelectTables = new javax.swing.JMenuItem();
+        miRemoveFilter = new javax.swing.JMenuItem();
+        pmSelectTablesC = new javax.swing.JPopupMenu();
+        miSelectTablesC = new javax.swing.JMenuItem();
+        miRemoveFilterC = new javax.swing.JMenuItem();
         pnButtonToolBar = new javax.swing.JPanel();
         pnCompareButton = new javax.swing.JPanel();
         btCompareData = new javax.swing.JButton();
@@ -149,6 +158,38 @@ public class MainWindow extends javax.swing.JFrame
         tbTableContent2 = new javax.swing.JTable();
 
         jLabel2.setText("jLabel2");
+
+        miSelectTables.setText("Table Filter");
+        miSelectTables.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onFilterTables1(evt);
+            }
+        });
+        pmSelectTables.add(miSelectTables);
+
+        miRemoveFilter.setText("Remove Filter");
+        miRemoveFilter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onRemoveFilter1(evt);
+            }
+        });
+        pmSelectTables.add(miRemoveFilter);
+
+        miSelectTablesC.setText("Table Filter");
+        miSelectTablesC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onFilterTablesC(evt);
+            }
+        });
+        pmSelectTablesC.add(miSelectTablesC);
+
+        miRemoveFilterC.setText("Remove Filter");
+        miRemoveFilterC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onRemoveFilterC(evt);
+            }
+        });
+        pmSelectTablesC.add(miRemoveFilterC);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Database Diff-Tool");
@@ -361,6 +402,11 @@ public class MainWindow extends javax.swing.JFrame
         pnShowAllTables1.add(paExtractData, java.awt.BorderLayout.PAGE_START);
 
         liTables1.setBackground(new java.awt.Color(229, 229, 229));
+        liTables1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                onSelectTableItemLeft(evt);
+            }
+        });
         liTables1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 onSelectTableItem(evt);
@@ -490,6 +536,11 @@ public class MainWindow extends javax.swing.JFrame
         pnShowAllTables2.add(pnExtractData, java.awt.BorderLayout.PAGE_START);
 
         liTablesC.setBackground(new java.awt.Color(229, 229, 229));
+        liTablesC.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                onSelectTableItemRight(evt);
+            }
+        });
         liTablesC.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 onSelectTableItem1(evt);
@@ -569,7 +620,7 @@ public class MainWindow extends javax.swing.JFrame
                 }
                 else
                 {
-                    LinkedList<Table> allEqualTables = selectDialogue.getLiSelectedTables();
+                    LinkedList<Table> allEqualTables = (LinkedList<Table>) TableDialogue.selectedTables.clone();
                     LinkedList<Table> liLeft = new LinkedList<>();
                     LinkedList<Table> liRight = new LinkedList<>();
                     
@@ -595,6 +646,10 @@ public class MainWindow extends javax.swing.JFrame
                     }
                     bl.compareDatabases(databaseName1, databaseName2, liLeft, liRight);
                 }
+                automaticallySelectingTables = true;
+                liTables1.setSelectedIndex(0);
+                leftList = true;
+                onNewSelectedItem();
                 this.downloadEnabled = bl.comparisonOutput();
                 downloadEnabled = true;
                 if (downloadEnabled) 
@@ -614,13 +669,17 @@ public class MainWindow extends javax.swing.JFrame
 
                 tbTableContent1.repaint();
                 tbTableContent2.repaint();
-            }
-        } 
+//        DataSelectionModesDialogue selectDialogue = new DataSelectionModesDialogue(this, true);
+//        selectDialogue.setVisible(true);
+        //btDownloadData.setEnabled(selectDialogue.isOK());
+//        if(enableCompareButton1 && enableCompareButton2)
+//        {
+            }}
         catch (Exception e) 
-        {
+                {
             System.out.println("Main Window : onCompareData : " + e.toString() + "\n");
         }
-        
+            
     }//GEN-LAST:event_onCompareData
 
     private void onDownloadData(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onDownloadData
@@ -628,29 +687,28 @@ public class MainWindow extends javax.swing.JFrame
         {
             if(!btDownloadData.getText().equals(downloadButtonText))
             {
-
-                    JFileChooser fileChooser = new JFileChooser();
-                    fileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
-                    fileChooser.setDialogTitle("Choose directory to save Comparison Output file");
-                    FileNameExtensionFilter filter = new FileNameExtensionFilter("Database .txt file", "txt");
-                    fileChooser.setFileFilter(filter);
-                    int userSelection = fileChooser.showSaveDialog(null);
-                    if (userSelection == JFileChooser.APPROVE_OPTION) 
+                JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
+                fileChooser.setDialogTitle("Choose directory to save Comparison Output file");
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("Database .txt file", "txt");
+                fileChooser.setFileFilter(filter);
+                int userSelection = fileChooser.showSaveDialog(null);
+                if (userSelection == JFileChooser.APPROVE_OPTION) 
+                {
+                    downloadedFile = fileChooser.getSelectedFile();
+                    if (!downloadedFile.getPath().endsWith(".txt")) 
                     {
-                        downloadedFile = fileChooser.getSelectedFile();
-                        if (!downloadedFile.getPath().endsWith(".txt")) 
-                        {
-                            String pathNew = downloadedFile.getPath().concat(".txt");
-                            downloadedFile = new File(pathNew);
-                        }
-                        bl.downloadComparisonOutput(downloadedFile);
-                        Desktop.getDesktop().open(downloadedFile);
-                        btDownloadData.setText(this.downloadButtonText);
+                        String pathNew = downloadedFile.getPath().concat(".txt");
+                        downloadedFile = new File(pathNew);
                     }
-                } 
+                    bl.downloadComparisonOutput(downloadedFile);
+                    Desktop.getDesktop().open(downloadedFile);
+                    btDownloadData.setText(this.downloadButtonText);
+                }
+            } 
             else
             {
-                   Desktop.getDesktop().open(downloadedFile);
+                Desktop.getDesktop().open(downloadedFile);
             }
         }
         catch (Exception e) 
@@ -661,22 +719,22 @@ public class MainWindow extends javax.swing.JFrame
 
     private void onExtractDatas(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onExtractDatas
         extractData = Integer.parseInt(evt.getActionCommand());
+        bl.clearCompareOutputLists();
         DataExtractModeDialogue dataExtractDialogue = new DataExtractModeDialogue(this, true);
         dataExtractDialogue.setDataExctractActionCommand(extractData);
         dataExtractDialogue.setVisible(true);
-        try {
+        try 
+        {
             if (dataExtractDialogue.isExistingFile()) 
             {
-                existingData=true;
-                if (extractData == 1) 
-                {
+                existingData = true;
+                if (extractData == 1) {
                     existingFile1 = dataExtractDialogue.getSelectedDBDump();
                     savedFile1 = null;
                     this.extractData1(false);
                     btOpenDBFile1.setEnabled(true);
                     enableCompareButton1 = true;
-                } else if (extractData == 2) 
-                {
+                } else if (extractData == 2) {
                     existingFile2 = dataExtractDialogue.getSelectedDBDump();
                     savedFile2 = null;
                     this.extractData2(false);
@@ -685,16 +743,12 @@ public class MainWindow extends javax.swing.JFrame
                 }
                 enableItemSelect = true;
                 onNewSelectedItem();
-            } 
-            else {
-                existingData=false;
+            } else {
+                existingData = false;
                 dba = DBAccess.getTheInstance();
-                if(extractData==1)
-                {
+                if (extractData == 1) {
                     this.extractData1(true);
-                }
-                else
-                {
+                } else {
                     this.extractData2(true);
                 }
                 //set database name on each label
@@ -706,8 +760,7 @@ public class MainWindow extends javax.swing.JFrame
                     lbDatabaseName2.setText(databaseName2);
                 }
                 int i = JOptionPane.showConfirmDialog(null, "Do you want to save the Database Extract as file?", "Save Database Extract", JOptionPane.YES_NO_OPTION);
-                if (i == JOptionPane.OK_OPTION) 
-                {
+                if (i == JOptionPane.OK_OPTION) {
                     JFileChooser fileChooser = new JFileChooser();
                     fileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
                     fileChooser.setDialogTitle("Choose directory to save Database file");
@@ -716,14 +769,12 @@ public class MainWindow extends javax.swing.JFrame
                     int userSelection = fileChooser.showSaveDialog(null);
                     if (userSelection == JFileChooser.APPROVE_OPTION) {
                         File f = fileChooser.getSelectedFile();
-                        if (!f.getPath().endsWith(".txt")) 
-                        {
+                        if (!f.getPath().endsWith(".txt")) {
                             String pathNew = f.getPath() + ".txt";
                             f = new File(pathNew);
                         }
-                        
-                        if (extractData == 1) 
-                        {
+
+                        if (extractData == 1) {
                             savedFile1 = f;
                             existingFile1 = null;
                             bl.saveDatabaseFile(f, liTablesLeft, databaseName1);
@@ -739,33 +790,26 @@ public class MainWindow extends javax.swing.JFrame
                         //                        DownloadDialogue downloadDialogue = new DownloadDialogue(null, true);
                         //                        downloadDialogue.setVisible(true);
                     }
-                }
-                else
-                {
-                    if(extractData == 1)
-                    {
+                } else {
+                    if (extractData == 1) {
                         existingFile1 = null;
                         enableCompareButton1 = true;
                         btOpenDBFile1.setEnabled(false);
                     }
-                    if(extractData == 2)
-                    {
+                    if (extractData == 2) {
                         existingFile2 = null;
                         btOpenDBFile2.setEnabled(false);
                         enableCompareButton2 = true;
                     }
                 }
             }
-             enableItemSelect = true;
-            if(enableCompareButton1 && enableCompareButton2)
-            {
+            enableItemSelect = true;
+            if (enableCompareButton1 && enableCompareButton2) {
                 btCompareData.setEnabled(true);
             }
-        } 
-        catch (Exception ex) 
-        {
-            System.out.println("Main Window : onExtractDatas :"+ex.toString());
-        }         
+        } catch (Exception ex) {
+            System.out.println("Main Window : onExtractDatas :" + ex.toString());
+        }
     }//GEN-LAST:event_onExtractDatas
 
     private void onOpenDatabaseFile(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOpenDatabaseFile
@@ -779,7 +823,7 @@ public class MainWindow extends javax.swing.JFrame
                 } else {
                     JOptionPane.showMessageDialog(this, "No Database File has been saved.");
                 }
-                
+
             } else if (Integer.parseInt(openFileLeftOrRight) == 2) {
                 if (savedFile2 != null) {
                     Desktop.getDesktop().open(savedFile2);
@@ -788,9 +832,9 @@ public class MainWindow extends javax.swing.JFrame
                 } else {
                     JOptionPane.showMessageDialog(this, "No Database File has been saved.");
                 }
-            }        
+            }
         } catch (Exception e) {
-            System.out.println("Main Window : openDatabaseFile : "+e.toString());
+            System.out.println("Main Window : openDatabaseFile : " + e.toString());
         }
     }//GEN-LAST:event_onOpenDatabaseFile
     private void onTableDisplayOption(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onTableDisplayOption
@@ -808,141 +852,269 @@ public class MainWindow extends javax.swing.JFrame
     private void onSelectTableItem(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_onSelectTableItem
         if (enableItemSelect) {
             leftList = true;
+            newDataL = false;
+            newDataR = false;
             onNewSelectedItem();
-            newDataL=false;
-            newDataR=false;
+            counter = -1;
         }
     }//GEN-LAST:event_onSelectTableItem
     private void onSelectTableItem1(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_onSelectTableItem1
         if (enableItemSelect) {
             leftList = false;
+            newDataL = false;
+            newDataR = false;
+            counter = -1;
             onNewSelectedItem();
-            newDataL=false;
-            newDataR=false;
+
         }
     }//GEN-LAST:event_onSelectTableItem1
-    private void extractData1(boolean newFile) 
-    {
+
+    private void onSelectTableItemLeft(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_onSelectTableItemLeft
+        if (enableItemSelect) {
+            counter = 0;
+            onNewSelectedItem();
+        }
+    }//GEN-LAST:event_onSelectTableItemLeft
+
+    private void onSelectTableItemRight(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_onSelectTableItemRight
+        if (enableItemSelect) {
+            counter = 0;
+            onNewSelectedItem();
+        }
+    }//GEN-LAST:event_onSelectTableItemRight
+
+    private void onFilterTables1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onFilterTables1
         try 
         {
-            newDataL = true;
-            liTables1.removeAll();
-            liTablesLeft.clear();
-            if(newFile)
+            liSaveListLeft=(LinkedList<Table>)liTablesLeft.clone();
+            TableDialogue.selectedList = "left";
+            TableDialogue td = new TableDialogue(this, true);
+            td.setEqualTablesList(false);
+            td.setLiAllTables(liTablesLeft);
+            td.setVisible(true);
+            if(td.isOK())
             {
-                liTablesLeft = dba.getAllTables(liTablesLeft);
+                liTablesLeft = (LinkedList<Table>) TableDialogue.selectedTables.clone();
+                liTables1.setModel(new TableNamesLM(liTablesLeft));
+//                Table t = liTablesLeft.get(0);
+//                tbTableContent1.setModel(new TableContentTM(t.getColumnNames(), t.getAttributes()));
+                liTables1.setSelectedIndex(0);
+                leftList = true;
+                onNewSelectedItem();
             }
             else
             {
+                return;
+            }
+        } 
+        catch (Exception ex) 
+        {
+            System.out.println("Main Window : onFilterTables1 : "+ex.toString());
+        }
+    }//GEN-LAST:event_onFilterTables1
+
+    private void onFilterTablesC(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onFilterTablesC
+        try 
+        {
+            liSaveListRight=(LinkedList<Table>)liTablesRight.clone();
+            TableDialogue.selectedList = "right";
+            TableDialogue td = new TableDialogue(this, true);
+            td.setEqualTablesList(false);
+            td.setLiAllTables(liTablesRight);
+            td.setVisible(true);
+            if(td.isOK())
+            {
+                liTablesRight = (LinkedList<Table>) TableDialogue.selectedTables.clone();
+                liTablesC.setModel(new TableNamesLM(liTablesRight));
+//                Table t = liTablesRight.get(0);
+//                tbTableContent2.setModel(new TableContentTM(t.getColumnNames(), t.getAttributes()));
+                liTablesC.setSelectedIndex(0);
+                leftList = false;
+                onNewSelectedItem();
+            }
+            else
+            {
+                return;
+            }
+        } 
+        catch (Exception ex) 
+        {
+            System.out.println("Main Window : onFilterTablesC : "+ex.toString());
+        }
+    }//GEN-LAST:event_onFilterTablesC
+
+    private void onRemoveFilter1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onRemoveFilter1
+        try {
+            liTablesLeft=(LinkedList<Table>)liSaveListLeft.clone();
+            liTables1.setModel(new TableNamesLM(liTablesLeft));
+//            Table t = liTablesLeft.get(0);
+//            tbTableContent1.setModel(new TableContentTM(t.getColumnNames(), t.getAttributes()));
+            liTables1.setSelectedIndex(0);
+            leftList = true;
+            onNewSelectedItem();
+        } 
+        catch (Exception ex) 
+        {
+            System.out.println("Main Window : onRemoveFilter1 : "+ex.toString());
+        }
+    }//GEN-LAST:event_onRemoveFilter1
+
+    private void onRemoveFilterC(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onRemoveFilterC
+        try 
+        {
+            liTablesRight=(LinkedList<Table>)liSaveListRight.clone();
+            liTablesC.setModel(new TableNamesLM(liTablesRight));
+//            Table t = liSaveListRight.get(0);
+//            tbTableContent2.setModel(new TableContentTM(t.getColumnNames(), t.getAttributes()));
+            liTablesC.setSelectedIndex(0);
+            leftList = false;
+            onNewSelectedItem();
+        } 
+        catch (Exception ex) 
+        {
+            System.out.println("Main Window : onRemoveFilterC : "+ex.toString());
+        }
+    }//GEN-LAST:event_onRemoveFilterC
+    private void extractData1(boolean newFile) {
+        try {
+            counter = 0;
+            newDataL = true;
+            liTables1.removeAll();
+            liTablesLeft.clear();
+            if (newFile) {
+                liTablesLeft = dba.getAllTables(liTablesLeft);
+            } else {
+                System.out.println("inelseL");
                 liTablesLeft = bl.loadData(existingFile1);
             }
             tnlmLeft = new TableNamesLM(liTablesLeft);
             liTables1.setModel(tnlmLeft);
-            liTables1.setSelectedIndex(0);
             leftList = true;
             onNewSelectedItem();
             btOpenDBFile1.setEnabled(false);
-        } 
-        catch (Exception e) 
-        {
-            System.out.println("Main Window : extractData1 : "+e.toString());
+        } catch (Exception e) {
+            System.out.println("Main Window : extractData1 : " + e.toString());
         }
     }
-    
-    private void extractData2(boolean newFile)
-    {
-        try 
-        {
+
+    private void extractData2(boolean newFile) {
+        try {
+            counter = 0;
             newDataR = true;
             liTablesC.removeAll();
             liTablesRight.clear();
-            if(newFile)
-            {
+            if (newFile) {
                 liTablesRight = dba.getAllTables(liTablesRight);
-            }
-            else
-            {
+            } else {
+                System.out.println("inelseR");
                 liTablesRight = bl.loadData(existingFile2);
             }
             tnlmRight = new TableNamesLM(liTablesRight);
             liTablesC.setModel(tnlmRight);
-            liTablesC.setSelectedIndex(0);
             leftList = false;
             onNewSelectedItem();
             btOpenDBFile2.setEnabled(false);
-        } 
-        catch (Exception e) 
-        {
-            System.out.println("Main Window : extractData1 : "+e.toString());
+        } catch (Exception e) {
+            System.out.println("Main Window : extractData1 : " + e.toString());
         }
     }
-    
-    private void onNewSelectedItem() 
-    {
-        if (automaticallySelectingTables) 
-        {
-            try {
-                int count = 0;
-                if (leftList) {
-                    int index = this.liTables1.getSelectedIndex();
-                    Table tL = liTablesLeft.get(index);
-                    TableRenderer.selectedTable=tL.getTableName();
-                    if (!liTablesRight.isEmpty()) {
-                        for (int i = 0; i < liTablesRight.size(); i++) {
-                            Table tR = liTablesRight.get(i);
-                            if (tR.getTableName().equals(tL.getTableName())) {
-                                count++;
-                                tctmL = new TableContentTM(tL.getColumnNames(), tL.getAttributes());
-                                tctmR = new TableContentTM(tR.getColumnNames(), tR.getAttributes());
-                                tbTableContent1.setModel(tctmL);
-                                this.liTablesC.setSelectedIndex(i);
-                                tbTableContent2.setModel(tctmR);
+
+    private void onNewSelectedItem() {
+        if (counter == 0) {
+            System.out.println("after counter if");
+            if (automaticallySelectingTables) {
+                try {
+                    int count = 0;
+                    if (leftList) {
+                        int index = this.liTables1.getSelectedIndex();
+                        Table tL = liTablesLeft.get(index);
+                        TableRenderer.selectedTable = tL.getTableName();
+                        if (!liTablesRight.isEmpty()) {
+                            for (int i = 0; i < liTablesRight.size(); i++) {
+                                Table tR = liTablesRight.get(i);
+                                if (tR.getTableName().equals(tL.getTableName())) {
+                                    count++;
+                                    tctmL = new TableContentTM(tL.getColumnNames(), tL.getAttributes());
+                                    tctmR = new TableContentTM(tR.getColumnNames(), tR.getAttributes());
+                                    tbTableContent1.setModel(tctmL);
+                                    this.liTablesC.setSelectedIndex(i);
+                                    tbTableContent2.setModel(tctmR);
+                                }
                             }
-                        }
-                        if (count == 0) {
-                            throw new IndexOutOfBoundsException();                     
-                        }
-                    } else {
-                        throw new IndexOutOfBoundsException();
-                    }
-                } else {
-                    int index = this.liTablesC.getSelectedIndex();
-                    Table tR = liTablesRight.get(index);
-                    TableRenderer.selectedTable=tR.getTableName();
-                    if (!liTablesLeft.isEmpty()) {
-                        for (int i = 0; i < liTablesLeft.size(); i++) {
-                            
-                            Table tL = liTablesLeft.get(i);
-                            if (tL.getTableName().equals(tR.getTableName())) {
-                                count++;
-                                tctmL = new TableContentTM(tL.getColumnNames(), tL.getAttributes());
-                                tctmR = new TableContentTM(tR.getColumnNames(), tR.getAttributes());
-                                tbTableContent2.setModel(tctmR);
-                                this.liTables1.setSelectedIndex(i);
-                                tbTableContent1.setModel(tctmL);
+                            if (count == 0) {
+                                throw new IndexOutOfBoundsException();
                             }
-                        }
-                        if (count == 0) {
+                        } else {
                             throw new IndexOutOfBoundsException();
                         }
                     } else {
-                        throw new IndexOutOfBoundsException();
+                        int index = this.liTablesC.getSelectedIndex();
+                        Table tR = liTablesRight.get(index);
+                        TableRenderer.selectedTable = tR.getTableName();
+                        if (!liTablesLeft.isEmpty()) {
+                            for (int i = 0; i < liTablesLeft.size(); i++) {
+
+                                Table tL = liTablesLeft.get(i);
+                                if (tL.getTableName().equals(tR.getTableName())) {
+                                    count++;
+                                    tctmL = new TableContentTM(tL.getColumnNames(), tL.getAttributes());
+                                    tctmR = new TableContentTM(tR.getColumnNames(), tR.getAttributes());
+                                    tbTableContent2.setModel(tctmR);
+                                    this.liTables1.setSelectedIndex(i);
+                                    tbTableContent1.setModel(tctmL);
+                                }
+                            }
+                            if (count == 0) {
+                                throw new IndexOutOfBoundsException();
+                            }
+                        } else {
+                            throw new IndexOutOfBoundsException();
+                        }
+                    }
+                } catch (IndexOutOfBoundsException e) {
+                    JOptionPane.showMessageDialog(this, "Sorry, there is no such table present.");
+                    if (leftList) {
+                        Table table = (Table) this.liTables1.getSelectedValue();
+                        TableRenderer.selectedTable = table.getTableName();
+                        tctmL = new TableContentTM(table.getColumnNames(), table.getAttributes());
+                        tbTableContent1.setModel(tctmL);
+                    } else {
+                        Table table = (Table) this.liTablesC.getSelectedValue();
+                        TableRenderer.selectedTable = table.getTableName();
+                        tctmR = new TableContentTM(table.getColumnNames(), table.getAttributes());
+                        tbTableContent2.setModel(tctmR);
                     }
                 }
-            } 
-            catch (IndexOutOfBoundsException e) 
-            {
-                JOptionPane.showMessageDialog(this, "Sorry, there is no such table present.");
-                if (leftList) {                   
-                    Table table = (Table) this.liTables1.getSelectedValue();
-                    TableRenderer.selectedTable=table.getTableName();
-                    tctmL = new TableContentTM(table.getColumnNames(), table.getAttributes());
+            } else {
+                if (newDataL) {
+                    System.out.println("newDatal");
+                    Table t = liTablesLeft.get(0);
+                    tctmL = new TableContentTM(t.getColumnNames(), t.getAttributes());
                     tbTableContent1.setModel(tctmL);
-                } else {
-                    Table table = (Table) this.liTablesC.getSelectedValue();
-                    TableRenderer.selectedTable=table.getTableName();
+                    newDataL = false;
+                    counter = -1;
+                } else if (newDataR) {
+                    System.out.println("newDataR");
+                    Table table = liTablesRight.get(0);
                     tctmR = new TableContentTM(table.getColumnNames(), table.getAttributes());
                     tbTableContent2.setModel(tctmR);
+                    newDataR = false;
+                    counter = -1;
+                } else {
+                    if (leftList) {
+                        System.out.println("in left list - list:" + tnlmLeft.toString());
+                        Table table1 = (Table) this.liTables1.getSelectedValue();
+                        TableRenderer.selectedTable = table1.getTableName();
+                        tctmL = new TableContentTM(table1.getColumnNames(), table1.getAttributes());
+                        tbTableContent1.setModel(tctmL);
+
+                    } else {
+                        System.out.println("in right list - list:" + tnlmRight.toString());
+                        Table table2 = (Table) this.liTablesC.getSelectedValue();
+                        TableRenderer.selectedTable = table2.getTableName();
+                        tctmR = new TableContentTM(table2.getColumnNames(), table2.getAttributes());
+                        tbTableContent2.setModel(tctmR);
+                    }
                 }
             }
         } 
@@ -982,13 +1154,14 @@ public class MainWindow extends javax.swing.JFrame
             }
 //        }
     }
+        
+        counter = -1;
     }
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) 
-    {
+    public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -1050,8 +1223,14 @@ public class MainWindow extends javax.swing.JFrame
     private javax.swing.JLabel lbPlaceholder9;
     private javax.swing.JList liTables1;
     private javax.swing.JList liTablesC;
+    private javax.swing.JMenuItem miRemoveFilter;
+    private javax.swing.JMenuItem miRemoveFilterC;
+    private javax.swing.JMenuItem miSelectTables;
+    private javax.swing.JMenuItem miSelectTablesC;
     private javax.swing.JPanel paButton;
     private javax.swing.JPanel paExtractData;
+    private javax.swing.JPopupMenu pmSelectTables;
+    private javax.swing.JPopupMenu pmSelectTablesC;
     private javax.swing.JPanel pnButton1;
     private javax.swing.JPanel pnButtonToolBar;
     private javax.swing.JPanel pnCompareButton;
