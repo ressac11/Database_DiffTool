@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gui;
 
 import database.DBAccess;
@@ -11,32 +6,24 @@ import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Steffie
- */
 public class DatabaseConnectionDialogue extends javax.swing.JDialog {
 
-    /**
-     * Creates new form DatabaseConnectionDialogue
-     */
     private boolean newConn = false;
     public static File newDBDump;
     private DBAccess dba;
     public static String selectedDB = "";
     private String databaseName = "";
 
-    public DatabaseConnectionDialogue(java.awt.Frame parent, boolean modal) 
-    {
+    public DatabaseConnectionDialogue(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setResizable(false);
         this.getContentPane().setBackground(MainWindow.backgroundColorPanel);
         btCancel.setBackground(MainWindow.backgroundColorButton);
         btOK.setBackground(MainWindow.backgroundColorButton);
-        setLocationRelativeTo(parent);       
-        selectedDB="postgres";
-        this.setIconImage(new ImageIcon(getClass().getResource("Logo.png")).getImage()); 
+        setLocationRelativeTo(parent);
+        selectedDB = "postgres";
+        this.setIconImage(new ImageIcon(getClass().getResource("Logo.png")).getImage());
     }
 
     /**
@@ -271,12 +258,9 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         databaseName = tfDatabaseName.getText().trim();
         String driver = tfDriver.getText().trim();
         String database_Provider = (String) cbDatabase.getSelectedItem();
-        if (user.isEmpty() || password.isEmpty() || uRL.isEmpty() || databaseName.isEmpty() || driver.isEmpty() || database_Provider.isEmpty()) 
-        {
+        if (user.isEmpty() || password.isEmpty() || uRL.isEmpty() || databaseName.isEmpty() || driver.isEmpty() || database_Provider.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please do not enter wrong values!");
-        } 
-        else 
-        {
+        } else {
             dispose();
             DBConnectionPool.DB_DRIVER = driver;
             DBConnectionPool.DB_NAME = databaseName;
@@ -306,18 +290,14 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_onNewDriver
 
-    public boolean getNewConn() 
-    {
+    public boolean getNewConn() {
         return newConn;
     }
 
-    public String getDatabaseName() 
-    {
+    public String getDatabaseName() {
         return databaseName;
     }
 
-    
-    
     /**
      * @param args the command line arguments
      */

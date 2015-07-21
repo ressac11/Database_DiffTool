@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package database;
 
 import beans.Row;
@@ -14,10 +9,6 @@ import java.sql.Statement;
 import java.util.LinkedList;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Sarah
- */
 public class DBAccess {
 
     private DBConnectionPool connPool;
@@ -39,7 +30,7 @@ public class DBAccess {
     }
 
     public LinkedList<Table> getAllTables(LinkedList<Table> liAllTables) throws Exception {
-        connPool=DBConnectionPool.getTheInstance();
+        connPool = DBConnectionPool.getTheInstance();
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
         String sqlString = "";
@@ -51,7 +42,7 @@ public class DBAccess {
                 break;
             case "oracle":
                 sqlString = "SELECT table_name "
-                        + "  FROM dba_tables where owner='"+DBConnectionPool.DB_USER+"'";
+                        + "  FROM dba_tables where owner='" + DBConnectionPool.DB_USER + "'";
                 break;
             case "mssql":
                 sqlString = "SELECT TABLE_NAME "
@@ -73,7 +64,7 @@ public class DBAccess {
     public LinkedList<String> getColumnNames(String tableName) throws Exception {
         LinkedList<String> columnNames = new LinkedList<>();
         Connection conn = connPool.getConnection();
-        Statement stat = conn.createStatement();        
+        Statement stat = conn.createStatement();
         String sqlString = "";
 
         switch (DatabaseConnectionDialogue.selectedDB) {
@@ -82,8 +73,8 @@ public class DBAccess {
                         + " table_name='" + tableName + "'";
                 break;
             case "oracle":
-                sqlString = "select column_name from all_tab_cols where table_name = '"+tableName+"'"+
-                "and owner = '"+DBConnectionPool.DB_USER+"'";
+                sqlString = "select column_name from all_tab_cols where table_name = '" + tableName + "'"
+                        + "and owner = '" + DBConnectionPool.DB_USER + "'";
                 break;
             case "mssql":
                 sqlString = "SELECT TABLE_NAME "

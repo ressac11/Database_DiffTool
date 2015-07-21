@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package database;
 
 import gui.DatabaseConnectionDialogue;
@@ -14,14 +9,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Sarah
- */
 public class DBConnectionPool {
     
     private LinkedList<Connection> connections = new LinkedList();
-    //private LinkedList<Connection> connections = new LinkedList();
     private static final int MAX_CONN = 100;
     private static int num_conn = 0;
     private static DBConnectionPool theInstance = null;
@@ -51,21 +41,13 @@ public class DBConnectionPool {
             try {
                 if (num_conn == MAX_CONN) {
 
-                    //throw new Exception("Maximum number of connections reached");
                 }
                 Connection conn = null;
-                
-//                String host = JOptionPane.showInputDialog("hostname (nur hostname port bleibt):");
-//                
-//                String data = JOptionPane.showInputDialog("SID: ");
-//               
-//                String user = JOptionPane.showInputDialog("user:");
-//                String pw = JOptionPane.showInputDialog("pw:");
                 conn = DriverManager.getConnection(DB_URL + DB_NAME, DB_USER, DB_PASSWD);                
                 num_conn++;
                 return conn;
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "kaVerbindung");
+                JOptionPane.showMessageDialog(null, "There is no Connection possible");
                 ex.printStackTrace();
             }
         } else {
@@ -77,7 +59,4 @@ public class DBConnectionPool {
     public synchronized void releaseConnection(Connection conn) {
         connections.offer(conn);
     }
-    
-    
-    
 }
