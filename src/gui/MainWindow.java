@@ -410,11 +410,6 @@ public class MainWindow extends javax.swing.JFrame {
                 onSelectTableItemLeft(evt);
             }
         });
-        liTables1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                onSelectTableItem(evt);
-            }
-        });
         spTable1.setViewportView(liTables1);
 
         pnShowAllTables1.add(spTable1, java.awt.BorderLayout.CENTER);
@@ -544,11 +539,6 @@ public class MainWindow extends javax.swing.JFrame {
                 onSelectTableItemRight(evt);
             }
         });
-        liTablesC.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                onSelectTableItem1(evt);
-            }
-        });
         spTableC.setViewportView(liTablesC);
 
         pnShowAllTables2.add(spTableC, java.awt.BorderLayout.CENTER);
@@ -671,13 +661,13 @@ public class MainWindow extends javax.swing.JFrame {
                     existingFile1 = dataExtractDialogue.getSelectedDBDump();
                     savedFile1 = null;
                     this.extractData1(false);
-                    btOpenDBFile1.setEnabled(true);
+//                    btOpenDBFile1.setEnabled(true);
                     enableCompareButton1 = true;
                 } else if (extractData == 2) {
                     existingFile2 = dataExtractDialogue.getSelectedDBDump();
                     savedFile2 = null;
                     this.extractData2(false);
-                    btOpenDBFile2.setEnabled(true);
+//                    btOpenDBFile2.setEnabled(true);
                     enableCompareButton2 = true;
                 }
                 enableItemSelect = true;
@@ -750,7 +740,6 @@ public class MainWindow extends javax.swing.JFrame {
             System.out.println("Main Window : onExtractDatas :" + ex.toString());
         }
     }//GEN-LAST:event_onExtractDatas
-
     private void onOpenDatabaseFile(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOpenDatabaseFile
         try {
             String openFileLeftOrRight = evt.getActionCommand();
@@ -788,43 +777,27 @@ public class MainWindow extends javax.swing.JFrame {
                 break;
         }
     }//GEN-LAST:event_onTableDisplayOption
-    private void onSelectTableItem(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_onSelectTableItem
+    private void onSelectTableItemLeft(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_onSelectTableItemLeft
         if (enableItemSelect) {
             leftList = true;
             newDataL = false;
             newDataR = false;
-            onNewSelectedItem();
-            counter = -1;
-        }
-    }//GEN-LAST:event_onSelectTableItem
-    private void onSelectTableItem1(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_onSelectTableItem1
-        if (enableItemSelect) {
-            leftList = false;
-            newDataL = false;
-            newDataR = false;
-            counter = -1;
-            onNewSelectedItem();
-
-        }
-    }//GEN-LAST:event_onSelectTableItem1
-
-    private void onSelectTableItemLeft(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_onSelectTableItemLeft
-        if (enableItemSelect) {
             counter = 0;
             onNewSelectedItem();
         }
     }//GEN-LAST:event_onSelectTableItemLeft
-
     private void onSelectTableItemRight(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_onSelectTableItemRight
         if (enableItemSelect) {
+            leftList = false;
+            newDataL = false;
+            newDataR = false;
             counter = 0;
             onNewSelectedItem();
         }
     }//GEN-LAST:event_onSelectTableItemRight
-
     private void miSelectTablesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSelectTablesActionPerformed
         try {
-            liSaveListLeft=(LinkedList<Table>)liTablesLeft.clone();
+            liSaveListLeft = (LinkedList<Table>) liTablesLeft.clone();
             TableDialogue.selectedList = "left";
             TableDialogue td = new TableDialogue(this, true);
             td.setVisible(true);
@@ -837,10 +810,9 @@ public class MainWindow extends javax.swing.JFrame {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_miSelectTablesActionPerformed
-
     private void miSelectTablesCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miSelectTablesCActionPerformed
         try {
-            liSaveListRight=(LinkedList<Table>)liTablesRight.clone();
+            liSaveListRight = (LinkedList<Table>) liTablesRight.clone();
             TableDialogue.selectedList = "right";
             TableDialogue td = new TableDialogue(this, true);
             td.setVisible(true);
@@ -853,10 +825,9 @@ public class MainWindow extends javax.swing.JFrame {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_miSelectTablesCActionPerformed
-
     private void miRemoveFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miRemoveFilterActionPerformed
         try {
-            liTablesLeft=(LinkedList<Table>)liSaveListLeft.clone();
+            liTablesLeft = (LinkedList<Table>) liSaveListLeft.clone();
             liTables1.setModel(new TableNamesLM(liTablesLeft));
             Table t = liTablesLeft.get(0);
             tbTableContent1.setModel(new TableContentTM(t.getColumnNames(), t.getAttributes()));
@@ -865,10 +836,9 @@ public class MainWindow extends javax.swing.JFrame {
             Logger.getLogger(MainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_miRemoveFilterActionPerformed
-
     private void miRemoveFilterCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_miRemoveFilterCActionPerformed
         try {
-            liTablesRight=(LinkedList<Table>)liSaveListRight.clone();
+            liTablesRight = (LinkedList<Table>) liSaveListRight.clone();
             liTablesC.setModel(new TableNamesLM(liTablesRight));
             Table t = liSaveListRight.get(0);
             tbTableContent2.setModel(new TableContentTM(t.getColumnNames(), t.getAttributes()));
@@ -884,16 +854,21 @@ public class MainWindow extends javax.swing.JFrame {
             liTables1.removeAll();
             liTablesLeft.clear();
             if (newFile) {
+                
                 liTablesLeft = dba.getAllTables(liTablesLeft);
             } else {
-                System.out.println("inelseL");
-                liTablesLeft = bl.loadData(existingFile1);
+                LinkedList<Table> helpList = bl.loadData(existingFile1);
+                liTablesLeft = (LinkedList<Table>)helpList.clone();
+
             }
             tnlmLeft = new TableNamesLM(liTablesLeft);
             liTables1.setModel(tnlmLeft);
             leftList = true;
             onNewSelectedItem();
             btOpenDBFile1.setEnabled(false);
+            
+            
+            
         } catch (Exception e) {
             System.out.println("Main Window : extractData1 : " + e.toString());
         }
@@ -908,16 +883,23 @@ public class MainWindow extends javax.swing.JFrame {
             if (newFile) {
                 liTablesRight = dba.getAllTables(liTablesRight);
             } else {
-                System.out.println("inelseR");
-                liTablesRight = bl.loadData(existingFile2);
+                LinkedList<Table> helpList = bl.loadData(existingFile2);
+                liTablesRight = (LinkedList<Table>)helpList.clone();
             }
+            
             tnlmRight = new TableNamesLM(liTablesRight);
+            
             liTablesC.setModel(tnlmRight);
+            
             leftList = false;
+            
             onNewSelectedItem();
+            
             btOpenDBFile2.setEnabled(false);
+            
+            
         } catch (Exception e) {
-            System.out.println("Main Window : extractData1 : " + e.toString());
+            System.out.println("Main Window : extractData2 : " + e.toString());
         }
     }
 
