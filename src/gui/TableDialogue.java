@@ -30,7 +30,6 @@ public class TableDialogue extends javax.swing.JDialog {
         super(parent, modal);
         try
         {
-            
             initComponents();
             this.getContentPane().setBackground(MainWindow.backgroundColorPanel);
             btCancel.setBackground(MainWindow.backgroundColorButton);

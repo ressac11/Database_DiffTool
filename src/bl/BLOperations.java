@@ -303,7 +303,7 @@ public class BLOperations {
         else 
         {
             str = allNewRowsLeft.get(0).getTableName();
-        }
+        } 
         if (allNewRowsRight.isEmpty()) 
         {
             count++;

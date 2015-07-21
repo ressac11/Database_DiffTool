@@ -43,11 +43,13 @@ public class TableRenderer implements TableCellRenderer
             label.setForeground(Color.BLACK);
             if (table.getName().equals("tbTableContent1")) 
             {
-                System.out.println(selectedTable);
+                
                 for (NewRow newRowLeft1 : newRowLeft) 
                 {
                     if (newRowLeft1.getTableName().equals(selectedTable)) 
                     {
+                        System.out.println(newRowLeft1.getTableName());
+                        System.out.println(newRowLeft1.getRowIndex());
                         if (newRowLeft1.getRowIndex() == row) 
                         {
                             label.setBackground(c2);
@@ -59,7 +61,6 @@ public class TableRenderer implements TableCellRenderer
             {
                 for (NewRow newRowRight1 : newRowRight) 
                 {
-                   
                     if (newRowRight1.getTableName().equals(selectedTable)) 
                     {
                         if(newRowRight1.getRowIndex() == row )
@@ -73,10 +74,7 @@ public class TableRenderer implements TableCellRenderer
             {
                 if (newCol.getTableName().equals(selectedTable) && newCol.getColumnIndex() == column) 
                 {
-//                    if (newCol.getColumnIndex() == column) 
-//                    {
                         label.setBackground(c1);
-//                    }
                 }
             }
         }

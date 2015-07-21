@@ -20,7 +20,7 @@
             <Property name="text" type="java.lang.String" value="Table Filter"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onFilterTables1"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onFilter1"/>
           </Events>
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="miRemoveFilter">
@@ -28,7 +28,7 @@
             <Property name="text" type="java.lang.String" value="Remove Filter"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onRemoveFilter1"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onRemove1"/>
           </Events>
         </MenuItem>
       </SubComponents>
@@ -44,7 +44,7 @@
             <Property name="text" type="java.lang.String" value="Table Filter"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onFilterTablesC"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onFilterC"/>
           </Events>
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="miRemoveFilterC">
@@ -52,7 +52,7 @@
             <Property name="text" type="java.lang.String" value="Remove Filter"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onRemoveFilterC"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onRemoveC"/>
           </Events>
         </MenuItem>
       </SubComponents>
