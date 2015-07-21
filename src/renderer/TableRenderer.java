@@ -41,15 +41,13 @@ public class TableRenderer implements TableCellRenderer
             label.setFont(new Font("Arial", Font.LAYOUT_LEFT_TO_RIGHT, 12));
             label.setBackground(new Color(229, 229, 229));
             label.setForeground(Color.BLACK);
+            
             if (table.getName().equals("tbTableContent1")) 
             {
-                
                 for (NewRow newRowLeft1 : newRowLeft) 
                 {
                     if (newRowLeft1.getTableName().equals(selectedTable)) 
                     {
-                        System.out.println(newRowLeft1.getTableName());
-                        System.out.println(newRowLeft1.getRowIndex());
                         if (newRowLeft1.getRowIndex() == row) 
                         {
                             label.setBackground(c2);
@@ -80,5 +78,4 @@ public class TableRenderer implements TableCellRenderer
         }
         return label;
     }
-
 }

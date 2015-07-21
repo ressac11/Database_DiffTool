@@ -239,6 +239,7 @@ public class BLOperations {
         File file = f;
         FileWriter fw = new FileWriter(file);
         BufferedWriter bw = new BufferedWriter(fw);
+        
         String firstLine = "Results of Database Comparison: " + (+allNewCols.size() + allNewRowsLeft.size() + allNewRowsRight.size());
         bw.write(firstLine);
         bw.newLine();
