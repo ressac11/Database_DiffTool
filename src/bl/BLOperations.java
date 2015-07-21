@@ -53,6 +53,8 @@ public class BLOperations {
         allTables.clear();
         tablename = "";
         LinkedList<Row> liRows = new LinkedList<>();
+        columns.clear();
+        liRows.clear();
         while ((str = br.readLine()) != null) {
             if (counter != -1) {
                 if (counter == 0) {
@@ -76,6 +78,7 @@ public class BLOperations {
                         LinkedList<Row> r2 = new LinkedList<>(liRows);
                         counter = 0;
                         Table t = new Table(tablename, rowCounter, c2, r2);
+                        
                         allTables.add(t);
                         columns.clear();
                         liRows.clear();
@@ -89,7 +92,7 @@ public class BLOperations {
                 counter++;
             }
         }
-        br.close();
+        br.close();        
         return allTables;
     }
 
