@@ -26,8 +26,10 @@ public class TableContentTM extends AbstractTableModel {
     }
 
     @Override
-    public int getRowCount() {
-        if (MainWindow.existingData) {
+    public int getRowCount() 
+    {
+        if (MainWindow.existingData) 
+        {
             if (rows.get(0).getValue().equals("")) {
                 return 0;
             }
