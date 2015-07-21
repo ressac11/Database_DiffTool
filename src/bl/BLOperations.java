@@ -224,49 +224,6 @@ public class BLOperations {
                 allNewRowsLeft.add(row);
             }
         }
-        System.out.println("comparing successful");
-    }
-
-    public boolean comparisonOutput() 
-    {
-        int count = 0;
-        String str = "There distinctions in the databases concerning";
-        if (allNewCols.isEmpty()) {
-            count++;
-//            JOptionPane.showMessageDialog(null, "the databases are completely equal");
-        } else {
-            for (NewColumns newCol : allNewCols) {
-                System.out.println(newCol.toString());
-            }
-            str = str.concat(" several new Columns");
-        }
-
-        if (allNewRowsLeft.isEmpty()) {
-            count++;
-        } else {
-            for (NewRow row : allNewRowsLeft) {
-                System.out.println("row left");
-                System.out.println(row.toString());
-            }
-            str = str.concat(" several new Rows");
-        }
-        if (allNewRowsRight.isEmpty()) {
-            count++;
-        } else {
-            System.out.println("------");
-            for (NewRow row : allNewRowsRight) {
-                System.out.println("row right");
-                System.out.println(row.toString());
-            }
-            str = str.concat(" several new Rows");
-        }
-        if (count == 3) {
-            JOptionPane.showMessageDialog(null, "the databases are completely equal");
-        } else {
-            JOptionPane.showMessageDialog(null, str);
-            return true;
-        }
-        return false;
     }
 
     public void downloadComparisonOutput(File f) throws IOException {
@@ -317,7 +274,6 @@ public class BLOperations {
     }
 
     public LinkedList<NewColumns> getAllNewCols() {
-        System.out.println(allNewCols.size());
         return allNewCols;
     }
 
