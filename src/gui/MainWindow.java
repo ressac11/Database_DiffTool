@@ -11,10 +11,7 @@ import database.DBAccess;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.io.File;
-import java.io.IOException;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -929,7 +926,7 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_onRemove1
 
-    private void onRemoveC(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onRemoveC
+    private void onRemoveC(java.awt.event.ActionEvent evt) {                           
         try {
             liTablesRight = (LinkedList<Table>) liSaveListRight.clone();
             liTablesC.setModel(new TableNamesLM(liTablesRight));
