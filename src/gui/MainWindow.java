@@ -19,13 +19,11 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import listModel.TableNamesLM;
 import renderer.TableRenderer;
 import tableModel.TableContentTM;
-
 /**
  *
  * @author Steffie
  */
 public class MainWindow extends javax.swing.JFrame {
-
     /**
      * Creates new form DiffToolGui
      */
@@ -91,7 +89,6 @@ public class MainWindow extends javax.swing.JFrame {
         liTablesC.setComponentPopupMenu(pmSelectTablesC);
         this.setIconImage(new ImageIcon(getClass().getResource("Logo.png")).getImage());
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -600,7 +597,6 @@ public class MainWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     private void onCompareData(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCompareData
         DataSelectionModesDialogue selectDialogue = new DataSelectionModesDialogue(this, true);
-        
         selectDialogue.setLiAllEqualTables(bl.getEqualTables(liTablesLeft, liTablesRight));
         selectDialogue.setVisible(true);
         try {
@@ -645,7 +641,6 @@ public class MainWindow extends javax.swing.JFrame {
                         break;
                     }
                 }
-                
                 Table tL = liTablesLeft.get(index);
                 TableRenderer.selectedTable = tL.getTableName();
                 if (!liTablesRight.isEmpty()) {
@@ -659,12 +654,8 @@ public class MainWindow extends javax.swing.JFrame {
                             tbTableContent2.setModel(tctmR);
                         }
                     }}
-                
-                
-                
                 if (downloadEnabled) 
                 {
-                    
                     btDownloadData.setEnabled(true);
                 } 
                 else 
