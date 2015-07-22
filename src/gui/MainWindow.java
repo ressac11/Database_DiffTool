@@ -627,7 +627,6 @@ public class MainWindow extends javax.swing.JFrame {
                     }
                     bl.compareDatabases(databaseName1, databaseName2, liLeft, liRight);
                 }
-                
                 rbTableBothAuto.setSelected(true);
                 automaticallySelectingTables = true;
                 
