@@ -11,6 +11,7 @@ import database.DBAccess;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.io.File;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -55,7 +56,6 @@ public class MainWindow extends javax.swing.JFrame {
     private String downloadButtonText = "Open downloaded file";
     public static boolean existingData = false;
     private File downloadedFile;
-
     private int counter = 0;
     private LinkedList<Table> liSaveListLeft = new LinkedList<>();
     private LinkedList<Table> liSaveListRight = new LinkedList<>();
@@ -627,7 +627,6 @@ public class MainWindow extends javax.swing.JFrame {
                 btDownloadData.setText("Download Comparison Output as .txt file");
                 rbTableBothAuto.setSelected(true);
                 automaticallySelectingTables = true;
-                
                 this.downloadEnabled = bl.differenceExisting();
                 String actTable = bl.getStr();
                 TableRenderer.selectedTable = actTable;
@@ -664,11 +663,9 @@ public class MainWindow extends javax.swing.JFrame {
                 }
                 enableCompareButton1 = false;
                 enableCompareButton2 = false;
-
                 TableRenderer.newCols = bl.getAllNewCols();
                 TableRenderer.newRowLeft = bl.getAllNewRowsLeft();
                 TableRenderer.newRowRight = bl.getAllNewRowsRight();
-
                 tbTableContent1.repaint();
                 tbTableContent2.repaint();
 //        DataSelectionModesDialogue selectDialogue = new DataSelectionModesDialogue(this, true);
@@ -712,6 +709,7 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void onExtractDatas(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onExtractDatas
         extractData = Integer.parseInt(evt.getActionCommand());
+        int count = 0;
         bl.clearCompareOutputLists();
         rbTableSeperate.setSelected(true);
         automaticallySelectingTables = false;
@@ -719,103 +717,103 @@ public class MainWindow extends javax.swing.JFrame {
         dataExtractDialogue.setDataExctractActionCommand(extractData);
         dataExtractDialogue.setVisible(true);
         try {
-            if (dataExtractDialogue.isExistingFile()) {
-                existingData = true;
-                if (extractData == 1) 
-                {
-                    existingFile1 = dataExtractDialogue.getSelectedDBDump();
-                    savedFile1 = null;
-                    this.extractData1();
-                    enableCompareButton1 = true;
-                    btOpenDBFile1.setEnabled(true);
-                } 
-                else if (extractData == 2) 
-                {
-                    existingFile2 = dataExtractDialogue.getSelectedDBDump();
-                    savedFile2 = null;
-                    this.extractData2();
-                    enableCompareButton2 = true;
-                    btOpenDBFile2.setEnabled(true);
+            if (dataExtractDialogue.isOK) {
+                if (dataExtractDialogue.isExistingFile()) {
+                    existingData = true;
+                    if (extractData == 1) {
+                        existingFile1 = dataExtractDialogue.getSelectedDBDump();
+                        savedFile1 = null;
+                        this.extractData1();
+                        enableCompareButton1 = true;
+                        btOpenDBFile1.setEnabled(true);
+                    } else if (extractData == 2) {
+                        existingFile2 = dataExtractDialogue.getSelectedDBDump();
+                        savedFile2 = null;
+                        this.extractData2();
+                        enableCompareButton2 = true;
+                        btOpenDBFile2.setEnabled(true);
+                    }
+                    enableItemSelect = true;
+                    onNewSelectedItem();
+                } else {
+                    existingData = false;
+                    dba = DBAccess.getTheInstance();
+                    try 
+                    {
+                        dba.testConnection();
+                        count = 1;
+                    } 
+                    catch (Exception s) 
+                    {
+                        JOptionPane.showMessageDialog(this, "the connection could not be established");
+                    }
+                    if (count != 0) {
+                        if (extractData == 1) {
+                            this.extractData1();
+                        } else {
+                            this.extractData2();
+                        }
+                        //set database name on each label
+                        if (dataExtractDialogue.getFinalDatabaseName().startsWith("1")) {
+                            databaseName1 = dataExtractDialogue.getFinalDatabaseName().substring(1);
+                            lbDatabaseName1.setText(databaseName1);
+                        } else {
+                            databaseName2 = dataExtractDialogue.getFinalDatabaseName().substring(1);
+                            lbDatabaseName2.setText(databaseName2);
+                        }
+                        int i = JOptionPane.showConfirmDialog(null, "Do you want to save the Database Extract as file?", "Save Database Extract", JOptionPane.YES_NO_OPTION);
+                        if (i == JOptionPane.OK_OPTION) {
+                            JFileChooser fileChooser = new JFileChooser();
+                            fileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
+                            fileChooser.setDialogTitle("Choose directory to save Database file");
+                            FileNameExtensionFilter filter = new FileNameExtensionFilter("Database .txt file", "txt");
+                            fileChooser.setFileFilter(filter);
+                            int userSelection = fileChooser.showSaveDialog(null);
+                            if (userSelection == JFileChooser.APPROVE_OPTION) {
+                                File f = fileChooser.getSelectedFile();
+                                if (!f.getPath().endsWith(".txt")) {
+                                    String pathNew = f.getPath() + ".txt";
+                                    f = new File(pathNew);
+                                }
+
+                                if (extractData == 1) {
+                                    savedFile1 = f;
+                                    existingFile1 = null;
+                                    bl.saveDatabaseFile(f, liTablesLeft, databaseName1);
+                                    btOpenDBFile1.setEnabled(true);
+                                    enableCompareButton1 = true;
+                                } else {
+                                    savedFile2 = f;
+                                    existingFile2 = null;
+                                    bl.saveDatabaseFile(f, liTablesRight, databaseName2);
+                                    btOpenDBFile2.setEnabled(true);
+                                    enableCompareButton2 = true;
+                                }
+                        //                        DownloadDialogue downloadDialogue = new DownloadDialogue(null, true);
+                                //                        downloadDialogue.setVisible(true);
+                            }
+                        } else {
+                            if (extractData == 1) {
+                                existingFile1 = null;
+                                enableCompareButton1 = true;
+                                btOpenDBFile1.setEnabled(false);
+                            }
+                            if (extractData == 2) {
+                                existingFile2 = null;
+                                btOpenDBFile2.setEnabled(false);
+                                enableCompareButton2 = true;
+                            }
+                        }
+                    }
                 }
                 enableItemSelect = true;
-                onNewSelectedItem();
-            } else 
-            {
-                existingData = false;
-                dba = DBAccess.getTheInstance();
-                if (extractData == 1) 
-                {
-                    this.extractData1();
-                } 
-                else 
-                {
-                    this.extractData2();
+                if (enableCompareButton1 && enableCompareButton2) {
+                    btCompareData.setEnabled(true);
                 }
-                //set database name on each label
-                if (dataExtractDialogue.getFinalDatabaseName().startsWith("1")) {
-                    databaseName1 = dataExtractDialogue.getFinalDatabaseName().substring(1);
-                    lbDatabaseName1.setText(databaseName1);
-                } else {
-                    databaseName2 = dataExtractDialogue.getFinalDatabaseName().substring(1);
-                    lbDatabaseName2.setText(databaseName2);
-                }
-                int i = JOptionPane.showConfirmDialog(null, "Do you want to save the Database Extract as file?", "Save Database Extract", JOptionPane.YES_NO_OPTION);
-                if (i == JOptionPane.OK_OPTION) 
-                {
-                    JFileChooser fileChooser = new JFileChooser();
-                    fileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
-                    fileChooser.setDialogTitle("Choose directory to save Database file");
-                    FileNameExtensionFilter filter = new FileNameExtensionFilter("Database .txt file", "txt");
-                    fileChooser.setFileFilter(filter);
-                    int userSelection = fileChooser.showSaveDialog(null);
-                    if (userSelection == JFileChooser.APPROVE_OPTION) {
-                        File f = fileChooser.getSelectedFile();
-                        if (!f.getPath().endsWith(".txt")) {
-                            String pathNew = f.getPath() + ".txt";
-                            f = new File(pathNew);
-                        }
-
-                        if (extractData == 1) {
-                            savedFile1 = f;
-                            existingFile1 = null;
-                            bl.saveDatabaseFile(f, liTablesLeft, databaseName1);
-                            btOpenDBFile1.setEnabled(true);
-                            enableCompareButton1 = true;
-                        } else {
-                            savedFile2 = f;
-                            existingFile2 = null;
-                            bl.saveDatabaseFile(f, liTablesRight, databaseName2);
-                            btOpenDBFile2.setEnabled(true);
-                            enableCompareButton2 = true;
-                        }
-                        //                        DownloadDialogue downloadDialogue = new DownloadDialogue(null, true);
-                        //                        downloadDialogue.setVisible(true);
-                    }
-                } 
-                else 
-                {
-                    if (extractData == 1) 
-                    {
-                        existingFile1 = null;
-                        enableCompareButton1 = true;
-                        btOpenDBFile1.setEnabled(false);
-                    }
-                    if (extractData == 2)
-                    {
-                        existingFile2 = null;
-                        btOpenDBFile2.setEnabled(false);
-                        enableCompareButton2 = true;
-                    }
-                }
-            }
-            enableItemSelect = true;
-            if (enableCompareButton1 && enableCompareButton2) 
-            {
-                btCompareData.setEnabled(true);
             }
         } catch (Exception ex) {
-            System.out.println("MainWindow: onExtractDatas: "+ex.toString());
-        } 
+            System.out.println("MainWindow: onExtractDatas: " + ex.toString());
+        }
     }//GEN-LAST:event_onExtractDatas
     private void onOpenDatabaseFile(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOpenDatabaseFile
         try {

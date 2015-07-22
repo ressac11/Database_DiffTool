@@ -5,6 +5,7 @@ import beans.Table;
 import gui.DatabaseConnectionDialogue;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 import javax.swing.JOptionPane;
@@ -30,7 +31,6 @@ public class DBAccess {
     }
 
     public LinkedList<Table> getAllTables(LinkedList<Table> liAllTables) throws Exception {
-        connPool = DBConnectionPool.getTheInstance();
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
         String sqlString = "";
@@ -88,6 +88,11 @@ public class DBAccess {
             columnNames.add(colName);
         }
         return columnNames;
+    }
+    
+    public void testConnection() throws SQLException
+    {
+        Connection conn = connPool.getConnection();
     }
 
     public LinkedList<Row> getAttributesForOneTable(String tableName, LinkedList<String> columnNames) throws Exception {
