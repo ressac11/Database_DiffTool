@@ -600,6 +600,7 @@ public class MainWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     private void onCompareData(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCompareData
         DataSelectionModesDialogue selectDialogue = new DataSelectionModesDialogue(this, true);
+        
         selectDialogue.setLiAllEqualTables(bl.getEqualTables(liTablesLeft, liTablesRight));
         selectDialogue.setVisible(true);
         try {
@@ -627,7 +628,7 @@ public class MainWindow extends javax.swing.JFrame {
                     }
                     bl.compareDatabases(databaseName1, databaseName2, liLeft, liRight);
                 }
-                
+                btDownloadData.setText("Download Comparison Output as .txt file");
                 rbTableBothAuto.setSelected(true);
                 automaticallySelectingTables = true;
                 
@@ -663,6 +664,7 @@ public class MainWindow extends javax.swing.JFrame {
                 
                 if (downloadEnabled) 
                 {
+                    
                     btDownloadData.setEnabled(true);
                 } 
                 else 
@@ -734,6 +736,7 @@ public class MainWindow extends javax.swing.JFrame {
                     savedFile1 = null;
                     this.extractData1();
                     enableCompareButton1 = true;
+                    btOpenDBFile1.setEnabled(true);
                 } 
                 else if (extractData == 2) 
                 {
@@ -741,6 +744,7 @@ public class MainWindow extends javax.swing.JFrame {
                     savedFile2 = null;
                     this.extractData2();
                     enableCompareButton2 = true;
+                    btOpenDBFile2.setEnabled(true);
                 }
                 enableItemSelect = true;
                 onNewSelectedItem();
@@ -1012,8 +1016,6 @@ public class MainWindow extends javax.swing.JFrame {
         {
             if (automaticallySelectingTables) 
             {
-                try 
-                {
                     int count = 0;
                     if (leftList) 
                     {
@@ -1032,12 +1034,7 @@ public class MainWindow extends javax.swing.JFrame {
                                     tbTableContent2.setModel(tctmR);
                                 }
                             }
-                            if (count == 0) {
-                                throw new IndexOutOfBoundsException();
-                            }
-                        } else {
-                            throw new IndexOutOfBoundsException();
-                        }
+                        } 
                     } else {
                         int index = this.liTablesC.getSelectedIndex();
                         Table tR = liTablesRight.get(index);
@@ -1055,28 +1052,9 @@ public class MainWindow extends javax.swing.JFrame {
                                     tbTableContent1.setModel(tctmL);
                                 }
                             }
-                            if (count == 0) {
-                                throw new IndexOutOfBoundsException();
-                            }
-                        } else {
-                            throw new IndexOutOfBoundsException();
-                        }
-                    }
-                } catch (IndexOutOfBoundsException e) {
-                    JOptionPane.showMessageDialog(this, "Sorry, there is no such table present.");
-                    if (leftList) {
-                        Table table = (Table) this.liTables1.getSelectedValue();
-                        TableRenderer.selectedTable = table.getTableName();
-                        tctmL = new TableContentTM(table.getColumnNames(), table.getAttributes());
-                        tbTableContent1.setModel(tctmL);
-                    } else {
-                        Table table = (Table) this.liTablesC.getSelectedValue();
-                        TableRenderer.selectedTable = table.getTableName();
-                        tctmR = new TableContentTM(table.getColumnNames(), table.getAttributes());
-                        tbTableContent2.setModel(tctmR);
-                    }
-                }
-            } else {
+                    }}}
+                
+             else {
                 if (newDataL) {
                     Table t = liTablesLeft.get(0);
                     tctmL = new TableContentTM(t.getColumnNames(), t.getAttributes());
