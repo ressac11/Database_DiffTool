@@ -236,7 +236,7 @@ public class BLOperations {
         bw.newLine();
         String titleCol = String.format("Amount of new Columns: %d", allNewCols.size());
         bw.write(titleCol);
-        bw.newLine();
+//        bw.newLine();
         Iterator<NewColumns> itCol = allNewCols.iterator();
         int countC = 1;
 
@@ -250,6 +250,7 @@ public class BLOperations {
             countC++;
         }
         Iterator<NewRow> itRowL = allNewRowsLeft.iterator();
+        bw.newLine();
         String titleRow = String.format("Amount of different Rows in %s: %d", companyLeft, allNewRowsLeft.size());
         bw.write(titleRow);
         bw.newLine();
