@@ -26,15 +26,12 @@ public class TableContentTM extends AbstractTableModel {
     }
 
     @Override
-    public int getRowCount() 
-    {
-        if (MainWindow.existingData) 
-        {
-            if (rows.get(0).getValue().equals("")) {
-                return 0;
-            }
+    public int getRowCount() {
+        try {
+            return rows.size();
+        } catch (Exception ex) {
+            return 0;
         }
-        return rows.size();
     }
 
     @Override
@@ -49,10 +46,13 @@ public class TableContentTM extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-
-        String str = rows.get(rowIndex).getValue();
-        String[] strArray = str.split(";");
-        return strArray[columnIndex];
+        try {
+            String str = rows.get(rowIndex).getValue();
+            String[] strArray = str.split(";");
+            return strArray[columnIndex];
+        } catch (Exception ex) {
+            return "";
+        }
     }
 
 }
