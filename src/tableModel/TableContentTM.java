@@ -54,5 +54,4 @@ public class TableContentTM extends AbstractTableModel {
             return "";
         }
     }
-
 }
