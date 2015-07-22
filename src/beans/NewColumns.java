@@ -44,4 +44,11 @@ public class NewColumns
 
     public void setColumnIndex(int columnIndex) {
         this.columnIndex = columnIndex;
-    }}
+    }
+
+    @Override
+    public String toString() {
+        return "NewColumns{" + "companyName=" + companyName + ", tableName=" + tableName + ", columnName=" + columnName + ", columnIndex=" + columnIndex + '}';
+    }
+}
+

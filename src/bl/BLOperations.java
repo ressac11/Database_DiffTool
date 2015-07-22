@@ -240,12 +240,12 @@ public class BLOperations {
         Iterator<NewColumns> itCol = allNewCols.iterator();
         int countC = 1;
 
-        while (itCol.hasNext()) {
+        while (itCol.hasNext()) 
+        {
             NewColumns col = itCol.next();
             bw.write(col.getCompanyName());
             bw.newLine();
             bw.write(col.toString());
-            bw.newLine();
             bw.newLine();
             countC++;
         }
