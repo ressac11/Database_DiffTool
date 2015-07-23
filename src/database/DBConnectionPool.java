@@ -52,7 +52,7 @@ public class DBConnectionPool {
                         conn = DriverManager.getConnection(DB_URL + DB_NAME, DB_USER, DB_PASSWD);
                         break;
                     case "mssql":
-                        String connectionUrl = "jdbc:sqlserver://" + DB_URL + ":1433;databaseName=" + DB_NAME;
+                        String connectionUrl =  DB_URL + "databaseName=" + DB_NAME;
                         conn = DriverManager.getConnection(connectionUrl, DB_USER, DB_PASSWD);
                         break;
                 }
