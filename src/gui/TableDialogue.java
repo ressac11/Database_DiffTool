@@ -6,6 +6,7 @@
 package gui;
 
 import beans.Table;
+import java.util.Collections;
 import java.util.LinkedList;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -242,7 +243,8 @@ public class TableDialogue extends javax.swing.JDialog {
         try 
         {
            this.liTablesList = liAllTables;
-           tnlm = new TableNamesLM(liTablesList);
+            Collections.sort(this.liTablesList);
+           tnlm = new TableNamesLM(this.liTablesList);
            liTables.setModel(tnlm);
         } 
         catch(Exception e)

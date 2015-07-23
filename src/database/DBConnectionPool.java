@@ -32,21 +32,28 @@ public class DBConnectionPool {
         try {
             Class.forName(DB_DRIVER);
         } catch (ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "Driverisfalsch");
         }
     }
 
-    public synchronized Connection getConnection() throws SQLException {
+    public synchronized Connection getConnection() {
         if (connections.isEmpty()) {
+            try {
                 if (num_conn == MAX_CONN) {
+
                 }
                 Connection conn = null;
                 conn = DriverManager.getConnection(DB_URL + DB_NAME, DB_USER, DB_PASSWD);                
                 num_conn++;
                 return conn;
-            
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "There is no Connection possible");
+                ex.printStackTrace();
+            }
         } else {
             return connections.poll();
         }
+        return null;
     }
 
     public synchronized void releaseConnection(Connection conn) {

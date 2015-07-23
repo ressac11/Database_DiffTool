@@ -19,8 +19,8 @@ import javax.swing.JOptionPane;
 
 public class BLOperations {
 
-    private final String tableDelim = "#-----------------------------------------------------------#";
     private final String dbDelim =    "#++++++++++++++++++++++++++++++++++++++++++++++++++#";
+    private final String tableDelim = "#----------------------------------------------------------#";
     private final String delim = "#";
     private String tableOfFirstDiff;
     private String[] strArray;
@@ -89,6 +89,7 @@ public class BLOperations {
                             counter++;
                         } else {
                             if (str.equals(tableDelim) || str.equals("endDatabase")) {
+                            if (str.equals(tableDelim) || str.equals("endDatabase")) {
                                 LinkedList<String> c2 = new LinkedList<>(columns);
                                 LinkedList<Row> r2 = new LinkedList<>(liRows);
                                 counter = 0;
@@ -102,6 +103,7 @@ public class BLOperations {
                                 liRows.add(r);
                             }
                         }
+                    }
                     }
                     else 
                     {
