@@ -395,7 +395,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         btOpenDBFile1.setBackground(new java.awt.Color(229, 229, 229));
         btOpenDBFile1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        btOpenDBFile1.setText("Open Database File");
+        btOpenDBFile1.setText("Open saved text file");
         btOpenDBFile1.setActionCommand("1");
         btOpenDBFile1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -524,7 +524,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         btOpenDBFile2.setBackground(new java.awt.Color(229, 229, 229));
         btOpenDBFile2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        btOpenDBFile2.setText("Open Database File");
+        btOpenDBFile2.setText("Open saved text file");
         btOpenDBFile2.setActionCommand("2");
         btOpenDBFile2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
