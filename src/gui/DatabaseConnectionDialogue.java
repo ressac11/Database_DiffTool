@@ -206,6 +206,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         tfUrl.setPreferredSize(new java.awt.Dimension(150, 40));
         jPanel2.add(tfUrl);
 
+        tfSID.setEditable(false);
         tfSID.setBackground(new java.awt.Color(229, 229, 229));
         tfSID.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         tfSID.setMaximumSize(new java.awt.Dimension(150, 40));
@@ -292,7 +293,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
                 tfDriver.setText("oracle.jdbc.driver.OracleDriver");
                 tfUrl.setText("jdbc:oracle:thin:@localhost:1521:");
                 lbSID.setText("    SID:");
-                tfSID.setEnabled(true);
+                tfSID.setEditable(true);
                 break;
             case 2:
                 selectedDB = "mssql";
