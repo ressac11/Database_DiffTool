@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 public class DBConnectionPool {
-    
+
     private LinkedList<Connection> connections = new LinkedList();
     private static final int MAX_CONN = 100;
     private static int num_conn = 0;
@@ -43,7 +43,19 @@ public class DBConnectionPool {
 
                 }
                 Connection conn = null;
-                conn = DriverManager.getConnection(DB_URL + DB_NAME, DB_USER, DB_PASSWD);                
+
+                switch (DatabaseConnectionDialogue.selectedDB) {
+                    case "postgres":
+                        conn = DriverManager.getConnection(DB_URL + DB_NAME, DB_USER, DB_PASSWD);
+                        break;
+                    case "oracle":
+                        conn = DriverManager.getConnection(DB_URL + DB_NAME, DB_USER, DB_PASSWD);
+                        break;
+                    case "mssql":
+                        String connectionUrl = "jdbc:sqlserver://" + DB_URL + ":1433;databaseName=" + DB_NAME;
+                        conn = DriverManager.getConnection(connectionUrl, DB_USER, DB_PASSWD);
+                        break;
+                }
                 num_conn++;
                 return conn;
             } catch (SQLException ex) {
