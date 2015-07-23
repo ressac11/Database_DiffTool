@@ -5,8 +5,8 @@
  */
 package renderer;
 
-import beans.NewColumns;
-import beans.NewRow;
+import beans.DifferentColumn;
+import beans.DifferentRow;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
@@ -21,10 +21,11 @@ import javax.swing.table.TableCellRenderer;
  */
 public class TableRenderer implements TableCellRenderer 
 {
-    public static LinkedList<NewColumns> newCols = new LinkedList<>();
+    public static LinkedList<DifferentColumn> newColsLeft = new LinkedList<>();
+    public static LinkedList<DifferentColumn> newColsRight = new LinkedList<>();
     public static String selectedTable;
-    public static LinkedList<NewRow> newRowLeft = new LinkedList<>();
-    public static LinkedList<NewRow> newRowRight = new LinkedList<>();
+    public static LinkedList<DifferentRow> newRowLeft = new LinkedList<>();
+    public static LinkedList<DifferentRow> newRowRight = new LinkedList<>();
 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
@@ -42,7 +43,7 @@ public class TableRenderer implements TableCellRenderer
             
             if (table.getName().equals("tbTableContent1")) 
             {
-                for (NewRow newRowLeft1 : newRowLeft) 
+                for (DifferentRow newRowLeft1 : newRowLeft) 
                 {
                     if (newRowLeft1.getTableName().equals(selectedTable)) 
                     {
@@ -52,10 +53,17 @@ public class TableRenderer implements TableCellRenderer
                         }
                     }
                 }
+                for (DifferentColumn newCol : newColsLeft) 
+                {
+                    if (newCol.getTableName().equals(selectedTable) && newCol.getColumnIndex() == column) 
+                    {
+                            label.setBackground(c1);
+                    }
+                }
             } 
             else 
             {
-                for (NewRow newRowRight1 : newRowRight) 
+                for (DifferentRow newRowRight1 : newRowRight) 
                 {
                     if (newRowRight1.getTableName().equals(selectedTable)) 
                     {
@@ -65,12 +73,12 @@ public class TableRenderer implements TableCellRenderer
                         }
                     }
                 }
-            }
-            for (NewColumns newCol : newCols) 
-            {
-                if (newCol.getTableName().equals(selectedTable) && newCol.getColumnIndex() == column) 
+                for (DifferentColumn newCol : newColsRight) 
                 {
-                        label.setBackground(c1);
+                    if (newCol.getTableName().equals(selectedTable) && newCol.getColumnIndex() == column) 
+                    {
+                            label.setBackground(c1);
+                    }
                 }
             }
         }

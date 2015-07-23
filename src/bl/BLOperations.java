@@ -1,8 +1,8 @@
 package bl;
 
 import beans.ColumnInformation;
-import beans.NewColumns;
-import beans.NewRow;
+import beans.DifferentColumn;
+import beans.DifferentRow;
 import beans.Row;
 import beans.Table;
 import java.io.BufferedReader;
@@ -19,7 +19,8 @@ import javax.swing.JOptionPane;
 
 public class BLOperations {
 
-    private final String tableDelim = "#end#";
+    private final String tableDelim = "#-----------------------------------------------------------#";
+    private final String dbDelim =    "#++++++++++++++++++++++++++++++++++++++++++++++++++#";
     private final String delim = "#";
     private String tableOfFirstDiff;
     private String[] strArray;
@@ -28,11 +29,12 @@ public class BLOperations {
     private int counter;
     private String rowCounter;
     private LinkedList<Table> allTables = new LinkedList<>();
-    private LinkedList<NewColumns> allNewCols = new LinkedList<>();
+    private LinkedList<DifferentColumn> allNewColsLeft = new LinkedList<>();
+    private LinkedList<DifferentColumn> allNewColsRight = new LinkedList<>();
     private LinkedList<ColumnInformation> allColsLeft = new LinkedList<>();
     private LinkedList<ColumnInformation> allColsRight = new LinkedList<>();
-    private LinkedList<NewRow> allNewRowsRight = new LinkedList<>();
-    private LinkedList<NewRow> allNewRowsLeft = new LinkedList<>();
+    private LinkedList<DifferentRow> allNewRowsRight = new LinkedList<>();
+    private LinkedList<DifferentRow> allNewRowsLeft = new LinkedList<>();
     private int sizeMin;
     private String companyLeft = "";
     private String companyRight = "";
@@ -49,14 +51,19 @@ public class BLOperations {
         columns.clear();
         liRows.clear();
         int countDBName = 0;
+        String str = "";
 
-        while ((tableOfFirstDiff = br.readLine()) != null) {
-            if (tableOfFirstDiff.equals(dbName)) {
+        while ((str = br.readLine()) != null) 
+        {
+            if (str.equals(dbName)) 
+            {
                 countDBName = 1;
-            } else {
+            } 
+            else 
+            {
                 if (countDBName == 1) 
                 {
-                    databaseName = tableOfFirstDiff;
+                    databaseName = str;
                     countDBName = 0;
                 } 
                 else 
@@ -65,23 +72,23 @@ public class BLOperations {
                     {
                         if (counter == 0) 
                         {
-                            if (tableOfFirstDiff.equals("#end#")) 
+                            if (str.equals(tableDelim)) 
                             {
                                 counter = 0;
                             } else {
-                                tablename = tableOfFirstDiff.split("#")[0];
-                                rowCounter = tableOfFirstDiff.split("#")[1];
+                                tablename = str.split("#")[0];
+                                rowCounter = str.split("#")[1];
                                 counter = 1;
                             }
                         } else if (counter == 1) {
-                            strArray = tableOfFirstDiff.split("#");
+                            strArray = str.split("#");
                             for (int i = 0; i < strArray.length; i++) {
                                 String str2 = strArray[i];
                                 columns.add(str2);
                             }
                             counter++;
                         } else {
-                            if (tableOfFirstDiff.equals("#end#") || tableOfFirstDiff.equals("endDatabase")) {
+                            if (str.equals(tableDelim) || str.equals("endDatabase")) {
                                 LinkedList<String> c2 = new LinkedList<>(columns);
                                 LinkedList<Row> r2 = new LinkedList<>(liRows);
                                 counter = 0;
@@ -91,7 +98,7 @@ public class BLOperations {
                                 liRows.clear();
                                 tablename = "";
                             } else {
-                                Row r = new Row(counter, tableOfFirstDiff.split("#")[0]);
+                                Row r = new Row(counter, str.split("#")[0]);
                                 liRows.add(r);
                             }
                         }
@@ -162,7 +169,8 @@ public class BLOperations {
         companyRight = companyNameRight;
         allColsLeft.clear();
         allColsRight.clear();
-        allNewCols.clear();
+        allNewColsLeft.clear();
+        allNewColsRight.clear();
         allNewRowsLeft.clear();
         allNewRowsRight.clear();
         LinkedList<Table> liAllTablesLeft = tablesLeft;
@@ -172,7 +180,7 @@ public class BLOperations {
             for (int j = 0; j < liAllTablesRight.size(); j++) {
                 if (liAllTablesLeft.get(i).getTableName().equals(liAllTablesRight.get(j).getTableName())) {
                     count++;
-                    compare(liAllTablesLeft.get(i), liAllTablesRight.get(j), companyNameLeft, companyNameRight);
+                    compare(liAllTablesLeft.get(i), liAllTablesRight.get(j));
                     allColsLeft.clear();
                     allColsRight.clear();
                 }
@@ -183,45 +191,41 @@ public class BLOperations {
         }
     }
 
-    private void compare(Table tLeft, Table tRight, String companyNameLeft, String companyNameRight) {
+    private void compare(Table tLeft, Table tRight) {
         LinkedList<String> colLeft = tLeft.getColumnNames();
         LinkedList<String> colRight = tRight.getColumnNames();
 
-        int sizeMax = colLeft.size();
-        this.sizeMin = colRight.size();
-        String companyName = companyNameLeft;
-        String tablename = tLeft.getTableName();
-        LinkedList<String> cols = (LinkedList<String>) colLeft.clone();
-        if (colLeft.size() < colRight.size()) {
-            sizeMax = colRight.size();
-            this.sizeMin = colLeft.size();
-            companyName = companyNameRight;
-            tablename = tRight.getTableName();
-            cols = (LinkedList<String>) colRight.clone();
-        }
-        for (int i = 0; i < sizeMax; i++) 
+        for (int i = 0; i < colRight.size(); i++) 
         {
-            if (i < sizeMin) 
-            {
                 if (colLeft.contains(colRight.get(i))) 
                 {
                     ColumnInformation colinfoRight = new ColumnInformation(tRight.getTableName(), i, colRight.get(i));
                     allColsRight.add(colinfoRight);
                     ColumnInformation colinfoLeft = new ColumnInformation(tLeft.getTableName(), colLeft.indexOf(colRight.get(i)), colLeft.get(colLeft.indexOf(colRight.get(i))));
                     allColsLeft.add(colinfoLeft);
-                } else {
-                    NewColumns newCol = new NewColumns(companyName, tablename, cols.get(i), i);
-                    allNewCols.add(newCol);
-                }
-            } else 
-            {
-                for (int j = this.sizeMin; j < sizeMax; j++) 
+                } 
+                else 
                 {
-                    NewColumns newCol = new NewColumns(companyName, tablename, cols.get(j), j);
-                    allNewCols.add(newCol);
+                    DifferentColumn newColR = new DifferentColumn(tRight.getTableName(), colRight.get(i), i);
+                    allNewColsRight.add(newColR);
                 }
-            }
         }
+        for (int i = 0; i < colLeft.size(); i++) 
+        {
+                if (colRight.contains(colLeft.get(i))) 
+                {
+                    ColumnInformation colinfoRight = new ColumnInformation(tRight.getTableName(), colRight.indexOf(colLeft.get(i)), colRight.get(colRight.indexOf(colLeft.get(i))));
+                    allColsRight.add(colinfoRight);
+                    ColumnInformation colinfoLeft = new ColumnInformation(tLeft.getTableName(), i, colLeft.get(i));
+                    allColsLeft.add(colinfoLeft);
+                } 
+                else 
+                {
+                    DifferentColumn newColL = new DifferentColumn(tLeft.getTableName(), colLeft.get(i), i);
+                    allNewColsLeft.add(newColL);
+                }
+        }
+        
 
         LinkedList<Row> leftV = tLeft.getAttributes();
         LinkedList<Row> rightV = tRight.getAttributes();
@@ -236,14 +240,14 @@ public class BLOperations {
         //rechte Liste durchgehen
         for (int rR = 0; rR < valuesRight.size(); rR++) {
             if (!valuesLeft.contains(valuesRight.get(rR))) {
-                NewRow row = new NewRow(companyNameRight, tRight.getTableName(), rR, valuesRight.get(rR));
+                DifferentRow row = new DifferentRow(tRight.getTableName(), valuesRight.get(rR), rR);
                 allNewRowsRight.add(row);
             }
         }
         //linke Liste durchgehen
         for (int rL = 0; rL < valuesLeft.size(); rL++) {
             if (!valuesRight.contains(valuesLeft.get(rL))) {
-                NewRow row = new NewRow(companyNameLeft, tLeft.getTableName(), rL, valuesLeft.get(rL));
+                DifferentRow row = new DifferentRow(tLeft.getTableName(), valuesLeft.get(rL), rL);
                 allNewRowsLeft.add(row);
             }
         }
@@ -255,45 +259,107 @@ public class BLOperations {
         FileWriter fw = new FileWriter(file);
         BufferedWriter bw = new BufferedWriter(fw);
         
-        String firstLine = "Results of Database Comparison: " + (+allNewCols.size() + allNewRowsLeft.size() + allNewRowsRight.size());
+        String firstLine = "Results of Database Comparison: " + (+allNewColsLeft.size() + allNewColsRight.size() + allNewRowsLeft.size() + allNewRowsRight.size());
         bw.write(firstLine);
         bw.newLine();
         bw.newLine();
-        String titleCol = String.format("Amount of new Columns: %d", allNewCols.size());
-        bw.write(titleCol);
-//        bw.newLine();
-        Iterator<NewColumns> itCol = allNewCols.iterator();
-        int countC = 1;
+        String titleCol1 = String.format("Amount of different Columns in %s: %d", companyLeft, allNewColsLeft.size());
+        bw.write(titleCol1);
+        bw.newLine();
+        Iterator<DifferentColumn> itCol = allNewColsLeft.iterator();
 
         while (itCol.hasNext()) 
         {
-            NewColumns col = itCol.next();
-            bw.write(col.getCompanyName());
+            DifferentColumn col = itCol.next();
             bw.newLine();
             bw.write(col.toString());
             bw.newLine();
-            countC++;
         }
-        Iterator<NewRow> itRowL = allNewRowsLeft.iterator();
+        bw.newLine();
+        bw.newLine();
+        bw.write(tableDelim);
+        bw.newLine();
+        bw.newLine();
+        String titleCol2 = String.format("Amount of different Columns in %s: %d", companyRight, allNewColsRight.size());
+        bw.write(titleCol2);
+        bw.newLine();
+        Iterator<DifferentColumn> itCol2 = allNewColsRight.iterator();
+
+        while (itCol2.hasNext()) 
+        {
+            DifferentColumn col = itCol2.next();
+            bw.newLine();
+            bw.write(col.toString());
+            bw.newLine();
+        }
+        
+        Iterator<DifferentRow> itRowL = allNewRowsLeft.iterator();
+        bw.newLine();
+        bw.newLine();
+        bw.write(dbDelim);
+        bw.newLine();
         bw.newLine();
         String titleRow = String.format("Amount of different Rows in %s: %d", companyLeft, allNewRowsLeft.size());
         bw.write(titleRow);
         bw.newLine();
-        while (itRowL.hasNext()) {
-            NewRow row = itRowL.next();
-            bw.write(row.toString());
-            bw.newLine();
+        bw.newLine();
+        String curTableName = itRowL.next().getTableName();
+        bw.write(curTableName);
+        bw.newLine();
+        while (itRowL.hasNext()) 
+        {
+            DifferentRow row = itRowL.next();
+            if(curTableName.equals(row.getTableName()))
+            {
+                bw.write(row.getValue());
+                bw.newLine();
+            }
+            else
+            {
+                curTableName = row.getTableName();
+                bw.newLine();
+                bw.write(tableDelim);
+                bw.newLine();
+                bw.newLine();
+                bw.write(curTableName);
+                bw.newLine();
+                bw.write(row.getValue());
+                bw.newLine();
+            }
         }
         bw.newLine();
         bw.newLine();
-        Iterator<NewRow> itRowR = allNewRowsRight.iterator();
+        bw.write(dbDelim);
+        bw.newLine();
+        bw.newLine();
+        Iterator<DifferentRow> itRowR = allNewRowsRight.iterator();
         String titleRow2 = String.format("Amount of different Rows in %s: %d", companyRight, allNewRowsRight.size());
         bw.write(titleRow2);
         bw.newLine();
-        while (itRowR.hasNext()) {
-            NewRow row = itRowR.next();
-            bw.write(row.toString());
-            bw.newLine();
+        bw.newLine();
+        curTableName = itRowR.next().getTableName();
+        bw.write(curTableName);
+        bw.newLine();
+        while (itRowR.hasNext()) 
+        {
+            DifferentRow row = itRowR.next();
+            if(curTableName.equals(row.getTableName()))
+            {
+                bw.write(row.getValue());
+                bw.newLine();
+            }
+            else
+            {
+                curTableName = row.getTableName();
+                bw.newLine();
+                bw.write(tableDelim);
+                bw.newLine();
+                bw.newLine();
+                bw.write(curTableName);
+                bw.newLine();
+                bw.write(row.getValue());
+                bw.newLine();
+            }
         }
         bw.flush();
         bw.close();
@@ -304,13 +370,21 @@ public class BLOperations {
         tableOfFirstDiff = "";
         int count = 0;
         
-        if (allNewCols.isEmpty()) 
+        if (allNewColsLeft.isEmpty()) 
         {
             count++;
         } 
         else 
         {
-            tableOfFirstDiff = allNewCols.get(0).getTableName();
+            tableOfFirstDiff = allNewColsLeft.get(0).getTableName();
+        }
+        if (allNewColsRight.isEmpty()) 
+        {
+            count++;
+        } 
+        else 
+        {
+            tableOfFirstDiff = allNewColsRight.get(0).getTableName();
         }
 
         if (allNewRowsLeft.isEmpty()) 
@@ -358,24 +432,29 @@ public class BLOperations {
     
     public void clearCompareOutputLists()
     {
-        allNewCols.clear();
+        allNewColsLeft.clear();
+        allNewColsRight.clear();
         allNewRowsLeft.clear();
         allNewRowsRight.clear();
     }
 
-    public LinkedList<NewColumns> getAllNewCols() {
-        return allNewCols;
+    public LinkedList<DifferentColumn> getAllNewColsLeft() {
+        return allNewColsLeft;
+    }
+    
+    public LinkedList<DifferentColumn> getAllNewColsRight() {
+        return allNewColsRight;
     }
 
-    public LinkedList<NewRow> getAllNewRowsRight() {
+    public LinkedList<DifferentRow> getAllNewRowsRight() {
         return allNewRowsRight;
     }
 
-    public LinkedList<NewRow> getAllNewRowsLeft() {
+    public LinkedList<DifferentRow> getAllNewRowsLeft() {
         return allNewRowsLeft;
     }
 
-    public String getStr() {
+    public String getTableofFirstDiff() {
         return tableOfFirstDiff;
     }
 

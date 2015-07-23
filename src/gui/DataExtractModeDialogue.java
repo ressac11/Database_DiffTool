@@ -153,10 +153,13 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
         if (rbNewDBFile.isSelected()) 
         {
             connectionDialogue.setVisible(true);
+            if(connectionDialogue.getNewConn())
+            {
+                newFile = true;
+            }
         } 
         else 
         {
-            newFile = true;
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setDialogTitle("Choose existing Database file");
             FileNameExtensionFilter filter = new FileNameExtensionFilter("Database .txt file", "txt");

@@ -1,25 +1,15 @@
 package beans;
 
-public class NewColumns 
+public class DifferentColumn 
 {
-    private String companyName;
     private String tableName;
     private String columnName;
     private int columnIndex;
 
-    public NewColumns(String companyName, String tableName, String columnName, int columnIndex) {
-        this.companyName = companyName;
+    public DifferentColumn(String tableName, String columnName, int columnIndex) {
         this.tableName = tableName;
         this.columnName = columnName;
         this.columnIndex = columnIndex;
-    }
-
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
     }
 
     public String getTableName() {
@@ -47,8 +37,9 @@ public class NewColumns
     }
 
     @Override
-    public String toString() {
-        return "NewColumns{" + "companyName=" + companyName + ", tableName=" + tableName + ", columnName=" + columnName + ", columnIndex=" + columnIndex + '}';
+    public String toString() 
+    {
+        return "columnName=" + columnName + ", columnIndex=" + columnIndex + '}';
     }
 }
 
