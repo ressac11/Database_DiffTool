@@ -881,6 +881,18 @@ public class MainWindow extends javax.swing.JFrame {
             td.setLiAllTables(liTablesLeft);
             td.setVisible(true);
             if (td.isOK()) {
+                if (rbTableBothAuto.isSelected()) {
+                    liSaveListRight = (LinkedList<Table>) liTablesRight.clone();
+                    liTablesRight = (LinkedList<Table>) TableDialogue.selectedTables.clone();
+                    liTablesLeft = (LinkedList<Table>) TableDialogue.selectedTables.clone();
+                    liTablesC.setModel(new TableNamesLM(liTablesRight));
+                    liTablesC.setSelectedIndex(0);
+                    leftList = false;
+                    onNewSelectedItem();
+                    Collections.sort(liTablesRight);
+                } else {
+                    liTablesLeft = (LinkedList<Table>) TableDialogue.selectedTables.clone();
+                }
                 liTablesLeft = (LinkedList<Table>) TableDialogue.selectedTables.clone();
                 Collections.sort(liTablesLeft);
                 liTables1.setModel(new TableNamesLM(liTablesLeft));
@@ -905,7 +917,19 @@ public class MainWindow extends javax.swing.JFrame {
             td.setLiAllTables(liTablesRight);
             td.setVisible(true);
             if (td.isOK()) {
-                liTablesRight = (LinkedList<Table>) TableDialogue.selectedTables.clone();
+                if (rbTableBothAuto.isSelected()) {
+                    System.out.println("hi");
+                    liSaveListLeft = (LinkedList<Table>) liTablesLeft.clone();
+                    liTablesRight = (LinkedList<Table>) TableDialogue.selectedTables.clone();
+                    liTablesLeft = (LinkedList<Table>) TableDialogue.selectedTables.clone();
+                    liTables1.setModel(new TableNamesLM(liTablesLeft));
+                    liTables1.setSelectedIndex(0);
+                    leftList = true;
+                    onNewSelectedItem();
+                    Collections.sort(liTablesLeft);
+                } else {
+                    liTablesRight = (LinkedList<Table>) TableDialogue.selectedTables.clone();
+                }
                 Collections.sort(liTablesRight);
                 liTablesC.setModel(new TableNamesLM(liTablesRight));
                 liTablesC.setSelectedIndex(0);

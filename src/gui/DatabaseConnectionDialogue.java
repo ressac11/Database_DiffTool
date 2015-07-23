@@ -10,7 +10,6 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
 
     private boolean newConn = false;
     public static File newDBDump;
-    private DBAccess dba;
     public static String selectedDB = "";
     private String databaseName = "";
 
