@@ -88,7 +88,7 @@ public class BLOperations {
                             }
                             counter++;
                         } else {
-                            if (str.equals(tableDelim) || str.equals("endDatabase")) {
+                            
                             if (str.equals(tableDelim) || str.equals("endDatabase")) {
                                 LinkedList<String> c2 = new LinkedList<>(columns);
                                 LinkedList<Row> r2 = new LinkedList<>(liRows);
@@ -99,10 +99,12 @@ public class BLOperations {
                                 liRows.clear();
                                 tablename = "";
                             } else {
+                                
                                 Row r = new Row(counter, str.split("#")[0]);
                                 liRows.add(r);
+                                
                             }
-                        }
+                        
                     }
                     }
                     else 
