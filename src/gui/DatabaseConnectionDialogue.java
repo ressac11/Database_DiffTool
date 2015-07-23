@@ -269,22 +269,25 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
             DBConnectionPool.DB_USER = user;
         }
     }//GEN-LAST:event_onOK
-
     private void onNewDriver(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onNewDriver
-        switch (cbDatabase.getSelectedIndex()) {
+        switch (cbDatabase.getSelectedIndex()) 
+        {
             case 0:
                 selectedDB = "postgres";
                 tfDriver.setText("org.postgresql.Driver");
+                lbCompanyName.setText("    Database name:");
                 lbUrlEx.setText("for example: jdbc:postgresql://localhost/");
                 break;
             case 1:
                 selectedDB = "oracle";
                 tfDriver.setText("oracle.jdbc.driver.OracleDriver");
+                lbCompanyName.setText("    SID:");
                 lbUrlEx.setText("for example: jdbc:oracle:thin:@localhost:1521:");
                 break;
             case 2:
                 selectedDB = "mssql";
                 tfDriver.setText("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+                lbCompanyName.setText("    Database name:");
                 lbUrlEx.setText("for example: jdbc:sqlserver://localhost:1433;");
                 break;
         }

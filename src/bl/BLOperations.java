@@ -21,7 +21,7 @@ public class BLOperations {
 
     private final String tableDelim = "#end#";
     private final String delim = "#";
-    private String str;
+    private String tableOfFirstDiff;
     private String[] strArray;
     private String tablename = "";
     private LinkedList<String> columns = new LinkedList<>();
@@ -36,6 +36,8 @@ public class BLOperations {
     private int sizeMin;
     private String companyLeft = "";
     private String companyRight = "";
+    private String dbName = "#dbname#";
+    private String databaseName = "";
 
     public LinkedList<Table> loadData(File f) throws FileNotFoundException, IOException {
         FileReader fr = new FileReader(f);
@@ -46,43 +48,62 @@ public class BLOperations {
         LinkedList<Row> liRows = new LinkedList<>();
         columns.clear();
         liRows.clear();
-        while ((str = br.readLine()) != null) {
-            if (counter != -1) {
-                if (counter == 0) {
-                    if (str.equals("#end#")) {
-                        counter = 0;
-                    } else {
-                        tablename = str.split("#")[0];
-                        rowCounter = str.split("#")[1];
-                        counter = 1;
+        int countDBName = 0;
+
+        while ((tableOfFirstDiff = br.readLine()) != null) {
+            if (tableOfFirstDiff.equals(dbName)) {
+                countDBName = 1;
+            } else {
+                if (countDBName == 1) 
+                {
+                    databaseName = tableOfFirstDiff;
+                    countDBName = 0;
+                } 
+                else 
+                {
+                    if (counter != -1) 
+                    {
+                        if (counter == 0) 
+                        {
+                            if (tableOfFirstDiff.equals("#end#")) 
+                            {
+                                counter = 0;
+                            } else {
+                                tablename = tableOfFirstDiff.split("#")[0];
+                                rowCounter = tableOfFirstDiff.split("#")[1];
+                                counter = 1;
+                            }
+                        } else if (counter == 1) {
+                            strArray = tableOfFirstDiff.split("#");
+                            for (int i = 0; i < strArray.length; i++) {
+                                String str2 = strArray[i];
+                                columns.add(str2);
+                            }
+                            counter++;
+                        } else {
+                            if (tableOfFirstDiff.equals("#end#") || tableOfFirstDiff.equals("endDatabase")) {
+                                LinkedList<String> c2 = new LinkedList<>(columns);
+                                LinkedList<Row> r2 = new LinkedList<>(liRows);
+                                counter = 0;
+                                Table t = new Table(tablename, rowCounter, c2, r2);
+                                allTables.add(t);
+                                columns.clear();
+                                liRows.clear();
+                                tablename = "";
+                            } else {
+                                Row r = new Row(counter, tableOfFirstDiff.split("#")[0]);
+                                liRows.add(r);
+                            }
+                        }
                     }
-                } else if (counter == 1) {
-                    strArray = str.split("#");
-                    for (int i = 0; i < strArray.length; i++) {
-                        String str2 = strArray[i];
-                        columns.add(str2);
-                    }
-                    counter++;
-                } else {
-                    if (str.equals("#end#") || str.equals("endDatabase")) {
-                        LinkedList<String> c2 = new LinkedList<>(columns);
-                        LinkedList<Row> r2 = new LinkedList<>(liRows);
-                        counter = 0;
-                        Table t = new Table(tablename, rowCounter, c2, r2);
-                        allTables.add(t);
-                        columns.clear();
-                        liRows.clear();
-                        tablename = "";
-                    } else {
-                        Row r = new Row(counter, str.split("#")[0]);
-                        liRows.add(r);
+                    else 
+                    {
+                        counter++;
                     }
                 }
-            } else {
-                counter++;
             }
         }
-        br.close();        
+        br.close();
         return allTables;
     }
 
@@ -91,8 +112,12 @@ public class BLOperations {
         FileWriter fw = new FileWriter(file);
         BufferedWriter bw = new BufferedWriter(fw);
         Iterator<Table> it = tables.iterator();
-
-        while (it.hasNext()) {
+        bw.write(dbName);
+        bw.newLine();
+        bw.write(DatabaseName);
+        bw.newLine();
+        while (it.hasNext()) 
+        {
             Table table = it.next();
             bw.newLine();
             bw.write(tableDelim);
@@ -276,7 +301,7 @@ public class BLOperations {
     
     public boolean differenceExisting() 
     {
-        str = "";
+        tableOfFirstDiff = "";
         int count = 0;
         
         if (allNewCols.isEmpty()) 
@@ -285,7 +310,7 @@ public class BLOperations {
         } 
         else 
         {
-            str = allNewCols.get(0).getTableName();
+            tableOfFirstDiff = allNewCols.get(0).getTableName();
         }
 
         if (allNewRowsLeft.isEmpty()) 
@@ -294,7 +319,7 @@ public class BLOperations {
         } 
         else 
         {
-            str = allNewRowsLeft.get(0).getTableName();
+            tableOfFirstDiff = allNewRowsLeft.get(0).getTableName();
         } 
         if (allNewRowsRight.isEmpty()) 
         {
@@ -302,7 +327,7 @@ public class BLOperations {
         } 
         else 
         {
-            str = allNewRowsRight.get(0).getTableName();
+            tableOfFirstDiff = allNewRowsRight.get(0).getTableName();
         }
         if (count == 3) 
         {
@@ -330,6 +355,13 @@ public class BLOperations {
         }
         return liAllEqualTables;
     }
+    
+    public void clearCompareOutputLists()
+    {
+        allNewCols.clear();
+        allNewRowsLeft.clear();
+        allNewRowsRight.clear();
+    }
 
     public LinkedList<NewColumns> getAllNewCols() {
         return allNewCols;
@@ -344,13 +376,12 @@ public class BLOperations {
     }
 
     public String getStr() {
-        return str;
+        return tableOfFirstDiff;
+    }
+
+    public String getDatabaseName() {
+        return databaseName;
     }
     
-    public void clearCompareOutputLists()
-    {
-        allNewCols.clear();
-        allNewRowsLeft.clear();
-        allNewRowsRight.clear();
-    }
+    
 }

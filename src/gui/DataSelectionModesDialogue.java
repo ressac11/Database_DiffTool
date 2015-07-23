@@ -163,17 +163,21 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog {
     private void onOK(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOK
         ok = true;
         TableDialogue tableDialogue = new TableDialogue(null, true);
-        if (rbParticularTables.isSelected()) {
+        if (rbParticularTables.isSelected()) 
+        {
             tableDialogue.setEqualTablesList(true);
             tableDialogue.setLiAllTables(liAllEqualTables);
             tableDialogue.setVisible(true);
-        } else {
+        } 
+        else 
+        {
             entireDB = true;
             dispose();
 //            DownloadDialogue downloadDialogue = new DownloadDialogue(null, true);
 //            downloadDialogue.setVisible(true);
         }
-        if (tableDialogue.isOK() && ok) {
+        if (tableDialogue.isOK() && ok) 
+        {
             dispose();
         }
     }//GEN-LAST:event_onOK

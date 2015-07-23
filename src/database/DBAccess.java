@@ -20,7 +20,8 @@ public class DBAccess {
     private String rowCounter;
 
     public static DBAccess getTheInstance() throws ClassNotFoundException {
-        if (theInstance == null) {
+        if (theInstance == null) 
+        {
             theInstance = new DBAccess();
         }
         return theInstance;
