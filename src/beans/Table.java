@@ -2,7 +2,7 @@ package beans;
 
 import java.util.LinkedList;
 
-public class Table {
+public class Table implements Comparable<Table>{
     private String tableName;
     private String rowCounter;
     private LinkedList<String> columnNames;
@@ -50,5 +50,16 @@ public class Table {
     @Override
     public String toString() {
         return tableName;
+    }
+
+    @Override
+    public int compareTo(Table o) {
+        
+        // compareTo should return < 0 if this is supposed to be
+        // less than other, > 0 if this is supposed to be greater than 
+        // other and 0 if they are supposed to be equal
+        int name = this.tableName.compareTo(o.tableName);
+        return name;
+    
     }
 }

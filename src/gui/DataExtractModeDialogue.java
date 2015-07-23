@@ -150,33 +150,29 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
     private void onOK(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOK
         DatabaseConnectionDialogue connectionDialogue = new DatabaseConnectionDialogue(null, true);
         isOK = true;
-        if (rbNewDBFile.isSelected()) 
-        {
+        if (rbNewDBFile.isSelected()) {
             connectionDialogue.setVisible(true);
-        } 
-        else 
-        {
-            newFile = true;
+            if (connectionDialogue.getNewConn()) {
+                newFile = true;
+            }
+
+        } else {
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setDialogTitle("Choose existing Database file");
             FileNameExtensionFilter filter = new FileNameExtensionFilter("Database .txt file", "txt");
             fileChooser.setFileFilter(filter);
             int userSelection = fileChooser.showOpenDialog(null);
 
-            if (userSelection == JFileChooser.APPROVE_OPTION) 
-            {
+            if (userSelection == JFileChooser.APPROVE_OPTION) {
                 selectedDBDump = fileChooser.getSelectedFile();
                 existingFile = true;
                 dispose();
             }
         }
-        if (connectionDialogue.getNewConn() && isOK) 
-        {
+        if (connectionDialogue.getNewConn() && isOK) {
             finalDatabaseName = dataExtractActionCommand + connectionDialogue.getDatabaseName();
             dispose();
-        }
-        else
-        {
+        } else {
             finalDatabaseName = "";
         }
     }//GEN-LAST:event_onOK
