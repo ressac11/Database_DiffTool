@@ -67,7 +67,6 @@ public class BLOperations {
                                 counter = 0;
                             } else {
                                 tablename = str.split("#")[0];
-                                rowCounter = str.split("#")[1];
                                 counter = 1;
                             }
                         } else if (counter == 1) {
@@ -83,7 +82,7 @@ public class BLOperations {
                                 LinkedList<String> c2 = new LinkedList<>(columns);
                                 LinkedList<Row> r2 = new LinkedList<>(liRows);
                                 counter = 0;
-                                Table t = new Table(tablename, rowCounter, c2, r2);
+                                Table t = new Table(tablename, c2, r2);
                                 allTables.add(t);
                                 columns.clear();
                                 liRows.clear();
@@ -120,8 +119,6 @@ public class BLOperations {
             bw.write(tableDelim);
             bw.newLine();
             bw.write(table.getTableName());
-            bw.write(delim);
-            bw.write(table.getRowCounter());
             bw.newLine();
             List<String> columns = table.getColumnNames();
             int c = 0;

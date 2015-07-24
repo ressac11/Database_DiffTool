@@ -52,7 +52,7 @@ public class DBAccess {
             String tableName = rs.getString(1);
             LinkedList<String> columnNames = getColumnNames(tableName);
             LinkedList<Row> liAttributes = getAttributesForOneTable(tableName, columnNames);
-            liAllTables.add(new Table(tableName, rowCounter, columnNames, liAttributes));
+            liAllTables.add(new Table(tableName, columnNames, liAttributes));
         }
         this.liAllTables = liAllTables;
         return liAllTables;
@@ -111,11 +111,6 @@ public class DBAccess {
             liAttributes.add(r);
             value = "";
             count++;
-        }
-        sqlString = "SELECT COUNT(*) FROM " + tableName + " ";
-        rs = stat.executeQuery(sqlString);
-        while (rs.next()) {
-            rowCounter = rs.getString(1);
         }
         return liAttributes;
     }

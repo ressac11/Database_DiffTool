@@ -6,7 +6,6 @@ import database.DBAccess;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.io.File;
-import java.sql.SQLException;
 import java.util.Collections;
 import java.util.LinkedList;
 import javax.swing.ImageIcon;
@@ -714,7 +713,6 @@ public class MainWindow extends javax.swing.JFrame {
             } else if (dataExtractDialogue.isOK && dataExtractDialogue.newFile) {
                 existingData = false;
                 try {
-
                     dba = DBAccess.getTheInstance();
                     dba.testConnection();
                     count = 1;
