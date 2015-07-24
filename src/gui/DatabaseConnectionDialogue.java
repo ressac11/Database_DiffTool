@@ -270,11 +270,8 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         } else {
             dispose();
             DBConnectionPool.DB_DRIVER = driver;
-            if (cbDatabase.getSelectedIndex() == 1) {
-                DBConnectionPool.DB_NAME = tfSID.getText();
-            } else {
-                DBConnectionPool.DB_NAME = databaseName;
-            }
+            DBConnectionPool.DB_NAME = databaseName;
+            DBConnectionPool.DB_SID = tfSID.getText();
             DBConnectionPool.DB_PASSWD = password;
             DBConnectionPool.DB_URL = uRL;
             DBConnectionPool.DB_USER = user;

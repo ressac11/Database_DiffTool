@@ -18,6 +18,7 @@ public class DBConnectionPool {
     public static String DB_PASSWD;
     public static String DB_URL;
     public static String DB_DRIVER;
+    public static String DB_SID;
 
     public static DBConnectionPool getTheInstance() throws ClassNotFoundException {
         if (theInstance == null) {
@@ -41,13 +42,14 @@ public class DBConnectionPool {
 
                 }
                 Connection conn = null;
-
+                       
                 switch (DatabaseConnectionDialogue.selectedDB) {
                     case "postgres":
                         conn = DriverManager.getConnection(DB_URL + DB_NAME, DB_USER, DB_PASSWD);
                         break;
                     case "oracle":
-                        conn = DriverManager.getConnection(DB_URL + DB_NAME, DB_USER, DB_PASSWD);
+                        System.out.println("in oracle");
+                        conn = DriverManager.getConnection(DB_URL + DB_SID, DB_USER, DB_PASSWD);
                         break;
                     case "mssql":
                         String connectionUrl =  DB_URL + "databaseName=" + DB_NAME;

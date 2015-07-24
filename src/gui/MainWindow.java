@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -716,7 +718,7 @@ public class MainWindow extends javax.swing.JFrame {
                 existingData = false;
                 try {
                     dba = DBAccess.getTheInstance();
-                    dba.testConnection();
+                    
                     count = 1;
                 } catch (Exception s) {
                     JOptionPane.showMessageDialog(this, "the connection could not be established");
@@ -789,7 +791,7 @@ public class MainWindow extends javax.swing.JFrame {
                 liSaveListRight = (LinkedList<Table>) liTablesRight.clone();
             }
         } catch (Exception e) {
-            System.out.println("Main Window : onExtractDatas : " + e.toString());
+            JOptionPane.showMessageDialog(this, "the connection could not be established");
         }
     }//GEN-LAST:event_onExtractDatas
     private void onOpenDatabaseFile(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOpenDatabaseFile
@@ -957,8 +959,8 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }
 
-    private void extractData1(boolean newFile) {
-        try {
+    private void extractData1(boolean newFile) throws Exception {
+        
             counter = 0;
             newDataL = true;
             liTables1.removeAll();
@@ -977,13 +979,11 @@ public class MainWindow extends javax.swing.JFrame {
             leftList = true;
             onNewSelectedItem();
             btOpenDBFile1.setEnabled(false);
-        } catch (Exception ex) {
-            System.out.println("Main Window : extractData1 : " + ex.toString());
-        }
+        
     }
 
-    private void extractData2(boolean newFile) {
-        try {
+    private void extractData2(boolean newFile) throws Exception {
+        
             counter = 0;
             newDataR = true;
             liTablesC.removeAll();
@@ -1002,9 +1002,7 @@ public class MainWindow extends javax.swing.JFrame {
             leftList = false;
             onNewSelectedItem();
             btOpenDBFile2.setEnabled(false);
-        } catch (Exception e) {
-            System.out.println("Main Window : extractData2 : " + e.toString());
-        }
+        
     }
 
     private void onNewSelectedItem() {

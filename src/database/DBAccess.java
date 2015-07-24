@@ -88,11 +88,6 @@ public class DBAccess {
         return columnNames;
     }
 
-    public void testConnection() throws SQLException {
-        Connection conn = connPool.getConnection();
-        Statement stat = conn.createStatement();
-    }
-
     public LinkedList<Row> getAttributesForOneTable(String tableName, LinkedList<String> columnNames) throws Exception {
         LinkedList<Row> liAttributes = new LinkedList<Row>();
         Connection conn = connPool.getConnection();
