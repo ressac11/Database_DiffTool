@@ -20,8 +20,7 @@ public class DBAccess {
     private String rowCounter;
 
     public static DBAccess getTheInstance() throws ClassNotFoundException {
-        if (theInstance == null) 
-        {
+        if (theInstance == null) {
             theInstance = new DBAccess();
         }
         return theInstance;
@@ -78,9 +77,10 @@ public class DBAccess {
                         + "and owner = '" + DBConnectionPool.DB_USER + "'";
                 break;
             case "mssql":
-                sqlString = "SELECT TABLE_NAME "
-                        + "FROM INFORMATION_SCHEMA.TABLES "
-                        + "WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_CATALOG='" + DBConnectionPool.DB_NAME + "'";
+                String sql = "SELECT COLUMN_NAME "
+                        + "FROM INFORMATION_SCHEMA.COLUMNS "
+                        + "WHERE TABLE_NAME = '" + DBConnectionPool.DB_NAME + "' ";
+
                 break;
         }
         ResultSet rs = stat.executeQuery(sqlString);
@@ -90,9 +90,8 @@ public class DBAccess {
         }
         return columnNames;
     }
-    
-    public void testConnection() throws SQLException
-    {
+
+    public void testConnection() throws SQLException {
         Connection conn = connPool.getConnection();
     }
 
