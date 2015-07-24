@@ -31,6 +31,4 @@ public class DifferentRow
     public int getRowIndex() {
         return rowIndex;
     }
-    
-    
 }

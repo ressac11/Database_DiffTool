@@ -59,8 +59,7 @@ public class DBConnectionPool {
                 num_conn++;
                 return conn;
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "There is no Connection possible");
-                ex.printStackTrace();
+                System.out.println(ex.toString());
             }
         } else {
             return connections.poll();

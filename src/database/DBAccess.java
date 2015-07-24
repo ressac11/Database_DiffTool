@@ -8,15 +8,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
-import javax.swing.JOptionPane;
 
 public class DBAccess {
 
-    private DBConnectionPool connPool;
+    private final DBConnectionPool connPool;
     private static DBAccess theInstance = null;
     private LinkedList<Table> liAllTables = new LinkedList<>();
-    private static final String tableDelim = "#end#";
-    private static final String delim = "#";
     private String rowCounter;
 
     public static DBAccess getTheInstance() throws ClassNotFoundException {

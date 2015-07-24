@@ -173,8 +173,6 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog {
         {
             entireDB = true;
             dispose();
-//            DownloadDialogue downloadDialogue = new DownloadDialogue(null, true);
-//            downloadDialogue.setVisible(true);
         }
         if (tableDialogue.isOK() && ok) 
         {

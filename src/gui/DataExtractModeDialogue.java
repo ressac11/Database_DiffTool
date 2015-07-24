@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.Image;
 import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;

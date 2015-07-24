@@ -54,12 +54,6 @@ public class Table implements Comparable<Table>{
 
     @Override
     public int compareTo(Table o) {
-        
-        // compareTo should return < 0 if this is supposed to be
-        // less than other, > 0 if this is supposed to be greater than 
-        // other and 0 if they are supposed to be equal
-        int name = this.tableName.compareTo(o.tableName);
-        return name;
-    
+        return this.tableName.compareTo(o.tableName);
     }
 }

@@ -1,6 +1,5 @@
 package gui;
 
-import database.DBAccess;
 import database.DBConnectionPool;
 import java.io.File;
 import javax.swing.ImageIcon;

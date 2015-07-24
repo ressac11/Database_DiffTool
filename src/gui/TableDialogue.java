@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gui;
 
 import beans.Table;
@@ -11,14 +6,9 @@ import java.util.LinkedList;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import listModel.TableNamesLM;
-/**
- *
- * @author Sarah
- */
+
 public class TableDialogue extends javax.swing.JDialog {
-    /**
-     * Creates new form TableDialogue
-     */
+   
     private boolean ok = false;
     public static String selectedList;
     private LinkedList<Table> liTablesList = new LinkedList<>();
@@ -257,8 +247,6 @@ public class TableDialogue extends javax.swing.JDialog {
         this.equalTablesList = equalTablesList;
     }
 
-    
-    
     /**
      * @param args the command line arguments
      */
@@ -299,7 +287,6 @@ public class TableDialogue extends javax.swing.JDialog {
                 dialog.setVisible(true);
             }
         });
-    
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAdd;
