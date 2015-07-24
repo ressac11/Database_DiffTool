@@ -4,25 +4,15 @@ import java.util.LinkedList;
 
 public class Table implements Comparable<Table>{
     private String tableName;
-    private String rowCounter;
     private LinkedList<String> columnNames;
     private LinkedList<Row> attributes;
 
-    public Table(String tableName, String rowCounter, LinkedList<String> columnNames, LinkedList<Row> attributes) {
+    public Table(String tableName, LinkedList<String> columnNames, LinkedList<Row> attributes) {
         this.tableName = tableName;
-        this.rowCounter = rowCounter;
         this.columnNames = columnNames;
         this.attributes = attributes;
     }
 
-    public String getRowCounter() {
-        return rowCounter;
-    }
-
-    public void setRowCounter(String rowCounter) {
-        this.rowCounter = rowCounter;
-    }
-   
     public LinkedList<String> getColumnNames() {
         return columnNames;
     }

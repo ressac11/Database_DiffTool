@@ -715,7 +715,6 @@ public class MainWindow extends javax.swing.JFrame {
             } else if (dataExtractDialogue.isOK && dataExtractDialogue.newFile) {
                 existingData = false;
                 try {
-
                     dba = DBAccess.getTheInstance();
                     dba.testConnection();
                     count = 1;
