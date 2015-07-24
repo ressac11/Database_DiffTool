@@ -25,20 +25,18 @@ public class BLOperations {
     private String tableOfFirstDiff;
     private String[] strArray;
     private String tablename = "";
-    private LinkedList<String> columns = new LinkedList<>();
+    private final LinkedList<String> columns = new LinkedList<>();
     private int counter;
-    private String rowCounter;
-    private LinkedList<Table> allTables = new LinkedList<>();
-    private LinkedList<DifferentColumn> allNewColsLeft = new LinkedList<>();
-    private LinkedList<DifferentColumn> allNewColsRight = new LinkedList<>();
-    private LinkedList<ColumnInformation> allColsLeft = new LinkedList<>();
-    private LinkedList<ColumnInformation> allColsRight = new LinkedList<>();
-    private LinkedList<DifferentRow> allNewRowsRight = new LinkedList<>();
-    private LinkedList<DifferentRow> allNewRowsLeft = new LinkedList<>();
-    private int sizeMin;
+    private final LinkedList<Table> allTables = new LinkedList<>();
+    private final LinkedList<DifferentColumn> allNewColsLeft = new LinkedList<>();
+    private final LinkedList<DifferentColumn> allNewColsRight = new LinkedList<>();
+    private final LinkedList<ColumnInformation> allColsLeft = new LinkedList<>();
+    private final LinkedList<ColumnInformation> allColsRight = new LinkedList<>();
+    private final LinkedList<DifferentRow> allNewRowsRight = new LinkedList<>();
+    private final LinkedList<DifferentRow> allNewRowsLeft = new LinkedList<>();
     private String companyLeft = "";
     private String companyRight = "";
-    private String dbName = "#dbname#";
+    private final String dbName = "#dbname#";
     private String databaseName = "";
 
     public LinkedList<Table> loadData(File f) throws FileNotFoundException, IOException {
@@ -51,7 +49,7 @@ public class BLOperations {
         columns.clear();
         liRows.clear();
         int countDBName = 0;
-        String str = "";
+        String str;
 
         while ((str = br.readLine()) != null) {
             if (str.equals(dbName)) {
