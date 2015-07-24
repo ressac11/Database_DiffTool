@@ -9,6 +9,7 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog {
     private boolean ok = false;
     private boolean entireDB = false;
     private LinkedList<Table> liAllEqualTables = new LinkedList<>();
+    public boolean tableOK = false;
 
     public DataSelectionModesDialogue(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -165,9 +166,14 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog {
         TableDialogue tableDialogue = new TableDialogue(null, true);
         if (rbParticularTables.isSelected()) 
         {
+            entireDB = false;
             tableDialogue.setEqualTablesList(true);
             tableDialogue.setLiAllTables(liAllEqualTables);
             tableDialogue.setVisible(true);
+            if(tableDialogue.isOK())
+            {
+                tableOK = true;
+            }
         } 
         else 
         {
