@@ -9,6 +9,8 @@ import java.io.File;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -725,12 +727,11 @@ public class MainWindow extends javax.swing.JFrame {
             } else if (dataExtractDialogue.isOK && dataExtractDialogue.newFile) {
                 existingData = false;
                 try {
-                    dba = DBAccess.getTheInstance();
                     dba.testConnection();
+                    dba = DBAccess.getTheInstance();
                     count = 1;
-                } catch (SQLException s) {
+                } catch (Exception s) {
                     JOptionPane.showMessageDialog(this, "the connection could not be established");
-                } catch (NullPointerException e) {
                 }
                 if (count != 0) {
                     if (extractData == 1) {
@@ -967,8 +968,8 @@ public class MainWindow extends javax.swing.JFrame {
             leftList = true;
             onNewSelectedItem();
             btOpenDBFile1.setEnabled(false);
-        } catch (Exception e) {
-            System.out.println("Main Window : extractData1 : " + e.toString());
+        } catch (Exception ex) {
+            System.out.println("Main Window : extractData1 : " + ex.toString());
         }
     }
 

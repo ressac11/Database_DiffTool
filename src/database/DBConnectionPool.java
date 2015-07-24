@@ -59,7 +59,7 @@ public class DBConnectionPool {
                 num_conn++;
                 return conn;
             } catch (SQLException ex) {
-                System.out.println(ex.toString());
+                
             }
         } else {
             return connections.poll();
