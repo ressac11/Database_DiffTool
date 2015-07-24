@@ -5,8 +5,9 @@ import bl.BLOperations;
 import database.DBAccess;
 import java.awt.Color;
 import java.awt.Desktop;
+import java.awt.HeadlessException;
 import java.io.File;
-import java.sql.SQLException;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedList;
 import javax.swing.ImageIcon;
@@ -661,7 +662,7 @@ public class MainWindow extends javax.swing.JFrame {
                 JFileChooser fileChooser = new JFileChooser();
                 fileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
                 fileChooser.setDialogTitle("Choose directory to save Comparison Output file");
-                FileNameExtensionFilter filter = new FileNameExtensionFilter("Database .txt file", "txt");
+                FileNameExtensionFilter filter = new FileNameExtensionFilter(".txt file", "txt");
                 fileChooser.setFileFilter(filter);
                 int userSelection = fileChooser.showSaveDialog(null);
                 if (userSelection == JFileChooser.APPROVE_OPTION) {
@@ -677,8 +678,8 @@ public class MainWindow extends javax.swing.JFrame {
             } else {
                 Desktop.getDesktop().open(downloadedFile);
             }
-        } catch (Exception e) {
-            System.out.println("Main Window : onDownloadData : " + e.toString());
+        } catch (HeadlessException | IOException ec) {
+            System.out.println("Main Window : onDownloadData : " + ec.toString());
         }
     }//GEN-LAST:event_onDownloadData
 
