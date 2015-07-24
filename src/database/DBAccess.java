@@ -90,6 +90,7 @@ public class DBAccess {
 
     public void testConnection() throws SQLException {
         Connection conn = connPool.getConnection();
+        Statement stat = conn.createStatement();
     }
 
     public LinkedList<Row> getAttributesForOneTable(String tableName, LinkedList<String> columnNames) throws Exception {
