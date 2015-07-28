@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import org.apache.commons.io.FileUtils;
 
 public class BLOperations {
 
@@ -53,7 +54,9 @@ public class BLOperations {
         int countDBName = 0;
         String str = "";
 
-        while ((str = br.readLine()) != null) {
+        while ((str = br.readLine()) != null) 
+        {
+            
             if (str.equals(dbName)) {
                 countDBName = 1;
             } else {
@@ -163,22 +166,24 @@ public class BLOperations {
         LinkedList<Table> liAllTablesLeft = tablesLeft;
         LinkedList<Table> liAllTablesRight = tablesRight;
         int count = 0;
-        for (int i = 0; i < liAllTablesLeft.size(); i++) {
-            for (int j = 0; j < liAllTablesRight.size(); j++) {
-                if (liAllTablesLeft.get(i).getTableName().equals(liAllTablesRight.get(j).getTableName())) {
+        for (Table lT : liAllTablesLeft) {
+            for (Table rT : liAllTablesRight) {
+                if (lT.getTableName().equals(rT.getTableName())) {
                     count++;
-                    compare(liAllTablesLeft.get(i), liAllTablesRight.get(j));
+                    compare(lT, rT);
                     allColsLeft.clear();
                     allColsRight.clear();
                 }
             }
         }
-        if (count == 0) {
+        if (count == 0) 
+        {
             JOptionPane.showMessageDialog(null, "The Tables can not be compared because non are equal");
         }
     }
 
-    private void compare(Table tLeft, Table tRight) {
+    private void compare(Table tLeft, Table tRight) 
+    {
         LinkedList<String> colLeft = tLeft.getColumnNames();
         LinkedList<String> colRight = tRight.getColumnNames();
 
@@ -204,7 +209,6 @@ public class BLOperations {
                 allNewColsLeft.add(newColL);
             }
         }
-
         LinkedList<Row> leftV = tLeft.getAttributes();
         LinkedList<Row> rightV = tRight.getAttributes();
         LinkedList<String> valuesRight = new LinkedList<>();
@@ -231,7 +235,8 @@ public class BLOperations {
         }
     }
 
-    public void downloadComparisonOutput(File f) throws IOException {
+    public void downloadComparisonOutput(File f) throws IOException 
+    {
         File file = f;
         FileWriter fw = new FileWriter(file);
         BufferedWriter bw = new BufferedWriter(fw);
@@ -357,9 +362,12 @@ public class BLOperations {
         } else {
             tableOfFirstDiff = allNewRowsRight.get(0).getTableName();
         }
-        if (count == 3) {
+        if (count == 3) 
+        {
             JOptionPane.showMessageDialog(null, "the databases are completely equal");
-        } else {
+        } 
+        else 
+        {
             return true;
         }
         return false;
@@ -406,5 +414,42 @@ public class BLOperations {
 
     public String getDatabaseName() {
         return databaseName;
+    }
+    
+    public void viewDatabaseFileHTML(String dbName, LinkedList<Table> list, File newHtmlFile) throws IOException
+    {
+            File htmlTemplateFile = new File(System.getProperty("user.dir")+File.separator+"src"+File.separator+"res"+File.separator+"template.html");
+            System.out.println(htmlTemplateFile.getPath());
+            String htmlString = FileUtils.readFileToString(htmlTemplateFile);
+            String title = newHtmlFile.getName();
+            String body = "<h1 style=\"font-family: Arial; font-size: 40px; margin-left: 25%; margin-bottom: 30px; "
+                    + "margin-top: 30px;\">"+dbName+"</h1><div id=\"content\" style=\"font-family: Arial; "
+                    + "font-size:13px; width: 800px; margin-left: 25%;\">";
+            for(Table t : list)
+            {
+                body = body.concat("<table border=\"2\" style=\"border-collapse: collapse;\"><h2>");
+                body = body.concat(t.getTableName()+"</h2><thead><tr>");
+                for(String col : t.getColumnNames())
+                {
+                    body = body.concat("<th>"+col);
+                }
+                body = body.concat("</tr></thead>");
+                for(Row r : t.getAttributes())
+                {
+                    body = body.concat("<tr style=\"padding:5px; margin:5px;\">");
+                    for(String str : r.getValue().split(";"))
+                    {
+                        body = body.concat("<td>"+str+"</td>");
+                    }
+                    body = body.concat("</tr>");
+                }
+                body = body.concat("</table>");
+            }
+            body = body.concat("</div>");
+            
+            htmlString = htmlString.replace("$title", title);
+            htmlString = htmlString.replace("$body", body);
+            
+            FileUtils.writeStringToFile(newHtmlFile, htmlString);
     }
 }

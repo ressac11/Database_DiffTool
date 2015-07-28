@@ -53,6 +53,8 @@ public class MainWindow extends javax.swing.JFrame {
     private LinkedList<Table> liSaveListLeft = new LinkedList<>();
     private LinkedList<Table> liSaveListRight = new LinkedList<>();
     public static boolean e = false;
+    private File newHTMLFile1 = null;
+    private File newHTMLFile2 = null;
 
     public MainWindow() {
         initComponents();
@@ -63,6 +65,8 @@ public class MainWindow extends javax.swing.JFrame {
         btExtractData2.setBackground(backgroundColorButton);
         btOpenDBFile1.setBackground(backgroundColorButton);
         btOpenDBFile2.setBackground(backgroundColorButton);
+        btOpenHTMLFile1.setBackground(backgroundColorButton);
+        btOpenHTMLFile2.setBackground(backgroundColorButton);
         this.setLocationRelativeTo(null);
         btDownloadData.setEnabled(false);
         liTablesLeft.clear();
@@ -76,6 +80,8 @@ public class MainWindow extends javax.swing.JFrame {
         btOpenDBFile1.setEnabled(false);
         btCompareData.setEnabled(false);
         btOpenDBFile2.setEnabled(false);
+        btOpenHTMLFile1.setEnabled(false);
+        btOpenHTMLFile2.setEnabled(false);
         liTables1.add(pmSelectTables);
         liTables1.setComponentPopupMenu(pmSelectTables);
         liTablesC.add(pmSelectTablesC);
@@ -92,7 +98,6 @@ public class MainWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel2 = new javax.swing.JLabel();
         bgTableGroup = new javax.swing.ButtonGroup();
         pmSelectTables = new javax.swing.JPopupMenu();
         miSelectTables = new javax.swing.JMenuItem();
@@ -127,7 +132,9 @@ public class MainWindow extends javax.swing.JFrame {
         lbPlaceholder2 = new javax.swing.JLabel();
         lbPlaceholder3 = new javax.swing.JLabel();
         lbPlaceholder4 = new javax.swing.JLabel();
+        pnViewButtons = new javax.swing.JPanel();
         btOpenDBFile1 = new javax.swing.JButton();
+        btOpenHTMLFile1 = new javax.swing.JButton();
         spTable1 = new javax.swing.JScrollPane();
         liTables1 = new javax.swing.JList();
         pnDetails = new javax.swing.JPanel();
@@ -143,15 +150,15 @@ public class MainWindow extends javax.swing.JFrame {
         lbPlaceholder5 = new javax.swing.JLabel();
         lbPlaceholder6 = new javax.swing.JLabel();
         lbPlaceholder7 = new javax.swing.JLabel();
+        pnViewButtons2 = new javax.swing.JPanel();
         btOpenDBFile2 = new javax.swing.JButton();
+        btOpenHTMLFile2 = new javax.swing.JButton();
         spTableC = new javax.swing.JScrollPane();
         liTablesC = new javax.swing.JList();
         pnDetails1 = new javax.swing.JPanel();
         lbDatabaseName2 = new javax.swing.JLabel();
         spTableContent2 = new javax.swing.JScrollPane();
         tbTableContent2 = new javax.swing.JTable();
-
-        jLabel2.setText("jLabel2");
 
         miSelectTables.setText("Table Filter");
         miSelectTables.addActionListener(new java.awt.event.ActionListener() {
@@ -380,16 +387,32 @@ public class MainWindow extends javax.swing.JFrame {
         lbPlaceholder4.setPreferredSize(new java.awt.Dimension(30, 30));
         paButton.add(lbPlaceholder4, java.awt.BorderLayout.LINE_START);
 
+        pnViewButtons.setBackground(new java.awt.Color(229, 229, 229));
+        pnViewButtons.setLayout(new java.awt.GridLayout(2, 1, 0, 4));
+
         btOpenDBFile1.setBackground(new java.awt.Color(229, 229, 229));
         btOpenDBFile1.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        btOpenDBFile1.setText("Open saved text file");
+        btOpenDBFile1.setText("View file as .txt");
         btOpenDBFile1.setActionCommand("1");
+        btOpenDBFile1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btOpenDBFile1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onOpenDatabaseFile(evt);
+                onViewFileTXT(evt);
             }
         });
-        paButton.add(btOpenDBFile1, java.awt.BorderLayout.CENTER);
+        pnViewButtons.add(btOpenDBFile1);
+
+        btOpenHTMLFile1.setText("View file in HTML");
+        btOpenHTMLFile1.setActionCommand("1");
+        btOpenHTMLFile1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btOpenHTMLFile1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onViewFileHTML(evt);
+            }
+        });
+        pnViewButtons.add(btOpenHTMLFile1);
+
+        paButton.add(pnViewButtons, java.awt.BorderLayout.CENTER);
 
         paExtractData.add(paButton, java.awt.BorderLayout.PAGE_END);
 
@@ -509,16 +532,30 @@ public class MainWindow extends javax.swing.JFrame {
         lbPlaceholder7.setPreferredSize(new java.awt.Dimension(30, 30));
         pnButton1.add(lbPlaceholder7, java.awt.BorderLayout.LINE_START);
 
+        pnViewButtons2.setBackground(new java.awt.Color(229, 229, 229));
+        pnViewButtons2.setLayout(new java.awt.GridLayout(2, 1, 0, 4));
+
         btOpenDBFile2.setBackground(new java.awt.Color(229, 229, 229));
         btOpenDBFile2.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        btOpenDBFile2.setText("Open saved text file");
+        btOpenDBFile2.setText("View file as .txt ");
         btOpenDBFile2.setActionCommand("2");
         btOpenDBFile2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onOpenDatabaseFile(evt);
+                onViewFileTXT(evt);
             }
         });
-        pnButton1.add(btOpenDBFile2, java.awt.BorderLayout.CENTER);
+        pnViewButtons2.add(btOpenDBFile2);
+
+        btOpenHTMLFile2.setText("View file in HTML");
+        btOpenHTMLFile2.setActionCommand("2");
+        btOpenHTMLFile2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onViewFileHTML(evt);
+            }
+        });
+        pnViewButtons2.add(btOpenHTMLFile2);
+
+        pnButton1.add(pnViewButtons2, java.awt.BorderLayout.CENTER);
 
         pnExtractData.add(pnButton1, java.awt.BorderLayout.PAGE_END);
 
@@ -702,6 +739,7 @@ public class MainWindow extends javax.swing.JFrame {
                     this.extractData1(false);
                     enableCompareButton1 = true;
                     btOpenDBFile1.setEnabled(true);
+                    btOpenHTMLFile1.setEnabled(true);
                     enableItemSelect1 = true;
                 } else if (extractData == 2) {
                     existingFile2 = dataExtractDialogue.getSelectedDBDump();
@@ -709,6 +747,7 @@ public class MainWindow extends javax.swing.JFrame {
                     this.extractData2(false);
                     enableCompareButton2 = true;
                     btOpenDBFile2.setEnabled(true);
+                    btOpenHTMLFile2.setEnabled(true);
                     enableItemSelect2 = true;
                 }
                 onNewSelectedItem();
@@ -755,6 +794,7 @@ public class MainWindow extends javax.swing.JFrame {
                                 existingFile1 = null;
                                 bl.saveDatabaseFile(f, liTablesLeft, databaseName1);
                                 btOpenDBFile1.setEnabled(true);
+                                btOpenHTMLFile1.setEnabled(true);
                                 enableCompareButton1 = true;
                                 enableItemSelect1 = true;
 
@@ -763,6 +803,7 @@ public class MainWindow extends javax.swing.JFrame {
                                 existingFile2 = null;
                                 bl.saveDatabaseFile(f, liTablesRight, databaseName2);
                                 btOpenDBFile2.setEnabled(true);
+                                btOpenHTMLFile2.setEnabled(true);
                                 enableCompareButton2 = true;
                                 enableItemSelect2 = true;
                             }
@@ -772,12 +813,14 @@ public class MainWindow extends javax.swing.JFrame {
                             existingFile1 = null;
                             enableCompareButton1 = true;
                             btOpenDBFile1.setEnabled(false);
+                            btOpenHTMLFile1.setEnabled(true);
                             enableItemSelect1 = true;
                         }
                         if (extractData == 2) {
                             existingFile2 = null;
                             btOpenDBFile2.setEnabled(false);
                             enableCompareButton2 = true;
+                            btOpenHTMLFile2.setEnabled(true);
                             enableItemSelect2 = true;
                         }
                     }
@@ -792,7 +835,7 @@ public class MainWindow extends javax.swing.JFrame {
             System.out.println("Main Window : onExtractDatas : " + e.toString());
         }
     }//GEN-LAST:event_onExtractDatas
-    private void onOpenDatabaseFile(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOpenDatabaseFile
+    private void onViewFileTXT(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onViewFileTXT
         try {
             String openFileLeftOrRight = evt.getActionCommand();
             if (Integer.parseInt(openFileLeftOrRight) == 1) {
@@ -811,7 +854,7 @@ public class MainWindow extends javax.swing.JFrame {
         } catch (Exception e) {
             System.out.println("Main Window : openDatabaseFile : " + e.toString());
         }
-    }//GEN-LAST:event_onOpenDatabaseFile
+    }//GEN-LAST:event_onViewFileTXT
     private void onTableDisplayOption(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onTableDisplayOption
         switch (evt.getActionCommand()) {
             case "1":
@@ -914,47 +957,114 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_onFilterC
 
     private void onRemove1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onRemove1
-        try {
-            liTablesLeft = (LinkedList<Table>) liSaveListLeft.clone();
-            counter = 0;
-            leftList = true;
-            if (rbTableBothAuto.isSelected()) {
-                if (!liTablesRight.isEmpty()) {
-                    liTablesRight = (LinkedList<Table>) liSaveListRight.clone();
-                    Collections.sort(liTablesRight);
-                    liTablesC.setModel(new TableNamesLM(liTablesRight));
-                    automaticallySelectingTables = true;
+        try 
+        {
+            if(liTablesLeft.size()>0)
+            {
+                liTablesLeft = (LinkedList<Table>) liSaveListLeft.clone();
+                counter = 0;
+                leftList = true;
+                if (rbTableBothAuto.isSelected()) {
+                    if (!liTablesRight.isEmpty()) {
+                        liTablesRight = (LinkedList<Table>) liSaveListRight.clone();
+                        Collections.sort(liTablesRight);
+                        liTablesC.setModel(new TableNamesLM(liTablesRight));
+                        automaticallySelectingTables = true;
+                    }
                 }
+                Collections.sort(liTablesLeft);
+                liTables1.setModel(new TableNamesLM(liTablesLeft));
+                liTables1.setSelectedIndex(0);
+                onNewSelectedItem();
             }
-            Collections.sort(liTablesLeft);
-            liTables1.setModel(new TableNamesLM(liTablesLeft));
-            liTables1.setSelectedIndex(0);
-            onNewSelectedItem();
-        } catch (Exception ex) {
+        } 
+        catch (Exception ex) 
+        {
             System.out.println("Main Window : onRemoveFilter1 : " + ex.toString());
         }
     }//GEN-LAST:event_onRemove1
 
-    private void onRemoveC(java.awt.event.ActionEvent evt) {
-        try {
-            liTablesRight = (LinkedList<Table>) liSaveListRight.clone();
-            counter = 0;
-            leftList = false;
-            if (rbTableBothAuto.isSelected()) {
-                if (!liTablesLeft.isEmpty()) {
-                    liTablesLeft = (LinkedList<Table>) liSaveListLeft.clone();
-                    Collections.sort(liTablesLeft);
-                    liTables1.setModel(new TableNamesLM(liTablesLeft));
-                    automaticallySelectingTables = true;
+    private void onViewFileHTML(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onViewFileHTML
+        try 
+        {
+            int viewFileLeftOrRight = Integer.parseInt(evt.getActionCommand());
+            if(viewFileLeftOrRight == 1)
+            {
+                if(newHTMLFile1 == null)
+                {
+                    newHTMLFile1 = saveHTMLFile();
+                    if(newHTMLFile1!= null)
+                    {
+                        bl.viewDatabaseFileHTML(databaseName1, liTablesLeft, newHTMLFile1);
+                    }
                 }
+                Desktop.getDesktop().open(newHTMLFile1);
             }
-            Collections.sort(liTablesRight);
-            liTablesC.setModel(new TableNamesLM(liTablesRight));
-            liTablesC.setSelectedIndex(0);
-            onNewSelectedItem();
+            else
+            {
+                if(newHTMLFile2 == null)
+                {
+                    newHTMLFile2 = saveHTMLFile();
+                    if(newHTMLFile2 != null)
+                    {
+                        bl.viewDatabaseFileHTML(databaseName2, liTablesRight, newHTMLFile2);
+                    }
+                }
+                Desktop.getDesktop().open(newHTMLFile2);
+            }
+        } 
+        catch (Exception e) 
+        {
+            System.out.println("Main Window : onViewFileHTML : " + e.toString());
+        }
+    }//GEN-LAST:event_onViewFileHTML
+
+    private void onRemoveC(java.awt.event.ActionEvent evt) {
+        try 
+        {
+            if(liTablesRight.size() > 0)
+            {
+                liTablesRight = (LinkedList<Table>) liSaveListRight.clone();
+                counter = 0;
+                leftList = false;
+                if (rbTableBothAuto.isSelected()) {
+                    if (!liTablesLeft.isEmpty()) {
+                        liTablesLeft = (LinkedList<Table>) liSaveListLeft.clone();
+                        Collections.sort(liTablesLeft);
+                        liTables1.setModel(new TableNamesLM(liTablesLeft));
+                        automaticallySelectingTables = true;
+                    }
+                }
+                Collections.sort(liTablesRight);
+                liTablesC.setModel(new TableNamesLM(liTablesRight));
+                liTablesC.setSelectedIndex(0);
+                onNewSelectedItem();
+            }
         } catch (Exception ex) {
             System.out.println("Main Window : onRemoveFilter1 : " + ex.toString());
         }
+    }
+    
+    public File saveHTMLFile()
+    {
+        File f = null;
+        JFileChooser chooser = new JFileChooser();
+        chooser.setDialogType(JFileChooser.SAVE_DIALOG);
+        chooser.setDialogTitle("Choose directory to save HTML file");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(".html file", "html");
+        chooser.setFileFilter(filter);
+        int userSelection = chooser.showSaveDialog(null);
+        if (userSelection == JFileChooser.APPROVE_OPTION) 
+        {
+            f = chooser.getSelectedFile();
+            if (!f.getPath().endsWith(".html")) 
+            {
+                String pathNew = f.getPath().concat(".html");
+                f = new File(pathNew);
+            }
+            return f;
+        }
+        return f;
     }
 
     private void extractData1(boolean newFile) {
@@ -1125,7 +1235,8 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JButton btExtractData2;
     private javax.swing.JButton btOpenDBFile1;
     private javax.swing.JButton btOpenDBFile2;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JButton btOpenHTMLFile1;
+    private javax.swing.JButton btOpenHTMLFile2;
     private javax.swing.JLabel lbDatabaseName1;
     private javax.swing.JLabel lbDatabaseName2;
     private javax.swing.JLabel lbPlaceholder;
@@ -1168,6 +1279,8 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPanel pnShowAllTables1;
     private javax.swing.JPanel pnShowAllTables2;
     private javax.swing.JPanel pnTableDisplayOptions;
+    private javax.swing.JPanel pnViewButtons;
+    private javax.swing.JPanel pnViewButtons2;
     private javax.swing.JRadioButton rbTableBothAuto;
     private javax.swing.JRadioButton rbTableSeperate;
     private javax.swing.JScrollPane spTable1;

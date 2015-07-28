@@ -197,9 +197,9 @@ public class TableDialogue extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void onOK(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOK
-        ok = true;
         if(selectedTables.size() > 0)
         {
+            ok = true;
             dispose();
         }
         else
@@ -212,16 +212,22 @@ public class TableDialogue extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_onCancel
     private void onAddTable(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onAddTable
-        selectedTables.add(liTablesList.get(liTables.getSelectedIndex()));
-        liTablesList.remove(liTables.getSelectedIndex());
-        liTables.updateUI();
-        liList2.updateUI();
+        if(liTablesList.size() > 0)
+        {
+            selectedTables.add(liTablesList.get(liTables.getSelectedIndex()));
+            liTablesList.remove(liTables.getSelectedIndex());
+            liTables.updateUI();
+            liList2.updateUI();
+        }
     }//GEN-LAST:event_onAddTable
     private void onRemoveTable(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onRemoveTable
-        liTablesList.add(selectedTables.get(liList2.getSelectedIndex()));
-        selectedTables.remove(liList2.getSelectedIndex());
-        liList2.updateUI();
-        liTables.updateUI();
+        if(selectedTables.size() > 0)
+        {
+            liTablesList.add(selectedTables.get(liList2.getSelectedIndex()));
+            selectedTables.remove(liList2.getSelectedIndex());
+            liList2.updateUI();
+            liTables.updateUI();
+        }
     }//GEN-LAST:event_onRemoveTable
     public boolean isOK() 
     {
