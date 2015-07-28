@@ -161,7 +161,6 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
 
         tfUser.setBackground(new java.awt.Color(229, 229, 229));
         tfUser.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tfUser.setText("ISA");
         tfUser.setMaximumSize(new java.awt.Dimension(150, 40));
         tfUser.setMinimumSize(new java.awt.Dimension(150, 40));
         tfUser.setNextFocusableComponent(tfPassword);
@@ -170,7 +169,6 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
 
         tfPassword.setBackground(new java.awt.Color(229, 229, 229));
         tfPassword.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tfPassword.setText("ISA");
         tfPassword.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         tfPassword.setMaximumSize(new java.awt.Dimension(150, 40));
         tfPassword.setMinimumSize(new java.awt.Dimension(150, 40));
@@ -193,6 +191,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         tfDriver.setBackground(new java.awt.Color(229, 229, 229));
         tfDriver.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         tfDriver.setText("org.postgresql.Driver");
+        tfDriver.setToolTipText("");
         tfDriver.setMaximumSize(new java.awt.Dimension(150, 40));
         tfDriver.setMinimumSize(new java.awt.Dimension(150, 40));
         tfDriver.setNextFocusableComponent(cbDatabase);
@@ -201,7 +200,6 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
 
         tfDatabaseName.setBackground(new java.awt.Color(229, 229, 229));
         tfDatabaseName.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tfDatabaseName.setText("lvr");
         tfDatabaseName.setMaximumSize(new java.awt.Dimension(150, 40));
         tfDatabaseName.setMinimumSize(new java.awt.Dimension(150, 40));
         tfDatabaseName.setNextFocusableComponent(tfUrl);

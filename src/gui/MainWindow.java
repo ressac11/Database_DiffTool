@@ -824,12 +824,14 @@ public class MainWindow extends javax.swing.JFrame {
                         }
                     }
                 }
-                if (enableCompareButton1 && enableCompareButton2) {
+                
+            }
+            if (enableCompareButton1 && enableCompareButton2) 
+            {
                     btCompareData.setEnabled(true);
-                }
+            }
                 liSaveListLeft = (LinkedList<Table>) liTablesLeft.clone();
                 liSaveListRight = (LinkedList<Table>) liTablesRight.clone();
-            }
         } catch (Exception e) {
             //JOptionPane.showMessageDialog(this, "the connection could not be established");
             JOptionPane.showMessageDialog(this, e.toString());
