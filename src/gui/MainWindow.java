@@ -1037,7 +1037,7 @@ public class MainWindow extends javax.swing.JFrame {
     private void onSupport(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onSupport
         System.out.println("in support");
         try {
-            File f = new File(System.getProperty("user.home")+File.separator+"Desktop"+File.separator+"help"+File.separator+"index.htm");
+            File f = new File(System.getProperty("user.dir")+File.separator+"help_manual"+File.separator+"index.htm");
             Desktop.getDesktop().open(f);
         } catch (IOException ex) 
         {

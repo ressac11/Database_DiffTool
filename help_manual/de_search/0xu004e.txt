@@ -1,0 +1,5 @@
+NAME; 4;
+NAMES; 6,2;
+NEEDED; 4;
+NEW; 3;
+NOT; 4;
