@@ -161,7 +161,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
 
         tfUser.setBackground(new java.awt.Color(229, 229, 229));
         tfUser.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tfUser.setText("ISA");
+        tfUser.setText("postgres");
         tfUser.setMaximumSize(new java.awt.Dimension(150, 40));
         tfUser.setMinimumSize(new java.awt.Dimension(150, 40));
         tfUser.setNextFocusableComponent(tfPassword);
@@ -170,7 +170,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
 
         tfPassword.setBackground(new java.awt.Color(229, 229, 229));
         tfPassword.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tfPassword.setText("ISA");
+        tfPassword.setText("postgres");
         tfPassword.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         tfPassword.setMaximumSize(new java.awt.Dimension(150, 40));
         tfPassword.setMinimumSize(new java.awt.Dimension(150, 40));
@@ -201,7 +201,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
 
         tfDatabaseName.setBackground(new java.awt.Color(229, 229, 229));
         tfDatabaseName.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tfDatabaseName.setText("lvr");
+        tfDatabaseName.setText("testdb");
         tfDatabaseName.setMaximumSize(new java.awt.Dimension(150, 40));
         tfDatabaseName.setMinimumSize(new java.awt.Dimension(150, 40));
         tfDatabaseName.setNextFocusableComponent(tfUrl);
@@ -219,6 +219,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
 
         tfUrl.setBackground(new java.awt.Color(229, 229, 229));
         tfUrl.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        tfUrl.setText("jdbc:postgresql://localhost/");
         tfUrl.setMaximumSize(new java.awt.Dimension(150, 40));
         tfUrl.setMinimumSize(new java.awt.Dimension(150, 40));
         tfUrl.setPreferredSize(new java.awt.Dimension(150, 40));
@@ -296,6 +297,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
             DBConnectionPool.DB_URL = uRL;
             DBConnectionPool.DB_USER = user;
         }
+        
     }//GEN-LAST:event_onOK
     private void onNewDriver(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onNewDriver
         switch (cbDatabase.getSelectedIndex()) {

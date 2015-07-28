@@ -722,7 +722,10 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_onDownloadData
 
+   
+    
     private void onExtractDatas(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onExtractDatas
+    DownloadDialogue dd = new DownloadDialogue(null, true);
         try {
             extractData = Integer.parseInt(evt.getActionCommand());
             int count = 0;
@@ -732,7 +735,8 @@ public class MainWindow extends javax.swing.JFrame {
             DataExtractModeDialogue dataExtractDialogue = new DataExtractModeDialogue(this, true);
             dataExtractDialogue.setDataExctractActionCommand(extractData);
             dataExtractDialogue.setVisible(true);
-
+            
+            
             if (dataExtractDialogue.isExistingFile() && dataExtractDialogue.isOK) {
                 existingData = true;
                 if (extractData == 1) {
@@ -755,16 +759,20 @@ public class MainWindow extends javax.swing.JFrame {
                 onNewSelectedItem();
             } else if (dataExtractDialogue.isOK && dataExtractDialogue.newFile) {
                 existingData = false;
-
+                
                 dba = DBAccess.getTheInstance();
                 count = 1;
 
                 if (count != 0) {
                     if (extractData == 1) {
+                       
+                        
+                        
                         this.extractData1(true);
                     } else {
                         this.extractData2(true);
                     }
+                    
                     //set database name on each label
                     if (dataExtractDialogue.getFinalDatabaseName().startsWith("1")) {
                         databaseName1 = dataExtractDialogue.getFinalDatabaseName().substring(1);
@@ -834,6 +842,8 @@ public class MainWindow extends javax.swing.JFrame {
             //JOptionPane.showMessageDialog(this, "the connection could not be established");
             JOptionPane.showMessageDialog(this, e.toString());
         }
+        
+        
     }//GEN-LAST:event_onExtractDatas
     private void onViewFileTXT(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onViewFileTXT
         try {
@@ -957,10 +967,8 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_onFilterC
 
     private void onRemove1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onRemove1
-        try 
-        {
-            if(liTablesLeft.size()>0)
-            {
+        try {
+            if (liTablesLeft.size() > 0) {
                 liTablesLeft = (LinkedList<Table>) liSaveListLeft.clone();
                 counter = 0;
                 leftList = true;
@@ -977,53 +985,39 @@ public class MainWindow extends javax.swing.JFrame {
                 liTables1.setSelectedIndex(0);
                 onNewSelectedItem();
             }
-        } 
-        catch (Exception ex) 
-        {
+        } catch (Exception ex) {
             System.out.println("Main Window : onRemoveFilter1 : " + ex.toString());
         }
     }//GEN-LAST:event_onRemove1
 
     private void onViewFileHTML(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onViewFileHTML
-        try 
-        {
+        try {
             int viewFileLeftOrRight = Integer.parseInt(evt.getActionCommand());
-            if(viewFileLeftOrRight == 1)
-            {
-                if(newHTMLFile1 == null)
-                {
+            if (viewFileLeftOrRight == 1) {
+                if (newHTMLFile1 == null) {
                     newHTMLFile1 = saveHTMLFile();
-                    if(newHTMLFile1!= null)
-                    {
+                    if (newHTMLFile1 != null) {
                         bl.viewDatabaseFileHTML(databaseName1, liTablesLeft, newHTMLFile1);
                     }
                 }
                 Desktop.getDesktop().open(newHTMLFile1);
-            }
-            else
-            {
-                if(newHTMLFile2 == null)
-                {
+            } else {
+                if (newHTMLFile2 == null) {
                     newHTMLFile2 = saveHTMLFile();
-                    if(newHTMLFile2 != null)
-                    {
+                    if (newHTMLFile2 != null) {
                         bl.viewDatabaseFileHTML(databaseName2, liTablesRight, newHTMLFile2);
                     }
                 }
                 Desktop.getDesktop().open(newHTMLFile2);
             }
-        } 
-        catch (Exception e) 
-        {
+        } catch (Exception e) {
             System.out.println("Main Window : onViewFileHTML : " + e.toString());
         }
     }//GEN-LAST:event_onViewFileHTML
 
     private void onRemoveC(java.awt.event.ActionEvent evt) {
-        try 
-        {
-            if(liTablesRight.size() > 0)
-            {
+        try {
+            if (liTablesRight.size() > 0) {
                 liTablesRight = (LinkedList<Table>) liSaveListRight.clone();
                 counter = 0;
                 leftList = false;
@@ -1045,8 +1039,9 @@ public class MainWindow extends javax.swing.JFrame {
         }
     }
     
-    public File saveHTMLFile()
-    {
+     
+
+    public File saveHTMLFile() {
         File f = null;
         JFileChooser chooser = new JFileChooser();
         chooser.setDialogType(JFileChooser.SAVE_DIALOG);
@@ -1054,11 +1049,9 @@ public class MainWindow extends javax.swing.JFrame {
         FileNameExtensionFilter filter = new FileNameExtensionFilter(".html file", "html");
         chooser.setFileFilter(filter);
         int userSelection = chooser.showSaveDialog(null);
-        if (userSelection == JFileChooser.APPROVE_OPTION) 
-        {
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
             f = chooser.getSelectedFile();
-            if (!f.getPath().endsWith(".html")) 
-            {
+            if (!f.getPath().endsWith(".html")) {
                 String pathNew = f.getPath().concat(".html");
                 f = new File(pathNew);
             }
