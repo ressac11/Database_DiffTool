@@ -6,6 +6,9 @@
 package gui;
 
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
+import javax.swing.SwingWorker;
+import sun.security.x509.AlgorithmId;
 
 /**
  *
@@ -24,8 +27,12 @@ public class DownloadDialogue extends javax.swing.JDialog {
         this.setIconImage(new ImageIcon(getClass().getResource("Logo.png")).getImage()); 
         setLocationRelativeTo(parent);
         
-    }
-
+        
+        
+        
+    }   
+    
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -53,6 +60,7 @@ public class DownloadDialogue extends javax.swing.JDialog {
         getContentPane().add(lbTitle, java.awt.BorderLayout.NORTH);
 
         jProgressBar1.setBackground(new java.awt.Color(229, 229, 229));
+        jProgressBar1.setIndeterminate(true);
         jProgressBar1.setMaximumSize(new java.awt.Dimension(200, 50));
         jProgressBar1.setMinimumSize(new java.awt.Dimension(200, 50));
         jProgressBar1.setOpaque(true);

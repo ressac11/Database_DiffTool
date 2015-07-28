@@ -217,6 +217,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
 
         tfUrl.setBackground(new java.awt.Color(229, 229, 229));
         tfUrl.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        tfUrl.setText("jdbc:postgresql://localhost/");
         tfUrl.setMaximumSize(new java.awt.Dimension(150, 40));
         tfUrl.setMinimumSize(new java.awt.Dimension(150, 40));
         tfUrl.setPreferredSize(new java.awt.Dimension(150, 40));
@@ -294,6 +295,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
             DBConnectionPool.DB_URL = uRL;
             DBConnectionPool.DB_USER = user;
         }
+        
     }//GEN-LAST:event_onOK
     private void onNewDriver(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onNewDriver
         switch (cbDatabase.getSelectedIndex()) {

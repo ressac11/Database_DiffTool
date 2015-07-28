@@ -3,9 +3,9 @@ package database;
 import beans.Row;
 import beans.Table;
 import gui.DatabaseConnectionDialogue;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 
@@ -14,7 +14,6 @@ public class DBAccess {
     private final DBConnectionPool connPool;
     private static DBAccess theInstance = null;
     private LinkedList<Table> liAllTables = new LinkedList<>();
-    private String rowCounter;
 
     public static DBAccess getTheInstance() throws ClassNotFoundException {
         if (theInstance == null) {
@@ -52,7 +51,7 @@ public class DBAccess {
             String tableName = rs.getString(1);
             LinkedList<String> columnNames = getColumnNames(tableName);
             LinkedList<Row> liAttributes = getAttributesForOneTable(tableName, columnNames);
-            liAllTables.add(new Table(tableName, columnNames, liAttributes));
+            liAllTables.add(new Table(tableName, columnNames, liAttributes));            
         }
         this.liAllTables = liAllTables;
         return liAllTables;
@@ -89,24 +88,35 @@ public class DBAccess {
     }
 
     public LinkedList<Row> getAttributesForOneTable(String tableName, LinkedList<String> columnNames) throws Exception {
-        LinkedList<Row> liAttributes = new LinkedList<Row>();
+         LinkedList<Row> liAttributes = new LinkedList<Row>();
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
-        String sqlString = "SELECT * "
+         String sqlString = "SELECT * "
                 + " FROM " + tableName + " ";
-        int count = 0;
         ResultSet rs = stat.executeQuery(sqlString);
+        int count = 0;
         String value = "";
+
         while (rs.next()) {
             for (int i = 0; i < columnNames.size(); i++) {
-                String str = rs.getString(i + 1);
-                value += str + ";";
+                try
+                {
+                    String str = rs.getString(i + 1);
+                    value += str + ";";
+                }catch(Exception ex)
+                {
+                    Blob b = rs.getBlob(i + 1);
+                    String str = b.toString();
+                    value += str + ";";
+                }
             }
             Row r = new Row(count, value);
             liAttributes.add(r);
             value = "";
             count++;
         }
+        rs.close();
+        connPool.releaseConnection(conn);
         return liAttributes;
     }
 }
