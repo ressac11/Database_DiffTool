@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -753,13 +755,10 @@ public class MainWindow extends javax.swing.JFrame {
                 onNewSelectedItem();
             } else if (dataExtractDialogue.isOK && dataExtractDialogue.newFile) {
                 existingData = false;
-                try {
-                    dba = DBAccess.getTheInstance();
-                    dba.testConnection();
-                    count = 1;
-                } catch (Exception s) {
-                    JOptionPane.showMessageDialog(this, "the connection could not be established");
-                }
+
+                dba = DBAccess.getTheInstance();
+                count = 1;
+
                 if (count != 0) {
                     if (extractData == 1) {
                         this.extractData1(true);
@@ -832,7 +831,8 @@ public class MainWindow extends javax.swing.JFrame {
                 liSaveListRight = (LinkedList<Table>) liTablesRight.clone();
             }
         } catch (Exception e) {
-            System.out.println("Main Window : onExtractDatas : " + e.toString());
+            //JOptionPane.showMessageDialog(this, "the connection could not be established");
+            JOptionPane.showMessageDialog(this, e.toString());
         }
     }//GEN-LAST:event_onExtractDatas
     private void onViewFileTXT(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onViewFileTXT
@@ -1067,54 +1067,50 @@ public class MainWindow extends javax.swing.JFrame {
         return f;
     }
 
-    private void extractData1(boolean newFile) {
-        try {
-            counter = 0;
-            newDataL = true;
-            liTables1.removeAll();
-            liTablesLeft.clear();
-            if (newFile) {
-                liTablesLeft = dba.getAllTables(liTablesLeft);
-            } else {
-                LinkedList<Table> helpList = bl.loadData(existingFile1);
-                liTablesLeft = (LinkedList<Table>) helpList.clone();
-                databaseName1 = bl.getDatabaseName();
-                lbDatabaseName1.setText(databaseName1);
-            }
-            Collections.sort(liTablesLeft);
-            tnlmLeft = new TableNamesLM(liTablesLeft);
-            liTables1.setModel(tnlmLeft);
-            leftList = true;
-            onNewSelectedItem();
-            btOpenDBFile1.setEnabled(false);
-        } catch (Exception ex) {
-            System.out.println("Main Window : extractData1 : " + ex.toString());
+    private void extractData1(boolean newFile) throws Exception {
+
+        counter = 0;
+        newDataL = true;
+        liTables1.removeAll();
+        liTablesLeft.clear();
+        if (newFile) {
+            liTablesLeft = dba.getAllTables(liTablesLeft);
+        } else {
+            LinkedList<Table> helpList = bl.loadData(existingFile1);
+            liTablesLeft = (LinkedList<Table>) helpList.clone();
+            databaseName1 = bl.getDatabaseName();
+            lbDatabaseName1.setText(databaseName1);
         }
+        Collections.sort(liTablesLeft);
+        tnlmLeft = new TableNamesLM(liTablesLeft);
+        liTables1.setModel(tnlmLeft);
+        leftList = true;
+        onNewSelectedItem();
+        btOpenDBFile1.setEnabled(false);
+
     }
 
-    private void extractData2(boolean newFile) {
-        try {
-            counter = 0;
-            newDataR = true;
-            liTablesC.removeAll();
-            liTablesRight.clear();
-            if (newFile) {
-                liTablesRight = dba.getAllTables(liTablesRight);
-            } else {
-                LinkedList<Table> helpList = bl.loadData(existingFile2);
-                liTablesRight = (LinkedList<Table>) helpList.clone();
-                databaseName2 = bl.getDatabaseName();
-                lbDatabaseName2.setText(databaseName2);
-            }
-            Collections.sort(liTablesRight);
-            tnlmRight = new TableNamesLM(liTablesRight);
-            liTablesC.setModel(tnlmRight);
-            leftList = false;
-            onNewSelectedItem();
-            btOpenDBFile2.setEnabled(false);
-        } catch (Exception e) {
-            System.out.println("Main Window : extractData2 : " + e.toString());
+    private void extractData2(boolean newFile) throws Exception {
+
+        counter = 0;
+        newDataR = true;
+        liTablesC.removeAll();
+        liTablesRight.clear();
+        if (newFile) {
+            liTablesRight = dba.getAllTables(liTablesRight);
+        } else {
+            LinkedList<Table> helpList = bl.loadData(existingFile2);
+            liTablesRight = (LinkedList<Table>) helpList.clone();
+            databaseName2 = bl.getDatabaseName();
+            lbDatabaseName2.setText(databaseName2);
         }
+        Collections.sort(liTablesRight);
+        tnlmRight = new TableNamesLM(liTablesRight);
+        liTablesC.setModel(tnlmRight);
+        leftList = false;
+        onNewSelectedItem();
+        btOpenDBFile2.setEnabled(false);
+
     }
 
     private void onNewSelectedItem() {

@@ -42,6 +42,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         lbDatabase = new javax.swing.JLabel();
         lbDriver = new javax.swing.JLabel();
         lbCompanyName = new javax.swing.JLabel();
+        lbUrlExam = new javax.swing.JLabel();
         lbUrl = new javax.swing.JLabel();
         lbSID = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -50,6 +51,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         cbDatabase = new javax.swing.JComboBox();
         tfDriver = new javax.swing.JTextField();
         tfDatabaseName = new javax.swing.JTextField();
+        tfUrlExam = new javax.swing.JTextField();
         tfUrl = new javax.swing.JTextField();
         tfSID = new javax.swing.JTextField();
         paButtons = new javax.swing.JPanel();
@@ -79,7 +81,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         pnContainer.setLayout(new java.awt.BorderLayout());
 
         jPanel1.setBackground(new java.awt.Color(229, 229, 229));
-        jPanel1.setLayout(new java.awt.GridLayout(7, 1, 15, 15));
+        jPanel1.setLayout(new java.awt.GridLayout(8, 1, 15, 15));
 
         lbUser.setBackground(new java.awt.Color(229, 229, 229));
         lbUser.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -126,10 +128,19 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         lbCompanyName.setPreferredSize(new java.awt.Dimension(150, 40));
         jPanel1.add(lbCompanyName);
 
+        lbUrlExam.setBackground(new java.awt.Color(229, 229, 229));
+        lbUrlExam.setFont(new java.awt.Font("Arial", 2, 14)); // NOI18N
+        lbUrlExam.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lbUrlExam.setText("    URL example:");
+        lbUrlExam.setMaximumSize(new java.awt.Dimension(150, 40));
+        lbUrlExam.setMinimumSize(new java.awt.Dimension(150, 40));
+        lbUrlExam.setPreferredSize(new java.awt.Dimension(150, 40));
+        jPanel1.add(lbUrlExam);
+
         lbUrl.setBackground(new java.awt.Color(229, 229, 229));
         lbUrl.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lbUrl.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lbUrl.setText("    URL: for example:");
+        lbUrl.setText("    URL:");
         lbUrl.setMaximumSize(new java.awt.Dimension(150, 40));
         lbUrl.setMinimumSize(new java.awt.Dimension(150, 40));
         lbUrl.setPreferredSize(new java.awt.Dimension(150, 40));
@@ -146,7 +157,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         pnContainer.add(jPanel1, java.awt.BorderLayout.WEST);
 
         jPanel2.setBackground(new java.awt.Color(229, 229, 229));
-        jPanel2.setLayout(new java.awt.GridLayout(7, 1, 15, 15));
+        jPanel2.setLayout(new java.awt.GridLayout(8, 1, 15, 15));
 
         tfUser.setBackground(new java.awt.Color(229, 229, 229));
         tfUser.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
@@ -197,9 +208,17 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         tfDatabaseName.setPreferredSize(new java.awt.Dimension(150, 40));
         jPanel2.add(tfDatabaseName);
 
+        tfUrlExam.setEditable(false);
+        tfUrlExam.setBackground(new java.awt.Color(229, 229, 229));
+        tfUrlExam.setFont(new java.awt.Font("Arial", 2, 14)); // NOI18N
+        tfUrlExam.setText("jdbc:postgresql://localhost/");
+        tfUrlExam.setMaximumSize(new java.awt.Dimension(150, 40));
+        tfUrlExam.setMinimumSize(new java.awt.Dimension(150, 40));
+        tfUrlExam.setPreferredSize(new java.awt.Dimension(150, 40));
+        jPanel2.add(tfUrlExam);
+
         tfUrl.setBackground(new java.awt.Color(229, 229, 229));
         tfUrl.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tfUrl.setText("jdbc:postgresql://localhost/");
         tfUrl.setMaximumSize(new java.awt.Dimension(150, 40));
         tfUrl.setMinimumSize(new java.awt.Dimension(150, 40));
         tfUrl.setPreferredSize(new java.awt.Dimension(150, 40));
@@ -262,6 +281,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         String user = tfUser.getText().trim();
         String password = tfPassword.getText().trim();
         String uRL = tfUrl.getText().trim();
+        System.out.println(tfUrl.getText());
         databaseName = tfDatabaseName.getText().trim();
         String driver = tfDriver.getText().trim();
         String database_Provider = (String) cbDatabase.getSelectedItem();
@@ -270,11 +290,8 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         } else {
             dispose();
             DBConnectionPool.DB_DRIVER = driver;
-            if (cbDatabase.getSelectedIndex() == 1) {
-                DBConnectionPool.DB_NAME = tfSID.getText();
-            } else {
-                DBConnectionPool.DB_NAME = databaseName;
-            }
+            DBConnectionPool.DB_NAME = databaseName;
+            DBConnectionPool.DB_SID = tfSID.getText();
             DBConnectionPool.DB_PASSWD = password;
             DBConnectionPool.DB_URL = uRL;
             DBConnectionPool.DB_USER = user;
@@ -285,19 +302,19 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
             case 0:
                 selectedDB = "postgres";
                 tfDriver.setText("org.postgresql.Driver");
-                tfUrl.setText("jdbc:postgresql://localhost/");
+                tfUrlExam.setText("jdbc:postgresql://localhost/");
                 break;
             case 1:
                 selectedDB = "oracle";
                 tfDriver.setText("oracle.jdbc.driver.OracleDriver");
-                tfUrl.setText("jdbc:oracle:thin:@localhost:1521:");
+                tfUrlExam.setText("jdbc:oracle:thin:@localhost:1521:");
                 lbSID.setText("    SID:");
                 tfSID.setEditable(true);
                 break;
             case 2:
                 selectedDB = "mssql";
                 tfDriver.setText("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-                tfUrl.setText("jdbc:sqlserver://localhost:1433;");
+                tfUrlExam.setText("jdbc:sqlserver://localhost:1433;");
                 break;
         }
     }//GEN-LAST:event_onNewDriver
@@ -366,6 +383,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
     private javax.swing.JLabel lbSID;
     private javax.swing.JLabel lbText;
     private javax.swing.JLabel lbUrl;
+    private javax.swing.JLabel lbUrlExam;
     private javax.swing.JLabel lbUser;
     private javax.swing.JPanel paButtons;
     private javax.swing.JPanel pnContainer;
@@ -374,6 +392,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
     private javax.swing.JTextField tfPassword;
     private javax.swing.JTextField tfSID;
     private javax.swing.JTextField tfUrl;
+    private javax.swing.JTextField tfUrlExam;
     private javax.swing.JTextField tfUser;
     // End of variables declaration//GEN-END:variables
 }
