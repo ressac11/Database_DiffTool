@@ -177,11 +177,13 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog {
         } 
         else 
         {
+            
             entireDB = true;
             dispose();
         }
         if (tableDialogue.isOK() && ok) 
         {
+            
             dispose();
         }
     }//GEN-LAST:event_onOK

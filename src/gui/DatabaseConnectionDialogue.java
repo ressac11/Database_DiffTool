@@ -275,12 +275,12 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
     }//GEN-LAST:event_onCancel
 
     private void onOK(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOK
+        MainWindow.pbExtractData1.setVisible(true);
         newConn = true;
         onNewDriver(evt);
         String user = tfUser.getText().trim();
         String password = tfPassword.getText().trim();
         String uRL = tfUrl.getText().trim();
-        System.out.println(tfUrl.getText());
         databaseName = tfDatabaseName.getText().trim();
         String driver = tfDriver.getText().trim();
         String database_Provider = (String) cbDatabase.getSelectedItem();

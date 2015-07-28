@@ -688,7 +688,7 @@
 
                           <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
                             <Property name="columns" type="int" value="1"/>
-                            <Property name="rows" type="int" value="2"/>
+                            <Property name="rows" type="int" value="3"/>
                             <Property name="verticalGap" type="int" value="4"/>
                           </Layout>
                           <SubComponents>
@@ -717,6 +717,14 @@
                               <Events>
                                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="onViewFileHTML"/>
                               </Events>
+                            </Component>
+                            <Component class="javax.swing.JProgressBar" name="pbExtractData1">
+                              <Properties>
+                                <Property name="indeterminate" type="boolean" value="true"/>
+                              </Properties>
+                              <AuxValues>
+                                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+                              </AuxValues>
                             </Component>
                           </SubComponents>
                         </Container>

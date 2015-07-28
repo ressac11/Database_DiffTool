@@ -176,6 +176,7 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
         } else {
             finalDatabaseName = "";
         }
+        
     }//GEN-LAST:event_onOK
 
     public File getSelectedDBDump() {
