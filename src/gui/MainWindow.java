@@ -10,8 +10,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -1035,9 +1033,9 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_onViewFileHTML
 
     private void onSupport(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onSupport
-        System.out.println("in support");
-        try {
-            File f = new File(System.getProperty("user.home")+File.separator+"Desktop"+File.separator+"help"+File.separator+"index.htm");
+        try 
+        {
+            File f = new File(System.getProperty("user.dir")+File.separator+"help_manual"+File.separator+"index.htm");
             Desktop.getDesktop().open(f);
         } catch (IOException ex) 
         {

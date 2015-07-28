@@ -1,0 +1,6 @@
+MANUAL; 1;
+MENU; 11,4;
+MIDDLE; 6,2;
+MODE; 6;
+MODES; 6,2;
+MUST; 2;

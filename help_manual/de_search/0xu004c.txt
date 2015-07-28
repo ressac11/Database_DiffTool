@@ -1,0 +1,4 @@
+LEFT; 4;
+LIST; 6,11,2;
+LISTS; 14,5;
+LOADED; 2;
