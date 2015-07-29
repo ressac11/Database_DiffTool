@@ -2,8 +2,10 @@ package gui;
 
 import database.DBConnectionPool;
 import java.io.File;
+import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
 
 public class DatabaseConnectionDialogue extends javax.swing.JDialog {
 
@@ -22,6 +24,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         setLocationRelativeTo(parent);
         selectedDB = "postgres";
         this.setIconImage(new ImageIcon(getClass().getResource("Logo.png")).getImage());
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -270,7 +273,6 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
     }//GEN-LAST:event_onCancel
 
     private void onOK(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOK
-        MainWindow.pbExtractData1.setVisible(true);
         newConn = true;
         onNewDriver(evt);
         String user = tfUser.getText().trim();
@@ -380,3 +382,4 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
     private javax.swing.JTextField tfUser;
     // End of variables declaration//GEN-END:variables
 }
+

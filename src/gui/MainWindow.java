@@ -2,6 +2,7 @@ package gui;
 
 import beans.Table;
 import bl.BLOperations;
+import bl.ProgressBarTask;
 import database.DBAccess;
 import java.awt.Color;
 import java.awt.Desktop;
@@ -10,14 +11,15 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import listModel.TableNamesLM;
 import renderer.TableRenderer;
 import tableModel.TableContentTM;
-
 
 public class MainWindow extends javax.swing.JFrame {
 
@@ -56,6 +58,7 @@ public class MainWindow extends javax.swing.JFrame {
     public static boolean e = false;
     private File newHTMLFile1 = null;
     private File newHTMLFile2 = null;
+    private Task task;
 
     public MainWindow() {
         initComponents();
@@ -88,7 +91,6 @@ public class MainWindow extends javax.swing.JFrame {
         liTablesC.add(pmSelectTablesC);
         liTablesC.setComponentPopupMenu(pmSelectTablesC);
         this.setIconImage(new ImageIcon(getClass().getResource("Logo.png")).getImage());
-        pbExtractData1.setVisible(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -132,7 +134,7 @@ public class MainWindow extends javax.swing.JFrame {
         pnViewButtons = new javax.swing.JPanel();
         btOpenDBFile1 = new javax.swing.JButton();
         btOpenHTMLFile1 = new javax.swing.JButton();
-        pbExtractData1 = new javax.swing.JProgressBar();
+        pbLeft = new javax.swing.JProgressBar();
         spTable1 = new javax.swing.JScrollPane();
         liTables1 = new javax.swing.JList();
         pnDetails = new javax.swing.JPanel();
@@ -412,9 +414,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
         pnViewButtons.add(btOpenHTMLFile1);
-
-        pbExtractData1.setIndeterminate(true);
-        pnViewButtons.add(pbExtractData1);
+        pnViewButtons.add(pbLeft);
 
         paButton.add(pnViewButtons, java.awt.BorderLayout.CENTER);
 
@@ -648,10 +648,8 @@ public class MainWindow extends javax.swing.JFrame {
         DataSelectionModesDialogue selectDialogue = new DataSelectionModesDialogue(this, true);
         selectDialogue.setLiAllEqualTables(bl.getEqualTables(liSaveListLeft, liSaveListRight));
         selectDialogue.setVisible(true);
-
         try {
             if (selectDialogue.isOK()) {
-                MainWindow.pbExtractData1.setVisible(true);
                 if (selectDialogue.isEntireDB()) {
                     bl.compareDatabases(databaseName1, databaseName2, liSaveListLeft, liSaveListRight);
                 } else if (selectDialogue.tableOK) {
@@ -706,11 +704,9 @@ public class MainWindow extends javax.swing.JFrame {
                 tbTableContent1.repaint();
                 tbTableContent2.repaint();
             }
-
         } catch (Exception e) {
             System.out.println("Main Window : onCompareData : " + e.toString() + "\n");
         }
-        MainWindow.pbExtractData1.setVisible(false);
     }//GEN-LAST:event_onCompareData
 
     private void onDownloadData(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onDownloadData
@@ -741,8 +737,6 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_onDownloadData
 
     private void onExtractDatas(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onExtractDatas
-        DownloadDialogue dd = new DownloadDialogue(null, true);
-        MainWindow.pbExtractData1.setVisible(true);
         try {
             extractData = Integer.parseInt(evt.getActionCommand());
             int count = 0;
@@ -775,8 +769,16 @@ public class MainWindow extends javax.swing.JFrame {
                 }
                 onNewSelectedItem();
             } else if (dataExtractDialogue.isOK && dataExtractDialogue.newFile) {
+                pbLeft.setIndeterminate(true);
+                task = new Task();
+                task.execute();
                 existingData = false;
-
+                JOptionPane.showMessageDialog(this, "1");
+                JOptionPane.showMessageDialog(this, "1");
+                JOptionPane.showMessageDialog(this, "1");
+                JOptionPane.showMessageDialog(this, "1");
+                JOptionPane.showMessageDialog(this, "1");
+                JOptionPane.showMessageDialog(this, "1");
                 dba = DBAccess.getTheInstance();
                 count = 1;
 
@@ -849,6 +851,7 @@ public class MainWindow extends javax.swing.JFrame {
                 }
 
             }
+
             if (enableCompareButton1 && enableCompareButton2) {
                 btCompareData.setEnabled(true);
             }
@@ -858,8 +861,14 @@ public class MainWindow extends javax.swing.JFrame {
             //JOptionPane.showMessageDialog(this, "the connection could not be established");
             JOptionPane.showMessageDialog(this, e.toString());
         }
+        pbLeft.setIndeterminate(false);
+        TableRenderer.newColsLeft = new LinkedList<>();
+        TableRenderer.newColsRight = new LinkedList<>();
+        TableRenderer.newRowLeft = new LinkedList<>();
+        TableRenderer.newRowRight = new LinkedList<>();
+        tbTableContent1.repaint();
+        tbTableContent2.repaint();
 
-        pbExtractData1.setVisible(false);
     }//GEN-LAST:event_onExtractDatas
     private void onViewFileTXT(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onViewFileTXT
         try {
@@ -1066,8 +1075,9 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     /**
-     * The aim of this method is to find i suitable place where the HTML file
-     * is going to get saved and where to load it from. 
+     * The aim of this method is to find i suitable place where the HTML file is
+     * going to get saved and where to load it from.
+     *
      * @return File
      */
     public File saveHTMLFile() {
@@ -1093,8 +1103,9 @@ public class MainWindow extends javax.swing.JFrame {
      * This method is called at the onExtraxtDatas Method, which task is it to
      * extract the data either from an existing file (.txt file) or to read the
      * datas from the databse.
+     *
      * @param newFile
-     * @throws Exception 
+     * @throws Exception
      */
     private void extractData1(boolean newFile) throws Exception {
 
@@ -1119,16 +1130,13 @@ public class MainWindow extends javax.swing.JFrame {
 
     }
 
-    public void setProgressBar() {
-        pbExtractData1.setVisible(true);
-    }
-
     /**
      * This method is called at the onExtraxtDatas Method, which task is it to
      * extract the data either from an existing file (.txt file) or to read the
      * datas from the databse.
+     *
      * @param newFile
-     * @throws Exception 
+     * @throws Exception
      */
     private void extractData2(boolean newFile) throws Exception {
 
@@ -1154,9 +1162,9 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     /**
-     * Because of this method we are able to select the first value at the
-     * shown lists automatically after the loading. Additionally it shows the
-     * values of the selected table.
+     * Because of this method we are able to select the first value at the shown
+     * lists automatically after the loading. Additionally it shows the values
+     * of the selected table.
      */
     private void onNewSelectedItem() {
         if (counter == 0) {
@@ -1202,12 +1210,14 @@ public class MainWindow extends javax.swing.JFrame {
                 if (newDataL) {
                     Table t = liTablesLeft.get(0);
                     tctmL = new TableContentTM(t.getColumnNames(), t.getAttributes());
+                    TableRenderer.selectedTable = t.getTableName();
                     tbTableContent1.setModel(tctmL);
                     newDataL = false;
                     counter = -1;
                 } else if (newDataR) {
                     Table table = liTablesRight.get(0);
                     tctmR = new TableContentTM(table.getColumnNames(), table.getAttributes());
+                    TableRenderer.selectedTable = table.getTableName();
                     tbTableContent2.setModel(tctmR);
                     newDataR = false;
                     counter = -1;
@@ -1230,6 +1240,22 @@ public class MainWindow extends javax.swing.JFrame {
         counter = -1;
         liTables1.updateUI();
         liTablesC.updateUI();
+    }
+
+    class Task extends SwingWorker<Void, Void> {
+        /*
+         * Main task. Executed in background thread.
+         */
+
+        @Override
+        public Void doInBackground() {
+            Random random = new Random();
+            try {
+                Thread.sleep(1000 + random.nextInt(2000));
+            } catch (InterruptedException ignore) {
+            }
+            return null;
+        }
     }
 
     public static void main(String args[]) {
@@ -1255,6 +1281,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
         });
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bgTableGroup;
@@ -1295,7 +1322,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenu muFile;
     private javax.swing.JPanel paButton;
     private javax.swing.JPanel paExtractData;
-    public static javax.swing.JProgressBar pbExtractData1;
+    private javax.swing.JProgressBar pbLeft;
     private javax.swing.JPopupMenu pmSelectTables;
     private javax.swing.JPopupMenu pmSelectTablesC;
     private javax.swing.JPanel pnButton1;

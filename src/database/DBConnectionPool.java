@@ -57,8 +57,6 @@ public class DBConnectionPool {
                         conn = DriverManager.getConnection(DB_URL + DB_NAME, DB_USER, DB_PASSWD);
                         break;
                     case "oracle":
-                        System.out.println("in oracle");
-                        System.out.println(DB_URL);
                         conn = DriverManager.getConnection(DB_URL + DB_SID, DB_USER, DB_PASSWD);
                         break;
                     case "mssql":

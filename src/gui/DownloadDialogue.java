@@ -1,9 +1,12 @@
 package gui;
 
+import java.util.Random;
 import javax.swing.ImageIcon;
+import javax.swing.SwingWorker;
 
 public class DownloadDialogue extends javax.swing.JDialog {
 
+    private Task task;
     public DownloadDialogue(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -11,7 +14,8 @@ public class DownloadDialogue extends javax.swing.JDialog {
         this.getContentPane().setBackground(MainWindow.backgroundColorPanel);
         this.setIconImage(new ImageIcon(getClass().getResource("Logo.png")).getImage()); 
         setLocationRelativeTo(parent);
-        
+        task = new Task();
+        task.execute();
     }   
     
     @SuppressWarnings("unchecked")
@@ -82,3 +86,25 @@ public class DownloadDialogue extends javax.swing.JDialog {
     private javax.swing.JLabel lbTitle;
     // End of variables declaration//GEN-END:variables
 }
+
+class Task extends SwingWorker<Void, Void> {
+        /*
+         * Main task. Executed in background thread.
+         */
+        @Override
+        public Void doInBackground() {
+            Random random = new Random();
+            
+            //Sleep for at least one second to simulate "startup".
+            try {
+                Thread.sleep(1000 + random.nextInt(2000));
+            } catch (InterruptedException ignore) {}
+            return null;
+        }
+
+        /*
+         * Executed in event dispatch thread
+         */
+        public void done() {
+        }
+    }

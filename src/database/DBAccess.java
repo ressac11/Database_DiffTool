@@ -133,9 +133,7 @@ public class DBAccess {
                     value += str + ";";
                 }catch(Exception ex)
                 {
-                    Blob b = rs.getBlob(i + 1);
-                    String str = b.toString();
-                    value += str + ";";
+                    value+= "<blob>"+";";
                 }
             }
             Row r = new Row(count, value);
