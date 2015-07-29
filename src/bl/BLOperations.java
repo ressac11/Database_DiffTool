@@ -40,6 +40,14 @@ public class BLOperations {
     private final String dbName = "#dbname#";
     private String databaseName = "";
 
+    /**
+     * In this method the database data stored in a .txt file is loaded into the program and
+     * stored in the classes Row and Table. 
+     * @param f
+     * @return 
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
     public LinkedList<Table> loadData(File f) throws FileNotFoundException, IOException {
         FileReader fr = new FileReader(f);
         BufferedReader br = new BufferedReader(fr);
@@ -104,6 +112,15 @@ public class BLOperations {
         br.close();
         return allTables;
     }
+    
+    /**
+     * Optionally the new created file including the entire database data can be saved in a .txt file.
+     * This saving process happens here. 
+     * @param f
+     * @param tables
+     * @param DatabaseName
+     * @throws IOException 
+     */
 
     public void saveDatabaseFile(File f, LinkedList<Table> tables, String DatabaseName) throws IOException {
         File file = f;
@@ -152,6 +169,14 @@ public class BLOperations {
         bw.close();
     }
 
+    /**
+     * In this method the tables of both databases are compared to equality,
+     * if so, they are passed on to the actual comparing method. 
+     * @param companyNameLeft
+     * @param companyNameRight
+     * @param tablesLeft
+     * @param tablesRight 
+     */
     public void compareDatabases(String companyNameLeft, String companyNameRight, LinkedList<Table> tablesLeft, LinkedList<Table> tablesRight) {
         companyLeft = companyNameLeft;
         companyRight = companyNameRight;
@@ -176,10 +201,15 @@ public class BLOperations {
         }
         if (count == 0) 
         {
-            JOptionPane.showMessageDialog(null, "The Tables can not be compared because non are equal");
+            JOptionPane.showMessageDialog(null, "The tables can not be compared because non are equal");
         }
     }
 
+    /**
+     * This method is responsible for the actual comparing process of two particular tables. 
+     * @param tLeft
+     * @param tRight 
+     */
     private void compare(Table tLeft, Table tRight) 
     {
         LinkedList<String> colLeft = tLeft.getColumnNames();
@@ -233,6 +263,11 @@ public class BLOperations {
         }
     }
 
+    /**
+     * In this method the output of the comparison process is written onto a .txt file. 
+     * @param f
+     * @throws IOException 
+     */
     public void downloadComparisonOutput(File f) throws IOException 
     {
         File file = f;
@@ -335,6 +370,11 @@ public class BLOperations {
         bw.close();
     }
 
+    /**
+     * This method ensures whether there are any differences between those databases 
+     * found and returns true if so. This method is needed to know whether to enable the download function. 
+     * @return 
+     */
     public boolean differenceExisting() {
         tableOfFirstDiff = "";
         int count = 0;
@@ -383,6 +423,9 @@ public class BLOperations {
         return liAllEqualTables;
     }
 
+    /**
+     * This method ensures the lists containing the differences in rows and columns are being cleared, for further usage.
+     */
     public void clearCompareOutputLists() {
         allNewColsLeft.clear();
         allNewColsRight.clear();
@@ -414,6 +457,13 @@ public class BLOperations {
         return databaseName;
     }
     
+    /**
+     * This method creates a HTML file displaying the content of each table of a database. 
+     * @param dbName
+     * @param list
+     * @param newHtmlFile
+     * @throws IOException 
+     */
     public void viewDatabaseFileHTML(String dbName, LinkedList<Table> list, File newHtmlFile) throws IOException
     {
             File htmlTemplateFile = new File(System.getProperty("user.dir")+File.separator+"src"+File.separator+"res"+File.separator+"template.html");
