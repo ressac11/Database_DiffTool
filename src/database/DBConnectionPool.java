@@ -20,6 +20,11 @@ public class DBConnectionPool {
     public static String DB_DRIVER;
     public static String DB_SID;
 
+   /**
+    * for creating an instance from the class DBConnectionPool
+    * @return theInstace
+    * @throws ClassNotFoundException 
+    */
     public static DBConnectionPool getTheInstance() throws ClassNotFoundException {
         if (theInstance == null) {
             theInstance = new DBConnectionPool();
@@ -35,6 +40,10 @@ public class DBConnectionPool {
         }
     }
 
+    /**
+     * creating a connection to the selected database
+     * @return Connection
+     */
     public synchronized Connection getConnection() {
         if (connections.isEmpty()) {
             try {
@@ -68,6 +77,10 @@ public class DBConnectionPool {
         return null;
     }
 
+    /**
+     * releases the connection from the connection pool
+     * @param conn 
+     */
     public synchronized void releaseConnection(Connection conn) {
         connections.offer(conn);
     }
