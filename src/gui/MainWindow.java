@@ -1041,9 +1041,9 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_onViewFileHTML
 
     private void onSupport(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onSupport
-        System.out.println("in support");
-        try {
-            File f = new File(System.getProperty("user.dir") + File.separator + "help_manual" + File.separator + "index.htm");
+        try 
+        {
+            File f = new File(System.getProperty("user.dir")+File.separator+"help_manual"+File.separator+"index.htm");
             Desktop.getDesktop().open(f);
         } catch (IOException ex) {
             System.out.println("Main Window : onSupport : " + ex.toString());

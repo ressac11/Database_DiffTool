@@ -18,6 +18,16 @@ public class TableRenderer implements TableCellRenderer
     public static LinkedList<DifferentRow> newRowLeft = new LinkedList<>();
     public static LinkedList<DifferentRow> newRowRight = new LinkedList<>();
 
+    /**
+     * This method is responsible for colorfully highlighting different rows and different columns of two databases.
+     * @param table
+     * @param value
+     * @param isSelected
+     * @param hasFocus
+     * @param row
+     * @param column
+     * @return 
+     */
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         JLabel label = new JLabel();
