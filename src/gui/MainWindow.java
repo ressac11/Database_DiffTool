@@ -12,9 +12,6 @@ import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
-import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -1062,6 +1059,7 @@ public class MainWindow extends javax.swing.JFrame {
         liTablesLeft.clear();
         if (newFile) {
             liTablesLeft = dba.getSpecificTables(liAllSelectedTables);
+            liTablesLeft.get(2).getColumnNames().getLast();
         } else {
             LinkedList<Table> helpList = bl.loadData(existingFile1);
             liTablesLeft = (LinkedList<Table>) helpList.clone();
@@ -1092,8 +1090,9 @@ public class MainWindow extends javax.swing.JFrame {
         liTablesC.removeAll();
         liTablesRight.clear();
         if (newFile) {
+            
             liTablesRight = dba.getSpecificTables(liAllSelectedTables);
-
+            liTablesRight.get(2).getColumnNames().getLast();
         } else {
             LinkedList<Table> helpList = bl.loadData(existingFile2);
             liTablesRight = (LinkedList<Table>) helpList.clone();
@@ -1157,16 +1156,14 @@ public class MainWindow extends javax.swing.JFrame {
             } else {
                 if (newDataL) {
                     Table t = liTablesLeft.get(0);
-                    tctmL = new TableContentTM(t.getColumnNames(), t.getAttributes());
                     TableRenderer.selectedTable = t.getTableName();
-                    tbTableContent1.setModel(tctmL);
+                    tbTableContent1.setModel(new TableContentTM(t.getColumnNames(), t.getAttributes()));
                     newDataL = false;
                     counter = -1;
                 } else if (newDataR) {
                     Table table = liTablesRight.get(0);
-                    tctmR = new TableContentTM(table.getColumnNames(), table.getAttributes());
                     TableRenderer.selectedTable = table.getTableName();
-                    tbTableContent2.setModel(tctmR);
+                    tbTableContent2.setModel(new TableContentTM(table.getColumnNames(), table.getAttributes()));
                     newDataR = false;
                     counter = -1;
                 } else {
@@ -1186,8 +1183,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
         }
         counter = -1;
-        liTables1.updateUI();
-        liTablesC.updateUI();
+        
     }
 
     class Task extends SwingWorker<Void, Void> {

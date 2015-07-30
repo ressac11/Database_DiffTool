@@ -33,6 +33,8 @@ public class TableRenderer implements TableCellRenderer
      */
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        try
+        {
         JLabel label = new JLabel();
         Color c1 = new Color(183, 34, 38);
         Color c2 = new Color(227, 103, 29);
@@ -101,5 +103,9 @@ public class TableRenderer implements TableCellRenderer
             }
         }
         return label;
+        }catch(Exception ex)
+        {
+            return null;
+        }
     }
 }

@@ -12,7 +12,6 @@ public class TableContentTM extends AbstractTableModel {
     public TableContentTM(LinkedList<String> column, LinkedList<Row> row) {
         this.columns = column;
         this.rows = row;
-        fireTableRowsInserted(0, rows.size());
     }
 
     @Override
