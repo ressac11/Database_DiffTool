@@ -1,6 +1,7 @@
 package bl;
 
 import beans.ColumnInformation;
+import beans.DifferentCell;
 import beans.DifferentColumn;
 import beans.DifferentRow;
 import beans.Row;
@@ -35,6 +36,8 @@ public class BLOperations {
     private final LinkedList<ColumnInformation> allColsRight = new LinkedList<>();
     private final LinkedList<DifferentRow> allNewRowsRight = new LinkedList<>();
     private final LinkedList<DifferentRow> allNewRowsLeft = new LinkedList<>();
+    private final LinkedList<DifferentCell> allNewCellsRight = new LinkedList<>();
+    private final LinkedList<DifferentCell> allNewCellsLeft = new LinkedList<>();
     private String companyLeft = "";
     private String companyRight = "";
     private final String dbName = "#dbname#";
@@ -241,26 +244,116 @@ public class BLOperations {
         LinkedList<Row> rightV = tRight.getAttributes();
         LinkedList<String> valuesRight = new LinkedList<>();
         LinkedList<String> valuesLeft = new LinkedList<>();
-        for (Row r : rightV) {
+        String valueTemp = "";
+        int counter = 0;
+        boolean outOfFor = false;
+        
+        for (Row r : rightV) 
+        {
+            for (DifferentColumn col : allNewColsRight) 
+            {
+                if(tRight.getTableName().equals(col.getTableName()))
+                {
+                    for (String str : r.getValue().split(";")) 
+                    {
+                        if(counter != col.getColumnIndex())
+                        {
+                            valueTemp+=str+";";
+                        }
+                        counter++;
+                    }
+                    valuesRight.add(valueTemp);
+                }
+                else
+                {
+                    break;
+                }
+            }
             valuesRight.add(r.getValue());
+            counter = 0;
+            valueTemp = "";
         }
-        for (Row r : leftV) {
-            valuesLeft.add(r.getValue());
+        counter = 0;
+        valueTemp = "";
+        for (Row r : leftV) 
+        {
+                for (DifferentColumn col : allNewColsLeft) 
+                {
+                    if(tLeft.getTableName().equals(col.getTableName()))
+                    {
+                        for (String str : r.getValue().split(";")) 
+                        {
+                            if(counter != col.getColumnIndex())
+                            {
+                                valueTemp+=str+";";
+                            }
+                            counter++;
+                        }
+                        valuesLeft.add(valueTemp);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                valuesLeft.add(r.getValue());
+                counter = 0;
+                valueTemp = "";
         }
         //rechte Liste durchgehen
-        for (int rR = 0; rR < valuesRight.size(); rR++) {
-            if (!valuesLeft.contains(valuesRight.get(rR))) {
-                DifferentRow row = new DifferentRow(tRight.getTableName(), valuesRight.get(rR), rR);
-                allNewRowsRight.add(row);
+        counter = 0;
+            String[] arrayR = null;
+            System.out.println("starting with cells right");
+            int tempSize = valuesLeft.size();
+            if(valuesLeft.size() > valuesRight.size())
+            {
+                tempSize = valuesRight.size();
             }
-        }
-        //linke Liste durchgehen
-        for (int rL = 0; rL < valuesLeft.size(); rL++) {
-            if (!valuesRight.contains(valuesLeft.get(rL))) {
-                DifferentRow row = new DifferentRow(tLeft.getTableName(), valuesLeft.get(rL), rL);
-                allNewRowsLeft.add(row);
-            }
-        }
+            for (int rL = 0; rL < tempSize; rL++) 
+            {
+                arrayR = valuesRight.get(rL).split(";");
+                for (String arrayL : valuesLeft.get(rL).split(";")) 
+                {
+                    if(!arrayL.equals(arrayR[rL]))
+                    {
+                        DifferentCell diffCellL = new DifferentCell(tLeft.getTableName(), counter, rL, arrayL);
+                        diffCellL.toString();
+                        allNewCellsLeft.add(diffCellL);
+                    }
+                    counter++;
+                }
+                counter = 0;
+            }   
+            String[] strL = null;
+            counter = 0;
+            System.out.println("starting with cells left");
+            for (int rR = 0; rR < tempSize; rR++) 
+            {
+                strL = valuesLeft.get(rR).split(";");
+                for (String strR : valuesRight.get(rR).split(";")) 
+                {
+                    if(!strR.equals(strL[rR]))
+                    {
+                        DifferentCell diffCellR = new DifferentCell(tRight.getTableName(), counter, rR, strR);
+                        diffCellR.toString();
+                        allNewCellsRight.add(diffCellR);
+                    }
+                    counter++;
+                }
+                counter = 0;
+            }   
+//            if (!valuesLeft.contains(valuesRight.get(rR))) 
+//            {
+//                DifferentRow row = new DifferentRow(tRight.getTableName(), valuesRight.get(rR), rR);
+//                allNewRowsRight.add(row);
+//            }
+//        //linke Liste durchgehen
+//        for (int rL = 0; rL < valuesLeft.size(); rL++) {
+//            if (!valuesRight.contains(valuesLeft.get(rL))) {
+//                DifferentRow row = new DifferentRow(tLeft.getTableName(), valuesLeft.get(rL), rL);
+//                allNewRowsLeft.add(row);
+//            }
+//        }
     }
 
     /**
