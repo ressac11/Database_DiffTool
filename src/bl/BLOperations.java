@@ -45,12 +45,13 @@ public class BLOperations {
     private String databaseName = "";
 
     /**
-     * In this method the database data stored in a .txt file is loaded into the program and
-     * stored in the classes Row and Table. 
+     * In this method the database data stored in a .txt file is loaded into the
+     * program and stored in the classes Row and Table.
+     *
      * @param f
-     * @return 
+     * @return
      * @throws FileNotFoundException
-     * @throws IOException 
+     * @throws IOException
      */
     public LinkedList<Table> loadData(File f) throws FileNotFoundException, IOException {
         FileReader fr = new FileReader(f);
@@ -64,8 +65,7 @@ public class BLOperations {
         int countDBName = 0;
         String str;
 
-        while ((str = br.readLine()) != null) 
-        {
+        while ((str = br.readLine()) != null) {
             if (str.equals(dbName)) {
                 countDBName = 1;
             } else {
@@ -99,8 +99,10 @@ public class BLOperations {
                                 liRows.clear();
                                 tablename = "";
                             } else {
-                                Row r = new Row(counter, str.split(delim)[0].split(pkDelim)[0], str.split(delim)[0].split(pkDelim)[1]);
-                                liRows.add(r);
+                                if (!str.equals("")) {
+                                    Row r = new Row(counter, str.split(delim)[0].split(pkDelim)[0], str.split(delim)[0].split(pkDelim)[1]);
+                                    liRows.add(r);
+                                }
                             }
                         }
                     } else {
@@ -112,16 +114,16 @@ public class BLOperations {
         br.close();
         return allTables;
     }
-    
+
     /**
-     * Optionally the new created file including the entire database data can be saved in a .txt file.
-     * This saving process happens here. 
+     * Optionally the new created file including the entire database data can be
+     * saved in a .txt file. This saving process happens here.
+     *
      * @param f
      * @param tables
      * @param DatabaseName
-     * @throws IOException 
+     * @throws IOException
      */
-
     public void saveDatabaseFile(File f, LinkedList<Table> tables, String DatabaseName) throws IOException {
         File file = f;
         FileWriter fw = new FileWriter(file);
@@ -150,15 +152,15 @@ public class BLOperations {
             List<Row> rows = table.getAttributes();
             if (rows.size() > 0) {
                 Row oldValue = rows.get(0);
-                bw.write(oldValue.getValue() +pkDelim+ oldValue.getPrimaryKey()+delim);
-                
+                bw.write(oldValue.getValue() + pkDelim + oldValue.getPrimaryKey() + delim);
+
                 for (int i = 1; i < rows.size(); i++) {
                     Row r2 = rows.get(i);
                     if (r2.getRID() != oldValue.getRID()) {
                         bw.newLine();
                         oldValue = r2;
                     }
-                    bw.write(r2.getValue() + pkDelim+r2.getPrimaryKey()+delim);
+                    bw.write(r2.getValue() + pkDelim + r2.getPrimaryKey() + delim);
                 }
             }
         }
@@ -169,12 +171,13 @@ public class BLOperations {
     }
 
     /**
-     * In this method the tables of both databases are compared to equality,
-     * if so, they are passed on to the actual comparing method. 
+     * In this method the tables of both databases are compared to equality, if
+     * so, they are passed on to the actual comparing method.
+     *
      * @param companyNameLeft
      * @param companyNameRight
      * @param tablesLeft
-     * @param tablesRight 
+     * @param tablesRight
      */
     public void compareDatabases(String companyNameLeft, String companyNameRight, LinkedList<Table> tablesLeft, LinkedList<Table> tablesRight) {
         companyLeft = companyNameLeft;
@@ -198,19 +201,19 @@ public class BLOperations {
                 }
             }
         }
-        if (count == 0) 
-        {
+        if (count == 0) {
             JOptionPane.showMessageDialog(null, "The tables can not be compared because non are equal");
         }
     }
 
     /**
-     * This method is responsible for the actual comparing process of two particular tables. 
+     * This method is responsible for the actual comparing process of two
+     * particular tables.
+     *
      * @param tLeft
-     * @param tRight 
+     * @param tRight
      */
-    private void compare(Table tLeft, Table tRight) 
-    {
+    private void compare(Table tLeft, Table tRight) {
         LinkedList<String> colLeft = tLeft.getColumnNames();
         LinkedList<String> colRight = tRight.getColumnNames();
 
@@ -243,25 +246,18 @@ public class BLOperations {
         String valueTemp = "";
         int counter = 0;
         boolean outOfFor = false;
-        
-        for (Row r : rightV) 
-        {
-            for (DifferentColumn col : allNewColsRight) 
-            {
-                if(tRight.getTableName().equals(col.getTableName()))
-                {
-                    for (String str : r.getValue().split(";")) 
-                    {
-                        if(counter != col.getColumnIndex())
-                        {
-                            valueTemp+=str+";";
+
+        for (Row r : rightV) {
+            for (DifferentColumn col : allNewColsRight) {
+                if (tRight.getTableName().equals(col.getTableName())) {
+                    for (String str : r.getValue().split(";")) {
+                        if (counter != col.getColumnIndex()) {
+                            valueTemp += str + ";";
                         }
                         counter++;
                     }
                     valuesRight.add(valueTemp);
-                }
-                else
-                {
+                } else {
                     break;
                 }
             }
@@ -271,73 +267,59 @@ public class BLOperations {
         }
         counter = 0;
         valueTemp = "";
-        for (Row r : leftV) 
-        {
-                for (DifferentColumn col : allNewColsLeft) 
-                {
-                    if(tLeft.getTableName().equals(col.getTableName()))
-                    {
-                        for (String str : r.getValue().split(";")) 
-                        {
-                            if(counter != col.getColumnIndex())
-                            {
-                                valueTemp+=str+";";
-                            }
-                            counter++;
+        for (Row r : leftV) {
+            for (DifferentColumn col : allNewColsLeft) {
+                if (tLeft.getTableName().equals(col.getTableName())) {
+                    for (String str : r.getValue().split(";")) {
+                        if (counter != col.getColumnIndex()) {
+                            valueTemp += str + ";";
                         }
-                        valuesLeft.add(valueTemp);
+                        counter++;
                     }
-                    else
-                    {
-                        break;
-                    }
+                    valuesLeft.add(valueTemp);
+                } else {
+                    break;
                 }
-                valuesLeft.add(r.getValue());
-                counter = 0;
-                valueTemp = "";
+            }
+            valuesLeft.add(r.getValue());
+            counter = 0;
+            valueTemp = "";
         }
         //rechte Liste durchgehen
         counter = 0;
-            String[] arrayR = null;
-            System.out.println("starting with cells right");
-            int tempSize = valuesLeft.size();
-            if(valuesLeft.size() > valuesRight.size())
-            {
-                tempSize = valuesRight.size();
+        String[] arrayR = null;
+        System.out.println("starting with cells right");
+        int tempSize = valuesLeft.size();
+        if (valuesLeft.size() > valuesRight.size()) {
+            tempSize = valuesRight.size();
+        }
+        for (int rL = 0; rL < tempSize; rL++) {
+            arrayR = valuesRight.get(rL).split(";");
+            for (String arrayL : valuesLeft.get(rL).split(";")) {
+                if (!arrayL.equals(arrayR[rL])) {
+                    DifferentCell diffCellL = new DifferentCell(tLeft.getTableName(), counter, rL, arrayL);
+                    diffCellL.toString();
+                    allNewCellsLeft.add(diffCellL);
+                }
+                counter++;
             }
-            for (int rL = 0; rL < tempSize; rL++) 
-            {
-                arrayR = valuesRight.get(rL).split(";");
-                for (String arrayL : valuesLeft.get(rL).split(";")) 
-                {
-                    if(!arrayL.equals(arrayR[rL]))
-                    {
-                        DifferentCell diffCellL = new DifferentCell(tLeft.getTableName(), counter, rL, arrayL);
-                        diffCellL.toString();
-                        allNewCellsLeft.add(diffCellL);
-                    }
-                    counter++;
-                }
-                counter = 0;
-            }   
-            String[] strL = null;
             counter = 0;
-            System.out.println("starting with cells left");
-            for (int rR = 0; rR < tempSize; rR++) 
-            {
-                strL = valuesLeft.get(rR).split(";");
-                for (String strR : valuesRight.get(rR).split(";")) 
-                {
-                    if(!strR.equals(strL[rR]))
-                    {
-                        DifferentCell diffCellR = new DifferentCell(tRight.getTableName(), counter, rR, strR);
-                        diffCellR.toString();
-                        allNewCellsRight.add(diffCellR);
-                    }
-                    counter++;
+        }
+        String[] strL = null;
+        counter = 0;
+        System.out.println("starting with cells left");
+        for (int rR = 0; rR < tempSize; rR++) {
+            strL = valuesLeft.get(rR).split(";");
+            for (String strR : valuesRight.get(rR).split(";")) {
+                if (!strR.equals(strL[rR])) {
+                    DifferentCell diffCellR = new DifferentCell(tRight.getTableName(), counter, rR, strR);
+                    diffCellR.toString();
+                    allNewCellsRight.add(diffCellR);
                 }
-                counter = 0;
-            }   
+                counter++;
+            }
+            counter = 0;
+        }
 //            if (!valuesLeft.contains(valuesRight.get(rR))) 
 //            {
 //                DifferentRow row = new DifferentRow(tRight.getTableName(), valuesRight.get(rR), rR);
@@ -353,12 +335,13 @@ public class BLOperations {
     }
 
     /**
-     * In this method the output of the comparison process is written onto a .txt file. 
+     * In this method the output of the comparison process is written onto a
+     * .txt file.
+     *
      * @param f
-     * @throws IOException 
+     * @throws IOException
      */
-    public void downloadComparisonOutput(File f) throws IOException 
-    {
+    public void downloadComparisonOutput(File f) throws IOException {
         File file = f;
         FileWriter fw = new FileWriter(file);
         BufferedWriter bw = new BufferedWriter(fw);
@@ -460,9 +443,11 @@ public class BLOperations {
     }
 
     /**
-     * This method ensures whether there are any differences between those databases 
-     * found and returns true if so. This method is needed to know whether to enable the download function. 
-     * @return 
+     * This method ensures whether there are any differences between those
+     * databases found and returns true if so. This method is needed to know
+     * whether to enable the download function.
+     *
+     * @return
      */
     public boolean differenceExisting() {
         tableOfFirstDiff = "";
@@ -489,12 +474,9 @@ public class BLOperations {
         } else {
             tableOfFirstDiff = allNewRowsRight.get(0).getTableName();
         }
-        if (count == 3) 
-        {
+        if (count == 3) {
             JOptionPane.showMessageDialog(null, "the databases are completely equal");
-        } 
-        else 
-        {
+        } else {
             return true;
         }
         return false;
@@ -513,7 +495,8 @@ public class BLOperations {
     }
 
     /**
-     * This method ensures the lists containing the differences in rows and columns are being cleared, for further usage.
+     * This method ensures the lists containing the differences in rows and
+     * columns are being cleared, for further usage.
      */
     public void clearCompareOutputLists() {
         allNewColsLeft.clear();
@@ -545,48 +528,45 @@ public class BLOperations {
     public String getDatabaseName() {
         return databaseName;
     }
-    
+
     /**
-     * This method creates a HTML file displaying the content of each table of a database. 
+     * This method creates a HTML file displaying the content of each table of a
+     * database.
+     *
      * @param dbName
      * @param list
      * @param newHtmlFile
-     * @throws IOException 
+     * @throws IOException
      */
-    public void viewDatabaseFileHTML(String dbName, LinkedList<Table> list, File newHtmlFile) throws IOException
-    {
-            File htmlTemplateFile = new File(System.getProperty("user.dir")+File.separator+"src"+File.separator+"res"+File.separator+"template.html");
-            System.out.println(htmlTemplateFile.getPath());
-            String htmlString = FileUtils.readFileToString(htmlTemplateFile);
-            String title = newHtmlFile.getName();
-            String body = "<h1 style=\"font-family: Arial; font-size: 40px; margin-left: 25%; margin-bottom: 30px; "
-                    + "margin-top: 30px;\">"+dbName+"</h1><div id=\"content\" style=\"font-family: Arial; "
-                    + "font-size:13px; width: 800px; margin-left: 25%;\">";
-            for(Table t : list)
-            {
-                body = body.concat("<table border=\"2\" style=\"border-collapse: collapse;\"><h2>");
-                body = body.concat(t.getTableName()+"</h2><thead><tr>");
-                for(String col : t.getColumnNames())
-                {
-                    body = body.concat("<th>"+col);
-                }
-                body = body.concat("</tr></thead>");
-                for(Row r : t.getAttributes())
-                {
-                    body = body.concat("<tr style=\"padding:5px; margin:5px;\">");
-                    for(String str : r.getValue().split(";"))
-                    {
-                        body = body.concat("<td>"+str+"</td>");
-                    }
-                    body = body.concat("</tr>");
-                }
-                body = body.concat("</table>");
+    public void viewDatabaseFileHTML(String dbName, LinkedList<Table> list, File newHtmlFile) throws IOException {
+        File htmlTemplateFile = new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "template.html");
+        System.out.println(htmlTemplateFile.getPath());
+        String htmlString = FileUtils.readFileToString(htmlTemplateFile);
+        String title = newHtmlFile.getName();
+        String body = "<h1 style=\"font-family: Arial; font-size: 40px; margin-left: 25%; margin-bottom: 30px; "
+                + "margin-top: 30px;\">" + dbName + "</h1><div id=\"content\" style=\"font-family: Arial; "
+                + "font-size:13px; width: 800px; margin-left: 25%;\">";
+        for (Table t : list) {
+            body = body.concat("<table border=\"2\" style=\"border-collapse: collapse;\"><h2>");
+            body = body.concat(t.getTableName() + "</h2><thead><tr>");
+            for (String col : t.getColumnNames()) {
+                body = body.concat("<th>" + col);
             }
-            body = body.concat("</div>");
-            
-            htmlString = htmlString.replace("$title", title);
-            htmlString = htmlString.replace("$body", body);
-            
-            FileUtils.writeStringToFile(newHtmlFile, htmlString);
+            body = body.concat("</tr></thead>");
+            for (Row r : t.getAttributes()) {
+                body = body.concat("<tr style=\"padding:5px; margin:5px;\">");
+                for (String str : r.getValue().split(";")) {
+                    body = body.concat("<td>" + str + "</td>");
+                }
+                body = body.concat("</tr>");
+            }
+            body = body.concat("</table>");
+        }
+        body = body.concat("</div>");
+
+        htmlString = htmlString.replace("$title", title);
+        htmlString = htmlString.replace("$body", body);
+
+        FileUtils.writeStringToFile(newHtmlFile, htmlString);
     }
 }
