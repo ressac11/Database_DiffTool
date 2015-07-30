@@ -63,6 +63,7 @@ public class MainWindow extends javax.swing.JFrame {
     private File newHTMLFile2 = null;
     private Task task;
     private String progressBarLoader;
+    private LinkedList<String> nullValue;
 
     public MainWindow() {
         initComponents();
@@ -1054,14 +1055,14 @@ public class MainWindow extends javax.swing.JFrame {
      * @param newFile
      * @throws Exception
      */
-    private void extractData1(boolean newFile) throws Exception {
+    private void extractData1(boolean newFile, LinkedList<String> liAllSelectedTables) throws Exception {
 
         counter = 0;
         newDataL = true;
         liTables1.removeAll();
         liTablesLeft.clear();
         if (newFile) {
-            liTablesLeft = dba.getAllTables(liTablesLeft);
+            liTablesLeft=dba.getSpecificTables(liAllSelectedTables);
         } else {
             LinkedList<Table> helpList = bl.loadData(existingFile1);
             liTablesLeft = (LinkedList<Table>) helpList.clone();
@@ -1085,14 +1086,15 @@ public class MainWindow extends javax.swing.JFrame {
      * @param newFile
      * @throws Exception
      */
-    private void extractData2(boolean newFile) throws Exception {
+    private void extractData2(boolean newFile, LinkedList<String> liAllSelectedTables) throws Exception {
 
         counter = 0;
         newDataR = true;
         liTablesC.removeAll();
         liTablesRight.clear();
         if (newFile) {
-            liTablesRight = dba.getAllTables(liTablesRight);
+            liTablesRight=dba.getSpecificTables(liAllSelectedTables);
+            
         } else {
             LinkedList<Table> helpList = bl.loadData(existingFile2);
             liTablesRight = (LinkedList<Table>) helpList.clone();
@@ -1229,7 +1231,7 @@ public class MainWindow extends javax.swing.JFrame {
                         existingFile1 = dataExtractDialogue.getSelectedDBDump();
                         pbLoad.setValue(50);
                         savedFile1 = null;
-                        extractData1(false);
+                        extractData1(false, nullValue);
                         enableCompareButton1 = true;
                         btOpenDBFile1.setEnabled(true);
                         btOpenHTMLFile1.setEnabled(true);
@@ -1240,7 +1242,7 @@ public class MainWindow extends javax.swing.JFrame {
                         existingFile2 = dataExtractDialogue.getSelectedDBDump();
                         pbLoad.setValue(50);
                         savedFile2 = null;
-                        extractData2(false);
+                        extractData2(false, nullValue);
                         enableCompareButton2 = true;
                         btOpenDBFile2.setEnabled(true);
                         btOpenHTMLFile2.setEnabled(true);
@@ -1252,20 +1254,35 @@ public class MainWindow extends javax.swing.JFrame {
                     pbLoad.setValue(90);
                 } else if (dataExtractDialogue.isOK && dataExtractDialogue.newFile) {
                     existingData = false;
+                    DataSelectionModesDialogue dsmd = new DataSelectionModesDialogue(null, true);
+                    TableDialogue td = new TableDialogue(null, true);
+                    dba = DBAccess.getTheInstance();
+                    td.setLiAllTableNames(dba.getAllTableNames());
+                    dsmd.setVisible(true);
+                    
                     pbLoad.setVisible(true);
                     pbLoad.setIndeterminate(false);
                     pbLoad.setValue(0);
                     pbLoad.setStringPainted(false);
-                    dba = DBAccess.getTheInstance();
+                    
                     count = 1;
                     pbLoad.setValue(5);
                     if (count != 0) {
-                        if (extractData == 1) {
-                            extractData1(true);
+                        if(td.liSelectedTableNames.size()>0)
+                    {
+                       if (extractData == 1) {
+                            extractData1(true, td.liSelectedTableNames);
                             pbLoad.setValue(50);
                         } else {
-                            extractData2(true);
-                        }
+                            extractData2(true, td.liSelectedTableNames);
+                        } 
+                    }else{
+                        if (extractData == 1) {
+                            extractData1(true, dba.getAllTableNames());
+                            pbLoad.setValue(50);
+                        } else {
+                            extractData2(true, dba.getAllTableNames());
+                        }}
                         //set database name on each label
                         if (dataExtractDialogue.getFinalDatabaseName().startsWith("1")) {
                             databaseName1 = dataExtractDialogue.getFinalDatabaseName().substring(1);
@@ -1342,7 +1359,7 @@ public class MainWindow extends javax.swing.JFrame {
                 pbLoad.setValue(100);
                 pbLoad.setVisible(false);
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, ex.toString());
+                System.out.println("MainWindow: extractDatas: "+ex.toString());
             }
         }
     }

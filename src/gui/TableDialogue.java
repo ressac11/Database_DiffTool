@@ -6,21 +6,24 @@ import java.util.LinkedList;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import listModel.TableNamesLM;
+import listModel.TableNamesLMD;
 
 public class TableDialogue extends javax.swing.JDialog {
-   
+
     private boolean ok = false;
     public static String selectedList;
     private LinkedList<Table> liTablesList = new LinkedList<>();
     public static LinkedList<Table> selectedTables = new LinkedList<>();
     private TableNamesLM tnlm;
+    private TableNamesLMD tnlmd;
     public boolean equalTablesList = false;
-    
-    public TableDialogue(java.awt.Frame parent, boolean modal) 
-    {
+    private boolean tableNames;
+    private LinkedList<String> liAllTableNames = new LinkedList<>();
+    public static LinkedList<String> liSelectedTableNames = new LinkedList<>();
+
+    public TableDialogue(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        try
-        {
+        try {
             initComponents();
             this.getContentPane().setBackground(MainWindow.backgroundColorPanel);
             btCancel.setBackground(MainWindow.backgroundColorButton);
@@ -29,12 +32,9 @@ public class TableDialogue extends javax.swing.JDialog {
             btRemove.setBackground(MainWindow.backgroundColorButton);
             this.setLocationRelativeTo(parent);
             this.setIconImage(new ImageIcon(getClass().getResource("Logo.png")).getImage());
-            selectedTables.clear();
-            liList2.setModel(new TableNamesLM(selectedTables));
-        }
-        catch(Exception s)
-        {
-            System.out.println("TableDialogue : Constructor : "+s.toString());
+            selectedTables.clear();            
+        } catch (Exception s) {
+            System.out.println("TableDialogue : Constructor : " + s.toString());
         }
     }
 
@@ -192,14 +192,20 @@ public class TableDialogue extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void onOK(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOK
-        if(selectedTables.size() > 0)
-        {
-            ok = true;
-            dispose();
-        }
-        else
-        {
-            JOptionPane.showMessageDialog(this, "nothing is selected");
+        if (!tableNames) {
+            if (selectedTables.size() > 0) {
+                ok = true;
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "nothing is selected");
+            }
+        } else {
+            if (liSelectedTableNames.size() > 0) {
+                ok = true;
+                dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "nothing is selected");
+            }
         }
     }//GEN-LAST:event_onOK
     private void onCancel(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCancel
@@ -207,40 +213,61 @@ public class TableDialogue extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_onCancel
     private void onAddTable(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onAddTable
-        if(liTablesList.size() > 0)
-        {
-            selectedTables.add(liTablesList.get(liTables.getSelectedIndex()));
-            liTablesList.remove(liTables.getSelectedIndex());
-            liTables.updateUI();
-            liList2.updateUI();
+        if (!tableNames) {
+            if (liTablesList.size() > 0) {
+                selectedTables.add(liTablesList.get(liTables.getSelectedIndex()));
+                liTablesList.remove(liTables.getSelectedIndex());
+                liTables.updateUI();
+                liList2.updateUI();
+            }
+        } else {
+            if (liAllTableNames.size() > 0) {
+                liSelectedTableNames.add(liAllTableNames.get(liTables.getSelectedIndex()));
+                liAllTableNames.remove(liTables.getSelectedIndex());
+                liTables.updateUI();
+                liList2.updateUI();
+            }
         }
     }//GEN-LAST:event_onAddTable
     private void onRemoveTable(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onRemoveTable
-        if(selectedTables.size() > 0)
-        {
-            liTablesList.add(selectedTables.get(liList2.getSelectedIndex()));
-            selectedTables.remove(liList2.getSelectedIndex());
-            liList2.updateUI();
-            liTables.updateUI();
+        if (!tableNames) {
+            if (selectedTables.size() > 0) {
+                liTablesList.add(selectedTables.get(liList2.getSelectedIndex()));
+                selectedTables.remove(liList2.getSelectedIndex());
+                liList2.updateUI();
+                liTables.updateUI();
+            }
+        } else {
+            if (liSelectedTableNames.size() > 0) {
+                liAllTableNames.add(liSelectedTableNames.get(liList2.getSelectedIndex()));
+                liSelectedTableNames.remove(liList2.getSelectedIndex());
+                liList2.updateUI();
+                liTables.updateUI();
+            }
         }
     }//GEN-LAST:event_onRemoveTable
-    public boolean isOK() 
-    {
+    public boolean isOK() {
         return ok;
     }
 
-    public void setLiAllTables(LinkedList<Table> liAllTables) 
-    {
-        try 
-        {
-           this.liTablesList = liAllTables;
+    public void setLiAllTableNames(LinkedList<String> liAllTableNames) throws ClassNotFoundException {
+        tableNames = true;
+        Collections.sort(this.liAllTableNames);
+        tnlmd = new TableNamesLMD(this.liAllTableNames);
+        liTables.setModel(new TableNamesLMD(liAllTableNames));
+        liList2.setModel(new TableNamesLMD(liSelectedTableNames));
+    }
+
+    public void setLiAllTables(LinkedList<Table> liAllTables) {
+        tableNames = false;
+        try {
+            this.liTablesList = liAllTables;
             Collections.sort(this.liTablesList);
-           tnlm = new TableNamesLM(this.liTablesList);
-           liTables.setModel(tnlm);
-        } 
-        catch(Exception e)
-        {
-            System.out.println("TableDialogue : setLiAllTables : "+e.toString());
+            tnlm = new TableNamesLM(this.liTablesList);
+            liTables.setModel(tnlm);
+            liList2.setModel(new TableNamesLM(selectedTables));
+        } catch (Exception e) {
+            System.out.println("TableDialogue : setLiAllTables : " + e.toString());
         }
     }
 

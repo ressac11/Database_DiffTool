@@ -75,6 +75,50 @@ public class DBAccess {
         return liAllTables;
     }
 
+    public LinkedList<String> getAllTableNames() throws Exception {
+        LinkedList<String> allTableNames = new LinkedList<>();
+        Connection conn = connPool.getConnection();
+        Statement stat = conn.createStatement();
+        String sqlString = "";
+        switch (DatabaseConnectionDialogue.selectedDB) {
+            case "postgres":
+                sqlString = "SELECT table_name "
+                        + " FROM information_schema.tables "
+                        + " WHERE table_schema = 'public' ";
+                break;
+            case "oracle":
+                sqlString = "SELECT table_name "
+                        + "  FROM dba_tables where owner='" + DBConnectionPool.DB_USER + "'";
+                break;
+            case "mssql":
+                sqlString = "SELECT TABLE_NAME "
+                        + "FROM INFORMATION_SCHEMA.TABLES "
+                        + "WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_CATALOG='" + DBConnectionPool.DB_NAME + "'";
+                break;
+        }
+        ResultSet rs = stat.executeQuery(sqlString);
+        while (rs.next()) {
+            allTableNames.add(rs.getString(1));
+        }
+        rs.close();
+        connPool.releaseConnection(conn);
+        return allTableNames;
+    }
+    
+    public LinkedList<Table> getSpecificTables(LinkedList<String> liTableNames) throws Exception
+    {
+        liAllTables.clear();
+        
+        for (int i = 0; i < liTableNames.size(); i++) 
+        {
+            LinkedList<String> columnNames = getColumnNames(liTableNames.get(i));
+            String primaryColumn = getPrimaryKeyColumn(liTableNames.get(i));
+            LinkedList<Row> liAttributes = getAttributesForOneTable(liTableNames.get(i), columnNames, primaryColumn);
+            liAllTables.add(new Table(liTableNames.get(i), columnNames, liAttributes));
+        }
+        return liAllTables;
+    }
+
     /**
      * Because of this method we are getting the column names thorugh the table
      * name
