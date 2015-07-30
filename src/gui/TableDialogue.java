@@ -16,26 +16,22 @@ public class TableDialogue extends javax.swing.JDialog {
     public static LinkedList<Table> selectedTables = new LinkedList<>();
     private TableNamesLM tnlm;
     private TableNamesLMD tnlmd;
-    public boolean equalTablesList = false;
     private boolean tableNames;
     private LinkedList<String> liAllTableNames = new LinkedList<>();
     public static LinkedList<String> liSelectedTableNames = new LinkedList<>();
 
     public TableDialogue(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        try {
-            initComponents();
-            this.getContentPane().setBackground(MainWindow.backgroundColorPanel);
-            btCancel.setBackground(MainWindow.backgroundColorButton);
-            btOk.setBackground(MainWindow.backgroundColorButton);
-            btAdd.setBackground(MainWindow.backgroundColorButton);
-            btRemove.setBackground(MainWindow.backgroundColorButton);
-            this.setLocationRelativeTo(parent);
-            this.setIconImage(new ImageIcon(getClass().getResource("Logo.png")).getImage());
-            selectedTables.clear();            
-        } catch (Exception s) {
-            System.out.println("TableDialogue : Constructor : " + s.toString());
-        }
+        initComponents();
+        this.getContentPane().setBackground(MainWindow.backgroundColorPanel);
+        btCancel.setBackground(MainWindow.backgroundColorButton);
+        btOk.setBackground(MainWindow.backgroundColorButton);
+        btAdd.setBackground(MainWindow.backgroundColorButton);
+        btRemove.setBackground(MainWindow.backgroundColorButton);
+        this.setLocationRelativeTo(parent);
+        this.setIconImage(new ImageIcon(getClass().getResource("Logo.png")).getImage());
+        selectedTables.clear();
+        liSelectedTableNames.clear();
     }
 
     @SuppressWarnings("unchecked")
@@ -195,6 +191,8 @@ public class TableDialogue extends javax.swing.JDialog {
         if (!tableNames) {
             if (selectedTables.size() > 0) {
                 ok = true;
+                liAllTableNames.clear();
+                liTablesList.clear();
                 dispose();
             } else {
                 JOptionPane.showMessageDialog(this, "nothing is selected");
@@ -252,16 +250,24 @@ public class TableDialogue extends javax.swing.JDialog {
 
     public void setLiAllTableNames(LinkedList<String> liAllTableNames) throws ClassNotFoundException {
         tableNames = true;
-        Collections.sort(this.liAllTableNames);
-        tnlmd = new TableNamesLMD(this.liAllTableNames);
-        liTables.setModel(new TableNamesLMD(liAllTableNames));
-        liList2.setModel(new TableNamesLMD(liSelectedTableNames));
+        try {
+            this.liAllTableNames = liAllTableNames;
+            System.out.println(this.liAllTableNames.size());
+            tnlmd = new TableNamesLMD(this.liAllTableNames);
+            liTables.setModel(tnlmd);
+            liList2.setModel(new TableNamesLMD(liSelectedTableNames));
+            liTables.updateUI();
+        } catch (Exception e) {
+            System.out.println("TableDialogue : setLiAllTableNames : " + e.toString());
+        }
     }
 
     public void setLiAllTables(LinkedList<Table> liAllTables) {
         tableNames = false;
         try {
             this.liTablesList = liAllTables;
+            System.out.println("lialltables" + liAllTables.size());
+            System.out.println("lialltables" + this.liTablesList.size());
             Collections.sort(this.liTablesList);
             tnlm = new TableNamesLM(this.liTablesList);
             liTables.setModel(tnlm);
@@ -271,9 +277,6 @@ public class TableDialogue extends javax.swing.JDialog {
         }
     }
 
-    public void setEqualTablesList(boolean equalTablesList) {
-        this.equalTablesList = equalTablesList;
-    }
 
     public static void main(String args[]) {
         try {

@@ -1,7 +1,11 @@
 package gui;
 
 import beans.Table;
+import database.DBAccess;
+import static gui.MainWindow.newPartTable;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 
 public class DataSelectionModesDialogue extends javax.swing.JDialog {
@@ -159,26 +163,31 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog {
     private void onOK(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOK
         ok = true;
         TableDialogue tableDialogue = new TableDialogue(null, true);
-        if (rbParticularTables.isSelected()) 
-        {
+        if (rbParticularTables.isSelected()) {
             entireDB = false;
-            tableDialogue.setEqualTablesList(true);
-            tableDialogue.setLiAllTables(liAllEqualTables);
-            tableDialogue.setVisible(true);
-            if(tableDialogue.isOK())
-            {
-                tableOK = true;
+            if (MainWindow.newPartTable) {
+                System.out.println("joidaf");
+                tableDialogue.setVisible(true);
+                try {
+                    tableDialogue.setLiAllTableNames(DBAccess.getTheInstance().getAllTableNames());
+                } catch (Exception ex) {
+                    Logger.getLogger(DataSelectionModesDialogue.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                tableDialogue.setLiAllTables(liAllEqualTables);
+                tableDialogue.setVisible(true);
+                if (tableDialogue.isOK()) {
+                    tableOK = true;
+                }
             }
-        } 
-        else 
-        {
-            
+
+        } else {
+
             entireDB = true;
             dispose();
         }
-        if (tableDialogue.isOK() && ok) 
-        {
-            
+        if (tableDialogue.isOK() && ok) {
+
             dispose();
         }
     }//GEN-LAST:event_onOK
