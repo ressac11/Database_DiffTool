@@ -18,8 +18,9 @@ public class DBAccess {
 
     /**
      * for creating an instance from the class DBAccess
+     *
      * @return theInstance
-     * @throws ClassNotFoundException 
+     * @throws ClassNotFoundException
      */
     public static DBAccess getTheInstance() throws ClassNotFoundException {
         if (theInstance == null) {
@@ -33,11 +34,12 @@ public class DBAccess {
     }
 
     /**
-     * This method is responsible for creating a list which holds all tables
-     * in one database.
+     * This method is responsible for creating a list which holds all tables in
+     * one database.
+     *
      * @param liAllTables
      * @return LinkedList<Table> all Tables at the Database
-     * @throws Exception 
+     * @throws Exception
      */
     public LinkedList<Table> getAllTables(LinkedList<Table> liAllTables) throws Exception {
         Connection conn = connPool.getConnection();
@@ -63,8 +65,9 @@ public class DBAccess {
         while (rs.next()) {
             String tableName = rs.getString(1);
             LinkedList<String> columnNames = getColumnNames(tableName);
-            LinkedList<Row> liAttributes = getAttributesForOneTable(tableName, columnNames);
-            liAllTables.add(new Table(tableName, columnNames, liAttributes));            
+            String primaryColumn = getPrimaryKeyColumn(tableName);
+            LinkedList<Row> liAttributes = getAttributesForOneTable(tableName, columnNames, primaryColumn);
+            liAllTables.add(new Table(tableName, columnNames, liAttributes));
         }
         rs.close();
         connPool.releaseConnection(conn);
@@ -75,9 +78,10 @@ public class DBAccess {
     /**
      * Because of this method we are getting the column names thorugh the table
      * name
+     *
      * @param tableName
      * @return LinkedList<String> column names from one table
-     * @throws Exception 
+     * @throws Exception
      */
     public LinkedList<String> getColumnNames(String tableName) throws Exception {
         LinkedList<String> columnNames = new LinkedList<>();
@@ -111,37 +115,76 @@ public class DBAccess {
         return columnNames;
     }
 
+    public String getPrimaryKeyColumn(String tableName) throws Exception {
+        String primaryColumn = "";
+        Connection conn = connPool.getConnection();
+        Statement stat = conn.createStatement();
+        String sqlString = "";
+
+        switch (DatabaseConnectionDialogue.selectedDB) {
+            case "postgres":
+                sqlString = "SELECT a.attname "
+                        + "FROM   pg_index i "
+                        + "JOIN   pg_attribute a ON a.attrelid = i.indrelid "
+                        + "                     AND a.attnum = ANY(i.indkey) "
+                        + "WHERE  i.indrelid = '" + tableName + "'::regclass "
+                        + "AND    i.indisprimary;";
+                break;
+            case "oracle":
+                sqlString = "select column_name from all_tab_cols where table_name = '" + tableName + "'"
+                        + "and owner = '" + DBConnectionPool.DB_USER + "'";
+                break;
+            case "mssql":
+                sqlString = "SELECT COLUMN_NAME "
+                        + "FROM INFORMATION_SCHEMA.COLUMNS "
+                        + "WHERE TABLE_NAME = '" + DBConnectionPool.DB_NAME + "' ";
+
+                break;
+        }
+        ResultSet rs = stat.executeQuery(sqlString);
+        while (rs.next()) {
+            primaryColumn = rs.getString(1);
+        }
+        rs.close();
+        connPool.releaseConnection(conn);
+        return primaryColumn;
+    }
+
     /**
-     * The aim of this method is to return all the values which are in one Table.
-     * Every attribute from the list holds one row at the certain table. The values
-     * are seppareted through a ';'.
+     * The aim of this method is to return all the values which are in one
+     * Table. Every attribute from the list holds one row at the certain table.
+     * The values are seppareted through a ';'.
+     *
      * @param tableName
      * @param columnNames
      * @return LinkedList<Row> all values which are in one row
-     * @throws Exception 
+     * @throws Exception
      */
-    public LinkedList<Row> getAttributesForOneTable(String tableName, LinkedList<String> columnNames) throws Exception {
-         LinkedList<Row> liAttributes = new LinkedList<Row>();
+    public LinkedList<Row> getAttributesForOneTable(String tableName, LinkedList<String> columnNames, String primaryColumn) throws Exception {
+        LinkedList<Row> liAttributes = new LinkedList<Row>();
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
-         String sqlString = "SELECT * "
+        String sqlString = "SELECT * "
                 + " FROM " + tableName + " ";
         ResultSet rs = stat.executeQuery(sqlString);
         int count = 0;
         String value = "";
-
+        String pK="";
         while (rs.next()) {
             for (int i = 0; i < columnNames.size(); i++) {
-                try
-                {
-                    String str = rs.getString(i + 1);
-                    value += str + ";";
-                }catch(Exception ex)
-                {
-                    value+= "<blob>"+";";
+                if (columnNames.get(i).equals(primaryColumn)) {
+                    pK = rs.getString(i + 1);
+                    value += pK + ";";
+                } else {
+                    try {
+                        String str = rs.getString(i + 1);
+                        value += str + ";";
+                    } catch (Exception ex) {
+                        value += "<blob>" + ";";
+                    }
                 }
             }
-            Row r = new Row(count, value);
+            Row r = new Row(count, value, pK);
             liAttributes.add(r);
             value = "";
             count++;
@@ -150,6 +193,5 @@ public class DBAccess {
         connPool.releaseConnection(conn);
         return liAttributes;
     }
-    
-    
+
 }

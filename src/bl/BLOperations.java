@@ -24,6 +24,7 @@ public class BLOperations {
     private final String dbDelim = "#++++++++++++++++++++++++++++++++++++++++++++++++++#";
     private final String tableDelim = "#----------------------------------------------------------#";
     private final String delim = "#";
+    private final String pkDelim = "--";
     private String tableOfFirstDiff;
     private String[] strArray;
     private String tablename = "";
@@ -65,7 +66,6 @@ public class BLOperations {
 
         while ((str = br.readLine()) != null) 
         {
-            
             if (str.equals(dbName)) {
                 countDBName = 1;
             } else {
@@ -89,7 +89,6 @@ public class BLOperations {
                             }
                             counter++;
                         } else {
-
                             if (str.equals(tableDelim) || str.equals("endDatabase")) {
                                 LinkedList<String> c2 = new LinkedList<>(columns);
                                 LinkedList<Row> r2 = new LinkedList<>(liRows);
@@ -100,10 +99,8 @@ public class BLOperations {
                                 liRows.clear();
                                 tablename = "";
                             } else {
-
-                                Row r = new Row(counter, str.split("#")[0]);
+                                Row r = new Row(counter, str.split(delim)[0].split(pkDelim)[0], str.split(delim)[0].split(pkDelim)[1]);
                                 liRows.add(r);
-
                             }
                         }
                     } else {
@@ -150,19 +147,18 @@ public class BLOperations {
                     bw.newLine();
                 }
             }
-
             List<Row> rows = table.getAttributes();
             if (rows.size() > 0) {
                 Row oldValue = rows.get(0);
-                bw.write(oldValue.getValue() + delim);
-
+                bw.write(oldValue.getValue() +pkDelim+ oldValue.getPrimaryKey()+delim);
+                
                 for (int i = 1; i < rows.size(); i++) {
                     Row r2 = rows.get(i);
                     if (r2.getRID() != oldValue.getRID()) {
                         bw.newLine();
                         oldValue = r2;
                     }
-                    bw.write(r2.getValue() + delim);
+                    bw.write(r2.getValue() + pkDelim+r2.getPrimaryKey()+delim);
                 }
             }
         }
