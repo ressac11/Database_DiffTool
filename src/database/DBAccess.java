@@ -6,6 +6,7 @@ import gui.DatabaseConnectionDialogue;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 
@@ -65,6 +66,8 @@ public class DBAccess {
             LinkedList<Row> liAttributes = getAttributesForOneTable(tableName, columnNames);
             liAllTables.add(new Table(tableName, columnNames, liAttributes));            
         }
+        rs.close();
+        connPool.releaseConnection(conn);
         this.liAllTables = liAllTables;
         return liAllTables;
     }
@@ -103,6 +106,8 @@ public class DBAccess {
             String colName = rs.getString(1);
             columnNames.add(colName);
         }
+        rs.close();
+        connPool.releaseConnection(conn);
         return columnNames;
     }
 
@@ -145,4 +150,6 @@ public class DBAccess {
         connPool.releaseConnection(conn);
         return liAttributes;
     }
+    
+    
 }
