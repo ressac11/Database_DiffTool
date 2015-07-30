@@ -131,14 +131,22 @@ public class DBAccess {
                         + "AND    i.indisprimary;";
                 break;
             case "oracle":
-                sqlString = "select column_name from all_tab_cols where table_name = '" + tableName + "'"
-                        + "and owner = '" + DBConnectionPool.DB_USER + "'";
+                sqlString = "SELECT cols.column_name "
+                        + "FROM all_constraints cons, all_cons_column cols "
+                        + "WHERE cols.table_name='" + tableName.toUpperCase() + "' "
+                        + "AND cons.constraint_type='P' "
+                        + "AND cons.constraint_name=cols.constraint_name "
+                        + "AND cons.owner = cols.owner;";
                 break;
             case "mssql":
-                sqlString = "SELECT COLUMN_NAME "
-                        + "FROM INFORMATION_SCHEMA.COLUMNS "
-                        + "WHERE TABLE_NAME = '" + DBConnectionPool.DB_NAME + "' ";
-
+                sqlString = "SELECT KU.table_name as tablename,column_name as primarykeycolumn "
+                        + "FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS AS TC "
+                        + "INNER JOIN "
+                        + "INFORMATION_SCHEMA.KEY_COLUMN_USAGE AS KU "
+                        + "ON TC.CONSTRAINT_TYPE = 'PRIMARY KEY' AND "
+                        + "TC.CONSTRAINT_NAME = KU.CONSTRAINT_NAME "
+                        + "and ku.table_name='" + tableName + "' "
+                        + "ORDER BY KU.TABLE_NAME, KU.ORDINAL_POSITION;";
                 break;
         }
         ResultSet rs = stat.executeQuery(sqlString);
@@ -169,7 +177,7 @@ public class DBAccess {
         ResultSet rs = stat.executeQuery(sqlString);
         int count = 0;
         String value = "";
-        String pK="";
+        String pK = "";
         while (rs.next()) {
             for (int i = 0; i < columnNames.size(); i++) {
                 if (columnNames.get(i).equals(primaryColumn)) {
