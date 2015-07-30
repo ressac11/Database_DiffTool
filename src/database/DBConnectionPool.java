@@ -32,10 +32,12 @@ public class DBConnectionPool {
         return theInstance;
     }
 
-    private DBConnectionPool() {
+    private DBConnectionPool() 
+    {
         try {
             Class.forName(DB_DRIVER);
-        } catch (ClassNotFoundException ex) {
+        } catch (ClassNotFoundException ex) 
+        {
             JOptionPane.showMessageDialog(null, "Driverisfalsch");
         }
     }

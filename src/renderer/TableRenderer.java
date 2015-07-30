@@ -1,5 +1,6 @@
 package renderer;
 
+import beans.DifferentCell;
 import beans.DifferentColumn;
 import beans.DifferentRow;
 import java.awt.Color;
@@ -17,6 +18,8 @@ public class TableRenderer implements TableCellRenderer
     public static String selectedTable;
     public static LinkedList<DifferentRow> newRowLeft = new LinkedList<>();
     public static LinkedList<DifferentRow> newRowRight = new LinkedList<>();
+    public static LinkedList<DifferentCell> newCellsLeft = new LinkedList<>();
+    public static LinkedList<DifferentCell> newCellsRight = new LinkedList<>();
 
     /**
      * This method is responsible for colorfully highlighting different rows and different columns of two databases.
@@ -61,6 +64,13 @@ public class TableRenderer implements TableCellRenderer
                             label.setBackground(c1);
                     }
                 }
+                for (DifferentCell cell : newCellsLeft) 
+                {
+                    if (cell.getTableName().equals(selectedTable) && cell.getColumnIndex() == column && cell.getRowIndex()== row) 
+                    {
+                            label.setBackground(c1);
+                    }
+                }
             } 
             else 
             {
@@ -77,6 +87,13 @@ public class TableRenderer implements TableCellRenderer
                 for (DifferentColumn newCol : newColsRight) 
                 {
                     if (newCol.getTableName().equals(selectedTable) && newCol.getColumnIndex() == column) 
+                    {
+                            label.setBackground(c1);
+                    }
+                }
+                for (DifferentCell cell : newCellsRight) 
+                {
+                    if (cell.getTableName().equals(selectedTable) && cell.getColumnIndex() == column && cell.getRowIndex()== row) 
                     {
                             label.setBackground(c1);
                     }
