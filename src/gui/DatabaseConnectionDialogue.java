@@ -284,14 +284,16 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         if (user.isEmpty() || password.isEmpty() || uRL.isEmpty() || databaseName.isEmpty() || driver.isEmpty() || database_Provider.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please do not enter wrong values!");
         } else {
-            dispose();
+            DBConnectionPool.newCon = true;
             DBConnectionPool.DB_DRIVER = driver;
             DBConnectionPool.DB_NAME = databaseName;
             DBConnectionPool.DB_SID = tfSID.getText();
             DBConnectionPool.DB_PASSWD = password;
             DBConnectionPool.DB_URL = uRL;
             DBConnectionPool.DB_USER = user;
+            dispose();
         }
+        
         
     }//GEN-LAST:event_onOK
     private void onNewDriver(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onNewDriver

@@ -105,18 +105,17 @@ public class DBAccess {
         return allTableNames;
     }
     
-    public LinkedList<Table> getSpecificTables(LinkedList<String> liTableNames) throws Exception
+    public LinkedList<Table> getSpecificTables(LinkedList<String> liTableNames, LinkedList<Table> tables) throws Exception
     {
         liAllTables.clear();
-        
         for (int i = 0; i < liTableNames.size(); i++) 
         {
             LinkedList<String> columnNames = getColumnNames(liTableNames.get(i));
             String primaryColumn = getPrimaryKeyColumn(liTableNames.get(i));
             LinkedList<Row> liAttributes = getAttributesForOneTable(liTableNames.get(i), columnNames, primaryColumn);
-            liAllTables.add(new Table(liTableNames.get(i), columnNames, liAttributes));
+            tables.add(new Table(liTableNames.get(i), columnNames, liAttributes));
         }
-        return liAllTables;
+        return tables;
     }
 
     /**
@@ -245,5 +244,5 @@ public class DBAccess {
         connPool.releaseConnection(conn);
         return liAttributes;
     }
-
+  
 }

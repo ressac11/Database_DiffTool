@@ -19,6 +19,7 @@ import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import listModel.TableNamesLM;
 import renderer.TableRenderer;
+import sun.awt.AWTAccessor;
 import tableModel.TableContentTM;
 
 public class MainWindow extends javax.swing.JFrame {
@@ -1052,14 +1053,15 @@ public class MainWindow extends javax.swing.JFrame {
      * @throws Exception
      */
     private void extractData1(boolean newFile, LinkedList<String> liAllSelectedTables) throws Exception {
-
         counter = 0;
         newDataL = true;
         liTables1.removeAll();
         liTablesLeft.clear();
         if (newFile) {
-            liTablesLeft = dba.getSpecificTables(liAllSelectedTables);
-            liTablesLeft.get(2).getColumnNames().getLast();
+            LinkedList<Table> helpList = new LinkedList<>();
+            helpList = (LinkedList<Table>)dba.getSpecificTables(liAllSelectedTables, helpList).clone();
+            liTablesLeft = (LinkedList<Table>) helpList.clone();
+            dba.getSpecificTables(liAllSelectedTables, helpList).clear();
         } else {
             LinkedList<Table> helpList = bl.loadData(existingFile1);
             liTablesLeft = (LinkedList<Table>) helpList.clone();
@@ -1084,15 +1086,18 @@ public class MainWindow extends javax.swing.JFrame {
      * @throws Exception
      */
     private void extractData2(boolean newFile, LinkedList<String> liAllSelectedTables) throws Exception {
-
         counter = 0;
         newDataR = true;
         liTablesC.removeAll();
         liTablesRight.clear();
+        dba = DBAccess.getTheInstance();
+        
+        
         if (newFile) {
-            
-            liTablesRight = dba.getSpecificTables(liAllSelectedTables);
-            liTablesRight.get(2).getColumnNames().getLast();
+            LinkedList<Table> helpList = new LinkedList<>();
+            helpList=(LinkedList<Table>) dba.getSpecificTables(liAllSelectedTables, helpList).clone();
+            liTablesRight = (LinkedList<Table>) helpList.clone();
+            dba.getSpecificTables(liAllSelectedTables, helpList).clear();
         } else {
             LinkedList<Table> helpList = bl.loadData(existingFile2);
             liTablesRight = (LinkedList<Table>) helpList.clone();
@@ -1105,7 +1110,6 @@ public class MainWindow extends javax.swing.JFrame {
         leftList = false;
         onNewSelectedItem();
         btOpenDBFile2.setEnabled(false);
-
     }
 
     /**
@@ -1183,7 +1187,6 @@ public class MainWindow extends javax.swing.JFrame {
             }
         }
         counter = -1;
-        
     }
 
     class Task extends SwingWorker<Void, Void> {
@@ -1267,6 +1270,7 @@ public class MainWindow extends javax.swing.JFrame {
                                     pbLoad.setValue(50);
                                 } else {
                                     extractData2(true, dba.getAllTableNames());
+                                    pbLoad.setValue(50);
                                 }
                             } else {
                                 if (extractData == 1) {

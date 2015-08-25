@@ -166,7 +166,6 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog {
         if (rbParticularTables.isSelected()) {
             entireDB = false;
             if (MainWindow.newPartTable) {
-                System.out.println("joidaf");
                 tableDialogue.setVisible(true);
                 try {
                     tableDialogue.setLiAllTableNames(DBAccess.getTheInstance().getAllTableNames());
@@ -182,7 +181,6 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog {
             }
 
         } else {
-
             entireDB = true;
             dispose();
         }

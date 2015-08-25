@@ -19,6 +19,7 @@ public class DBConnectionPool {
     public static String DB_URL;
     public static String DB_DRIVER;
     public static String DB_SID;
+    public static Boolean newCon;
 
    /**
     * for creating an instance from the class DBConnectionPool
@@ -47,6 +48,12 @@ public class DBConnectionPool {
      * @return Connection
      */
     public synchronized Connection getConnection() {
+        if(newCon)
+        {
+            newCon=false;
+            connections.clear();
+        }
+        
         if (connections.isEmpty()) {
             try {
                 if (num_conn == MAX_CONN) {
