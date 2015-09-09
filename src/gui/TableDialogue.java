@@ -250,10 +250,14 @@ public class TableDialogue extends javax.swing.JDialog {
 
     public void setLiAllTableNames(LinkedList<String> liAllTableNames) throws ClassNotFoundException {
         tableNames = true;
+        System.out.println("TableDialogue: setLiAllTableNames");
         try {
+            System.out.println("TableDialogue: afterTry");
             this.liAllTableNames = liAllTableNames;
-            System.out.println(this.liAllTableNames.size());
-            tnlmd = new TableNamesLMD(this.liAllTableNames);
+            for (int i = 0; i < liAllTableNames.size(); i++) {
+                System.out.println("TableDialogue: LiAllTableNAmes: "+liAllTableNames.get(i));
+            }
+            tnlmd = new TableNamesLMD(liAllTableNames);
             liTables.setModel(tnlmd);
             liList2.setModel(new TableNamesLMD(liSelectedTableNames));
             liTables.updateUI();
