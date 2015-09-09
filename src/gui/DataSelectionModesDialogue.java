@@ -165,12 +165,10 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog {
         TableDialogue tableDialogue = new TableDialogue(null, true);
         if (rbParticularTables.isSelected()) {
             entireDB = false;
-            System.out.println("dataselectionmodesdialogue: particularTables selected");
-            System.out.println(MainWindow.newPartTable);
             if (MainWindow.newPartTable) {
-                tableDialogue.setVisible(true);
                 try {
                     tableDialogue.setLiAllTableNames(DBAccess.getTheInstance().getAllTableNames());
+                    tableDialogue.setVisible(true);
                 } catch (Exception ex) {
                     Logger.getLogger(DataSelectionModesDialogue.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -181,7 +179,6 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog {
                     tableOK = true;
                 }
             }
-
         } else {
             entireDB = true;
             dispose();

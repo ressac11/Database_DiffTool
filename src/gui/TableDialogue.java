@@ -1,8 +1,11 @@
 package gui;
 
 import beans.Table;
+import database.DBAccess;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import listModel.TableNamesLM;
@@ -250,13 +253,8 @@ public class TableDialogue extends javax.swing.JDialog {
 
     public void setLiAllTableNames(LinkedList<String> liAllTableNames) throws ClassNotFoundException {
         tableNames = true;
-        System.out.println("TableDialogue: setLiAllTableNames");
         try {
-            System.out.println("TableDialogue: afterTry");
             this.liAllTableNames = liAllTableNames;
-            for (int i = 0; i < liAllTableNames.size(); i++) {
-                System.out.println("TableDialogue: LiAllTableNAmes: "+liAllTableNames.get(i));
-            }
             tnlmd = new TableNamesLMD(liAllTableNames);
             liTables.setModel(tnlmd);
             liList2.setModel(new TableNamesLMD(liSelectedTableNames));
@@ -270,8 +268,6 @@ public class TableDialogue extends javax.swing.JDialog {
         tableNames = false;
         try {
             this.liTablesList = liAllTables;
-            System.out.println("lialltables" + liAllTables.size());
-            System.out.println("lialltables" + this.liTablesList.size());
             Collections.sort(this.liTablesList);
             tnlm = new TableNamesLM(this.liTablesList);
             liTables.setModel(tnlm);
