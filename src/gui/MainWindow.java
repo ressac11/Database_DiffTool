@@ -12,6 +12,8 @@ import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -716,7 +718,7 @@ public class MainWindow extends javax.swing.JFrame {
         DataSelectionModesDialogue selectDialogue = new DataSelectionModesDialogue(this, true);
         selectDialogue.setLiAllEqualTables(bl.getEqualTables(liSaveListLeft, liSaveListRight));
         selectDialogue.setVisible(true);
-        
+
         try {
             if (selectDialogue.isOK()) {
                 if (selectDialogue.isEntireDB()) {
@@ -1059,7 +1061,7 @@ public class MainWindow extends javax.swing.JFrame {
         liTablesLeft.clear();
         if (newFile) {
             LinkedList<Table> helpList = new LinkedList<>();
-            helpList = (LinkedList<Table>)dba.getSpecificTables(liAllSelectedTables, helpList).clone();
+            helpList = (LinkedList<Table>) dba.getSpecificTables(liAllSelectedTables, helpList).clone();
             liTablesLeft = (LinkedList<Table>) helpList.clone();
             dba.getSpecificTables(liAllSelectedTables, helpList).clear();
         } else {
@@ -1090,12 +1092,9 @@ public class MainWindow extends javax.swing.JFrame {
         newDataR = true;
         liTablesC.removeAll();
         liTablesRight.clear();
-        dba = DBAccess.getTheInstance();
-        
-        
         if (newFile) {
             LinkedList<Table> helpList = new LinkedList<>();
-            helpList=(LinkedList<Table>) dba.getSpecificTables(liAllSelectedTables, helpList).clone();
+            helpList = (LinkedList<Table>) dba.getSpecificTables(liAllSelectedTables, helpList).clone();
             liTablesRight = (LinkedList<Table>) helpList.clone();
             dba.getSpecificTables(liAllSelectedTables, helpList).clear();
         } else {
@@ -1220,10 +1219,10 @@ public class MainWindow extends javax.swing.JFrame {
                     existingData = true;
                     pbLoad.setVisible(true);
                     pbLoad.setIndeterminate(false);
-                    pbLoad.setValue(5);
+                    pbLoad.setValue(10);
                     pbLoad.setStringPainted(false);
                     if (extractData == 1) {
-                        pbLoad.setValue(10);
+                        pbLoad.setValue(20);
                         existingFile1 = dataExtractDialogue.getSelectedDBDump();
                         pbLoad.setValue(50);
                         savedFile1 = null;
@@ -1234,7 +1233,7 @@ public class MainWindow extends javax.swing.JFrame {
                         enableItemSelect1 = true;
                         pbLoad.setValue(75);
                     } else if (extractData == 2) {
-                        pbLoad.setValue(10);
+                        pbLoad.setValue(20);
                         existingFile2 = dataExtractDialogue.getSelectedDBDump();
                         pbLoad.setValue(50);
                         savedFile2 = null;
@@ -1249,7 +1248,7 @@ public class MainWindow extends javax.swing.JFrame {
                     onNewSelectedItem();
                     pbLoad.setValue(90);
                 } else if (dataExtractDialogue.isOK && dataExtractDialogue.newFile) {
-                    newPartTable=true;
+                    newPartTable = true;
                     existingData = false;
                     DataSelectionModesDialogue dsmd = new DataSelectionModesDialogue(null, true);
                     TableDialogue td = new TableDialogue(null, true);
@@ -1356,7 +1355,7 @@ public class MainWindow extends javax.swing.JFrame {
                 pbLoad.setValue(100);
                 pbLoad.setVisible(false);
             } catch (Exception ex) {
-                System.out.println("MainWindow: extractDatas: " + ex.toString());
+                System.out.println("Main Window : extractData : " + ex.toString());
             }
             newPartTable = false;
         }
