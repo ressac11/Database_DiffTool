@@ -62,6 +62,7 @@ public class MainWindow extends javax.swing.JFrame {
     private String progressBarLoader;
     private LinkedList<String> nullValue;
     public static boolean newPartTable;
+    private int indexOfSelectedTable;
 
     public MainWindow() {
         initComponents();
@@ -716,7 +717,7 @@ public class MainWindow extends javax.swing.JFrame {
         selectDialogue.setLiAllEqualTables(bl.getEqualTables(liSaveListLeft, liSaveListRight));
         selectDialogue.setVisible(true);
 
-        try {
+//        try {
             if (selectDialogue.isOK()) {
                 if (selectDialogue.isEntireDB()) {
                     bl.compareDatabases(databaseName1, databaseName2, liSaveListLeft, liSaveListRight);
@@ -749,8 +750,10 @@ public class MainWindow extends javax.swing.JFrame {
                 String actTable = bl.getTableofFirstDiff();
                 TableRenderer.selectedTable = actTable;
                 int index = 0;
-                for (Table t : liTablesLeft) {
-                    if (t.getTableName().equals(actTable)) {
+                for (Table t : liTablesLeft) 
+                {
+                    if (t.getTableName().equals(actTable)) 
+                    {
                         index = liTablesLeft.indexOf(t);
                         liTables1.setSelectedIndex(index);
                         break;
@@ -773,10 +776,10 @@ public class MainWindow extends javax.swing.JFrame {
                 tbTableContent1.repaint();
                 tbTableContent2.repaint();
             }
-        } catch (Exception e) {
-            System.out.println("Main Window : onCompareData : " + e.toString() + "\n");
-            e.printStackTrace();
-        }
+//        } catch (Exception e) {
+//            System.out.println("Main Window : onCompareData : " + e.toString() + "\n");
+//            e.printStackTrace();
+//        }
     }//GEN-LAST:event_onCompareData
 
     private void onDownloadData(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onDownloadData
@@ -1120,8 +1123,8 @@ public class MainWindow extends javax.swing.JFrame {
             if (automaticallySelectingTables) {
                 int count = 0;
                 if (leftList) {
-                    int index = this.liTables1.getSelectedIndex();
-                    Table tL = liTablesLeft.get(index);
+                    indexOfSelectedTable = this.liTables1.getSelectedIndex();
+                    Table tL = liTablesLeft.get(indexOfSelectedTable);
                     TableRenderer.selectedTable = tL.getTableName();
                     if (!liTablesRight.isEmpty()) {
                         for (int i = 0; i < liTablesRight.size(); i++) {

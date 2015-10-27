@@ -25,7 +25,7 @@ public class BLOperations {
     private final String tableDelim = "#----------------------------------------------------------#";
     private final String delim = "#";
     private final String pkDelim = "--";
-    private String tableOfFirstDiff;
+    private String tableOfFirstDiff = null;
     private String[] strArray;
     private String tablename = "";
     private final LinkedList<String> columns = new LinkedList<>();
@@ -269,8 +269,6 @@ public class BLOperations {
     
     private void compare(Table tLeft, Table tRight) 
     {
-        System.out.println("tleft size: "+tLeft.getAttributes().size());
-        System.out.println("tright size: "+tRight.getAttributes().size());
         LinkedList<String> colLeft = tLeft.getColumnNames();
         LinkedList<String> colRight = tRight.getColumnNames();
         LinkedList<String> clonedColRight = (LinkedList<String>) colRight.clone();
@@ -285,10 +283,12 @@ public class BLOperations {
                 DifferentColumn newColR = new DifferentColumn(tRight.getTableName(), clonedColRight.get(i), i);
                 allNewColsRight.add(newColR);
                 clonedColRight.remove(i);
-                System.out.println("--- there is a different column with index "+i+" ---");
+                if(tableOfFirstDiff==null)
+                {
+                    tableOfFirstDiff = tLeft.getTableName();
+                }
             }
         }
-        System.out.println("anz different cols in the right table: "+allNewColsRight.size());
         //different columns in the left database
         for (int i = 0; i < clonedColLeft.size(); i++) 
         {
@@ -297,10 +297,12 @@ public class BLOperations {
                 DifferentColumn newColL = new DifferentColumn(tLeft.getTableName(), clonedColLeft.get(i), i);
                 allNewColsLeft.add(newColL);
                 clonedColLeft.remove(i);
-                System.out.println("--- there is a different column with index "+i+" ---");
+                if(tableOfFirstDiff==null)
+                {
+                    tableOfFirstDiff = tLeft.getTableName();
+                }
             }
         }
-        System.out.println("anz different cols in the left table: "+allNewColsLeft.size());
         LinkedList<Row> leftV = (LinkedList<Row>) tLeft.getAttributes().clone();  
         LinkedList<Row> rightV = (LinkedList<Row>) tRight.getAttributes().clone();
         LinkedList<String> valuesRight = new LinkedList<>();
@@ -329,7 +331,6 @@ public class BLOperations {
         //a method for filtering unequal columns
         if(!rightV.isEmpty())
         {
-            System.out.println("valuesRight wird befüllt");
             for (Row r : rightV) 
             {
                 if(!allNewColsRight.isEmpty())
@@ -372,7 +373,6 @@ public class BLOperations {
 //        a method for filtering unequal columns 
         if(!leftV.isEmpty())
         {
-            System.out.println("valuesleft wird befüllt");
             for (Row r : leftV) 
             {
                 if(!allNewColsLeft.isEmpty())
@@ -413,10 +413,6 @@ public class BLOperations {
         String[] arrayL = null;
         String[] arrayR = null;
         
-        System.out.println("table "+tLeft.getTableName() +" "+ tRight.getTableName());
-        System.out.println("values left size "+valuesLeft.size());
-        System.out.println("values right size "+valuesRight.size());
-        
         if(!valuesLeft.isEmpty())
         {
             for (int rL = 0; rL < valuesLeft.size(); rL++) 
@@ -425,16 +421,10 @@ public class BLOperations {
                 arrayL = valuesLeft.get(rL).split(";");
                 for(int rR = 0; rR < valuesRight.size(); rR++)
                 {
-                    System.out.println("in for");
                     arrayR = valuesRight.get(rR).split(";");
-                    
-                    System.out.println("table: "+tLeft.getTableName());
-                    System.out.println("pk left: "+leftV.get(rL).getPrimaryKey());      
-                    System.out.println("pk right: "+rightV.get(rR).getPrimaryKey());  
                     
                     if(liLeftPrimaryKeys.contains(rightV.get(rR).getPrimaryKey()))
                     {
-                        System.out.println("primary key contained");
                         if(leftV.get(rL).getPrimaryKey().equals(rightV.get(rR).getPrimaryKey()))
                         {
                             for (int indexColR = 0; indexColR < arrayR.length; indexColR++) 
@@ -442,11 +432,13 @@ public class BLOperations {
                                 int indexColL = clonedColLeft.indexOf(clonedColRight.get(indexColR));
                                 if(!arrayL[indexColL].equals(arrayR[indexColR]))
                                 {
-                                    System.out.println("wert links: "+arrayL[indexColL]);
-                                    System.out.println("wert rechts: "+arrayR[indexColR]);
                                     DifferentCell diffCellR = new DifferentCell(tRight.getTableName(), indexColR, rR,arrayR[indexColR]);
                                     diffCellR.toString();
                                     allNewCellsRight.add(diffCellR);
+                                    if(tableOfFirstDiff==null)
+                                    {
+                                        tableOfFirstDiff = tLeft.getTableName();
+                                    }
                                 }
                             }
 //                            break;
@@ -454,14 +446,15 @@ public class BLOperations {
                     }
                     else
                     {
-                        System.out.println("primary key not contained");
-                            
                         DifferentRow diffRowR = new DifferentRow(tRight.getTableName(), rightV.get(rR).getValue(),rR);
                         if(!allNewRowsRight.contains(diffRowR))
                         {
                             allNewRowsRight.add(diffRowR);
+                            if(tableOfFirstDiff==null)
+                            {
+                                tableOfFirstDiff = tLeft.getTableName();
+                            }
                         }
-                        System.out.println(diffRowR.toString());
                     }
 
                 }
@@ -480,7 +473,6 @@ public class BLOperations {
                     arrayL = valuesLeft.get(rL).split(";");
                     if(liRightPrimaryKeys.contains(leftV.get(rL).getPrimaryKey()))
                     {
-                        System.out.println("primary key contained");
                         if(rightV.get(rR).getPrimaryKey().equals(leftV.get(rL).getPrimaryKey()))
                         {
                             for (int indexColL = 0; indexColL < arrayL.length; indexColL++) 
@@ -491,6 +483,10 @@ public class BLOperations {
                                     DifferentCell diffCellL = new DifferentCell(tLeft.getTableName(), indexColL, rL,arrayL[indexColL]);
                                     diffCellL.toString();
                                     allNewCellsLeft.add(diffCellL);
+                                    if(tableOfFirstDiff==null)
+                                    {
+                                        tableOfFirstDiff = tLeft.getTableName();
+                                    }
                                 }
                             }
 //                            break;
@@ -498,23 +494,23 @@ public class BLOperations {
                     }
                     else
                     {
-                        System.out.println("primary key not contained");
                         DifferentRow diffRowL = new DifferentRow(tLeft.getTableName(), leftV.get(rL).getValue(), rL);
                         if(!allNewRowsLeft.contains(diffRowL))
                         {
                             allNewRowsLeft.add(diffRowL);
+                            if(tableOfFirstDiff==null)
+                            {
+                                tableOfFirstDiff = tLeft.getTableName();
+                            }
                         }
                     }
                 }
             }   
         }
-        System.out.println("comparing left side successful");
-        System.out.println(tLeft.getTableName() + "(table left) : anzahl diff cells : "+allNewCellsLeft.size());
-        System.out.println(tRight.getTableName() + "(table right) : anzahl diff cells : "+allNewCellsRight.size());
-        System.out.println(tLeft.getTableName() + "(table left) : anzahl diff rows : "+allNewRowsLeft.size());
-        System.out.println(tRight.getTableName() + "(table right) : anzahl diff rows : "+allNewRowsRight.size());
-        
-        System.out.println("\n---- new table -----\n");
+        System.out.println("(table left) anzahl diff cells : "+allNewCellsLeft.size());
+        System.out.println("(table right) : anzahl diff cells : "+allNewCellsRight.size());
+        System.out.println("(table left) : anzahl diff rows : "+allNewRowsLeft.size());
+        System.out.println("(table right) : anzahl diff rows : "+allNewRowsRight.size());
     }
     
     /**
@@ -672,7 +668,8 @@ public class BLOperations {
         return allNewRowsLeft;
     }
 
-    public String getTableofFirstDiff() {
+    public String getTableofFirstDiff() 
+    {
         return tableOfFirstDiff;
     }
 
