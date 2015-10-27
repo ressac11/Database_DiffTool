@@ -12,8 +12,6 @@ import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -21,7 +19,6 @@ import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import listModel.TableNamesLM;
 import renderer.TableRenderer;
-import sun.awt.AWTAccessor;
 import tableModel.TableContentTM;
 
 public class MainWindow extends javax.swing.JFrame {
@@ -723,6 +720,7 @@ public class MainWindow extends javax.swing.JFrame {
             if (selectDialogue.isOK()) {
                 if (selectDialogue.isEntireDB()) {
                     bl.compareDatabases(databaseName1, databaseName2, liSaveListLeft, liSaveListRight);
+                    System.out.println("comparing succeded");
                 } else if (selectDialogue.tableOK) {
                     LinkedList<Table> allEqualTables = (LinkedList<Table>) TableDialogue.selectedTables.clone();
                     LinkedList<Table> liLeft = new LinkedList<>();
@@ -747,7 +745,7 @@ public class MainWindow extends javax.swing.JFrame {
                 btDownloadData.setText("Download Comparison Output as .txt file");
                 rbTableBothAuto.setSelected(true);
                 automaticallySelectingTables = true;
-                this.downloadEnabled = bl.differenceExisting();
+                this.downloadEnabled = false;
                 String actTable = bl.getTableofFirstDiff();
                 TableRenderer.selectedTable = actTable;
                 int index = 0;
@@ -777,6 +775,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
         } catch (Exception e) {
             System.out.println("Main Window : onCompareData : " + e.toString() + "\n");
+            e.printStackTrace();
         }
     }//GEN-LAST:event_onCompareData
 

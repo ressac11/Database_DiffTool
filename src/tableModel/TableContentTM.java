@@ -35,7 +35,8 @@ public class TableContentTM extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        try {
+        try 
+        {
             String str = rows.get(rowIndex).getValue();
             String[] strArray = str.split(";");
             return strArray[columnIndex];

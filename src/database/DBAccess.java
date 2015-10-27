@@ -10,7 +10,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 
-public class DBAccess {
+public class DBAccess 
+{
 
     private final DBConnectionPool connPool;
     private static DBAccess theInstance = null;

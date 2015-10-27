@@ -103,7 +103,8 @@ public class TableRenderer implements TableCellRenderer
             }
         }
         return label;
-        }catch(Exception ex)
+        }
+        catch(Exception ex)
         {
             return null;
         }
