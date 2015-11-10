@@ -55,7 +55,7 @@ public class DifferentCell
 
     @Override
     public String toString() {
-        return "DifferentCell{" + "tableName=" + tableName + ", columnIndex=" + columnIndex + ", rowIndex=" + rowIndex + ", value=" + value + '}';
+        return value;
     }
     
     

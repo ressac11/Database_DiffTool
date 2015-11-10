@@ -39,7 +39,7 @@ public class DifferentColumn
     @Override
     public String toString() 
     {
-        return "columnName=" + columnName + ", columnIndex=" + columnIndex + '}';
+        return columnName;
     }
 }
 

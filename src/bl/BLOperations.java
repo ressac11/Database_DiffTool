@@ -10,14 +10,26 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Result;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import org.apache.commons.io.FileUtils;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 public class BLOperations {
 
@@ -184,12 +196,12 @@ public class BLOperations {
     {
         companyLeft = companyNameLeft;
         companyRight = companyNameRight;
-//        allNewColsLeft.clear();
-//        allNewColsRight.clear();
-//        allNewRowsLeft.clear();
-//        allNewRowsRight.clear();
-//        allNewCellsLeft.clear();
-//        allNewCellsRight.clear();
+        allNewColsLeft.clear();
+        allNewColsRight.clear();
+        allNewRowsLeft.clear();
+        allNewRowsRight.clear();
+        allNewCellsLeft.clear();
+        allNewCellsRight.clear();
         LinkedList<Table> liAllTablesLeft = (LinkedList<Table>) tablesLeft.clone();
         LinkedList<Table> liAllTablesRight = (LinkedList<Table>) tablesRight.clone();
         LinkedList<String> liTempLeft = new LinkedList<>();
@@ -218,10 +230,6 @@ public class BLOperations {
                             compare(lT, rT);
                         }
                     }
-//                    else
-//                    {
-//                        break;
-//                    }
                 }
             }
             if (count == 0) {
@@ -244,10 +252,6 @@ public class BLOperations {
                             compare(lT, rT);
                         }
                     }
-//                    else
-//                    {
-//                        break;
-//                    }
                 }
             }
             if (count == 0) 
@@ -728,4 +732,60 @@ public class BLOperations {
 
         FileUtils.writeStringToFile(newHtmlFile, htmlString);
     }
+    
+    public void writeDifferencesXML(String filename) throws TransformerConfigurationException, FileNotFoundException, TransformerException
+    {
+        Document doc = null; 
+        TransformerFactory factory = TransformerFactory.newInstance();
+        factory.setAttribute("indent-number", 4); //indent: Einrückung der Elemente in der xml-Datei
+        Transformer trafo = factory.newTransformer();
+        trafo.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+        trafo.setOutputProperty(OutputKeys.INDENT, "yes");
+        trafo.setOutputProperty(OutputKeys.METHOD, "xml");
+        Result result = new StreamResult(new OutputStreamWriter(new FileOutputStream(filename)));
+        
+        //Schritt 1: Knoten erzeugen
+        //left database
+        Element differencesDB1 = doc.createElement("Differences");
+        differencesDB1.setAttribute("database name", companyLeft);
+//        mail.setTextContent("dies ist dein text");
+        Element columns = doc.createElement("Columns");
+        for (DifferentColumn col : allNewColsLeft) 
+        {
+            Element column = doc.createElement("Column");
+            column.setAttribute("table name", col.getTableName());
+            column.setAttribute("index", col.getColumnIndex()+"");
+            column.setTextContent(col.getColumnName());
+            columns.appendChild(column);
+        }
+        differencesDB1.appendChild(columns);
+  
+        Element rows = doc.createElement("Rows");
+        
+        for (DifferentRow r : allNewRowsLeft) 
+        {
+            Element row = doc.createElement("Row");
+            row.setAttribute("table name", r.getTableName());
+            row.setAttribute("index", r.getRowIndex()+"");
+            row.setTextContent(r.getValue());
+            rows.appendChild(row);
+        }
+        differencesDB1.appendChild(rows);
+
+        Element cells = doc.createElement("Cells");
+        
+        for (DifferentCell c : allNewCellsLeft) 
+        {
+            Element cell = doc.createElement("Cell");
+            cell.setAttribute("table name", c.getTableName());
+            cell.setAttribute("column index", c.getColumnIndex()+"");
+            cell.setAttribute("row index", c.getRowIndex()+"");
+            cell.setTextContent(c.getValue());
+            cells.appendChild(cell);
+        }        
+        differencesDB1.appendChild(cells);
+        //Schritt 2: Knoten in das Document einfügen
+        trafo.transform(new DOMSource(doc), result);
+    }
+    
 }

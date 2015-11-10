@@ -775,6 +775,14 @@ public class MainWindow extends javax.swing.JFrame {
                 TableRenderer.newRowRight = bl.getAllNewRowsRight();
                 tbTableContent1.repaint();
                 tbTableContent2.repaint();
+                try 
+                {
+                                    bl.writeDifferencesXML("testXML");
+
+                } catch (Exception e) 
+                {
+                    System.out.println("exception during reading xml file"+e.toString());
+                }
             }
 //        } catch (Exception e) {
 //            System.out.println("Main Window : onCompareData : " + e.toString() + "\n");

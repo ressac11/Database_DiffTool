@@ -34,4 +34,11 @@ public class Row {
     public void setPrimaryKey(String primaryKey) {
         this.primaryKey = primaryKey;
     }
+
+    @Override
+    public String toString() {
+        return value;
+    }
+    
+    
 }
