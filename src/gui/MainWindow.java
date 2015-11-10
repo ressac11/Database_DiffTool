@@ -773,6 +773,8 @@ public class MainWindow extends javax.swing.JFrame {
                 TableRenderer.newColsRight = bl.getAllNewColsRight();
                 TableRenderer.newRowLeft = bl.getAllNewRowsLeft();
                 TableRenderer.newRowRight = bl.getAllNewRowsRight();
+                TableRenderer.newCellsLeft = bl.getAllNewCellsLeft();
+                TableRenderer.newCellsRight = bl.getAllNewCellsRight();
                 tbTableContent1.repaint();
                 tbTableContent2.repaint();
                 try 

@@ -511,10 +511,11 @@ public class BLOperations {
                 }
             }   
         }
-        System.out.println("(table left) anzahl diff cells : "+allNewCellsLeft.size());
-        System.out.println("(table right) : anzahl diff cells : "+allNewCellsRight.size());
-        System.out.println("(table left) : anzahl diff rows : "+allNewRowsLeft.size());
-        System.out.println("(table right) : anzahl diff rows : "+allNewRowsRight.size());
+        
+        System.out.println("(table left) "+tLeft.getTableName()+" anzahl diff cells : "+allNewCellsLeft.size());
+        System.out.println("(table right) "+tRight.getTableName()+": anzahl diff cells : "+allNewCellsRight.size());
+        System.out.println("(table left) "+tLeft.getTableName()+": anzahl diff rows : "+allNewRowsLeft.size());
+        System.out.println("(table right) "+tRight.getTableName()+": anzahl diff rows : "+allNewRowsRight.size());
     }
     
     /**
