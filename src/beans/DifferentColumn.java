@@ -37,9 +37,10 @@ public class DifferentColumn
     }
 
     @Override
-    public String toString() 
-    {
-        return columnName;
+    public String toString() {
+        return "DifferentColumn{" + "tableName=" + tableName + ", columnName=" + columnName + ", columnIndex=" + columnIndex + '}';
     }
+
+   
 }
 

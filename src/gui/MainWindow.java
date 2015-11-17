@@ -1,13 +1,10 @@
 package gui;
-
 import beans.Table;
 import bl.BLOperations;
 import database.DBAccess;
 import java.awt.Color;
 import java.awt.Desktop;
-import java.awt.HeadlessException;
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
@@ -21,8 +18,8 @@ import listModel.TableNamesLM;
 import renderer.TableRenderer;
 import tableModel.TableContentTM;
 
-public class MainWindow extends javax.swing.JFrame {
-
+public class MainWindow extends javax.swing.JFrame 
+{
     public static final Color backgroundColorPanel = new Color(229, 229, 229);
     public static final Color backgroundColorButton = new Color(199, 199, 199);
     private TableNamesLM tnlmLeft;
@@ -716,8 +713,7 @@ public class MainWindow extends javax.swing.JFrame {
         DataSelectionModesDialogue selectDialogue = new DataSelectionModesDialogue(this, true);
         selectDialogue.setLiAllEqualTables(bl.getEqualTables(liSaveListLeft, liSaveListRight));
         selectDialogue.setVisible(true);
-
-//        try {
+        try {
             if (selectDialogue.isOK()) {
                 if (selectDialogue.isEntireDB()) {
                     bl.compareDatabases(databaseName1, databaseName2, liSaveListLeft, liSaveListRight);
@@ -746,7 +742,7 @@ public class MainWindow extends javax.swing.JFrame {
                 btDownloadData.setText("Download Comparison Output as .txt file");
                 rbTableBothAuto.setSelected(true);
                 automaticallySelectingTables = true;
-                this.downloadEnabled = false;
+                this.downloadEnabled = true;
                 String actTable = bl.getTableofFirstDiff();
                 TableRenderer.selectedTable = actTable;
                 int index = 0;
@@ -773,46 +769,44 @@ public class MainWindow extends javax.swing.JFrame {
                 TableRenderer.newColsRight = bl.getAllNewColsRight();
                 TableRenderer.newRowLeft = bl.getAllNewRowsLeft();
                 TableRenderer.newRowRight = bl.getAllNewRowsRight();
+                TableRenderer.newCellsLeft = bl.getAllNewCellsLeft();
+                TableRenderer.newCellsRight = bl.getAllNewCellsRight();
                 tbTableContent1.repaint();
                 tbTableContent2.repaint();
-                try 
-                {
-                                    bl.writeDifferencesXML("testXML");
-
-                } catch (Exception e) 
-                {
-                    System.out.println("exception during reading xml file"+e.toString());
-                }
             }
-//        } catch (Exception e) {
-//            System.out.println("Main Window : onCompareData : " + e.toString() + "\n");
-//            e.printStackTrace();
-//        }
+        } catch (Exception e) {
+            System.out.println("Main Window : onCompareData : " + e.toString() + "\n");
+        }
     }//GEN-LAST:event_onCompareData
 
     private void onDownloadData(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onDownloadData
         try {
-            if (!btDownloadData.getText().equals(downloadButtonText)) {
+            if (!btDownloadData.getText().equals(downloadButtonText)) 
+            {
+                String pathNew = "";
                 JFileChooser fileChooser = new JFileChooser();
                 fileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
-                fileChooser.setDialogTitle("Choose directory to save Comparison Output file");
-                FileNameExtensionFilter filter = new FileNameExtensionFilter(".txt file", "txt");
+                fileChooser.setDialogTitle("Choose directory to save XML-file");
+                FileNameExtensionFilter filter = new FileNameExtensionFilter(".xml file", "xml");
                 fileChooser.setFileFilter(filter);
                 int userSelection = fileChooser.showSaveDialog(null);
                 if (userSelection == JFileChooser.APPROVE_OPTION) {
                     downloadedFile = fileChooser.getSelectedFile();
-                    if (!downloadedFile.getPath().endsWith(".txt")) {
-                        String pathNew = downloadedFile.getPath().concat(".txt");
+                    if (!downloadedFile.getPath().endsWith(".xml")) {
+                        pathNew = downloadedFile.getPath().concat(".xml");
                         downloadedFile = new File(pathNew);
                     }
-                    bl.downloadComparisonOutput(downloadedFile);
+                    bl.downloadDifferencesAsXML(pathNew);
                     Desktop.getDesktop().open(downloadedFile);
                     btDownloadData.setText(this.downloadButtonText);
                 }
-            } else {
+            } 
+            else 
+            {
                 Desktop.getDesktop().open(downloadedFile);
             }
-        } catch (HeadlessException | IOException ec) {
+        } catch (Exception ec) 
+        {
             System.out.println("Main Window : onDownloadData : " + ec.toString());
         }
     }//GEN-LAST:event_onDownloadData
@@ -1002,7 +996,7 @@ public class MainWindow extends javax.swing.JFrame {
         try {
             File f = new File(System.getProperty("user.dir") + File.separator + "help_manual" + File.separator + "index.htm");
             Desktop.getDesktop().open(f);
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             System.out.println("Main Window : onSupport : " + ex.toString());
         }
     }//GEN-LAST:event_onSupport
