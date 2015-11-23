@@ -42,7 +42,7 @@ public class DBAccess
      * @return LinkedList<Table> all Tables at the Database
      * @throws Exception
      */
-    public LinkedList<Table> getAllTables(LinkedList<Table> liAllTables) throws Exception {
+    public LinkedList<Table> getAllTables(LinkedList<Table> liAllTables) throws SQLException {
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
         String sqlString = "";
@@ -76,7 +76,7 @@ public class DBAccess
         return liAllTables;
     }
 
-    public LinkedList<String> getAllTableNames() throws Exception {
+    public LinkedList<String> getAllTableNames() throws SQLException, NullPointerException {
         LinkedList<String> allTableNames = new LinkedList<>();
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
@@ -106,7 +106,7 @@ public class DBAccess
         return allTableNames;
     }
     
-    public LinkedList<Table> getSpecificTables(LinkedList<String> liTableNames, LinkedList<Table> tables) throws Exception
+    public LinkedList<Table> getSpecificTables(LinkedList<String> liTableNames, LinkedList<Table> tables) throws SQLException
     {
         liAllTables.clear();
         for (int i = 0; i < liTableNames.size(); i++) 
@@ -127,7 +127,7 @@ public class DBAccess
      * @return LinkedList<String> column names from one table
      * @throws Exception
      */
-    public LinkedList<String> getColumnNames(String tableName) throws Exception {
+    public LinkedList<String> getColumnNames(String tableName) throws SQLException{
         LinkedList<String> columnNames = new LinkedList<>();
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
@@ -159,7 +159,7 @@ public class DBAccess
         return columnNames;
     }
 
-    public String getPrimaryKeyColumn(String tableName) throws Exception {
+    public String getPrimaryKeyColumn(String tableName) throws SQLException {
         String primaryColumn = "";
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
@@ -212,7 +212,7 @@ public class DBAccess
      * @return LinkedList<Row> all values which are in one row
      * @throws Exception
      */
-    public LinkedList<Row> getAttributesForOneTable(String tableName, LinkedList<String> columnNames, String primaryColumn) throws Exception {
+    public LinkedList<Row> getAttributesForOneTable(String tableName, LinkedList<String> columnNames, String primaryColumn) throws SQLException {
         LinkedList<Row> liAttributes = new LinkedList<Row>();
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
