@@ -1,25 +1,32 @@
 package gui;
+
 import beans.Table;
 import bl.BLOperations;
 import database.DBAccess;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.io.File;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
 import listModel.TableNamesLM;
 import renderer.TableRenderer;
 import tableModel.TableContentTM;
 
-public class MainWindow extends javax.swing.JFrame 
-{
+public class MainWindow extends javax.swing.JFrame {
+
     public static final Color backgroundColorPanel = new Color(229, 229, 229);
     public static final Color backgroundColorButton = new Color(199, 199, 199);
     private TableNamesLM tnlmLeft;
@@ -173,6 +180,8 @@ public class MainWindow extends javax.swing.JFrame
         mbMenu = new javax.swing.JMenuBar();
         muFile = new javax.swing.JMenu();
         miSupport = new javax.swing.JMenuItem();
+        muResetWindow = new javax.swing.JMenu();
+        miResetWindow = new javax.swing.JMenuItem();
 
         miSelectTables.setText("Table Filter");
         miSelectTables.addActionListener(new java.awt.event.ActionListener() {
@@ -705,6 +714,18 @@ public class MainWindow extends javax.swing.JFrame
 
         mbMenu.add(muFile);
 
+        muResetWindow.setText("Reset Window");
+
+        miResetWindow.setText("Reset Window");
+        miResetWindow.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onResetWindow(evt);
+            }
+        });
+        muResetWindow.add(miResetWindow);
+
+        mbMenu.add(muResetWindow);
+
         setJMenuBar(mbMenu);
 
         pack();
@@ -716,6 +737,9 @@ public class MainWindow extends javax.swing.JFrame
         selectDialogue.setVisible(true);
         try {
             if (selectDialogue.isOK()) {
+                pbLoad.setVisible(true);
+                pbLoad.setValue(0);
+                pbLoad.setIndeterminate(true);
                 if (selectDialogue.isEntireDB()) {
                     bl.compareDatabases(databaseName1, databaseName2, liSaveListLeft, liSaveListRight);
                     System.out.println("comparing succeded");
@@ -747,10 +771,8 @@ public class MainWindow extends javax.swing.JFrame
                 String actTable = bl.getTableofFirstDiff();
                 TableRenderer.selectedTable = actTable;
                 int index = 0;
-                for (Table t : liTablesLeft) 
-                {
-                    if (t.getTableName().equals(actTable)) 
-                    {
+                for (Table t : liTablesLeft) {
+                    if (t.getTableName().equals(actTable)) {
                         index = liTablesLeft.indexOf(t);
                         liTables1.setSelectedIndex(index);
                         break;
@@ -775,15 +797,17 @@ public class MainWindow extends javax.swing.JFrame
                 tbTableContent1.repaint();
                 tbTableContent2.repaint();
             }
+            pbLoad.setVisible(false);
         } catch (Exception e) {
             System.out.println("Main Window : onCompareData : " + e.toString() + "\n");
+            pbLoad.setVisible(false);
         }
+        pbLoad.setVisible(false);
     }//GEN-LAST:event_onCompareData
 
     private void onDownloadData(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onDownloadData
         try {
-            if (!btDownloadData.getText().equals(downloadButtonText)) 
-            {
+            if (!btDownloadData.getText().equals(downloadButtonText)) {
                 String pathNew = "";
                 JFileChooser fileChooser = new JFileChooser();
                 fileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
@@ -801,13 +825,10 @@ public class MainWindow extends javax.swing.JFrame
                     Desktop.getDesktop().open(downloadedFile);
                     btDownloadData.setText(this.downloadButtonText);
                 }
-            } 
-            else 
-            {
+            } else {
                 Desktop.getDesktop().open(downloadedFile);
             }
-        } catch (Exception ec) 
-        {
+        } catch (Exception ec) {
             System.out.println("Main Window : onDownloadData : " + ec.toString());
         }
     }//GEN-LAST:event_onDownloadData
@@ -817,13 +838,12 @@ public class MainWindow extends javax.swing.JFrame
         task = new Task(evt);
         task.execute();
         //task.doInBackground();
-        TableRenderer.newColsLeft = new LinkedList<>();
-        TableRenderer.newColsRight = new LinkedList<>();
-        TableRenderer.newRowLeft = new LinkedList<>();
-        TableRenderer.newRowRight = new LinkedList<>();
+        TableRenderer.newColsLeft.clear();
+        TableRenderer.newColsRight.clear();
+        TableRenderer.newRowLeft.clear();
+        TableRenderer.newRowRight.clear();
         tbTableContent1.repaint();
         tbTableContent2.repaint();
-
     }//GEN-LAST:event_onExtractDatas
     private void onViewFileTXT(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onViewFileTXT
         try {
@@ -1001,6 +1021,29 @@ public class MainWindow extends javax.swing.JFrame
             System.out.println("Main Window : onSupport : " + ex.toString());
         }
     }//GEN-LAST:event_onSupport
+
+    private void onResetWindow(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onResetWindow
+        System.out.println("resetwindow");
+        liSaveListLeft.clear();
+        liSaveListRight.clear();
+        liTables1.removeAll();
+        liTablesC.removeAll();
+        liTablesLeft.clear();
+        liTablesRight.clear();
+        initComponents();
+        tbTableContent1.repaint();
+        tbTableContent2.repaint();
+        
+       // tbTableContent1.setModel(new DefaultTableModel());
+        //tbTableContent2.setModel(new DefaultTableModel());
+        tbTableContent1.removeAll();
+        tbTableContent2.removeAll();
+        repaint();
+        tbTableContent1.updateUI();
+        tbTableContent2.updateUI();
+        
+                
+    }//GEN-LAST:event_onResetWindow
 
     private void onRemoveC(java.awt.event.ActionEvent evt) {
         try {
@@ -1279,17 +1322,18 @@ public class MainWindow extends javax.swing.JFrame
                             if (dsmd.isEntireDB()) {
                                 if (extractData == 1) {
                                     extractData1(true, dba.getAllTableNames());
-                                    pbLoad.setValue(50);
+                                    pbLoad.setValue(75);
                                 } else {
                                     extractData2(true, dba.getAllTableNames());
-                                    pbLoad.setValue(50);
+                                    pbLoad.setValue(75);
                                 }
                             } else {
                                 if (extractData == 1) {
                                     extractData1(true, td.liSelectedTableNames);
-                                    pbLoad.setValue(50);
+                                    pbLoad.setValue(75);
                                 } else {
                                     extractData2(true, td.liSelectedTableNames);
+                                    pbLoad.setValue(75);
                                 }
                             }
                             //set database name on each label
@@ -1300,7 +1344,7 @@ public class MainWindow extends javax.swing.JFrame
                                 databaseName2 = dataExtractDialogue.getFinalDatabaseName().substring(1);
                                 lbDatabaseName2.setText(databaseName2);
                             }
-                            pbLoad.setValue(60);
+                            pbLoad.setValue(80);
                             int i = JOptionPane.showConfirmDialog(null, "Do you want to save the Database Extract as file?", "Save Database Extract", JOptionPane.YES_NO_OPTION);
                             if (i == JOptionPane.OK_OPTION) {
                                 JFileChooser fileChooser = new JFileChooser();
@@ -1316,29 +1360,29 @@ public class MainWindow extends javax.swing.JFrame
                                         f = new File(pathNew);
                                     }
                                     if (extractData == 1) {
-                                        pbLoad.setValue(70);
+                                        pbLoad.setValue(80);
                                         savedFile1 = f;
                                         existingFile1 = null;
                                         bl.saveDatabaseFile(f, liTablesLeft, databaseName1);
-                                        pbLoad.setValue(75);
+                                        pbLoad.setValue(85);
                                         btOpenDBFile1.setEnabled(true);
                                         btOpenHTMLFile1.setEnabled(true);
                                         enableCompareButton1 = true;
                                         enableItemSelect1 = true;
 
                                     } else {
-                                        pbLoad.setValue(70);
+                                        pbLoad.setValue(80);
                                         savedFile2 = f;
                                         existingFile2 = null;
                                         bl.saveDatabaseFile(f, liTablesRight, databaseName2);
-                                        pbLoad.setValue(75);
+                                        pbLoad.setValue(85);
                                         btOpenDBFile2.setEnabled(true);
                                         btOpenHTMLFile2.setEnabled(true);
                                         enableCompareButton2 = true;
                                         enableItemSelect2 = true;
                                     }
                                 }
-                                pbLoad.setValue(80);
+                                pbLoad.setValue(90);
                             } else {
 
                                 if (extractData == 1) {
@@ -1367,10 +1411,28 @@ public class MainWindow extends javax.swing.JFrame
                 liSaveListRight = (LinkedList<Table>) liTablesRight.clone();
                 pbLoad.setValue(100);
                 pbLoad.setVisible(false);
-            } catch (Exception ex) {
-                System.out.println("Main Window : extractData : " + ex.toString());
+            } catch (IOException ex) {
+                System.out.println("Main Window : extractData : "+ex.toString());
+                pbLoad.setVisible(false);
+            } catch (SQLException ex) {
+                System.out.println("Main Window : extractData : "+ex.toString());
+                pbLoad.setVisible(false);
+            } catch (NullPointerException ex) {
+                String output = "<html><font size='4'><b>Databaseconnection could not be established.</b></font><br><font size='3'>Hint: Check your username, password and database name.</font></html>";
+                JOptionPane.showMessageDialog(null, output);
+                pbLoad.setVisible(false);
+            } catch (IndexOutOfBoundsException ex) {
+                String output = "<html><font size='4'>Please choose a compatible txt file.</font></html>";
+                JOptionPane.showMessageDialog(null, output);
+                pbLoad.setVisible(false);
+            } 
+            catch (Exception ex) {
+                System.out.println("Main Window : extractData : "+ex.toString());
+                pbLoad.setVisible(false);
             }
+
             newPartTable = false;
+            pbLoad.setVisible(false);
         }
     }
 
@@ -1436,10 +1498,12 @@ public class MainWindow extends javax.swing.JFrame
     private javax.swing.JMenuBar mbMenu;
     private javax.swing.JMenuItem miRemoveFilter;
     private javax.swing.JMenuItem miRemoveFilterC;
+    private javax.swing.JMenuItem miResetWindow;
     private javax.swing.JMenuItem miSelectTables;
     private javax.swing.JMenuItem miSelectTablesC;
     private javax.swing.JMenuItem miSupport;
     private javax.swing.JMenu muFile;
+    private javax.swing.JMenu muResetWindow;
     private javax.swing.JPanel paButton;
     private javax.swing.JPanel paExtractData;
     private javax.swing.JProgressBar pbLoad;

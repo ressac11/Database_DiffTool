@@ -6,6 +6,7 @@ import beans.DifferentColumn;
 import beans.DifferentRow;
 import beans.Row;
 import beans.Table;
+import gui.MainWindow;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -22,9 +23,12 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
@@ -193,9 +197,7 @@ public class BLOperations {
      * @param tablesLeft
      * @param tablesRight
      */
-    
-    public void compareDatabases(String companyNameLeft, String companyNameRight, LinkedList<Table> tablesLeft, LinkedList<Table> tablesRight) 
-    {
+    public void compareDatabases(String companyNameLeft, String companyNameRight, LinkedList<Table> tablesLeft, LinkedList<Table> tablesRight) {
         companyLeft = companyNameLeft;
         companyRight = companyNameRight;
         allNewColsLeft.clear();
@@ -209,25 +211,34 @@ public class BLOperations {
         LinkedList<String> liTempLeft = new LinkedList<>();
         LinkedList<String> liTempRight = new LinkedList<>();
         int count = 0;
-        for (Table tR : liAllTablesRight) 
-        {
+        for (Table tR : liAllTablesRight) {
             liTempRight.add(tR.getTableName());
         }
-        for (Table tL : liAllTablesLeft) 
-        {
+        for (Table tL : liAllTablesLeft) {
             liTempLeft.add(tL.getTableName());
         }
-        if(liAllTablesLeft.size() < liAllTablesRight.size())
-        {
-            for (Table lT : liAllTablesLeft) 
-            {
-                for (Table rT : liAllTablesRight) 
-                {
+        if (liAllTablesLeft.size() < liAllTablesRight.size()) {
+            for (Table lT : liAllTablesLeft) {
+                for (Table rT : liAllTablesRight) {
                     int index = liAllTablesRight.indexOf(rT);
-                    if (liTempLeft.contains(liTempRight.get(index)))
-                    {
-                        if(lT.getTableName().equals(liAllTablesRight.get(index).getTableName()))
-                        {
+                    if (liTempLeft.contains(liTempRight.get(index))) {
+                        if (lT.getTableName().equals(liAllTablesRight.get(index).getTableName())) {
+                            count++;
+                            compare(lT, rT);
+                        }
+                    }
+                }
+            }
+            if (count == 0) {
+                JOptionPane.showMessageDialog(null, "The tables can not be compared because non are equal");
+            }
+            count = 0;
+        } else {
+            for (Table rT : liAllTablesRight) {
+                for (Table lT : liAllTablesLeft) {
+                    int index = liAllTablesLeft.indexOf(lT);
+                    if (liTempRight.contains(liTempLeft.get(index))) {
+                        if (rT.getTableName().equals(liAllTablesLeft.get(index).getTableName())) {
                             count++;
                             compare(lT, rT);
                         }
@@ -239,32 +250,9 @@ public class BLOperations {
             }
             count = 0;
         }
-        else
-        {
-            for (Table rT : liAllTablesRight) 
-            {
-                for (Table lT : liAllTablesLeft) 
-                {
-                    int index = liAllTablesLeft.indexOf(lT);
-                    if (liTempRight.contains(liTempLeft.get(index)))
-                    {
-                        if(rT.getTableName().equals(liAllTablesLeft.get(index).getTableName()))
-                        {
-                            count++;
-                            compare(lT, rT);
-                        }
-                    }
-                }
-            }
-            if (count == 0) 
-            {
-                JOptionPane.showMessageDialog(null, "The tables can not be compared because non are equal");
-            }
-            count = 0;
-        }
-        
+
     }
-    
+
     /**
      * This method is responsible for the actual comparing process of two
      * particular tables.
@@ -272,9 +260,7 @@ public class BLOperations {
      * @param tLeft
      * @param tRight
      */
-    
-    private void compare(Table tLeft, Table tRight) 
-    {
+    private void compare(Table tLeft, Table tRight) {
         LinkedList<String> colLeft = tLeft.getColumnNames();
         LinkedList<String> colRight = tRight.getColumnNames();
         LinkedList<String> clonedColRight = (LinkedList<String>) colRight.clone();
@@ -284,125 +270,97 @@ public class BLOperations {
 
         //determine different columns
         //different columns in the right database
-        for (int i = 0; i < clonedColRight.size(); i++) 
-        {
-            if (!clonedColLeft.contains(clonedColRight.get(i)))
-            {
+        for (int i = 0; i < clonedColRight.size(); i++) {
+            if (!clonedColLeft.contains(clonedColRight.get(i))) {
                 DifferentColumn newColR = new DifferentColumn(tRight.getTableName(), clonedColRight.get(i), i);
                 allNewColsRight.add(newColR);
                 colsRemoveRight.add(i);
-                if(tableOfFirstDiff==null)
-                {
+                if (tableOfFirstDiff == null) {
                     tableOfFirstDiff = tLeft.getTableName();
                 }
             }
         }
-        
+
         //remove the different columns from the list for further comparing
         int index = 0;
-        for (int temp = colsRemoveRight.size()-1 ; temp>=0; temp--) 
-        {
+        for (int temp = colsRemoveRight.size() - 1; temp >= 0; temp--) {
             index = colsRemoveRight.get(temp);
             clonedColRight.remove(clonedColRight.get(index));
         }
-        
+
         //different columns in the left database
-        for (int i = 0; i < clonedColLeft.size(); i++) 
-        {
-            if (!clonedColRight.contains(clonedColLeft.get(i))) 
-            {
+        for (int i = 0; i < clonedColLeft.size(); i++) {
+            if (!clonedColRight.contains(clonedColLeft.get(i))) {
                 DifferentColumn newColL = new DifferentColumn(tLeft.getTableName(), clonedColLeft.get(i), i);
                 allNewColsLeft.add(newColL);
                 colsRemoveLeft.add(i);
-                if(tableOfFirstDiff==null)
-                {
+                if (tableOfFirstDiff == null) {
                     tableOfFirstDiff = tLeft.getTableName();
                 }
             }
         }
-        
-         //remove the different columns from the list for further comparing
+
+        //remove the different columns from the list for further comparing
         index = 0;
-        for (int temp = colsRemoveLeft.size()-1 ; temp>=0; temp--) 
-        {
+        for (int temp = colsRemoveLeft.size() - 1; temp >= 0; temp--) {
             index = colsRemoveLeft.get(temp);
             clonedColLeft.remove(clonedColLeft.get(index));
         }
-        
-        LinkedList<Row> leftV = (LinkedList<Row>) tLeft.getAttributes().clone();  
+
+        LinkedList<Row> leftV = (LinkedList<Row>) tLeft.getAttributes().clone();
         LinkedList<Row> rightV = (LinkedList<Row>) tRight.getAttributes().clone();
         LinkedList<String> valuesRight = new LinkedList<>();
         LinkedList<String> valuesLeft = new LinkedList<>();
         LinkedList<String> liLeftPrimaryKeys = new LinkedList<>();
         LinkedList<String> liRightPrimaryKeys = new LinkedList<>();
-        
+
         String valueTemp = "";
         int counter = 0;
         //write all primary keys into a list
-        if(!leftV.isEmpty())
-        {
-            for (Row r : leftV) 
-            {
+        if (!leftV.isEmpty()) {
+            for (Row r : leftV) {
                 liLeftPrimaryKeys.add(r.getPrimaryKey());
             }
         }
-        if(!rightV.isEmpty())
-        {
-            for (Row r : rightV) 
-            {
+        if (!rightV.isEmpty()) {
+            for (Row r : rightV) {
                 liRightPrimaryKeys.add(r.getPrimaryKey());
             }
         }
-        
+
 //      in this process every value of a column which exists 
 //      in both databases filtered and added to a new list as String value
 //      this process is neccessary for comparing the values of the rows with 
 //      each other (columns with exist in both databases are not included!)
-        
         boolean removeCol = false;
-        if(!rightV.isEmpty())
-        {
-            for (Row r : rightV) 
-            {
-                if(!allNewColsRight.isEmpty())
-                {
-                    for (DifferentColumn col : allNewColsRight) 
-                    {
-                        if (tRight.getTableName().equals(col.getTableName()))
-                        {
-                            for (String str : r.getValue().split(";")) 
-                            {
-                                if(!removeCol)
-                                {
-                                    if (counter != col.getColumnIndex()) 
-                                    {
+        if (!rightV.isEmpty()) {
+            for (Row r : rightV) {
+                if (!allNewColsRight.isEmpty()) {
+                    for (DifferentColumn col : allNewColsRight) {
+                        if (tRight.getTableName().equals(col.getTableName())) {
+                            for (String str : r.getValue().split(";")) {
+                                if (!removeCol) {
+                                    if (counter != col.getColumnIndex()) {
                                         valueTemp += str + ";";
-                                    }
-                                    else
-                                    {
+                                    } else {
                                         removeCol = true;
                                     }
                                     counter++;
                                 }
                             }
-                            if(!valuesRight.contains(valueTemp))
-                            {
+                            if (!valuesRight.contains(valueTemp)) {
                                 valuesRight.add(valueTemp);
-                                
+
                             }
                             removeCol = false;
                         }
                     }
-                    if(valuesRight.isEmpty())
-                    {
-                        for(Row r2 : rightV)
-                        {
+                    if (valuesRight.isEmpty()) {
+                        for (Row r2 : rightV) {
                             valuesRight.add(r2.getValue());
                         }
                     }
-                }
-                else 
-                {
+                } else {
                     valuesRight.add(r.getValue());
                 }
                 counter = 0;
@@ -411,106 +369,77 @@ public class BLOperations {
         }
         counter = 0;
         valueTemp = "";
-        
+
 //      in this process every value of a column which exists 
 //      in both databases filtered and added to a new list as String value
 //      this process is neccessary for comparing the values of the rows with 
 //      each other (columns with exist in both databases are not included!)
-        
         removeCol = false;
-        if(!leftV.isEmpty())
-        {
-            for (Row r : leftV) 
-            {
-                if(!allNewColsLeft.isEmpty())
-                {
-                    for (DifferentColumn col : allNewColsLeft) 
-                    {
-                        if (tLeft.getTableName().equals(col.getTableName())) 
-                        {
-                            for (String str : r.getValue().split(";")) 
-                            {
-                                if(!removeCol)
-                                {
-                                    if (counter != col.getColumnIndex()) 
-                                    {
+        if (!leftV.isEmpty()) {
+            for (Row r : leftV) {
+                if (!allNewColsLeft.isEmpty()) {
+                    for (DifferentColumn col : allNewColsLeft) {
+                        if (tLeft.getTableName().equals(col.getTableName())) {
+                            for (String str : r.getValue().split(";")) {
+                                if (!removeCol) {
+                                    if (counter != col.getColumnIndex()) {
                                         valueTemp += str + ";";
-                                    }
-                                    else
-                                    {
+                                    } else {
                                         removeCol = true;
                                     }
                                     counter++;
                                 }
                             }
-                            if(!valuesLeft.contains(valueTemp))
-                            {
+                            if (!valuesLeft.contains(valueTemp)) {
                                 valuesLeft.add(valueTemp);
                             }
                             removeCol = false;
-                        } 
+                        }
                     }
-                    if(valuesLeft.isEmpty())
-                    {
-                        for(Row r2 : leftV)
-                        {
+                    if (valuesLeft.isEmpty()) {
+                        for (Row r2 : leftV) {
                             valuesLeft.add(r2.getValue());
                         }
                     }
-                }
-                else
-                {
+                } else {
                     valuesLeft.add(r.getValue());
                 }
                 counter = 0;
                 valueTemp = "";
             }
         }
-        
+
         //determine different rows and cells in the right table
         String[] arrayL = null;
         String[] arrayR = null;
-        
-        if(!valuesLeft.isEmpty())
-        {
-            if(!valuesRight.isEmpty())
-            {
-                for (int rL = 0; rL < valuesLeft.size(); rL++) 
-                {
+
+        if (!valuesLeft.isEmpty()) {
+            if (!valuesRight.isEmpty()) {
+                for (int rL = 0; rL < valuesLeft.size(); rL++) {
                     arrayL = valuesLeft.get(rL).split(";");
-                    for(int rR = 0; rR < valuesRight.size(); rR++)
-                    {
+                    for (int rR = 0; rR < valuesRight.size(); rR++) {
                         arrayR = valuesRight.get(rR).split(";");
 
-                        if(liLeftPrimaryKeys.contains(rightV.get(rR).getPrimaryKey()))
-                        {
-                            if(leftV.get(rL).getPrimaryKey().equals(rightV.get(rR).getPrimaryKey()))
-                            {
-                                for (int indexColR = 0; indexColR < arrayR.length; indexColR++) 
-                                {  
+                        if (liLeftPrimaryKeys.contains(rightV.get(rR).getPrimaryKey())) {
+                            if (leftV.get(rL).getPrimaryKey().equals(rightV.get(rR).getPrimaryKey())) {
+                                for (int indexColR = 0; indexColR < arrayR.length; indexColR++) {
                                     int indexColL = clonedColLeft.indexOf(clonedColRight.get(indexColR));
-                                    if(!arrayL[indexColL].equals(arrayR[indexColR]))
-                                    {
-                                        DifferentCell diffCellR = new DifferentCell(tRight.getTableName(), indexColR, rR,arrayR[indexColR]);
+                                    if (!arrayL[indexColL].equals(arrayR[indexColR])) {
+                                        DifferentCell diffCellR = new DifferentCell(tRight.getTableName(), indexColR, rR, arrayR[indexColR]);
                                         diffCellR.toString();
                                         allNewCellsRight.add(diffCellR);
-                                        if(tableOfFirstDiff==null)
-                                        {
+                                        if (tableOfFirstDiff == null) {
                                             tableOfFirstDiff = tLeft.getTableName();
                                         }
                                     }
                                 }
-    //                            break;
+                                //                            break;
                             }
-                        }
-                        else
-                        {
-                            DifferentRow diffRowR = new DifferentRow(tRight.getTableName(), rightV.get(rR).getValue(),rR);
-                            if(!allNewRowsRight.contains(diffRowR))
-                            {
+                        } else {
+                            DifferentRow diffRowR = new DifferentRow(tRight.getTableName(), rightV.get(rR).getValue(), rR);
+                            if (!allNewRowsRight.contains(diffRowR)) {
                                 allNewRowsRight.add(diffRowR);
-                                if(tableOfFirstDiff==null)
-                                {
+                                if (tableOfFirstDiff == null) {
                                     tableOfFirstDiff = tLeft.getTableName();
                                 }
                             }
@@ -523,51 +452,38 @@ public class BLOperations {
         //determine different rows and cells in the left table
         arrayL = null;
         arrayR = null;
-        if(!valuesRight.isEmpty())
-        {
-            if(!valuesLeft.isEmpty())
-            {
-                for (int rR = 0; rR < valuesRight.size(); rR++) 
-                {
+        if (!valuesRight.isEmpty()) {
+            if (!valuesLeft.isEmpty()) {
+                for (int rR = 0; rR < valuesRight.size(); rR++) {
                     arrayR = valuesRight.get(rR).split(";");
-                    for(int rL = 0; rL < valuesLeft.size(); rL++)
-                    {
+                    for (int rL = 0; rL < valuesLeft.size(); rL++) {
                         arrayL = valuesLeft.get(rL).split(";");
-                        if(liRightPrimaryKeys.contains(leftV.get(rL).getPrimaryKey()))
-                        {
-                            if(rightV.get(rR).getPrimaryKey().equals(leftV.get(rL).getPrimaryKey()))
-                            {
-                                for (int indexColL = 0; indexColL < arrayL.length; indexColL++) 
-                                {
+                        if (liRightPrimaryKeys.contains(leftV.get(rL).getPrimaryKey())) {
+                            if (rightV.get(rR).getPrimaryKey().equals(leftV.get(rL).getPrimaryKey())) {
+                                for (int indexColL = 0; indexColL < arrayL.length; indexColL++) {
                                     int indexColR = clonedColRight.indexOf(clonedColLeft.get(indexColL));
-                                    if(!arrayR[indexColR].equals(arrayL[indexColL]))
-                                    {
-                                        DifferentCell diffCellL = new DifferentCell(tLeft.getTableName(), indexColL, rL,arrayL[indexColL]);
+                                    if (!arrayR[indexColR].equals(arrayL[indexColL])) {
+                                        DifferentCell diffCellL = new DifferentCell(tLeft.getTableName(), indexColL, rL, arrayL[indexColL]);
                                         diffCellL.toString();
                                         allNewCellsLeft.add(diffCellL);
-                                        if(tableOfFirstDiff==null)
-                                        {
+                                        if (tableOfFirstDiff == null) {
                                             tableOfFirstDiff = tLeft.getTableName();
                                         }
                                     }
                                 }
-    //                            break;
+                                //                            break;
                             }
-                        }
-                        else
-                        {
+                        } else {
                             DifferentRow diffRowL = new DifferentRow(tLeft.getTableName(), leftV.get(rL).getValue(), rL);
-                            if(!allNewRowsLeft.contains(diffRowL))
-                            {
+                            if (!allNewRowsLeft.contains(diffRowL)) {
                                 allNewRowsLeft.add(diffRowL);
-                                if(tableOfFirstDiff==null)
-                                {
+                                if (tableOfFirstDiff == null) {
                                     tableOfFirstDiff = tLeft.getTableName();
                                 }
                             }
                         }
                     }
-                }  
+                }
             }
         }
 //        System.out.println("(table left) anzahl diff cells : "+allNewCellsLeft.size());
@@ -575,7 +491,7 @@ public class BLOperations {
 //        System.out.println("(table left) : anzahl diff rows : "+allNewRowsLeft.size());
 //        System.out.println("(table right) : anzahl diff rows : "+allNewRowsRight.size());
     }
-    
+
     /**
      * In this method the output of the comparison process is written onto a
      * .txt file.
@@ -590,7 +506,6 @@ public class BLOperations {
      *
      * @return
      */
-    
     public LinkedList<Table> getEqualTables(LinkedList<Table> tablesLeft, LinkedList<Table> tablesRight) {
         LinkedList<Table> liAllEqualTables = new LinkedList<>();
         for (Table tL : tablesLeft) {
@@ -630,8 +545,7 @@ public class BLOperations {
         return allNewRowsLeft;
     }
 
-    public String getTableofFirstDiff() 
-    {
+    public String getTableofFirstDiff() {
         return tableOfFirstDiff;
     }
 
@@ -646,9 +560,6 @@ public class BLOperations {
     public LinkedList<DifferentCell> getAllNewCellsLeft() {
         return allNewCellsLeft;
     }
-
-    
-    
 
     /**
      * This method creates a HTML file displaying the content of each table of a
@@ -689,9 +600,8 @@ public class BLOperations {
 
         FileUtils.writeStringToFile(newHtmlFile, htmlString);
     }
-    
-    public void downloadDifferencesAsXML(String filename) throws Exception
-    {
+
+    public void downloadDifferencesAsXML(String filename) throws ParserConfigurationException, TransformerConfigurationException, FileNotFoundException, TransformerException {
         DocumentBuilderFactory dfactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = dfactory.newDocumentBuilder();
         doc = builder.newDocument();
@@ -702,22 +612,22 @@ public class BLOperations {
         trafo.setOutputProperty(OutputKeys.INDENT, "yes");
         trafo.setOutputProperty(OutputKeys.METHOD, "xml");
         Result result = new StreamResult(new OutputStreamWriter(new FileOutputStream(filename)));
-        
+
         Element main = doc.createElement("Differences");
         Element differencesDB1 = doc.createElement(companyLeft);
         writeDifferencesXML(differencesDB1, allNewColsLeft, allNewRowsLeft, allNewCellsLeft);
         main.appendChild(differencesDB1);
-        
+
         Element differencesDB2 = doc.createElement(companyRight);
         writeDifferencesXML(differencesDB2, allNewColsRight, allNewRowsRight, allNewCellsRight);
         main.appendChild(differencesDB2);
         doc.appendChild(main);
-        
+
         trafo.transform(new DOMSource(doc), result);
     }
-    
-    public void writeDifferencesXML(Element e, LinkedList<DifferentColumn> colsL, LinkedList<DifferentRow> rowsL, LinkedList<DifferentCell> cellsL) throws Exception {
-        
+
+    public void writeDifferencesXML(Element e, LinkedList<DifferentColumn> colsL, LinkedList<DifferentRow> rowsL, LinkedList<DifferentCell> cellsL) {
+
         Element columns = doc.createElement("Columns");
 
         for (DifferentColumn col : colsL) {
@@ -752,5 +662,5 @@ public class BLOperations {
         }
         e.appendChild(cells);
     }
-    
+
 }

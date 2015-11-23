@@ -44,4 +44,10 @@ public class TableContentTM extends AbstractTableModel {
             return "";
         }
     }
+    
+    public void clears()
+    {
+        columns.clear();
+        rows.clear();
+    }
 }
