@@ -711,6 +711,7 @@ public class MainWindow extends javax.swing.JFrame
     }// </editor-fold>//GEN-END:initComponents
     private void onCompareData(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCompareData
         DataSelectionModesDialogue selectDialogue = new DataSelectionModesDialogue(this, true);
+        selectDialogue.setLabelText("     "+databaseName1+"  -  "+databaseName2);
         selectDialogue.setLiAllEqualTables(bl.getEqualTables(liSaveListLeft, liSaveListRight));
         selectDialogue.setVisible(true);
         try {
@@ -994,7 +995,7 @@ public class MainWindow extends javax.swing.JFrame
 
     private void onSupport(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onSupport
         try {
-            File f = new File(System.getProperty("user.dir") + File.separator + "help_manual" + File.separator + "index.htm");
+            File f = new File(System.getProperty("user.dir") + File.separator + "help_manual" + File.separator + "Diff-Tool Online Help.chm");
             Desktop.getDesktop().open(f);
         } catch (Exception ex) {
             System.out.println("Main Window : onSupport : " + ex.toString());
@@ -1259,6 +1260,14 @@ public class MainWindow extends javax.swing.JFrame
                     dba = DBAccess.getTheInstance();
                     td.setLiAllTableNames(dba.getAllTableNames());
                     dsmd.setVisible(true);
+                    if(extractData == 1)
+                    {
+                        dsmd.setLabelText(databaseName1);
+                    }
+                    else
+                    {
+                        dsmd.setLabelText(databaseName2);
+                    }
                     if (dsmd.isOK()) {
                         pbLoad.setVisible(true);
                         pbLoad.setIndeterminate(false);

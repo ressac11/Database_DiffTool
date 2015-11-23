@@ -197,6 +197,11 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog {
     public boolean isOK() {
         return ok;
     }
+    
+    public void setLabelText(String text)
+    {
+        lbCompanyName.setText(text);
+    }
 
     public boolean isEntireDB() {
         return entireDB;

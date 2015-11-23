@@ -1,4 +1,0 @@
-GET; 2;
-GETTING; 2;
-GOING; 13,2;
-GUIDE; 1;
