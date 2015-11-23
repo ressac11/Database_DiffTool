@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.LinkedList;
-import javax.swing.JOptionPane;
 
 public class DBConnectionPool {
 
@@ -39,7 +38,6 @@ public class DBConnectionPool {
             Class.forName(DB_DRIVER);
         } catch (ClassNotFoundException ex) 
         {
-            JOptionPane.showMessageDialog(null, "Driverisfalsch");
         }
     }
 

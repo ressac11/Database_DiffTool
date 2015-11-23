@@ -69,7 +69,7 @@ public class TableDialogue extends javax.swing.JDialog {
         lbTables.setBackground(new java.awt.Color(229, 229, 229));
         lbTables.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         lbTables.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbTables.setText("Tables");
+        lbTables.setText("Choose tables");
         lbTables.setToolTipText("");
         lbTables.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         lbTables.setMaximumSize(new java.awt.Dimension(55, 35));

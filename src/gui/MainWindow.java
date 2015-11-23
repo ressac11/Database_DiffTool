@@ -12,15 +12,11 @@ import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.table.DefaultTableModel;
 import listModel.TableNamesLM;
 import renderer.TableRenderer;
 import tableModel.TableContentTM;
@@ -1302,15 +1298,18 @@ public class MainWindow extends javax.swing.JFrame {
                     TableDialogue td = new TableDialogue(null, true);
                     dba = DBAccess.getTheInstance();
                     td.setLiAllTableNames(dba.getAllTableNames());
-                    dsmd.setVisible(true);
-                    if(extractData == 1)
+                    
+                    if(dataExtractDialogue.getFinalDatabaseName().startsWith("1"))
                     {
-                        dsmd.setLabelText(databaseName1);
+                        databaseName1 = dataExtractDialogue.getFinalDatabaseName().substring(1);
+                        dsmd.setLabelText("  "+databaseName1);
                     }
                     else
                     {
-                        dsmd.setLabelText(databaseName2);
+                        databaseName2 = dataExtractDialogue.getFinalDatabaseName().substring(1);
+                        dsmd.setLabelText("  "+databaseName2);
                     }
+                    dsmd.setVisible(true);
                     if (dsmd.isOK()) {
                         pbLoad.setVisible(true);
                         pbLoad.setIndeterminate(false);
@@ -1337,7 +1336,8 @@ public class MainWindow extends javax.swing.JFrame {
                                 }
                             }
                             //set database name on each label
-                            if (dataExtractDialogue.getFinalDatabaseName().startsWith("1")) {
+                            if (dataExtractDialogue.getFinalDatabaseName().startsWith("1")) 
+                            {
                                 databaseName1 = dataExtractDialogue.getFinalDatabaseName().substring(1);
                                 lbDatabaseName1.setText(databaseName1);
                             } else {
@@ -1417,8 +1417,9 @@ public class MainWindow extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 System.out.println("Main Window : extractData : "+ex.toString());
                 pbLoad.setVisible(false);
-            } catch (NullPointerException ex) {
-                String output = "<html><font size='4'><b>Databaseconnection could not be established.</b></font><br><font size='3'>Hint: Check your username, password and database name.</font></html>";
+            } catch (NullPointerException ex) 
+            {
+                String output = "<html><font size='4'><b>Database connection could not be established.</b></font><br><font size='3'>Hint: Check username, password or database name.</font></html>";
                 JOptionPane.showMessageDialog(null, output);
                 pbLoad.setVisible(false);
             } catch (IndexOutOfBoundsException ex) {
