@@ -262,7 +262,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         btDownloadData.setBackground(new java.awt.Color(229, 229, 229));
         btDownloadData.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        btDownloadData.setText("Download Comparison Output as .txt file");
+        btDownloadData.setText("Download Comparison Output as .xml file");
         btDownloadData.setToolTipText("");
         btDownloadData.setEnabled(false);
         btDownloadData.setMaximumSize(new java.awt.Dimension(180, 60));
@@ -724,7 +724,6 @@ public class MainWindow extends javax.swing.JFrame {
                 pbLoad.setIndeterminate(true);
                 if (selectDialogue.isEntireDB()) {
                     bl.compareDatabases(databaseName1, databaseName2, liSaveListLeft, liSaveListRight);
-                    System.out.println("comparing succeded");
                 } else if (selectDialogue.tableOK) {
                     LinkedList<Table> allEqualTables = (LinkedList<Table>) TableDialogue.selectedTables.clone();
                     LinkedList<Table> liLeft = new LinkedList<>();
@@ -746,7 +745,9 @@ public class MainWindow extends javax.swing.JFrame {
                     }
                     bl.compareDatabases(databaseName1, databaseName2, liLeft, liRight);
                 }
-                btDownloadData.setText("Download Comparison Output as .txt file");
+                if(bl.differencesOccuring())
+                {
+                    btDownloadData.setText("Download Comparison Output as .xml file");
                 rbTableBothAuto.setSelected(true);
                 automaticallySelectingTables = true;
                 this.downloadEnabled = true;
@@ -779,7 +780,13 @@ public class MainWindow extends javax.swing.JFrame {
                 tbTableContent1.repaint();
                 tbTableContent2.repaint();
             }
+                else
+                {
+                    JOptionPane.showMessageDialog(this, "There is no difference occuring");
+                }
             pbLoad.setVisible(false);
+                }
+                
         } catch (Exception e) {
             System.out.println("Main Window : onCompareData : " + e.toString() + "\n");
             pbLoad.setVisible(false);

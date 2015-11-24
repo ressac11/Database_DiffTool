@@ -6,7 +6,6 @@ import beans.DifferentColumn;
 import beans.DifferentRow;
 import beans.Row;
 import beans.Table;
-import gui.MainWindow;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -330,7 +329,7 @@ public class BLOperations {
 
 //      in this process every value of a column which exists 
 //      in both databases filtered and added to a new list as String value
-//      this process is neccessary for comparing the values of the rows with 
+//      this process is neccessary for comparing the values of the rows_list with 
 //      each other (columns with exist in both databases are not included!)
         boolean removeCol = false;
         if (!rightV.isEmpty()) {
@@ -372,7 +371,7 @@ public class BLOperations {
 
 //      in this process every value of a column which exists 
 //      in both databases filtered and added to a new list as String value
-//      this process is neccessary for comparing the values of the rows with 
+//      this process is neccessary for comparing the values of the rows_list with 
 //      each other (columns with exist in both databases are not included!)
         removeCol = false;
         if (!leftV.isEmpty()) {
@@ -409,7 +408,7 @@ public class BLOperations {
             }
         }
 
-        //determine different rows and cells in the right table
+        //determine different rows_list and cells_list in the right table
         String[] arrayL = null;
         String[] arrayR = null;
 
@@ -449,7 +448,7 @@ public class BLOperations {
                 }
             }
         }
-        //determine different rows and cells in the left table
+        //determine different rows_list and cells_list in the left table
         arrayL = null;
         arrayR = null;
         if (!valuesRight.isEmpty()) {
@@ -486,19 +485,9 @@ public class BLOperations {
                 }
             }
         }
-//        System.out.println("(table left) anzahl diff cells : "+allNewCellsLeft.size());
-//        System.out.println("(table right) : anzahl diff cells : "+allNewCellsRight.size());
-//        System.out.println("(table left) : anzahl diff rows : "+allNewRowsLeft.size());
-//        System.out.println("(table right) : anzahl diff rows : "+allNewRowsRight.size());
     }
 
-    /**
-     * In this method the output of the comparison process is written onto a
-     * .txt file.
-     *
-     * @param f
-     * @throws IOException
-     */
+    
     /**
      * This method ensures whether there are any differences between those
      * databases found and returns true if so. This method is needed to know
@@ -506,6 +495,17 @@ public class BLOperations {
      *
      * @return
      */
+    public boolean differencesOccuring()
+    {
+        boolean differencesOccuring = true;
+        if(allNewColsLeft.isEmpty() && allNewColsRight.isEmpty() && allNewCellsLeft.isEmpty() && allNewCellsRight.isEmpty() && allNewRowsLeft.isEmpty() && allNewRowsRight.isEmpty())
+        {
+            differencesOccuring = false;
+        }
+        return differencesOccuring;
+    }
+    
+    
     public LinkedList<Table> getEqualTables(LinkedList<Table> tablesLeft, LinkedList<Table> tablesRight) {
         LinkedList<Table> liAllEqualTables = new LinkedList<>();
         for (Table tL : tablesLeft) {
@@ -519,8 +519,8 @@ public class BLOperations {
     }
 
     /**
-     * This method ensures the lists containing the differences in rows and
-     * columns are being cleared, for further usage.
+     * This method ensures the lists containing the differences in rows_list and
+ columns are being cleared, for further usage.
      */
     public void clearCompareOutputLists() {
         allNewColsLeft.clear();
@@ -601,6 +601,15 @@ public class BLOperations {
         FileUtils.writeStringToFile(newHtmlFile, htmlString);
     }
 
+     /**
+     * This method creates a xml file displaying the differences occuring in the database.
+     *
+     * @param filename
+     * @throws ParserConfigurationException
+     * @throws TransformerConfigurationException
+     * @throws FileNotFoundException
+     * @throws TransformerException
+     */
     public void downloadDifferencesAsXML(String filename) throws ParserConfigurationException, TransformerConfigurationException, FileNotFoundException, TransformerException {
         DocumentBuilderFactory dfactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = dfactory.newDocumentBuilder();
@@ -626,11 +635,20 @@ public class BLOperations {
         trafo.transform(new DOMSource(doc), result);
     }
 
-    public void writeDifferencesXML(Element e, LinkedList<DifferentColumn> colsL, LinkedList<DifferentRow> rowsL, LinkedList<DifferentCell> cellsL) {
+    
+     /**
+     * This method writes the differences onto a DomDocument.
+     *
+     * @param e
+     * @param cols
+     * @param rows
+     * @param cells
+     */
+    public void writeDifferencesXML(Element e, LinkedList<DifferentColumn> cols, LinkedList<DifferentRow> rows, LinkedList<DifferentCell> cells) {
 
         Element columns = doc.createElement("Columns");
 
-        for (DifferentColumn col : colsL) {
+        for (DifferentColumn col : cols) {
             Element column = doc.createElement("Column");
             column.setAttribute("table_name", col.getTableName());
             column.setAttribute("index", col.getColumnIndex() + "");
@@ -639,28 +657,28 @@ public class BLOperations {
         }
         e.appendChild(columns);
 
-        Element rows = doc.createElement("Rows");
+        Element rows_list = doc.createElement("Rows");
 
-        for (DifferentRow r : rowsL) {
+        for (DifferentRow r : rows) {
             Element row = doc.createElement("Row");
             row.setAttribute("table_name", r.getTableName());
             row.setAttribute("index", r.getRowIndex() + "");
             row.setTextContent(r.getValue());
-            rows.appendChild(row);
+            rows_list.appendChild(row);
         }
-        e.appendChild(rows);
+        e.appendChild(rows_list);
 
-        Element cells = doc.createElement("Cells");
+        Element cells_list = doc.createElement("Cells");
 
-        for (DifferentCell c : cellsL) {
+        for (DifferentCell c : cells) {
             Element cell = doc.createElement("Cell");
             cell.setAttribute("table_name", c.getTableName());
             cell.setAttribute("column_index", c.getColumnIndex() + "");
             cell.setAttribute("row_index", c.getRowIndex() + "");
             cell.setTextContent(c.getValue());
-            cells.appendChild(cell);
+            cells_list.appendChild(cell);
         }
-        e.appendChild(cells);
+        e.appendChild(cells_list);
     }
 
 }
