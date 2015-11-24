@@ -176,8 +176,6 @@ public class MainWindow extends javax.swing.JFrame {
         mbMenu = new javax.swing.JMenuBar();
         muFile = new javax.swing.JMenu();
         miSupport = new javax.swing.JMenuItem();
-        muResetWindow = new javax.swing.JMenu();
-        miResetWindow = new javax.swing.JMenuItem();
 
         miSelectTables.setText("Table Filter");
         miSelectTables.addActionListener(new java.awt.event.ActionListener() {
@@ -710,18 +708,6 @@ public class MainWindow extends javax.swing.JFrame {
 
         mbMenu.add(muFile);
 
-        muResetWindow.setText("Reset Window");
-
-        miResetWindow.setText("Reset Window");
-        miResetWindow.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onResetWindow(evt);
-            }
-        });
-        muResetWindow.add(miResetWindow);
-
-        mbMenu.add(muResetWindow);
-
         setJMenuBar(mbMenu);
 
         pack();
@@ -1017,29 +1003,6 @@ public class MainWindow extends javax.swing.JFrame {
             System.out.println("Main Window : onSupport : " + ex.toString());
         }
     }//GEN-LAST:event_onSupport
-
-    private void onResetWindow(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onResetWindow
-        System.out.println("resetwindow");
-        liSaveListLeft.clear();
-        liSaveListRight.clear();
-        liTables1.removeAll();
-        liTablesC.removeAll();
-        liTablesLeft.clear();
-        liTablesRight.clear();
-        initComponents();
-        tbTableContent1.repaint();
-        tbTableContent2.repaint();
-        
-       // tbTableContent1.setModel(new DefaultTableModel());
-        //tbTableContent2.setModel(new DefaultTableModel());
-        tbTableContent1.removeAll();
-        tbTableContent2.removeAll();
-        repaint();
-        tbTableContent1.updateUI();
-        tbTableContent2.updateUI();
-        
-                
-    }//GEN-LAST:event_onResetWindow
 
     private void onRemoveC(java.awt.event.ActionEvent evt) {
         try {
@@ -1499,12 +1462,10 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuBar mbMenu;
     private javax.swing.JMenuItem miRemoveFilter;
     private javax.swing.JMenuItem miRemoveFilterC;
-    private javax.swing.JMenuItem miResetWindow;
     private javax.swing.JMenuItem miSelectTables;
     private javax.swing.JMenuItem miSelectTablesC;
     private javax.swing.JMenuItem miSupport;
     private javax.swing.JMenu muFile;
-    private javax.swing.JMenu muResetWindow;
     private javax.swing.JPanel paButton;
     private javax.swing.JPanel paExtractData;
     private javax.swing.JProgressBar pbLoad;
