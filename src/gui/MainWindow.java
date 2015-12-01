@@ -101,6 +101,11 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     @SuppressWarnings("unchecked")
+
+    public void setCompareStatus(int value) {
+        pbLoad.setValue(value);
+    }
+
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -713,85 +718,9 @@ public class MainWindow extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     private void onCompareData(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCompareData
-        DataSelectionModesDialogue selectDialogue = new DataSelectionModesDialogue(this, true);
-        selectDialogue.setLabelText("     "+databaseName1+"  -  "+databaseName2);
-        selectDialogue.setLiAllEqualTables(bl.getEqualTables(liSaveListLeft, liSaveListRight));
-        selectDialogue.setVisible(true);
-        try {
-            if (selectDialogue.isOK()) {
-                pbLoad.setVisible(true);
-                pbLoad.setValue(0);
-                pbLoad.setIndeterminate(true);
-                if (selectDialogue.isEntireDB()) {
-                    bl.compareDatabases(databaseName1, databaseName2, liSaveListLeft, liSaveListRight);
-                } else if (selectDialogue.tableOK) {
-                    LinkedList<Table> allEqualTables = (LinkedList<Table>) TableDialogue.selectedTables.clone();
-                    LinkedList<Table> liLeft = new LinkedList<>();
-                    LinkedList<Table> liRight = new LinkedList<>();
-
-                    for (Table tL : allEqualTables) {
-                        for (Table tLTemp : liTablesLeft) {
-                            if (tL.getTableName().equals(tLTemp.getTableName())) {
-                                liLeft.add(tLTemp);
-                            }
-                        }
-                    }
-                    for (Table tR : allEqualTables) {
-                        for (Table tRTemp : liTablesRight) {
-                            if (tR.getTableName().equals(tRTemp.getTableName())) {
-                                liRight.add(tRTemp);
-                            }
-                        }
-                    }
-                    bl.compareDatabases(databaseName1, databaseName2, liLeft, liRight);
-                }
-                if(bl.differencesOccuring())
-                {
-                    btDownloadData.setText("Download Comparison Output as .xml file");
-                rbTableBothAuto.setSelected(true);
-                automaticallySelectingTables = true;
-                this.downloadEnabled = true;
-                String actTable = bl.getTableofFirstDiff();
-                TableRenderer.selectedTable = actTable;
-                int index = 0;
-                for (Table t : liTablesLeft) {
-                    if (t.getTableName().equals(actTable)) {
-                        index = liTablesLeft.indexOf(t);
-                        liTables1.setSelectedIndex(index);
-                        break;
-                    }
-                }
-                leftList = true;
-                counter = 0;
-                onNewSelectedItem();
-                if (downloadEnabled) {
-                    btDownloadData.setEnabled(true);
-                } else {
-                    btDownloadData.setEnabled(false);
-                }
-                enableCompareButton1 = false;
-                enableCompareButton2 = false;
-                TableRenderer.newColsLeft = bl.getAllNewColsLeft();
-                TableRenderer.newColsRight = bl.getAllNewColsRight();
-                TableRenderer.newRowLeft = bl.getAllNewRowsLeft();
-                TableRenderer.newRowRight = bl.getAllNewRowsRight();
-                TableRenderer.newCellsLeft = bl.getAllNewCellsLeft();
-                TableRenderer.newCellsRight = bl.getAllNewCellsRight();
-                tbTableContent1.repaint();
-                tbTableContent2.repaint();
-            }
-                else
-                {
-                    JOptionPane.showMessageDialog(this, "There is no difference occuring");
-                }
-            pbLoad.setVisible(false);
-                }
-                
-        } catch (Exception e) {
-            System.out.println("Main Window : onCompareData : " + e.toString() + "\n");
-            pbLoad.setVisible(false);
-        }
-        pbLoad.setVisible(false);
+        progressBarLoader = "compare";
+        task = new Task(evt, this);
+        task.execute();
     }//GEN-LAST:event_onCompareData
 
     private void onDownloadData(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onDownloadData
@@ -824,13 +753,15 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void onExtractDatas(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onExtractDatas
         progressBarLoader = "extract";
-        task = new Task(evt);
+        task = new Task(evt, this);
         task.execute();
         //task.doInBackground();
         TableRenderer.newColsLeft.clear();
         TableRenderer.newColsRight.clear();
         TableRenderer.newRowLeft.clear();
         TableRenderer.newRowRight.clear();
+        TableRenderer.newCellsLeft.clear();
+        TableRenderer.newCellsRight.clear();
         tbTableContent1.repaint();
         tbTableContent2.repaint();
     }//GEN-LAST:event_onExtractDatas
@@ -1205,17 +1136,103 @@ public class MainWindow extends javax.swing.JFrame {
     class Task extends SwingWorker<Void, Void> {
 
         private java.awt.event.ActionEvent evt;
+        MainWindow mw;
 
-        public Task(java.awt.event.ActionEvent evt) {
+        public Task(java.awt.event.ActionEvent evt, MainWindow mw) {
             this.evt = evt;
+            this.mw = mw;
         }
 
         @Override
         public Void doInBackground() {
             if (progressBarLoader.equals("extract")) {
                 extractData();
+            } else if (progressBarLoader.equals("compare")) {
+                compareData();
             }
+
             return null;
+        }
+
+        private void compareData() {
+            pbLoad.setValue(0);
+            pbLoad.setVisible(true);
+            pbLoad.setIndeterminate(false);
+            DataSelectionModesDialogue selectDialogue = new DataSelectionModesDialogue(null, true);
+            selectDialogue.setLabelText("     " + databaseName1 + "  -  " + databaseName2);
+            selectDialogue.setLiAllEqualTables(bl.getEqualTables(liSaveListLeft, liSaveListRight));
+            selectDialogue.setVisible(true);
+
+             try {
+            if (selectDialogue.isOK()) {
+
+                if (selectDialogue.isEntireDB()) {
+                    bl.compareDatabases(databaseName1, databaseName2, liSaveListLeft, liSaveListRight, mw);
+                } else if (selectDialogue.tableOK) {
+                    LinkedList<Table> allEqualTables = (LinkedList<Table>) TableDialogue.selectedTables.clone();
+                    LinkedList<Table> liLeft = new LinkedList<>();
+                    LinkedList<Table> liRight = new LinkedList<>();
+
+                    for (Table tL : allEqualTables) {
+                        for (Table tLTemp : liTablesLeft) {
+                            if (tL.getTableName().equals(tLTemp.getTableName())) {
+                                liLeft.add(tLTemp);
+                            }
+                        }
+                    }
+                    for (Table tR : allEqualTables) {
+                        for (Table tRTemp : liTablesRight) {
+                            if (tR.getTableName().equals(tRTemp.getTableName())) {
+                                liRight.add(tRTemp);
+                            }
+                        }
+                    }
+                    bl.compareDatabases(databaseName1, databaseName2, liLeft, liRight, mw);
+                }               
+                if (bl.differencesOccuring()) {
+                    btDownloadData.setText("Download Comparison Output as .xml file");
+                    rbTableBothAuto.setSelected(true);
+                    automaticallySelectingTables = true;
+                    downloadEnabled = true;
+                    String actTable = bl.getTableofFirstDiff();
+                    TableRenderer.selectedTable = actTable;
+                    int index = 0;
+                    for (Table t : liTablesLeft) {
+                        if (t.getTableName().equals(actTable)) {
+                            index = liTablesLeft.indexOf(t);
+                            liTables1.setSelectedIndex(index);
+                            break;
+                        }
+                    }
+                    leftList = true;
+                    counter = 0;
+                    onNewSelectedItem();
+                    if (downloadEnabled) {
+                        btDownloadData.setEnabled(true);
+                    } else {
+                        btDownloadData.setEnabled(false);
+                    }
+                    enableCompareButton1 = false;
+                    enableCompareButton2 = false;
+                    TableRenderer.newColsLeft = bl.getAllNewColsLeft();
+                    TableRenderer.newColsRight = bl.getAllNewColsRight();
+                    TableRenderer.newRowLeft = bl.getAllNewRowsLeft();
+                    TableRenderer.newRowRight = bl.getAllNewRowsRight();
+                    TableRenderer.newCellsLeft = bl.getAllNewCellsLeft();
+                    TableRenderer.newCellsRight = bl.getAllNewCellsRight();
+                    tbTableContent1.repaint();
+                    tbTableContent2.repaint();
+                } else {
+                    JOptionPane.showMessageDialog(null, "There is no difference occuring");
+                }
+                pbLoad.setVisible(false);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Main Window : onCompareData : " + e.toString() + "\n");
+            pbLoad.setVisible(false);
+        }
+            pbLoad.setVisible(false);
         }
 
         private void extractData() {
@@ -1268,16 +1285,13 @@ public class MainWindow extends javax.swing.JFrame {
                     TableDialogue td = new TableDialogue(null, true);
                     dba = DBAccess.getTheInstance();
                     td.setLiAllTableNames(dba.getAllTableNames());
-                    
-                    if(dataExtractDialogue.getFinalDatabaseName().startsWith("1"))
-                    {
+
+                    if (dataExtractDialogue.getFinalDatabaseName().startsWith("1")) {
                         databaseName1 = dataExtractDialogue.getFinalDatabaseName().substring(1);
-                        dsmd.setLabelText("  "+databaseName1);
-                    }
-                    else
-                    {
+                        dsmd.setLabelText("  " + databaseName1);
+                    } else {
                         databaseName2 = dataExtractDialogue.getFinalDatabaseName().substring(1);
-                        dsmd.setLabelText("  "+databaseName2);
+                        dsmd.setLabelText("  " + databaseName2);
                     }
                     dsmd.setVisible(true);
                     if (dsmd.isOK()) {
@@ -1306,8 +1320,7 @@ public class MainWindow extends javax.swing.JFrame {
                                 }
                             }
                             //set database name on each label
-                            if (dataExtractDialogue.getFinalDatabaseName().startsWith("1")) 
-                            {
+                            if (dataExtractDialogue.getFinalDatabaseName().startsWith("1")) {
                                 databaseName1 = dataExtractDialogue.getFinalDatabaseName().substring(1);
                                 lbDatabaseName1.setText(databaseName1);
                             } else {
@@ -1382,13 +1395,12 @@ public class MainWindow extends javax.swing.JFrame {
                 pbLoad.setValue(100);
                 pbLoad.setVisible(false);
             } catch (IOException ex) {
-                System.out.println("Main Window : extractData : "+ex.toString());
+                System.out.println("Main Window : extractData : " + ex.toString());
                 pbLoad.setVisible(false);
             } catch (SQLException ex) {
-                System.out.println("Main Window : extractData : "+ex.toString());
+                System.out.println("Main Window : extractData : " + ex.toString());
                 pbLoad.setVisible(false);
-            } catch (NullPointerException ex) 
-            {
+            } catch (NullPointerException ex) {
                 String output = "<html><font size='4'><b>Database connection could not be established.</b></font><br><font size='3'>Hint: Check username, password or database name.</font></html>";
                 JOptionPane.showMessageDialog(null, output);
                 pbLoad.setVisible(false);
@@ -1396,9 +1408,8 @@ public class MainWindow extends javax.swing.JFrame {
                 String output = "<html><font size='4'>Please choose a compatible txt file.</font></html>";
                 JOptionPane.showMessageDialog(null, output);
                 pbLoad.setVisible(false);
-            } 
-            catch (Exception ex) {
-                System.out.println("Main Window : extractData : "+ex.toString());
+            } catch (Exception ex) {
+                System.out.println("Main Window : extractData : " + ex.toString());
                 pbLoad.setVisible(false);
             }
 
