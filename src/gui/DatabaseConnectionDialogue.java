@@ -22,7 +22,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         btCancel.setBackground(MainWindow.backgroundColorButton);
         btOK.setBackground(MainWindow.backgroundColorButton);
         setLocationRelativeTo(parent);
-        selectedDB = "postgres";
+        selectedDB = "oracle";
         this.setIconImage(new ImageIcon(getClass().getResource("Logo.png")).getImage());
         
     }
@@ -147,6 +147,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         lbSID.setBackground(new java.awt.Color(229, 229, 229));
         lbSID.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         lbSID.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lbSID.setText("    SID:");
         lbSID.setMaximumSize(new java.awt.Dimension(150, 40));
         lbSID.setMinimumSize(new java.awt.Dimension(150, 40));
         lbSID.setPreferredSize(new java.awt.Dimension(150, 40));
@@ -170,12 +171,12 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         tfPassword.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         tfPassword.setMaximumSize(new java.awt.Dimension(150, 40));
         tfPassword.setMinimumSize(new java.awt.Dimension(150, 40));
-        tfPassword.setNextFocusableComponent(tfDriver);
+        tfPassword.setNextFocusableComponent(cbDatabase);
         tfPassword.setPreferredSize(new java.awt.Dimension(150, 40));
         jPanel2.add(tfPassword);
 
         cbDatabase.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        cbDatabase.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Postgres", "Oracle", "MSSQL" }));
+        cbDatabase.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Oracle", "MSSQL", "Postgres" }));
         cbDatabase.setNextFocusableComponent(tfDatabaseName);
         cbDatabase.setVerifyInputWhenFocusTarget(false);
         cbDatabase.addActionListener(new java.awt.event.ActionListener() {
@@ -188,11 +189,11 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         tfDriver.setEditable(false);
         tfDriver.setBackground(new java.awt.Color(229, 229, 229));
         tfDriver.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tfDriver.setText("org.postgresql.Driver");
+        tfDriver.setText("oracle.jdbc.driver.OracleDriver");
         tfDriver.setToolTipText("");
         tfDriver.setMaximumSize(new java.awt.Dimension(150, 40));
         tfDriver.setMinimumSize(new java.awt.Dimension(150, 40));
-        tfDriver.setNextFocusableComponent(cbDatabase);
+        tfDriver.setNextFocusableComponent(tfDatabaseName);
         tfDriver.setPreferredSize(new java.awt.Dimension(150, 40));
         jPanel2.add(tfDriver);
 
@@ -207,7 +208,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         tfUrlExam.setEditable(false);
         tfUrlExam.setBackground(new java.awt.Color(229, 229, 229));
         tfUrlExam.setFont(new java.awt.Font("Arial", 2, 14)); // NOI18N
-        tfUrlExam.setText("jdbc:postgresql://localhost/");
+        tfUrlExam.setText("jdbc:oracle:thin:@localhost:1521:");
         tfUrlExam.setMaximumSize(new java.awt.Dimension(150, 40));
         tfUrlExam.setMinimumSize(new java.awt.Dimension(150, 40));
         tfUrlExam.setPreferredSize(new java.awt.Dimension(150, 40));
@@ -215,13 +216,11 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
 
         tfUrl.setBackground(new java.awt.Color(229, 229, 229));
         tfUrl.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
-        tfUrl.setText("jdbc:postgresql://localhost/");
         tfUrl.setMaximumSize(new java.awt.Dimension(150, 40));
         tfUrl.setMinimumSize(new java.awt.Dimension(150, 40));
         tfUrl.setPreferredSize(new java.awt.Dimension(150, 40));
         jPanel2.add(tfUrl);
 
-        tfSID.setEditable(false);
         tfSID.setBackground(new java.awt.Color(229, 229, 229));
         tfSID.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
         tfSID.setMaximumSize(new java.awt.Dimension(150, 40));
@@ -298,22 +297,26 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
     }//GEN-LAST:event_onOK
     private void onNewDriver(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onNewDriver
         switch (cbDatabase.getSelectedIndex()) {
-            case 0:
+            case 2:
                 selectedDB = "postgres";
                 tfDriver.setText("org.postgresql.Driver");
                 tfUrlExam.setText("jdbc:postgresql://localhost/");
+                lbSID.setText("");
+                tfSID.setEditable(false);
                 break;
-            case 1:
+            case 0:
                 selectedDB = "oracle";
                 tfDriver.setText("oracle.jdbc.driver.OracleDriver");
                 tfUrlExam.setText("jdbc:oracle:thin:@localhost:1521:");
                 lbSID.setText("    SID:");
                 tfSID.setEditable(true);
                 break;
-            case 2:
+            case 1:
                 selectedDB = "mssql";
                 tfDriver.setText("com.microsoft.sqlserver.jdbc.SQLServerDriver");
                 tfUrlExam.setText("jdbc:sqlserver://localhost:1433;");
+                lbSID.setText("");
+                tfSID.setEditable(false);
                 break;
         }
     }//GEN-LAST:event_onNewDriver
