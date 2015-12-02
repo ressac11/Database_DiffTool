@@ -64,8 +64,6 @@ public class MainWindow extends javax.swing.JFrame {
     private LinkedList<String> nullValue;
     public static boolean newPartTable;
     private int indexOfSelectedTable;
-    private File temp1;
-    private File temp2;
 
     public MainWindow() {
         initComponents();
@@ -920,33 +918,17 @@ public class MainWindow extends javax.swing.JFrame {
         int viewFileLeftOrRight = Integer.parseInt(evt.getActionCommand());
         try {
             viewFileLeftOrRight = Integer.parseInt(evt.getActionCommand());
-            File dir = null;
             if (viewFileLeftOrRight == 1) {
                 if (newHTMLFile1 == null) 
-                    
                 {
-                    JOptionPane.showMessageDialog(this, "after if newHTMLFile1 == null");
                     newHTMLFile1 = saveHTMLFile();
                     
                     if (newHTMLFile1 != null) 
                     {
-                        JOptionPane.showMessageDialog(this, "speichert text auf datei");
                         bl.viewDatabaseFileHTML(databaseName1, liTablesLeft, newHTMLFile1);
-                        JOptionPane.showMessageDialog(this, "after speichern - "+newHTMLFile1.length());
-//                        Desktop.getDesktop().open(newHTMLFile1.getParentFile());
-//                        onViewFileHTML(evt);
                     }
                 }
-                dir = new File(newHTMLFile1.getParentFile().getPath());
-                if(newHTMLFile1.exists())
-                {
-                    JOptionPane.showMessageDialog(this, "does "+newHTMLFile1.getAbsolutePath());
-                }
-                else
-                {
-                    JOptionPane.showMessageDialog(this, "does not "+newHTMLFile1.getAbsolutePath());
-                }
-                Desktop.getDesktop().open(dir);
+                Desktop.getDesktop().browse(newHTMLFile1.toURI());
                 
             } 
             else {
@@ -954,12 +936,9 @@ public class MainWindow extends javax.swing.JFrame {
                     newHTMLFile2 = saveHTMLFile();
                     if (newHTMLFile2 != null) {
                         bl.viewDatabaseFileHTML(databaseName2, liTablesRight, newHTMLFile2);
-                        Desktop.getDesktop().open(newHTMLFile2.getParentFile());
-                        onViewFileHTML(evt);
                     }
                 }
-                dir = new File(newHTMLFile2.getParent());
-                Desktop.getDesktop().open(dir);
+                Desktop.getDesktop().browse(newHTMLFile2.toURI());
             }
         } 
         catch(Exception ex)
@@ -1020,26 +999,24 @@ public class MainWindow extends javax.swing.JFrame {
      */
     public File saveHTMLFile()  
     {
-//        File f = null;
-//        JFileChooser chooser = new JFileChooser();
-//        chooser.setDialogType(JFileChooser.SAVE_DIALOG);
-//        chooser.setDialogTitle("Choose directory to save HTML file");
-//        FileNameExtensionFilter filter = new FileNameExtensionFilter(".html file", "html");
-//        chooser.setFileFilter(filter);
-//        int userSelection = chooser.showSaveDialog(null);
-//        if (userSelection == JFileChooser.APPROVE_OPTION) 
-//        {
-//            f = chooser.getSelectedFile();
-//            if (!f.getPath().endsWith(".html")) 
-//            {
-//                String pathNew = f.getPath().concat(".html");
-//                f = new File(pathNew);
-//            }
-//            return f;
-//            
-//        }
-//        return f;
-        File f = new File("C:\\Users\\Public\\Documents"+File.separator+"test.html");
+        File f = null;
+        JFileChooser chooser = new JFileChooser();
+        chooser.setDialogType(JFileChooser.SAVE_DIALOG);
+        chooser.setDialogTitle("Choose directory to save HTML file");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(".html file", "html");
+        chooser.setFileFilter(filter);
+        int userSelection = chooser.showSaveDialog(null);
+        if (userSelection == JFileChooser.APPROVE_OPTION) 
+        {
+            f = chooser.getSelectedFile();
+            if (!f.getPath().endsWith(".html")) 
+            {
+                String pathNew = f.getPath().concat(".html");
+                f = new File(pathNew);
+            }
+            return f;
+            
+        }
         return f;
     }
 
