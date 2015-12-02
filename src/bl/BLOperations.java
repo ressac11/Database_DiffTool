@@ -6,6 +6,7 @@ import beans.DifferentColumn;
 import beans.DifferentRow;
 import beans.Row;
 import beans.Table;
+import gui.MainWindow;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -169,7 +170,11 @@ public class BLOperations {
             List<Row> rows = table.getAttributes();
             if (rows.size() > 0) {
                 Row oldValue = rows.get(0);
-                bw.write(oldValue.getValue() + pkDelim + oldValue.getPrimaryKey() + delim);
+                if (oldValue.getPrimaryKey().equals("")) {
+                    bw.write(oldValue.getValue() + pkDelim + "0" + delim);
+                } else {
+                    bw.write(oldValue.getValue() + pkDelim + oldValue.getPrimaryKey() + delim);
+                }
 
                 for (int i = 1; i < rows.size(); i++) {
                     Row r2 = rows.get(i);
@@ -177,7 +182,11 @@ public class BLOperations {
                         bw.newLine();
                         oldValue = r2;
                     }
-                    bw.write(r2.getValue() + pkDelim + r2.getPrimaryKey() + delim);
+                    if (r2.getPrimaryKey().equals("")) {
+                        bw.write(r2.getValue() + pkDelim + "0" + delim);
+                    } else {
+                        bw.write(r2.getValue() + pkDelim + r2.getPrimaryKey() + delim);
+                    }
                 }
             }
         }
@@ -196,7 +205,7 @@ public class BLOperations {
      * @param tablesLeft
      * @param tablesRight
      */
-    public void compareDatabases(String companyNameLeft, String companyNameRight, LinkedList<Table> tablesLeft, LinkedList<Table> tablesRight) {
+    public void compareDatabases(String companyNameLeft, String companyNameRight, LinkedList<Table> tablesLeft, LinkedList<Table> tablesRight, MainWindow mw) {
         companyLeft = companyNameLeft;
         companyRight = companyNameRight;
         allNewColsLeft.clear();
@@ -223,7 +232,8 @@ public class BLOperations {
                     if (liTempLeft.contains(liTempRight.get(index))) {
                         if (lT.getTableName().equals(liAllTablesRight.get(index).getTableName())) {
                             count++;
-                            compare(lT, rT);
+                            mw.setCompareStatus(10);
+                            compare(lT, rT, mw);
                         }
                     }
                 }
@@ -239,7 +249,8 @@ public class BLOperations {
                     if (liTempRight.contains(liTempLeft.get(index))) {
                         if (rT.getTableName().equals(liAllTablesLeft.get(index).getTableName())) {
                             count++;
-                            compare(lT, rT);
+                            mw.setCompareStatus(10);
+                            compare(lT, rT, mw);
                         }
                     }
                 }
@@ -259,7 +270,7 @@ public class BLOperations {
      * @param tLeft
      * @param tRight
      */
-    private void compare(Table tLeft, Table tRight) {
+    private void compare(Table tLeft, Table tRight, MainWindow mw) {
         LinkedList<String> colLeft = tLeft.getColumnNames();
         LinkedList<String> colRight = tRight.getColumnNames();
         LinkedList<String> clonedColRight = (LinkedList<String>) colRight.clone();
@@ -279,14 +290,14 @@ public class BLOperations {
                 }
             }
         }
-
+        mw.setCompareStatus(20);
         //remove the different columns from the list for further comparing
         int index = 0;
         for (int temp = colsRemoveRight.size() - 1; temp >= 0; temp--) {
             index = colsRemoveRight.get(temp);
             clonedColRight.remove(clonedColRight.get(index));
         }
-
+        mw.setCompareStatus(25);
         //different columns in the left database
         for (int i = 0; i < clonedColLeft.size(); i++) {
             if (!clonedColRight.contains(clonedColLeft.get(i))) {
@@ -298,7 +309,7 @@ public class BLOperations {
                 }
             }
         }
-
+        mw.setCompareStatus(30);
         //remove the different columns from the list for further comparing
         index = 0;
         for (int temp = colsRemoveLeft.size() - 1; temp >= 0; temp--) {
@@ -326,7 +337,7 @@ public class BLOperations {
                 liRightPrimaryKeys.add(r.getPrimaryKey());
             }
         }
-
+        mw.setCompareStatus(32);
 //      in this process every value of a column which exists 
 //      in both databases filtered and added to a new list as String value
 //      this process is neccessary for comparing the values of the rows_list with 
@@ -368,6 +379,7 @@ public class BLOperations {
         }
         counter = 0;
         valueTemp = "";
+        mw.setCompareStatus(50);
 
 //      in this process every value of a column which exists 
 //      in both databases filtered and added to a new list as String value
@@ -407,6 +419,7 @@ public class BLOperations {
                 valueTemp = "";
             }
         }
+        mw.setCompareStatus(65);
 
         //determine different rows_list and cells_list in the right table
         String[] arrayL = null;
@@ -448,6 +461,7 @@ public class BLOperations {
                 }
             }
         }
+        mw.setCompareStatus(80);
         //determine different rows_list and cells_list in the left table
         arrayL = null;
         arrayR = null;
@@ -485,9 +499,9 @@ public class BLOperations {
                 }
             }
         }
+        mw.setCompareStatus(100);
     }
 
-    
     /**
      * This method ensures whether there are any differences between those
      * databases found and returns true if so. This method is needed to know
@@ -495,17 +509,14 @@ public class BLOperations {
      *
      * @return
      */
-    public boolean differencesOccuring()
-    {
+    public boolean differencesOccuring() {
         boolean differencesOccuring = true;
-        if(allNewColsLeft.isEmpty() && allNewColsRight.isEmpty() && allNewCellsLeft.isEmpty() && allNewCellsRight.isEmpty() && allNewRowsLeft.isEmpty() && allNewRowsRight.isEmpty())
-        {
+        if (allNewColsLeft.isEmpty() && allNewColsRight.isEmpty() && allNewCellsLeft.isEmpty() && allNewCellsRight.isEmpty() && allNewRowsLeft.isEmpty() && allNewRowsRight.isEmpty()) {
             differencesOccuring = false;
         }
         return differencesOccuring;
     }
-    
-    
+
     public LinkedList<Table> getEqualTables(LinkedList<Table> tablesLeft, LinkedList<Table> tablesRight) {
         LinkedList<Table> liAllEqualTables = new LinkedList<>();
         for (Table tL : tablesLeft) {
@@ -520,7 +531,7 @@ public class BLOperations {
 
     /**
      * This method ensures the lists containing the differences in rows_list and
- columns are being cleared, for further usage.
+     * columns are being cleared, for further usage.
      */
     public void clearCompareOutputLists() {
         allNewColsLeft.clear();
@@ -612,8 +623,9 @@ public class BLOperations {
         bw.close();
     }
 
-     /**
-     * This method creates a xml file displaying the differences occuring in the database.
+    /**
+     * This method creates a xml file displaying the differences occuring in the
+     * database.
      *
      * @param filename
      * @throws ParserConfigurationException
@@ -646,8 +658,7 @@ public class BLOperations {
         trafo.transform(new DOMSource(doc), result);
     }
 
-    
-     /**
+    /**
      * This method writes the differences onto a DomDocument.
      *
      * @param e

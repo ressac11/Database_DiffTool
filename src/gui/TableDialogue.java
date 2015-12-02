@@ -214,6 +214,7 @@ public class TableDialogue extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_onCancel
     private void onAddTable(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onAddTable
+        try{
         if (!tableNames) {
             if (liTablesList.size() > 0) {
                 selectedTables.add(liTablesList.get(liTables.getSelectedIndex()));
@@ -228,9 +229,14 @@ public class TableDialogue extends javax.swing.JDialog {
                 liTables.updateUI();
                 liList2.updateUI();
             }
+        }}
+        catch(IndexOutOfBoundsException ex)
+        {
+            
         }
     }//GEN-LAST:event_onAddTable
     private void onRemoveTable(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onRemoveTable
+        try{
         if (!tableNames) {
             if (selectedTables.size() > 0) {
                 liTablesList.add(selectedTables.get(liList2.getSelectedIndex()));
@@ -245,6 +251,9 @@ public class TableDialogue extends javax.swing.JDialog {
                 liList2.updateUI();
                 liTables.updateUI();
             }
+        }}catch(IndexOutOfBoundsException ex)
+        {
+            
         }
     }//GEN-LAST:event_onRemoveTable
     public boolean isOK() {
