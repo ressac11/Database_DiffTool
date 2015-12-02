@@ -6,6 +6,7 @@ import database.DBAccess;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -63,6 +64,8 @@ public class MainWindow extends javax.swing.JFrame {
     private LinkedList<String> nullValue;
     public static boolean newPartTable;
     private int indexOfSelectedTable;
+    private File temp1;
+    private File temp2;
 
     public MainWindow() {
         initComponents();
@@ -810,6 +813,11 @@ public class MainWindow extends javax.swing.JFrame {
                         pathNew = downloadedFile.getPath().concat(".xml");
                         downloadedFile = new File(pathNew);
                     }
+                    if(downloadedFile.getPath().endsWith(".xml"))
+                    {
+                        pathNew = downloadedFile.getPath().substring(0, (downloadedFile.getPath().length()-3)).concat(".xml");
+                        downloadedFile = new File(pathNew);
+                    }
                     bl.downloadDifferencesAsXML(pathNew);
                     Desktop.getDesktop().open(downloadedFile);
                     btDownloadData.setText(this.downloadButtonText);
@@ -978,27 +986,65 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_onRemove1
 
     private void onViewFileHTML(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onViewFileHTML
+        int viewFileLeftOrRight = Integer.parseInt(evt.getActionCommand());
         try {
-            int viewFileLeftOrRight = Integer.parseInt(evt.getActionCommand());
+            viewFileLeftOrRight = Integer.parseInt(evt.getActionCommand());
+            File dir = null;
             if (viewFileLeftOrRight == 1) {
-                if (newHTMLFile1 == null) {
+                if (newHTMLFile1 == null) 
+                    
+                {
+                    JOptionPane.showMessageDialog(this, "after if newHTMLFile1 == null");
                     newHTMLFile1 = saveHTMLFile();
-                    if (newHTMLFile1 != null) {
+                    
+                    if (newHTMLFile1 != null) 
+                    {
+                        JOptionPane.showMessageDialog(this, "speichert text auf datei");
                         bl.viewDatabaseFileHTML(databaseName1, liTablesLeft, newHTMLFile1);
+                        JOptionPane.showMessageDialog(this, "after speichern - "+newHTMLFile1.length());
+//                        Desktop.getDesktop().open(newHTMLFile1.getParentFile());
+//                        onViewFileHTML(evt);
                     }
                 }
-                Desktop.getDesktop().open(newHTMLFile1);
-            } else {
+                dir = new File(newHTMLFile1.getParentFile().getPath());
+                if(newHTMLFile1.exists())
+                {
+                    JOptionPane.showMessageDialog(this, "does "+newHTMLFile1.getAbsolutePath());
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(this, "does not "+newHTMLFile1.getAbsolutePath());
+                }
+                Desktop.getDesktop().open(dir);
+                
+            } 
+            else {
                 if (newHTMLFile2 == null) {
                     newHTMLFile2 = saveHTMLFile();
                     if (newHTMLFile2 != null) {
                         bl.viewDatabaseFileHTML(databaseName2, liTablesRight, newHTMLFile2);
+                        Desktop.getDesktop().open(newHTMLFile2.getParentFile());
+                        onViewFileHTML(evt);
                     }
                 }
-                Desktop.getDesktop().open(newHTMLFile2);
+                dir = new File(newHTMLFile2.getParent());
+                Desktop.getDesktop().open(dir);
             }
-        } catch (Exception e) {
-            System.out.println("Main Window : onViewFileHTML : " + e.toString());
+        } 
+        catch(Exception ex)
+        {
+            if(ex instanceof IOException || ex instanceof FileNotFoundException)
+            {
+                JOptionPane.showMessageDialog(this, "Error - saving .html file has failed.");
+                if (viewFileLeftOrRight == 1) 
+                {
+                    newHTMLFile1 = null;
+                }
+                else
+                {
+                    newHTMLFile2 = null;
+                }
+            }
         }
     }//GEN-LAST:event_onViewFileHTML
 
@@ -1041,22 +1087,28 @@ public class MainWindow extends javax.swing.JFrame {
      *
      * @return File
      */
-    public File saveHTMLFile() {
-        File f = null;
-        JFileChooser chooser = new JFileChooser();
-        chooser.setDialogType(JFileChooser.SAVE_DIALOG);
-        chooser.setDialogTitle("Choose directory to save HTML file");
-        FileNameExtensionFilter filter = new FileNameExtensionFilter(".html file", "html");
-        chooser.setFileFilter(filter);
-        int userSelection = chooser.showSaveDialog(null);
-        if (userSelection == JFileChooser.APPROVE_OPTION) {
-            f = chooser.getSelectedFile();
-            if (!f.getPath().endsWith(".html")) {
-                String pathNew = f.getPath().concat(".html");
-                f = new File(pathNew);
-            }
-            return f;
-        }
+    public File saveHTMLFile()  
+    {
+//        File f = null;
+//        JFileChooser chooser = new JFileChooser();
+//        chooser.setDialogType(JFileChooser.SAVE_DIALOG);
+//        chooser.setDialogTitle("Choose directory to save HTML file");
+//        FileNameExtensionFilter filter = new FileNameExtensionFilter(".html file", "html");
+//        chooser.setFileFilter(filter);
+//        int userSelection = chooser.showSaveDialog(null);
+//        if (userSelection == JFileChooser.APPROVE_OPTION) 
+//        {
+//            f = chooser.getSelectedFile();
+//            if (!f.getPath().endsWith(".html")) 
+//            {
+//                String pathNew = f.getPath().concat(".html");
+//                f = new File(pathNew);
+//            }
+//            return f;
+//            
+//        }
+//        return f;
+        File f = new File("C:\\Users\\Public\\Documents"+File.separator+"test.html");
         return f;
     }
 

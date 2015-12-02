@@ -570,9 +570,19 @@ public class BLOperations {
      * @param newHtmlFile
      * @throws IOException
      */
-    public void viewDatabaseFileHTML(String dbName, LinkedList<Table> list, File newHtmlFile) throws IOException {
-        File htmlTemplateFile = new File(System.getProperty("user.dir") + File.separator + "src" + File.separator + "res" + File.separator + "template.html");
-        String htmlString = FileUtils.readFileToString(htmlTemplateFile);
+    public void viewDatabaseFileHTML(String dbName, LinkedList<Table> list, File newHtmlFile) throws IOException 
+    {
+        BufferedWriter bw = new BufferedWriter(new FileWriter(newHtmlFile));
+        String htmlString = "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \n"
+                + "\"http://www.w3.org/TR/html4/loose.dtd\">\n"
+                + "<html>\n"
+                + "<head>\n"
+                + "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n"
+                + "<title>$title</title>\n"
+                + "</head>\n"
+                + "<body style=\"background-color: #e5e5e5;\">$body\n"
+                + "</body>\n"
+                + "</html>";
         String title = newHtmlFile.getName();
         String body = "<h1 style=\"font-family: Arial; font-size: 40px; margin-left: 25%; margin-bottom: 30px; "
                 + "margin-top: 30px;\">" + dbName + "</h1><div id=\"content\" style=\"font-family: Arial; "
@@ -597,8 +607,9 @@ public class BLOperations {
 
         htmlString = htmlString.replace("$title", title);
         htmlString = htmlString.replace("$body", body);
-
-        FileUtils.writeStringToFile(newHtmlFile, htmlString);
+        bw.write(htmlString);
+        bw.flush();
+        bw.close();
     }
 
      /**
