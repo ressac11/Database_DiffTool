@@ -181,9 +181,6 @@ public class MainWindow extends javax.swing.JFrame {
         lbDatabaseName2 = new javax.swing.JLabel();
         spTableContent2 = new javax.swing.JScrollPane();
         tbTableContent2 = new javax.swing.JTable();
-        mbMenu = new javax.swing.JMenuBar();
-        muFile = new javax.swing.JMenu();
-        miSupport = new javax.swing.JMenuItem();
 
         miSelectTables.setText("Table Filter");
         miSelectTables.addActionListener(new java.awt.event.ActionListener() {
@@ -704,20 +701,6 @@ public class MainWindow extends javax.swing.JFrame {
 
         getContentPane().add(pnMain, java.awt.BorderLayout.CENTER);
 
-        muFile.setText("File");
-
-        miSupport.setText("Support");
-        miSupport.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onSupport(evt);
-            }
-        });
-        muFile.add(miSupport);
-
-        mbMenu.add(muFile);
-
-        setJMenuBar(mbMenu);
-
         pack();
     }// </editor-fold>//GEN-END:initComponents
     private void onCompareData(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCompareData
@@ -959,15 +942,6 @@ public class MainWindow extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_onViewFileHTML
-
-    private void onSupport(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onSupport
-        try {
-            File f = new File(System.getProperty("user.dir") + File.separator + "help_manual" + File.separator + "Diff-Tool Online Help.chm");
-            Desktop.getDesktop().open(f);
-        } catch (Exception ex) {
-            System.out.println("Main Window : onSupport : " + ex.toString());
-        }
-    }//GEN-LAST:event_onSupport
 
     private void onRemoveC(java.awt.event.ActionEvent evt) {
         try {
@@ -1681,13 +1655,10 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel lbWhitespace2;
     private javax.swing.JList liTables1;
     private javax.swing.JList liTablesC;
-    private javax.swing.JMenuBar mbMenu;
     private javax.swing.JMenuItem miRemoveFilter;
     private javax.swing.JMenuItem miRemoveFilterC;
     private javax.swing.JMenuItem miSelectTables;
     private javax.swing.JMenuItem miSelectTablesC;
-    private javax.swing.JMenuItem miSupport;
-    private javax.swing.JMenu muFile;
     private javax.swing.JPanel paButton;
     private javax.swing.JPanel paExtractData;
     private javax.swing.JProgressBar pbLoad;

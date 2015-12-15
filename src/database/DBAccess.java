@@ -10,8 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 
-public class DBAccess 
-{
+public class DBAccess {
 
     private final DBConnectionPool connPool;
     private static DBAccess theInstance = null;
@@ -54,7 +53,7 @@ public class DBAccess
                 break;
             case "oracle":
                 sqlString = "SELECT table_name "
-                        + "  FROM dba_tables where owner='" + DBConnectionPool.DB_USER + "'";
+                        + "  FROM dba_tables where owner='" + DBConnectionPool.DB_USER + "' ";
                 break;
             case "mssql":
                 sqlString = "SELECT TABLE_NAME "
@@ -89,7 +88,7 @@ public class DBAccess
                 break;
             case "oracle":
                 sqlString = "SELECT table_name "
-                        + "  FROM dba_tables where owner='" + DBConnectionPool.DB_USER + "'";
+                        + "  FROM dba_tables where owner='" + DBConnectionPool.DB_USER + "' ";
                 break;
             case "mssql":
                 sqlString = "SELECT TABLE_NAME "
@@ -105,12 +104,10 @@ public class DBAccess
         connPool.releaseConnection(conn);
         return allTableNames;
     }
-    
-    public LinkedList<Table> getSpecificTables(LinkedList<String> liTableNames, LinkedList<Table> tables) throws SQLException
-    {
+
+    public LinkedList<Table> getSpecificTables(LinkedList<String> liTableNames, LinkedList<Table> tables) throws SQLException {
         liAllTables.clear();
-        for (int i = 0; i < liTableNames.size(); i++) 
-        {
+        for (int i = 0; i < liTableNames.size(); i++) {
             LinkedList<String> columnNames = getColumnNames(liTableNames.get(i));
             String primaryColumn = getPrimaryKeyColumn(liTableNames.get(i));
             LinkedList<Row> liAttributes = getAttributesForOneTable(liTableNames.get(i), columnNames, primaryColumn);
@@ -127,7 +124,7 @@ public class DBAccess
      * @return LinkedList<String> column names from one table
      * @throws Exception
      */
-    public LinkedList<String> getColumnNames(String tableName) throws SQLException{
+    public LinkedList<String> getColumnNames(String tableName) throws SQLException {
         LinkedList<String> columnNames = new LinkedList<>();
         Connection conn = connPool.getConnection();
         Statement stat = conn.createStatement();
@@ -175,12 +172,13 @@ public class DBAccess
                         + "AND    i.indisprimary;";
                 break;
             case "oracle":
-                sqlString = "SELECT cols.column_name "
-                        + "FROM all_constraints cons, all_cons_column cols "
-                        + "WHERE cols.table_name='" + tableName.toUpperCase() + "' "
-                        + "AND cons.constraint_type='P' "
-                        + "AND cons.constraint_name=cols.constraint_name "
-                        + "AND cons.owner = cols.owner;";
+                sqlString = "SELECT cols.table_name, cols.column_name, cols.position, cons.status, cons.owner "
+                        + "FROM all_constraints cons, all_cons_columns cols "
+                        + "WHERE cols.table_name = '" + tableName.toUpperCase() + "' "
+                        + "AND cons.constraint_type = 'P' "
+                        + "AND cons.constraint_name = cols.constraint_name "
+                        + "AND cons.owner = cols.owner "
+                        + "ORDER BY cols.table_name, cols.position ";
                 break;
             case "mssql":
                 sqlString = "SELECT KU.table_name as tablename,column_name as primarykeycolumn "
@@ -245,5 +243,5 @@ public class DBAccess
         connPool.releaseConnection(conn);
         return liAttributes;
     }
-  
+
 }
