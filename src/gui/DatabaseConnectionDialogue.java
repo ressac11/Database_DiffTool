@@ -2,10 +2,8 @@ package gui;
 
 import database.DBConnectionPool;
 import java.io.File;
-import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.swing.SwingWorker;
 
 public class DatabaseConnectionDialogue extends javax.swing.JDialog {
 
@@ -13,6 +11,12 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
     public static File newDBDump;
     public static String selectedDB = "";
     private String databaseName = "";
+    
+    private String user;
+    private String password;
+    private String uRL;
+    private String driver;
+    private String database_Provider;
 
     public DatabaseConnectionDialogue(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -282,7 +286,9 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         String database_Provider = (String) cbDatabase.getSelectedItem();
         if (user.isEmpty() || password.isEmpty() || uRL.isEmpty() || databaseName.isEmpty() || driver.isEmpty() || database_Provider.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please do not enter wrong values!");
-        } else {
+        } 
+        else 
+        {
             DBConnectionPool.newCon = true;
             DBConnectionPool.DB_DRIVER = driver;
             DBConnectionPool.DB_NAME = databaseName;
@@ -290,10 +296,9 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
             DBConnectionPool.DB_PASSWD = password;
             DBConnectionPool.DB_URL = uRL;
             DBConnectionPool.DB_USER = user;
-            dispose();
         }
-        
-        
+        System.out.println("is in ok");
+        dispose();
     }//GEN-LAST:event_onOK
     private void onNewDriver(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onNewDriver
         switch (cbDatabase.getSelectedIndex()) {
@@ -321,12 +326,46 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_onNewDriver
 
+    public void closeWindow()
+    {
+        dispose();
+    }
+    
     public boolean getNewConn() {
         return newConn;
     }
 
     public String getDatabaseName() {
         return databaseName;
+    }
+
+    public static String getSelectedDB() {
+        return selectedDB;
+    }
+    
+    public void ConnDialogueSetParameters(String user, String pw, String database_provider, String url, String database_name, String driver)
+    {
+        this.tfDatabaseName.setText(database_name);
+        this.tfDriver.setText(driver);
+        this.tfPassword.setText(pw);
+        this.tfUrl.setText(url);
+        this.tfUser.setText(user);
+        switch (database_provider) 
+        {
+            case "mssql":
+                cbDatabase.setSelectedIndex(1);
+                tfUrlExam.setText("jdbc:sqlserver://localhost:1433;");
+                break;
+            case "postgres":
+                cbDatabase.setSelectedIndex(2);
+                tfUrlExam.setText("jdbc:postgresql://localhost/");
+                break;
+            case "oracle":
+                cbDatabase.setSelectedIndex(0);
+                tfUrlExam.setText("jdbc:oracle:thin:@localhost:1521:");
+                break;
+        }
+        
     }
 
     public static void main(String args[]) {

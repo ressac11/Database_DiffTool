@@ -3,6 +3,7 @@ package gui;
 import beans.Table;
 import bl.BLOperations;
 import database.DBAccess;
+import database.DBConnectionPool;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.io.File;
@@ -64,6 +65,7 @@ public class MainWindow extends javax.swing.JFrame {
     private LinkedList<String> nullValue;
     public static boolean newPartTable;
     private int indexOfSelectedTable;
+    private DataExtractModeDialogue dataExtractDialogue;
 
     public MainWindow() {
         initComponents();
@@ -1181,7 +1183,7 @@ public class MainWindow extends javax.swing.JFrame {
             }
 
             return null;
-        }
+        }}
 
         private void compareData() {
             pbLoad.setValue(0);
@@ -1264,17 +1266,23 @@ public class MainWindow extends javax.swing.JFrame {
             pbLoad.setVisible(false);
         }
 
-        private void extractData() {
+        private void extractData() 
+        {
+            dataExtractDialogue = null;
+            String selectedDB = "";
             try {
                 extractData = Integer.parseInt(evt.getActionCommand());
                 int count = 0;
                 bl.clearCompareOutputLists();
                 rbTableSeperate.setSelected(true);
                 automaticallySelectingTables = false;
-                DataExtractModeDialogue dataExtractDialogue = new DataExtractModeDialogue(null, true);
+                dataExtractDialogue = new DataExtractModeDialogue(null, true);
                 dataExtractDialogue.setDataExctractActionCommand(extractData);
                 dataExtractDialogue.setVisible(true);
 
+                System.out.println("extract dialogue okee "+dataExtractDialogue.isOK); 
+                System.out.println("conn dialog is okee "+dataExtractDialogue.newFile);
+                
                 if (dataExtractDialogue.isExistingFile() && dataExtractDialogue.isOK) {
                     existingData = true;
                     pbLoad.setVisible(true);
@@ -1307,10 +1315,15 @@ public class MainWindow extends javax.swing.JFrame {
                     pbLoad.setValue(80);
                     onNewSelectedItem();
                     pbLoad.setValue(90);
-                } else if (dataExtractDialogue.isOK && dataExtractDialogue.newFile) {
+                } 
+                else if (dataExtractDialogue.isOK && dataExtractDialogue.newFile) 
+                {
                     newPartTable = true;
                     existingData = false;
+                    System.out.println("in extract data in main window");
+                    selectedDB = DatabaseConnectionDialogue.selectedDB;
                     DataSelectionModesDialogue dsmd = new DataSelectionModesDialogue(null, true);
+                    dsmd.setAlwaysOnTop(true);
                     TableDialogue td = new TableDialogue(null, true);
                     dba = DBAccess.getTheInstance();
                     td.setLiAllTableNames(dba.getAllTableNames());
@@ -1423,15 +1436,19 @@ public class MainWindow extends javax.swing.JFrame {
                 liSaveListRight = (LinkedList<Table>) liTablesRight.clone();
                 pbLoad.setValue(100);
                 pbLoad.setVisible(false);
-            } catch (IOException ex) {
+            }catch (IOException ex) {
                 System.out.println("Main Window : extractData : " + ex.toString());
                 pbLoad.setVisible(false);
             } catch (SQLException ex) {
                 System.out.println("Main Window : extractData : " + ex.toString());
                 pbLoad.setVisible(false);
-            } catch (NullPointerException ex) {
+            } catch (NullPointerException ex) 
+            {
                 String output = "<html><font size='4'><b>Database connection could not be established.</b></font><br><font size='3'>Hint: Check username, password or database name.</font></html>";
                 JOptionPane.showMessageDialog(null, output);
+                dataExtractDialogue.setIsOK(true);
+                dataExtractDialogue.newDatabaseConnDialogue(DBConnectionPool.DB_USER, DBConnectionPool.DB_PASSWD, selectedDB, DBConnectionPool.DB_URL, DBConnectionPool.DB_NAME, DBConnectionPool.DB_DRIVER);
+                afterConnFailed();
                 pbLoad.setVisible(false);
             } catch (IndexOutOfBoundsException ex) {
                 String output = "<html><font size='4'>Please choose a compatible txt file.</font></html>";
@@ -1445,8 +1462,166 @@ public class MainWindow extends javax.swing.JFrame {
             newPartTable = false;
             pbLoad.setVisible(false);
         }
-    }
 
+    public void afterConnFailed()
+    {
+         String selectedDB = "";
+        try
+        {
+           
+            int count = 0;
+                bl.clearCompareOutputLists();
+                rbTableSeperate.setSelected(true);
+                automaticallySelectingTables = false;
+        if (dataExtractDialogue.isOK && dataExtractDialogue.newFile) 
+                {
+                    newPartTable = true;
+                    existingData = false;
+                    System.out.println("in extract data in main window");
+                    selectedDB = DatabaseConnectionDialogue.selectedDB;
+                    DataSelectionModesDialogue dsmd = new DataSelectionModesDialogue(null, true);
+                    dsmd.setAlwaysOnTop(true);
+                    TableDialogue td = new TableDialogue(null, true);
+                    dba = DBAccess.getTheInstance();
+                    td.setLiAllTableNames(dba.getAllTableNames());
+
+                    if (dataExtractDialogue.getFinalDatabaseName().startsWith("1")) {
+                        databaseName1 = dataExtractDialogue.getFinalDatabaseName().substring(1);
+                        dsmd.setLabelText("  " + databaseName1);
+                    } else {
+                        databaseName2 = dataExtractDialogue.getFinalDatabaseName().substring(1);
+                        dsmd.setLabelText("  " + databaseName2);
+                    }
+                    dsmd.setVisible(true);
+                    if (dsmd.isOK()) {
+                        pbLoad.setVisible(true);
+                        pbLoad.setIndeterminate(false);
+                        pbLoad.setValue(0);
+                        pbLoad.setStringPainted(false);
+                        count = 1;
+                        pbLoad.setValue(5);
+                        if (count != 0) {
+                            if (dsmd.isEntireDB()) {
+                                if (extractData == 1) {
+                                    extractData1(true, dba.getAllTableNames());
+                                    pbLoad.setValue(75);
+                                } else {
+                                    extractData2(true, dba.getAllTableNames());
+                                    pbLoad.setValue(75);
+                                }
+                            } else {
+                                if (extractData == 1) {
+                                    extractData1(true, td.liSelectedTableNames);
+                                    pbLoad.setValue(75);
+                                } else {
+                                    extractData2(true, td.liSelectedTableNames);
+                                    pbLoad.setValue(75);
+                                }
+                            }
+                            //set database name on each label
+                            if (dataExtractDialogue.getFinalDatabaseName().startsWith("1")) {
+                                databaseName1 = dataExtractDialogue.getFinalDatabaseName().substring(1);
+                                lbDatabaseName1.setText(databaseName1);
+                            } else {
+                                databaseName2 = dataExtractDialogue.getFinalDatabaseName().substring(1);
+                                lbDatabaseName2.setText(databaseName2);
+                            }
+                            pbLoad.setValue(80);
+                            int i = JOptionPane.showConfirmDialog(null, "Do you want to save the Database Extract as file?", "Save Database Extract", JOptionPane.YES_NO_OPTION);
+                            if (i == JOptionPane.OK_OPTION) {
+                                JFileChooser fileChooser = new JFileChooser();
+                                fileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
+                                fileChooser.setDialogTitle("Choose directory to save Database file");
+                                FileNameExtensionFilter filter = new FileNameExtensionFilter("Database .txt file", "txt");
+                                fileChooser.setFileFilter(filter);
+                                int userSelection = fileChooser.showSaveDialog(null);
+                                if (userSelection == JFileChooser.APPROVE_OPTION) {
+                                    File f = fileChooser.getSelectedFile();
+                                    if (!f.getPath().endsWith(".txt")) {
+                                        String pathNew = f.getPath() + ".txt";
+                                        f = new File(pathNew);
+                                    }
+                                    if (extractData == 1) {
+                                        pbLoad.setValue(80);
+                                        savedFile1 = f;
+                                        existingFile1 = null;
+                                        bl.saveDatabaseFile(f, liTablesLeft, databaseName1);
+                                        pbLoad.setValue(85);
+                                        btOpenDBFile1.setEnabled(true);
+                                        btOpenHTMLFile1.setEnabled(true);
+                                        enableCompareButton1 = true;
+                                        enableItemSelect1 = true;
+
+                                    } else {
+                                        pbLoad.setValue(80);
+                                        savedFile2 = f;
+                                        existingFile2 = null;
+                                        bl.saveDatabaseFile(f, liTablesRight, databaseName2);
+                                        pbLoad.setValue(85);
+                                        btOpenDBFile2.setEnabled(true);
+                                        btOpenHTMLFile2.setEnabled(true);
+                                        enableCompareButton2 = true;
+                                        enableItemSelect2 = true;
+                                    }
+                                }
+                                pbLoad.setValue(90);
+                            } else {
+
+                                if (extractData == 1) {
+                                    existingFile1 = null;
+                                    enableCompareButton1 = true;
+                                    btOpenDBFile1.setEnabled(false);
+                                    btOpenHTMLFile1.setEnabled(true);
+                                    enableItemSelect1 = true;
+                                }
+                                if (extractData == 2) {
+                                    existingFile2 = null;
+                                    btOpenDBFile2.setEnabled(false);
+                                    enableCompareButton2 = true;
+                                    btOpenHTMLFile2.setEnabled(true);
+                                    enableItemSelect2 = true;
+                                }
+                                pbLoad.setValue(100);
+                            }
+                        }
+                    }
+                    if (enableCompareButton1 && enableCompareButton2) {
+                        btCompareData.setEnabled(true);
+                    }
+                }
+                liSaveListLeft = (LinkedList<Table>) liTablesLeft.clone();
+                liSaveListRight = (LinkedList<Table>) liTablesRight.clone();
+                pbLoad.setValue(100);
+                pbLoad.setVisible(false);
+            }catch (IOException ex) {
+                System.out.println("Main Window : extractData : " + ex.toString());
+                pbLoad.setVisible(false);
+            } catch (SQLException ex) {
+                System.out.println("Main Window : extractData : " + ex.toString());
+                pbLoad.setVisible(false);
+            } catch (NullPointerException ex) 
+            {
+                String output = "<html><font size='4'><b>Database connection could not be established.</b></font><br><font size='3'>Hint: Check username, password or database name.</font></html>";
+                JOptionPane.showMessageDialog(null, output);
+                dataExtractDialogue.setIsOK(true);
+                dataExtractDialogue.newDatabaseConnDialogue(DBConnectionPool.DB_USER, DBConnectionPool.DB_PASSWD, selectedDB, DBConnectionPool.DB_URL, DBConnectionPool.DB_NAME, DBConnectionPool.DB_DRIVER);
+                afterConnFailed();
+                pbLoad.setVisible(false);
+            } catch (IndexOutOfBoundsException ex) {
+                String output = "<html><font size='4'>Please choose a compatible txt file.</font></html>";
+                JOptionPane.showMessageDialog(null, output);
+                pbLoad.setVisible(false);
+            } catch (Exception ex) {
+                System.out.println("Main Window : extractData : " + ex.toString());
+                pbLoad.setVisible(false);
+            }
+
+            newPartTable = false;
+            pbLoad.setVisible(false);
+        
+    }
+        
+    
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {

@@ -1,5 +1,6 @@
 package gui;
 
+import database.DBConnectionPool;
 import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -13,6 +14,7 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
     public boolean existingFile = false;
     private int dataExtractActionCommand = 0;
     private String finalDatabaseName = "";
+    private DatabaseConnectionDialogue connectionDialogue;
 
     public DataExtractModeDialogue(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -142,17 +144,14 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     private void onOK(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onOK
-        DatabaseConnectionDialogue connectionDialogue = new DatabaseConnectionDialogue(null, true);
+        connectionDialogue = new DatabaseConnectionDialogue(null, true);
         isOK = true;
         if (rbNewDBFile.isSelected()) {
             connectionDialogue.setVisible(true);
-            if(connectionDialogue.getNewConn())
-            {
+            if (connectionDialogue.getNewConn()) {
                 newFile = true;
             }
-        } 
-
-        else {
+        } else {
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setDialogTitle("Choose existing Database file");
             FileNameExtensionFilter filter = new FileNameExtensionFilter("Database .txt file", "txt");
@@ -172,6 +171,26 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
             finalDatabaseName = "";
         }
     }//GEN-LAST:event_onOK
+
+    public void newDatabaseConnDialogue(String user, String pw, String database_provider, String url, String database_name, String driver) {
+        connectionDialogue = new DatabaseConnectionDialogue(null, true);
+        connectionDialogue.ConnDialogueSetParameters(user, pw, database_provider, url, database_name, driver);
+        DBConnectionPool.DB_USER = null;
+        DBConnectionPool.DB_PASSWD = null;
+        DBConnectionPool.DB_URL = null;
+        DBConnectionPool.DB_NAME = null;
+        DBConnectionPool.DB_DRIVER = null;
+        connectionDialogue.setVisible(true);
+    }
+
+    public void setIsOK(boolean isOK) {
+        this.isOK = isOK;
+    }
+    
+    public void hi()
+    {
+        
+    }
 
     public File getSelectedDBDump() {
         return selectedDBDump;
