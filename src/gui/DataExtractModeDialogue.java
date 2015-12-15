@@ -164,7 +164,8 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
                 dispose();
             }
         }
-        if (connectionDialogue.getNewConn() && isOK) {
+        if (connectionDialogue.getNewConn() && isOK) 
+        {
             finalDatabaseName = dataExtractActionCommand + connectionDialogue.getDatabaseName();
             dispose();
         } else {
@@ -181,17 +182,17 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
         DBConnectionPool.DB_NAME = null;
         DBConnectionPool.DB_DRIVER = null;
         connectionDialogue.setVisible(true);
+        if(connectionDialogue.getNewConn())
+        {
+            finalDatabaseName = dataExtractActionCommand + connectionDialogue.getDatabaseName();
+        }
+        dispose();
     }
 
     public void setIsOK(boolean isOK) {
         this.isOK = isOK;
     }
     
-    public void hi()
-    {
-        
-    }
-
     public File getSelectedDBDump() {
         return selectedDBDump;
     }

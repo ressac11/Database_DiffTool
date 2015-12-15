@@ -6,6 +6,7 @@ import database.DBAccess;
 import database.DBConnectionPool;
 import java.awt.Color;
 import java.awt.Desktop;
+import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -66,6 +67,8 @@ public class MainWindow extends javax.swing.JFrame {
     public static boolean newPartTable;
     private int indexOfSelectedTable;
     private DataExtractModeDialogue dataExtractDialogue;
+    private MainWindow mw;
+    private ActionEvent evt;
 
     public MainWindow() {
         initComponents();
@@ -744,6 +747,7 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void onExtractDatas(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onExtractDatas
         progressBarLoader = "extract";
+        this.evt = evt;
         task = new Task(evt, this);
         task.execute();
         //task.doInBackground();
@@ -1254,9 +1258,6 @@ public class MainWindow extends javax.swing.JFrame {
                 dataExtractDialogue.setDataExctractActionCommand(extractData);
                 dataExtractDialogue.setVisible(true);
 
-                System.out.println("extract dialogue okee "+dataExtractDialogue.isOK); 
-                System.out.println("conn dialog is okee "+dataExtractDialogue.newFile);
-                
                 if (dataExtractDialogue.isExistingFile() && dataExtractDialogue.isOK) {
                     existingData = true;
                     pbLoad.setVisible(true);
@@ -1294,7 +1295,6 @@ public class MainWindow extends javax.swing.JFrame {
                 {
                     newPartTable = true;
                     existingData = false;
-                    System.out.println("in extract data in main window");
                     selectedDB = DatabaseConnectionDialogue.selectedDB;
                     DataSelectionModesDialogue dsmd = new DataSelectionModesDialogue(null, true);
                     dsmd.setAlwaysOnTop(true);
@@ -1439,10 +1439,9 @@ public class MainWindow extends javax.swing.JFrame {
 
     public void afterConnFailed()
     {
-         String selectedDB = "";
+        String selectedDB = "";
         try
         {
-           
             int count = 0;
                 bl.clearCompareOutputLists();
                 rbTableSeperate.setSelected(true);
@@ -1451,10 +1450,8 @@ public class MainWindow extends javax.swing.JFrame {
                 {
                     newPartTable = true;
                     existingData = false;
-                    System.out.println("in extract data in main window");
                     selectedDB = DatabaseConnectionDialogue.selectedDB;
                     DataSelectionModesDialogue dsmd = new DataSelectionModesDialogue(null, true);
-                    dsmd.setAlwaysOnTop(true);
                     TableDialogue td = new TableDialogue(null, true);
                     dba = DBAccess.getTheInstance();
                     td.setLiAllTableNames(dba.getAllTableNames());

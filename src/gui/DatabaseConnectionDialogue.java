@@ -21,6 +21,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
     public DatabaseConnectionDialogue(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        databaseName = "";
         this.setResizable(false);
         this.getContentPane().setBackground(MainWindow.backgroundColorPanel);
         btCancel.setBackground(MainWindow.backgroundColorButton);
@@ -28,7 +29,6 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         setLocationRelativeTo(parent);
         selectedDB = "oracle";
         this.setIconImage(new ImageIcon(getClass().getResource("Logo.png")).getImage());
-        
     }
 
     @SuppressWarnings("unchecked")
