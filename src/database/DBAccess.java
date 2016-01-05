@@ -41,39 +41,39 @@ public class DBAccess {
      * @return LinkedList<Table> all Tables at the Database
      * @throws Exception
      */
-    public LinkedList<Table> getAllTables(LinkedList<Table> liAllTables) throws SQLException {
-        Connection conn = connPool.getConnection();
-        Statement stat = conn.createStatement();
-        String sqlString = "";
-        switch (DatabaseConnectionDialogue.selectedDB) {
-            case "postgres":
-                sqlString = "SELECT table_name "
-                        + " FROM information_schema.tables "
-                        + " WHERE table_schema = 'public' ";
-                break;
-            case "oracle":
-                sqlString = "SELECT table_name "
-                        + "  FROM dba_tables where owner='" + DBConnectionPool.DB_USER + "' ";
-                break;
-            case "mssql":
-                sqlString = "SELECT TABLE_NAME "
-                        + "FROM INFORMATION_SCHEMA.TABLES "
-                        + "WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_CATALOG='" + DBConnectionPool.DB_NAME + "'";
-                break;
-        }
-        ResultSet rs = stat.executeQuery(sqlString);
-        while (rs.next()) {
-            String tableName = rs.getString(1);
-            LinkedList<String> columnNames = getColumnNames(tableName);
-            String primaryColumn = getPrimaryKeyColumn(tableName);
-            LinkedList<Row> liAttributes = getAttributesForOneTable(tableName, columnNames, primaryColumn);
-            liAllTables.add(new Table(tableName, columnNames, liAttributes));
-        }
-        rs.close();
-        connPool.releaseConnection(conn);
-        this.liAllTables = liAllTables;
-        return liAllTables;
-    }
+//    public LinkedList<Table> getAllTables(LinkedList<Table> liAllTables) throws SQLException {
+//        Connection conn = connPool.getConnection();
+//        Statement stat = conn.createStatement();
+//        String sqlString = "";
+//        switch (DatabaseConnectionDialogue.selectedDB) {
+//            case "postgres":
+//                sqlString = "SELECT table_name "
+//                        + " FROM information_schema.tables "
+//                        + " WHERE table_schema = 'public' ";
+//                break;
+//            case "oracle":
+//                sqlString = "SELECT table_name "
+//                        + "  FROM dba_tables where owner='" + DBConnectionPool.DB_USER + "' ";
+//                break;
+//            case "mssql":
+//                sqlString = "SELECT TABLE_NAME "
+//                        + "FROM INFORMATION_SCHEMA.TABLES "
+//                        + "WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_CATALOG='" + DBConnectionPool.DB_NAME + "'";
+//                break;
+//        }
+//        ResultSet rs = stat.executeQuery(sqlString);
+//        while (rs.next()) {
+//            String tableName = rs.getString(1);
+//            LinkedList<String> columnNames = getColumnNames(tableName);
+//            String primaryColumn = getPrimaryKeyColumn(tableName);
+//            LinkedList<Row> liAttributes = getAttributesForOneTable(tableName, columnNames, primaryColumn);
+//            liAllTables.add(new Table(tableName, columnNames, liAttributes));
+//        }
+//        rs.close();
+//        connPool.releaseConnection(conn);
+//        this.liAllTables = liAllTables;
+//        return liAllTables;
+//    }
 
     public LinkedList<String> getAllTableNames() throws SQLException, NullPointerException {
         LinkedList<String> allTableNames = new LinkedList<>();
@@ -142,7 +142,7 @@ public class DBAccess {
             case "mssql":
                 sqlString = "SELECT COLUMN_NAME "
                         + "FROM INFORMATION_SCHEMA.COLUMNS "
-                        + "WHERE TABLE_NAME = '" + DBConnectionPool.DB_NAME + "' ";
+                        + "WHERE TABLE_NAME = '" + tableName + "' ";
 
                 break;
         }
