@@ -297,7 +297,6 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
             DBConnectionPool.DB_URL = uRL;
             DBConnectionPool.DB_USER = user;
         }
-        System.out.println("is in ok");
         dispose();
     }//GEN-LAST:event_onOK
     private void onNewDriver(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onNewDriver
