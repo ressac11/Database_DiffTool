@@ -22,6 +22,8 @@ public class TableDialogue extends javax.swing.JDialog {
     private boolean tableNames;
     private LinkedList<String> liAllTableNames = new LinkedList<>();
     public static LinkedList<String> liSelectedTableNames = new LinkedList<>();
+    public boolean isFirst;
+    LinkedList<String> liRealAllTables = new LinkedList<>();
 
     public TableDialogue(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -35,6 +37,7 @@ public class TableDialogue extends javax.swing.JDialog {
         this.setIconImage(new ImageIcon(getClass().getResource("Logo.png")).getImage());
         selectedTables.clear();
         liSelectedTableNames.clear();
+        isFirst = true;
     }
 
     @SuppressWarnings("unchecked")
@@ -54,10 +57,14 @@ public class TableDialogue extends javax.swing.JDialog {
         btRemove = new javax.swing.JButton();
         lbWhiteSpace3 = new javax.swing.JLabel();
         lbWhiteSpace4 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        liList2 = new javax.swing.JList();
+        pnTable = new javax.swing.JPanel();
         spTables = new javax.swing.JScrollPane();
         liTables = new javax.swing.JList();
+        tfSearch = new javax.swing.JTextField();
+        pnList2 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        liList2 = new javax.swing.JList();
+        lbWhitespace = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(500, 500));
@@ -157,6 +164,33 @@ public class TableDialogue extends javax.swing.JDialog {
 
         pnLists.add(pnButtonsSelection, java.awt.BorderLayout.CENTER);
 
+        pnTable.setLayout(new java.awt.BorderLayout());
+
+        spTables.setBackground(new java.awt.Color(229, 229, 229));
+        spTables.setMaximumSize(new java.awt.Dimension(200, 200));
+        spTables.setMinimumSize(new java.awt.Dimension(200, 200));
+        spTables.setPreferredSize(new java.awt.Dimension(200, 200));
+
+        liTables.setBackground(new java.awt.Color(229, 229, 229));
+        liTables.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        liTables.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        spTables.setViewportView(liTables);
+
+        pnTable.add(spTables, java.awt.BorderLayout.CENTER);
+
+        tfSearch.setBackground(new java.awt.Color(229, 229, 229));
+        tfSearch.setFont(new java.awt.Font("Arial", 0, 12)); // NOI18N
+        tfSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onSearch(evt);
+            }
+        });
+        pnTable.add(tfSearch, java.awt.BorderLayout.PAGE_START);
+
+        pnLists.add(pnTable, java.awt.BorderLayout.WEST);
+
+        pnList2.setLayout(new java.awt.BorderLayout());
+
         jScrollPane1.setBackground(new java.awt.Color(229, 229, 229));
         jScrollPane1.setToolTipText("");
         jScrollPane1.setMaximumSize(new java.awt.Dimension(200, 200));
@@ -169,19 +203,18 @@ public class TableDialogue extends javax.swing.JDialog {
         liList2.setToolTipText("");
         jScrollPane1.setViewportView(liList2);
 
-        pnLists.add(jScrollPane1, java.awt.BorderLayout.EAST);
+        pnList2.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
-        spTables.setBackground(new java.awt.Color(229, 229, 229));
-        spTables.setMaximumSize(new java.awt.Dimension(200, 200));
-        spTables.setMinimumSize(new java.awt.Dimension(200, 200));
-        spTables.setPreferredSize(new java.awt.Dimension(200, 200));
+        lbWhitespace.setBackground(new java.awt.Color(229, 229, 229));
+        lbWhitespace.setDisplayedMnemonic(' ');
+        lbWhitespace.setMaximumSize(new java.awt.Dimension(10, 10));
+        lbWhitespace.setMinimumSize(new java.awt.Dimension(10, 10));
+        lbWhitespace.setName(""); // NOI18N
+        lbWhitespace.setOpaque(true);
+        lbWhitespace.setPreferredSize(new java.awt.Dimension(65, 21));
+        pnList2.add(lbWhitespace, java.awt.BorderLayout.PAGE_START);
 
-        liTables.setBackground(new java.awt.Color(229, 229, 229));
-        liTables.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        liTables.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        spTables.setViewportView(liTables);
-
-        pnLists.add(spTables, java.awt.BorderLayout.WEST);
+        pnLists.add(pnList2, java.awt.BorderLayout.EAST);
 
         pnTableButton.add(pnLists, java.awt.BorderLayout.CENTER);
 
@@ -200,13 +233,11 @@ public class TableDialogue extends javax.swing.JDialog {
             } else {
                 JOptionPane.showMessageDialog(this, "nothing is selected");
             }
+        } else if (liSelectedTableNames.size() > 0) {
+            ok = true;
+            dispose();
         } else {
-            if (liSelectedTableNames.size() > 0) {
-                ok = true;
-                dispose();
-            } else {
-                JOptionPane.showMessageDialog(this, "nothing is selected");
-            }
+            JOptionPane.showMessageDialog(this, "nothing is selected");
         }
     }//GEN-LAST:event_onOK
     private void onCancel(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCancel
@@ -214,48 +245,82 @@ public class TableDialogue extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_onCancel
     private void onAddTable(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onAddTable
-        try{
-        if (!tableNames) {
-            if (liTablesList.size() > 0) {
-                selectedTables.add(liTablesList.get(liTables.getSelectedIndex()));
-                liTablesList.remove(liTables.getSelectedIndex());
-                liTables.updateUI();
-                liList2.updateUI();
-            }
-        } else {
-            if (liAllTableNames.size() > 0) {
+        try {
+            if (!tableNames) {
+                if (liTablesList.size() > 0) {
+                    selectedTables.add(liTablesList.get(liTables.getSelectedIndex()));
+                    liTablesList.remove(liTables.getSelectedIndex());
+                    liTables.updateUI();
+                    liList2.updateUI();
+                }
+            } else if (liAllTableNames.size() > 0) {
                 liSelectedTableNames.add(liAllTableNames.get(liTables.getSelectedIndex()));
                 liAllTableNames.remove(liTables.getSelectedIndex());
                 liTables.updateUI();
                 liList2.updateUI();
             }
-        }}
-        catch(IndexOutOfBoundsException ex)
-        {
-            
+        } catch (IndexOutOfBoundsException ex) {
+
         }
     }//GEN-LAST:event_onAddTable
     private void onRemoveTable(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onRemoveTable
-        try{
-        if (!tableNames) {
-            if (selectedTables.size() > 0) {
-                liTablesList.add(selectedTables.get(liList2.getSelectedIndex()));
-                selectedTables.remove(liList2.getSelectedIndex());
-                liList2.updateUI();
-                liTables.updateUI();
-            }
-        } else {
-            if (liSelectedTableNames.size() > 0) {
+        try {
+            if (!tableNames) {
+                if (selectedTables.size() > 0) {
+                    liTablesList.add(selectedTables.get(liList2.getSelectedIndex()));
+                    selectedTables.remove(liList2.getSelectedIndex());
+                    liList2.updateUI();
+                    liTables.updateUI();
+                }
+            } else if (liSelectedTableNames.size() > 0) {
                 liAllTableNames.add(liSelectedTableNames.get(liList2.getSelectedIndex()));
                 liSelectedTableNames.remove(liList2.getSelectedIndex());
                 liList2.updateUI();
                 liTables.updateUI();
             }
-        }}catch(IndexOutOfBoundsException ex)
-        {
-            
+        } catch (IndexOutOfBoundsException ex) {
+
         }
     }//GEN-LAST:event_onRemoveTable
+
+    private void onSearch(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onSearch
+        String eingabe = tfSearch.getText();
+        boolean isselected = false;
+        
+        if (isFirst) {
+            isFirst = false;
+            liRealAllTables = (LinkedList<String>) liAllTableNames.clone();
+        }
+        liAllTableNames.clear();
+
+        for (int i = 0; i < liRealAllTables.size(); i++) {
+            if (eingabe.isEmpty()) {
+                String str = liRealAllTables.get(i);
+                isselected = false;
+                for (int j = 0; j < liSelectedTableNames.size(); j++) {
+                    String str1 = liSelectedTableNames.get(j);
+                    if (str.equals(str1)) {
+                        isselected = true;
+                    }
+                }
+                if (!isselected) {
+                    liAllTableNames.add(str);
+                }
+
+            } else {
+                String namei = liRealAllTables.get(i);
+                if (namei.toLowerCase().contains(eingabe.toLowerCase())) {
+                    liAllTableNames.add(namei);
+                }
+            }
+        }
+        try {
+            liTables.setModel(new TableNamesLMD(liAllTableNames));
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(TableDialogue.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_onSearch
     public boolean isOK() {
         return ok;
     }
@@ -285,7 +350,6 @@ public class TableDialogue extends javax.swing.JDialog {
             System.out.println("TableDialogue : setLiAllTables : " + e.toString());
         }
     }
-
 
     public static void main(String args[]) {
         try {
@@ -328,12 +392,16 @@ public class TableDialogue extends javax.swing.JDialog {
     private javax.swing.JLabel lbWhiteSpace2;
     private javax.swing.JLabel lbWhiteSpace3;
     private javax.swing.JLabel lbWhiteSpace4;
+    private javax.swing.JLabel lbWhitespace;
     private javax.swing.JList liList2;
     private javax.swing.JList liTables;
     private javax.swing.JPanel pnButtons;
     private javax.swing.JPanel pnButtonsSelection;
+    private javax.swing.JPanel pnList2;
     private javax.swing.JPanel pnLists;
+    private javax.swing.JPanel pnTable;
     private javax.swing.JPanel pnTableButton;
     private javax.swing.JScrollPane spTables;
+    private javax.swing.JTextField tfSearch;
     // End of variables declaration//GEN-END:variables
 }
