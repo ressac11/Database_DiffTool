@@ -27,7 +27,10 @@ public class TableDialogue extends javax.swing.JDialog {
 
     public TableDialogue(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        
         initComponents();
+        this.toFront();
+        this.repaint();
         this.getContentPane().setBackground(MainWindow.backgroundColorPanel);
         btCancel.setBackground(MainWindow.backgroundColorButton);
         btOk.setBackground(MainWindow.backgroundColorButton);
@@ -38,6 +41,7 @@ public class TableDialogue extends javax.swing.JDialog {
         selectedTables.clear();
         liSelectedTableNames.clear();
         isFirst = true;
+        
     }
 
     @SuppressWarnings("unchecked")
