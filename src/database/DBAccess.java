@@ -32,49 +32,7 @@ public class DBAccess {
     private DBAccess() throws ClassNotFoundException {
         connPool = DBConnectionPool.getTheInstance();
     }
-
-    /**
-     * This method is responsible for creating a list which holds all tables in
-     * one database.
-     *
-     * @param liAllTables
-     * @return LinkedList<Table> all Tables at the Database
-     * @throws Exception
-     */
-//    public LinkedList<Table> getAllTables(LinkedList<Table> liAllTables) throws SQLException {
-//        Connection conn = connPool.getConnection();
-//        Statement stat = conn.createStatement();
-//        String sqlString = "";
-//        switch (DatabaseConnectionDialogue.selectedDB) {
-//            case "postgres":
-//                sqlString = "SELECT table_name "
-//                        + " FROM information_schema.tables "
-//                        + " WHERE table_schema = 'public' ";
-//                break;
-//            case "oracle":
-//                sqlString = "SELECT table_name "
-//                        + "  FROM dba_tables where owner='" + DBConnectionPool.DB_USER + "' ";
-//                break;
-//            case "mssql":
-//                sqlString = "SELECT TABLE_NAME "
-//                        + "FROM INFORMATION_SCHEMA.TABLES "
-//                        + "WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_CATALOG='" + DBConnectionPool.DB_NAME + "'";
-//                break;
-//        }
-//        ResultSet rs = stat.executeQuery(sqlString);
-//        while (rs.next()) {
-//            String tableName = rs.getString(1);
-//            LinkedList<String> columnNames = getColumnNames(tableName);
-//            String primaryColumn = getPrimaryKeyColumn(tableName);
-//            LinkedList<Row> liAttributes = getAttributesForOneTable(tableName, columnNames, primaryColumn);
-//            liAllTables.add(new Table(tableName, columnNames, liAttributes));
-//        }
-//        rs.close();
-//        connPool.releaseConnection(conn);
-//        this.liAllTables = liAllTables;
-//        return liAllTables;
-//    }
-
+ 
     public LinkedList<String> getAllTableNames() throws SQLException, NullPointerException {
         LinkedList<String> allTableNames = new LinkedList<>();
         Connection conn = connPool.getConnection();
@@ -178,10 +136,11 @@ public class DBAccess {
                         + "AND cons.constraint_type = 'P' "
                         + "AND cons.constraint_name = cols.constraint_name "
                         + "AND cons.owner = cols.owner "
+                        + "AND cons.owner = '" + DBConnectionPool.DB_USER + "'"
                         + "ORDER BY cols.table_name, cols.position ";
                 break;
             case "mssql":
-                sqlString = "SELECT KU.table_name as tablename,column_name as primarykeycolumn "
+                sqlString = "SELECT column_name as primarykeycolumn "
                         + "FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS AS TC "
                         + "INNER JOIN "
                         + "INFORMATION_SCHEMA.KEY_COLUMN_USAGE AS KU "
@@ -193,7 +152,8 @@ public class DBAccess {
         }
         ResultSet rs = stat.executeQuery(sqlString);
         while (rs.next()) {
-            primaryColumn = rs.getString(1);
+            primaryColumn += rs.getString(1) + " ";
+            System.out.println("rs.getString(1): " + rs.getString(1));
         }
         rs.close();
         connPool.releaseConnection(conn);
@@ -222,9 +182,23 @@ public class DBAccess {
         String pK = "";
         while (rs.next()) {
             for (int i = 0; i < columnNames.size(); i++) {
-                if (columnNames.get(i).equals(primaryColumn)) {
-                    pK = rs.getString(i + 1);
-                    value += pK + ";";
+                String columnName = columnNames.get(i);              
+                if (primaryColumn.trim().equals(columnName.trim())) {
+
+                    switch (DatabaseConnectionDialogue.selectedDB) {
+                        case "postgres":
+                            pK = rs.getString(i + 1);
+                            value += pK + ";";
+                            break;
+                        case "oracle":
+                            pK = rs.getString(primaryColumn);
+                            value += pK + ";";
+                            break;
+                        case "mssql":
+                            pK = rs.getString(i+1);
+                            value += pK + ";";
+                            break;
+                    }
                 } else {
                     try {
                         String str = rs.getString(i + 1);
@@ -239,6 +213,7 @@ public class DBAccess {
             value = "";
             count++;
         }
+        System.out.println(pK);
         rs.close();
         connPool.releaseConnection(conn);
         return liAttributes;
