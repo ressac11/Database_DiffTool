@@ -15,6 +15,7 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
     private int dataExtractActionCommand = 0;
     private String finalDatabaseName = "";
     private DatabaseConnectionDialogue connectionDialogue;
+    private boolean newConnForCancellingConnDialog = false;
 
     public DataExtractModeDialogue(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -167,15 +168,19 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
         if (connectionDialogue.getNewConn() && isOK) 
         {
             finalDatabaseName = dataExtractActionCommand + connectionDialogue.getDatabaseName();
+            this.newConnForCancellingConnDialog = true;
             dispose();
-        } else {
+        } 
+        else
+        {
             finalDatabaseName = "";
+            this.newConnForCancellingConnDialog = false;
         }
     }//GEN-LAST:event_onOK
 
-    public void newDatabaseConnDialogue(String user, String pw, String database_provider, String url, String database_name, String driver) {
+    public void newDatabaseConnDialogue(String user, String pw, String database_provider, String url, String database_name, String driver, String sid) {
         connectionDialogue = new DatabaseConnectionDialogue(null, true);
-        connectionDialogue.ConnDialogueSetParameters(user, pw, database_provider, url, database_name, driver);
+        connectionDialogue.ConnDialogueSetParameters(user, pw, database_provider, url, database_name, driver, sid);
         DBConnectionPool.DB_USER = null;
         DBConnectionPool.DB_PASSWD = null;
         DBConnectionPool.DB_URL = null;
@@ -184,14 +189,25 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
         connectionDialogue.setVisible(true);
         if(connectionDialogue.getNewConn())
         {
+            this.newConnForCancellingConnDialog = true;
             finalDatabaseName = dataExtractActionCommand + connectionDialogue.getDatabaseName();
+            dispose();
         }
-        dispose();
+        else
+        {
+            this.newConnForCancellingConnDialog = false;
+            finalDatabaseName = "";
+        }        
     }
 
+    public boolean isNewConnForCancellingConnDialog() {
+        return newConnForCancellingConnDialog;
+    }
+    
     public void setIsOK(boolean isOK) {
         this.isOK = isOK;
     }
+    
     
     public File getSelectedDBDump() {
         return selectedDBDump;

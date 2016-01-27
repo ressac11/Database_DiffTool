@@ -269,7 +269,8 @@ public class BLOperations {
      * @param tLeft
      * @param tRight
      */
-    private void compare(Table tLeft, Table tRight, MainWindow mw) {
+    private void compare(Table tLeft, Table tRight, MainWindow mw) 
+    {
         LinkedList<String> colLeft = tLeft.getColumnNames();
         LinkedList<String> colRight = tRight.getColumnNames();
         LinkedList<String> clonedColRight = (LinkedList<String>) colRight.clone();

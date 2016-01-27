@@ -2,10 +2,7 @@ package gui;
 
 import beans.Table;
 import database.DBAccess;
-import static gui.MainWindow.newPartTable;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 
 public class DataSelectionModesDialogue extends javax.swing.JDialog {
@@ -169,14 +166,17 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog {
                 try {
                     tableDialogue.setLiAllTableNames(DBAccess.getTheInstance().getAllTableNames());
                     tableDialogue.setVisible(true);
-                } catch (Exception ex) {
-                    Logger.getLogger(DataSelectionModesDialogue.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex)
+                {
+                    System.out.println("Exception in DataSelectionModesDialogue: onOke: "+ex.toString());
                 }
             } else {
                 tableDialogue.setLiAllTables(liAllEqualTables);
                 tableDialogue.setVisible(true);
-                if (tableDialogue.isOK()) {
+                if (tableDialogue.isOK()) 
+                {
                     tableOK = true;
+                    dispose();
                 }
             }
             
@@ -184,8 +184,8 @@ public class DataSelectionModesDialogue extends javax.swing.JDialog {
             entireDB = true;
             dispose();
         }
-        if (tableDialogue.isOK() && ok) {
-
+        if (tableDialogue.isOK() && ok) 
+        {
             dispose();
         }
     }//GEN-LAST:event_onOK
