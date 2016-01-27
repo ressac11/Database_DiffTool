@@ -272,6 +272,8 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void onCancel(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCancel
+        newConn = false;
+        this.dispose();
         dispose();
     }//GEN-LAST:event_onCancel
 
@@ -290,12 +292,12 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         else 
         {
             DBConnectionPool.newCon = true;
-            DBConnectionPool.DB_DRIVER = driver;
-            DBConnectionPool.DB_NAME = databaseName;
-            DBConnectionPool.DB_SID = tfSID.getText();
-            DBConnectionPool.DB_PASSWD = password;
-            DBConnectionPool.DB_URL = uRL;
-            DBConnectionPool.DB_USER = user;
+            DBConnectionPool.DB_DRIVER = driver.trim();
+            DBConnectionPool.DB_NAME = databaseName.trim();
+            DBConnectionPool.DB_SID = tfSID.getText().trim();
+            DBConnectionPool.DB_PASSWD = password.trim();
+            DBConnectionPool.DB_URL = uRL.trim();
+            DBConnectionPool.DB_USER = user.trim();
         }
         dispose();
     }//GEN-LAST:event_onOK
@@ -324,11 +326,6 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
                 break;
         }
     }//GEN-LAST:event_onNewDriver
-
-    public void closeWindow()
-    {
-        dispose();
-    }
     
     public boolean getNewConn() {
         return newConn;
@@ -342,7 +339,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         return selectedDB;
     }
     
-    public void ConnDialogueSetParameters(String user, String pw, String database_provider, String url, String database_name, String driver)
+    public void ConnDialogueSetParameters(String user, String pw, String database_provider, String url, String database_name, String driver, String sid)
     {
         this.tfDatabaseName.setText(database_name);
         this.tfDriver.setText(driver);
@@ -362,6 +359,7 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
             case "oracle":
                 cbDatabase.setSelectedIndex(0);
                 tfUrlExam.setText("jdbc:oracle:thin:@localhost:1521:");
+                tfSID.setText(sid);
                 break;
         }
         

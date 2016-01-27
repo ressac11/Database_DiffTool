@@ -153,7 +153,6 @@ public class DBAccess {
         ResultSet rs = stat.executeQuery(sqlString);
         while (rs.next()) {
             primaryColumn += rs.getString(1) + " ";
-            System.out.println("rs.getString(1): " + rs.getString(1));
         }
         rs.close();
         connPool.releaseConnection(conn);

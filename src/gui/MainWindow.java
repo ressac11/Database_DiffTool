@@ -47,8 +47,6 @@ public class MainWindow extends javax.swing.JFrame {
     private String databaseName2 = "";
     private boolean automaticallySelectingTables = false;
     private BLOperations bl = new BLOperations();
-    private boolean enableCompareButton1 = false;
-    private boolean enableCompareButton2 = false;
     private boolean downloadEnabled = false;
     private boolean newDataL = false;
     private boolean newDataR = false;
@@ -91,11 +89,6 @@ public class MainWindow extends javax.swing.JFrame {
         tbTableContent2.setName("tbTableContent2");
         tbTableContent1.setDefaultRenderer(Object.class, new TableRenderer());
         tbTableContent2.setDefaultRenderer(Object.class, new TableRenderer());
-        btOpenDBFile1.setEnabled(false);
-        btCompareData.setEnabled(true);
-        btOpenDBFile2.setEnabled(false);
-        btOpenHTMLFile1.setEnabled(false);
-        btOpenHTMLFile2.setEnabled(false);
         liTables1.add(pmSelectTables);
         liTables1.setComponentPopupMenu(pmSelectTables);
         liTablesC.add(pmSelectTablesC);
@@ -220,7 +213,7 @@ public class MainWindow extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Database Diff-Tool");
         setMaximumSize(new java.awt.Dimension(1280, 800));
-        setMinimumSize(new java.awt.Dimension(1280, 800));
+        setMinimumSize(new java.awt.Dimension(960, 600));
         setPreferredSize(new java.awt.Dimension(1280, 800));
         getContentPane().setLayout(new java.awt.BorderLayout(20, 5));
 
@@ -763,17 +756,49 @@ public class MainWindow extends javax.swing.JFrame {
     private void onViewFileTXT(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onViewFileTXT
         try {
             String openFileLeftOrRight = evt.getActionCommand();
-            if (Integer.parseInt(openFileLeftOrRight) == 1) {
-                if (existingData) {
+            if (Integer.parseInt(openFileLeftOrRight) == 1) 
+            {
+                if(!liTablesLeft.isEmpty())
+                {
+                if (existingData) 
+                {
                     Desktop.getDesktop().open(existingFile1);
-                } else {
+                } 
+                else 
+                {
+                    if(savedFile1 == null)
+                    {
+                        savedFile1 = saveDatabaseFileLater();
+                        
+                        if(savedFile1 != null)
+                        {
+                            bl.saveDatabaseFile(savedFile1, liTablesLeft, databaseName1);
+                        }
+                    }
                     Desktop.getDesktop().open(savedFile1);
                 }
-            } else if (Integer.parseInt(openFileLeftOrRight) == 2) {
-                if (existingData) {
+                }
+            } else if (Integer.parseInt(openFileLeftOrRight) == 2) 
+            {
+                if(!liTablesRight.isEmpty())
+                {
+                if (existingData) 
+                {
                     Desktop.getDesktop().open(existingFile2);
-                } else {
+                } 
+                else 
+                {
+                    if(savedFile2 == null)
+                    {
+                        savedFile2 = saveDatabaseFileLater();
+                        
+                        if(savedFile2 != null)
+                        {
+                            bl.saveDatabaseFile(savedFile2, liTablesRight, databaseName2);
+                        }
+                    }
                     Desktop.getDesktop().open(savedFile2);
+                }
                 }
             }
         } catch (Exception e) {
@@ -819,17 +844,10 @@ public class MainWindow extends javax.swing.JFrame {
             TableDialogue td = new TableDialogue(this, true);
             td.setLiAllTables(liTablesLeft);
             td.setVisible(true);
-            if (td.isOK()) {
-                if (rbTableBothAuto.isSelected()) {
-                    if (!liTablesRight.isEmpty()) {
-                        Collections.sort(liTablesRight);
-                        liSaveListRight = (LinkedList<Table>) liTablesRight.clone();
-                        liTablesRight = (LinkedList<Table>) TableDialogue.selectedTables.clone();
-                        liTablesC.setModel(new TableNamesLM(liTablesRight));
-                        liTablesC.setSelectedIndex(0);
-                        automaticallySelectingTables = true;
-                    }
-                }
+            if (td.isOK()) 
+            {
+                rbTableSeperate.setSelected(true);
+                automaticallySelectingTables = false;
                 liTablesLeft = (LinkedList<Table>) TableDialogue.selectedTables.clone();
                 Collections.sort(liTablesLeft);
                 liTables1.setModel(new TableNamesLM(liTablesLeft));
@@ -854,22 +872,15 @@ public class MainWindow extends javax.swing.JFrame {
             td.setLiAllTables(liTablesRight);
             td.setVisible(true);
             counter = 0;
-            if (td.isOK()) {
-                if (rbTableBothAuto.isSelected()) {
-                    if (!liTablesLeft.isEmpty()) {
-                        liSaveListLeft = (LinkedList<Table>) liTablesLeft.clone();
-                        liTablesLeft = (LinkedList<Table>) TableDialogue.selectedTables.clone();
-                        Collections.sort(liTablesLeft);
-                        liTables1.setModel(new TableNamesLM(liTablesLeft));
-                        liTables1.setSelectedIndex(0);
-                        leftList = true;
-                        automaticallySelectingTables = true;
-                    }
-                }
+            if (td.isOK()) 
+            {
+                rbTableSeperate.setSelected(true);
+                automaticallySelectingTables = false;
                 liTablesRight = (LinkedList<Table>) TableDialogue.selectedTables.clone();
                 Collections.sort(liTablesRight);
                 liTablesC.setModel(new TableNamesLM(liTablesRight));
                 liTablesC.setSelectedIndex(0);
+                counter = 0;
                 onNewSelectedItem();
             } else {
                 return;
@@ -885,14 +896,6 @@ public class MainWindow extends javax.swing.JFrame {
                 liTablesLeft = (LinkedList<Table>) liSaveListLeft.clone();
                 counter = 0;
                 leftList = true;
-                if (rbTableBothAuto.isSelected()) {
-                    if (!liTablesRight.isEmpty()) {
-                        liTablesRight = (LinkedList<Table>) liSaveListRight.clone();
-                        Collections.sort(liTablesRight);
-                        liTablesC.setModel(new TableNamesLM(liTablesRight));
-                        automaticallySelectingTables = true;
-                    }
-                }
                 Collections.sort(liTablesLeft);
                 liTables1.setModel(new TableNamesLM(liTablesLeft));
                 liTables1.setSelectedIndex(0);
@@ -907,27 +910,37 @@ public class MainWindow extends javax.swing.JFrame {
         int viewFileLeftOrRight = Integer.parseInt(evt.getActionCommand());
         try {
             viewFileLeftOrRight = Integer.parseInt(evt.getActionCommand());
-            if (viewFileLeftOrRight == 1) {
+            if (viewFileLeftOrRight == 1) 
+            {
+                if(!liTablesLeft.isEmpty())
+                {
                 if (newHTMLFile1 == null) 
                 {
                     newHTMLFile1 = saveHTMLFile();
                     
-                    if (newHTMLFile1 != null) 
+                    if(newHTMLFile1 != null)
                     {
                         bl.viewDatabaseFileHTML(databaseName1, liTablesLeft, newHTMLFile1);
                     }
-                }
+                } 
                 Desktop.getDesktop().browse(newHTMLFile1.toURI());
-                
-            } 
-            else {
-                if (newHTMLFile2 == null) {
+                }
+            }
+            else 
+            {
+                if(!liTablesRight.isEmpty())
+                {
+                if (newHTMLFile2 == null) 
+                {
                     newHTMLFile2 = saveHTMLFile();
-                    if (newHTMLFile2 != null) {
+                    
+                    if (newHTMLFile2 != null) 
+                    {
                         bl.viewDatabaseFileHTML(databaseName2, liTablesRight, newHTMLFile2);
                     }
                 }
                 Desktop.getDesktop().browse(newHTMLFile2.toURI());
+                }
             }
         } 
         catch(Exception ex)
@@ -953,14 +966,6 @@ public class MainWindow extends javax.swing.JFrame {
                 liTablesRight = (LinkedList<Table>) liSaveListRight.clone();
                 counter = 0;
                 leftList = false;
-                if (rbTableBothAuto.isSelected()) {
-                    if (!liTablesLeft.isEmpty()) {
-                        liTablesLeft = (LinkedList<Table>) liSaveListLeft.clone();
-                        Collections.sort(liTablesLeft);
-                        liTables1.setModel(new TableNamesLM(liTablesLeft));
-                        automaticallySelectingTables = true;
-                    }
-                }
                 Collections.sort(liTablesRight);
                 liTablesC.setModel(new TableNamesLM(liTablesRight));
                 liTablesC.setSelectedIndex(0);
@@ -1029,8 +1034,6 @@ public class MainWindow extends javax.swing.JFrame {
         liTables1.setModel(tnlmLeft);
         leftList = true;
         onNewSelectedItem();
-        btOpenDBFile1.setEnabled(false);
-
     }
 
     /**
@@ -1062,7 +1065,6 @@ public class MainWindow extends javax.swing.JFrame {
         liTablesC.setModel(tnlmRight);
         leftList = false;
         onNewSelectedItem();
-        btOpenDBFile2.setEnabled(false);
     }
 
     /**
@@ -1163,7 +1165,10 @@ public class MainWindow extends javax.swing.JFrame {
             return null;
         }}
 
-        private void compareData() {
+        private void compareData() 
+        {
+            if((!liTablesLeft.isEmpty()) && (!liTablesRight.isEmpty()))
+                    {
             pbLoad.setValue(0);
             pbLoad.setVisible(true);
             pbLoad.setIndeterminate(false);
@@ -1176,7 +1181,7 @@ public class MainWindow extends javax.swing.JFrame {
             if (selectDialogue.isOK()) {
 
                 if (selectDialogue.isEntireDB()) {
-                    bl.compareDatabases(databaseName1, databaseName2, liSaveListLeft, liSaveListRight, mw);
+                    bl.compareDatabases(databaseName1, databaseName2, liSaveListLeft, liSaveListRight, this);
                 } else if (selectDialogue.tableOK) {
                     LinkedList<Table> allEqualTables = (LinkedList<Table>) TableDialogue.selectedTables.clone();
                     LinkedList<Table> liLeft = new LinkedList<>();
@@ -1196,7 +1201,7 @@ public class MainWindow extends javax.swing.JFrame {
                             }
                         }
                     }
-                    bl.compareDatabases(databaseName1, databaseName2, liLeft, liRight, mw);
+                    bl.compareDatabases(databaseName1, databaseName2, liLeft, liRight,this);
                 }               
                 if (bl.differencesOccuring()) {
                     btDownloadData.setText("Download Comparison Output as .xml file");
@@ -1221,8 +1226,6 @@ public class MainWindow extends javax.swing.JFrame {
                     } else {
                         btDownloadData.setEnabled(false);
                     }
-                    enableCompareButton1 = false;
-                    enableCompareButton2 = false;
                     TableRenderer.newColsLeft = bl.getAllNewColsLeft();
                     TableRenderer.newColsRight = bl.getAllNewColsRight();
                     TableRenderer.newRowLeft = bl.getAllNewRowsLeft();
@@ -1242,7 +1245,7 @@ public class MainWindow extends javax.swing.JFrame {
             pbLoad.setVisible(false);
         }
             pbLoad.setVisible(false);
-        }
+        }}
 
         private void extractData() 
         {
@@ -1270,9 +1273,6 @@ public class MainWindow extends javax.swing.JFrame {
                         pbLoad.setValue(50);
                         savedFile1 = null;
                         extractData1(false, nullValue);
-                        enableCompareButton1 = true;
-                        btOpenDBFile1.setEnabled(true);
-                        btOpenHTMLFile1.setEnabled(true);
                         enableItemSelect1 = true;
                         pbLoad.setValue(75);
                     } else if (extractData == 2) {
@@ -1281,13 +1281,11 @@ public class MainWindow extends javax.swing.JFrame {
                         pbLoad.setValue(50);
                         savedFile2 = null;
                         extractData2(false, nullValue);
-                        enableCompareButton2 = true;
-                        btOpenDBFile2.setEnabled(true);
-                        btOpenHTMLFile2.setEnabled(true);
                         enableItemSelect2 = true;
                         pbLoad.setValue(75);
                     }
                     pbLoad.setValue(80);
+                    counter = 0;
                     onNewSelectedItem();
                     pbLoad.setValue(90);
                 } 
@@ -1297,7 +1295,6 @@ public class MainWindow extends javax.swing.JFrame {
                     existingData = false;
                     selectedDB = DatabaseConnectionDialogue.selectedDB;
                     DataSelectionModesDialogue dsmd = new DataSelectionModesDialogue(null, true);
-                    dsmd.setAlwaysOnTop(true);
                     TableDialogue td = new TableDialogue(null, true);
                     dba = DBAccess.getTheInstance();
                     td.setLiAllTableNames(dba.getAllTableNames());
@@ -1345,7 +1342,8 @@ public class MainWindow extends javax.swing.JFrame {
                             }
                             pbLoad.setValue(80);
                             int i = JOptionPane.showConfirmDialog(null, "Do you want to save the Database Extract as file?", "Save Database Extract", JOptionPane.YES_NO_OPTION);
-                            if (i == JOptionPane.OK_OPTION) {
+                            if (i == JOptionPane.OK_OPTION) 
+                            {
                                 JFileChooser fileChooser = new JFileChooser();
                                 fileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
                                 fileChooser.setDialogTitle("Choose directory to save Database file");
@@ -1360,24 +1358,18 @@ public class MainWindow extends javax.swing.JFrame {
                                     }
                                     if (extractData == 1) {
                                         pbLoad.setValue(80);
-                                        savedFile1 = f;
                                         existingFile1 = null;
                                         bl.saveDatabaseFile(f, liTablesLeft, databaseName1);
+                                        savedFile1 = f;
                                         pbLoad.setValue(85);
-                                        btOpenDBFile1.setEnabled(true);
-                                        btOpenHTMLFile1.setEnabled(true);
-                                        enableCompareButton1 = true;
                                         enableItemSelect1 = true;
 
                                     } else {
                                         pbLoad.setValue(80);
-                                        savedFile2 = f;
                                         existingFile2 = null;
                                         bl.saveDatabaseFile(f, liTablesRight, databaseName2);
+                                         savedFile2 = f;
                                         pbLoad.setValue(85);
-                                        btOpenDBFile2.setEnabled(true);
-                                        btOpenHTMLFile2.setEnabled(true);
-                                        enableCompareButton2 = true;
                                         enableItemSelect2 = true;
                                     }
                                 }
@@ -1386,24 +1378,15 @@ public class MainWindow extends javax.swing.JFrame {
 
                                 if (extractData == 1) {
                                     existingFile1 = null;
-                                    enableCompareButton1 = true;
-                                    btOpenDBFile1.setEnabled(false);
-                                    btOpenHTMLFile1.setEnabled(true);
                                     enableItemSelect1 = true;
                                 }
                                 if (extractData == 2) {
                                     existingFile2 = null;
-                                    btOpenDBFile2.setEnabled(false);
-                                    enableCompareButton2 = true;
-                                    btOpenHTMLFile2.setEnabled(true);
                                     enableItemSelect2 = true;
                                 }
                                 pbLoad.setValue(100);
                             }
                         }
-                    }
-                    if (enableCompareButton1 && enableCompareButton2) {
-                        btCompareData.setEnabled(true);
                     }
                 }
                 liSaveListLeft = (LinkedList<Table>) liTablesLeft.clone();
@@ -1418,12 +1401,16 @@ public class MainWindow extends javax.swing.JFrame {
                 pbLoad.setVisible(false);
             } catch (NullPointerException ex) 
             {
-                String output = "<html><font size='4'><b>Database connection could not be established.</b></font><br><font size='3'>Hint: Check username, password or database name.</font></html>";
-                JOptionPane.showMessageDialog(null, output);
-                dataExtractDialogue.setIsOK(true);
-                dataExtractDialogue.newDatabaseConnDialogue(DBConnectionPool.DB_USER, DBConnectionPool.DB_PASSWD, selectedDB, DBConnectionPool.DB_URL, DBConnectionPool.DB_NAME, DBConnectionPool.DB_DRIVER);
-                afterConnFailed();
-                pbLoad.setVisible(false);
+                System.out.println("in extract data boolean: "+dataExtractDialogue.isNewConnForCancellingConnDialog());
+                if(dataExtractDialogue.isNewConnForCancellingConnDialog())
+                {
+                    String output = "<html><font size='4'><b>Database connection could not be established.</b></font><br><font size='3'>Hint: Check username, password or database name.</font></html>";
+                    JOptionPane.showMessageDialog(null, output);
+                    dataExtractDialogue.setIsOK(true);
+                    dataExtractDialogue.newDatabaseConnDialogue(DBConnectionPool.DB_USER, DBConnectionPool.DB_PASSWD, selectedDB, DBConnectionPool.DB_URL, DBConnectionPool.DB_NAME, DBConnectionPool.DB_DRIVER, DBConnectionPool.DB_SID);
+                    afterConnFailed();
+                    pbLoad.setVisible(false);
+                }
             } catch (IndexOutOfBoundsException ex) {
                 String output = "<html><font size='4'>Please choose a compatible txt file.</font></html>";
                 JOptionPane.showMessageDialog(null, output);
@@ -1432,7 +1419,6 @@ public class MainWindow extends javax.swing.JFrame {
                 System.out.println("Main Window : extractData : " + ex.toString());
                 pbLoad.setVisible(false);
             }
-
             newPartTable = false;
             pbLoad.setVisible(false);
         }
@@ -1446,7 +1432,7 @@ public class MainWindow extends javax.swing.JFrame {
                 bl.clearCompareOutputLists();
                 rbTableSeperate.setSelected(true);
                 automaticallySelectingTables = false;
-        if (dataExtractDialogue.isOK && dataExtractDialogue.newFile) 
+            if (dataExtractDialogue.isOK && dataExtractDialogue.newFile) 
                 {
                     newPartTable = true;
                     existingData = false;
@@ -1514,24 +1500,18 @@ public class MainWindow extends javax.swing.JFrame {
                                     }
                                     if (extractData == 1) {
                                         pbLoad.setValue(80);
-                                        savedFile1 = f;
                                         existingFile1 = null;
                                         bl.saveDatabaseFile(f, liTablesLeft, databaseName1);
+                                        savedFile1 = f;
                                         pbLoad.setValue(85);
-                                        btOpenDBFile1.setEnabled(true);
-                                        btOpenHTMLFile1.setEnabled(true);
-                                        enableCompareButton1 = true;
                                         enableItemSelect1 = true;
 
                                     } else {
                                         pbLoad.setValue(80);
-                                        savedFile2 = f;
                                         existingFile2 = null;
                                         bl.saveDatabaseFile(f, liTablesRight, databaseName2);
+                                        savedFile2 = f;
                                         pbLoad.setValue(85);
-                                        btOpenDBFile2.setEnabled(true);
-                                        btOpenHTMLFile2.setEnabled(true);
-                                        enableCompareButton2 = true;
                                         enableItemSelect2 = true;
                                     }
                                 }
@@ -1540,24 +1520,15 @@ public class MainWindow extends javax.swing.JFrame {
 
                                 if (extractData == 1) {
                                     existingFile1 = null;
-                                    enableCompareButton1 = true;
-                                    btOpenDBFile1.setEnabled(false);
-                                    btOpenHTMLFile1.setEnabled(true);
                                     enableItemSelect1 = true;
                                 }
                                 if (extractData == 2) {
                                     existingFile2 = null;
-                                    btOpenDBFile2.setEnabled(false);
-                                    enableCompareButton2 = true;
-                                    btOpenHTMLFile2.setEnabled(true);
                                     enableItemSelect2 = true;
                                 }
                                 pbLoad.setValue(100);
                             }
                         }
-                    }
-                    if (enableCompareButton1 && enableCompareButton2) {
-                        btCompareData.setEnabled(true);
                     }
                 }
                 liSaveListLeft = (LinkedList<Table>) liTablesLeft.clone();
@@ -1572,12 +1543,17 @@ public class MainWindow extends javax.swing.JFrame {
                 pbLoad.setVisible(false);
             } catch (NullPointerException ex) 
             {
-                String output = "<html><font size='4'><b>Database connection could not be established.</b></font><br><font size='3'>Hint: Check username, password or database name.</font></html>";
-                JOptionPane.showMessageDialog(null, output);
-                dataExtractDialogue.setIsOK(true);
-                dataExtractDialogue.newDatabaseConnDialogue(DBConnectionPool.DB_USER, DBConnectionPool.DB_PASSWD, selectedDB, DBConnectionPool.DB_URL, DBConnectionPool.DB_NAME, DBConnectionPool.DB_DRIVER);
-                afterConnFailed();
-                pbLoad.setVisible(false);
+                System.out.println("in afterconnfailed boolean: "+dataExtractDialogue.isNewConnForCancellingConnDialog());
+                if(dataExtractDialogue.isNewConnForCancellingConnDialog())
+                {
+                    String output = "<html><font size='4'><b>Database connection could not be established.</b></font><br><font size='3'>Hint: Check username, password or database name.</font></html>";
+                    JOptionPane.showMessageDialog(null, output);
+                    dataExtractDialogue.setIsOK(true);
+                    dataExtractDialogue.newDatabaseConnDialogue(DBConnectionPool.DB_USER, DBConnectionPool.DB_PASSWD, selectedDB, DBConnectionPool.DB_URL, DBConnectionPool.DB_NAME, DBConnectionPool.DB_DRIVER, DBConnectionPool.DB_SID);
+                    System.out.println("in afterConnFailed in exception nullpointer");
+                    afterConnFailed();
+                    pbLoad.setVisible(false);
+                }
             } catch (IndexOutOfBoundsException ex) {
                 String output = "<html><font size='4'>Please choose a compatible txt file.</font></html>";
                 JOptionPane.showMessageDialog(null, output);
@@ -1586,12 +1562,28 @@ public class MainWindow extends javax.swing.JFrame {
                 System.out.println("Main Window : extractData : " + ex.toString());
                 pbLoad.setVisible(false);
             }
-
             newPartTable = false;
             pbLoad.setVisible(false);
-        
     }
-        
+    
+    private File saveDatabaseFileLater() {
+        File f = null;
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
+        fileChooser.setDialogTitle("Choose directory to save Database file");
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Database .txt file", "txt");
+        fileChooser.setFileFilter(filter);
+        int userSelection = fileChooser.showSaveDialog(null);
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            f = fileChooser.getSelectedFile();
+            if (!f.getPath().endsWith(".txt")) {
+                String pathNew = f.getPath() + ".txt";
+                f = new File(pathNew);
+            }
+            return f;
+        }
+        return f;
+    }
     
     public static void main(String args[]) {
         try {
