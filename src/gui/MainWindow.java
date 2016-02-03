@@ -838,6 +838,8 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void onFilter1(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onFilter1
         try {
+            
+            
             liSaveListLeft = (LinkedList<Table>) liTablesLeft.clone();
             TableDialogue.selectedList = "left";
             Collections.sort(liSaveListLeft);
@@ -1025,7 +1027,9 @@ public class MainWindow extends javax.swing.JFrame {
             dba.getSpecificTables(liAllSelectedTables, helpList).clear();
         } else {
             LinkedList<Table> helpList = bl.loadData(existingFile1);
+            System.out.println("helplist.size: "+helpList.size());
             liTablesLeft = (LinkedList<Table>) helpList.clone();
+            System.out.println("liTablesLeft:" +liTablesLeft.size());
             databaseName1 = bl.getDatabaseName();
             lbDatabaseName1.setText(databaseName1);
         }
@@ -1169,6 +1173,10 @@ public class MainWindow extends javax.swing.JFrame {
         {
             if((!liTablesLeft.isEmpty()) && (!liTablesRight.isEmpty()))
                     {
+                        
+                        liSaveListLeft = (LinkedList<Table>) liTablesLeft.clone();
+                        liSaveListRight = (LinkedList<Table>) liTablesRight.clone();
+                        
             pbLoad.setValue(0);
             pbLoad.setVisible(true);
             pbLoad.setIndeterminate(false);
@@ -1181,6 +1189,7 @@ public class MainWindow extends javax.swing.JFrame {
             if (selectDialogue.isOK()) {
 
                 if (selectDialogue.isEntireDB()) {
+                    
                     bl.compareDatabases(databaseName1, databaseName2, liSaveListLeft, liSaveListRight, this);
                 } else if (selectDialogue.tableOK) {
                     LinkedList<Table> allEqualTables = (LinkedList<Table>) TableDialogue.selectedTables.clone();

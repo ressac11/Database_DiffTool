@@ -213,6 +213,8 @@ public class BLOperations {
         allNewRowsRight.clear();
         allNewCellsLeft.clear();
         allNewCellsRight.clear();
+        System.out.println("tablesLeft.size: "+ tablesLeft.size());
+        System.out.println("tablesRight.size: "+ tablesRight.size());
         LinkedList<Table> liAllTablesLeft = (LinkedList<Table>) tablesLeft.clone();
         LinkedList<Table> liAllTablesRight = (LinkedList<Table>) tablesRight.clone();
         LinkedList<String> liTempLeft = new LinkedList<>();
@@ -224,6 +226,8 @@ public class BLOperations {
         for (Table tL : liAllTablesLeft) {
             liTempLeft.add(tL.getTableName());
         }
+        System.out.println("++++++++++++++"+liAllTablesLeft.size());
+        System.out.println("------------------"+liAllTablesRight.size());
         if (liAllTablesLeft.size() < liAllTablesRight.size()) {
             for (Table lT : liAllTablesLeft) {
                 for (Table rT : liAllTablesRight) {
