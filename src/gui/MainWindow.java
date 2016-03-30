@@ -3,7 +3,7 @@ package gui;
 import beans.Table;
 import bl.BLOperations;
 import database.DBAccess;
-import database.DBConnectionPool;
+import database.DBConnection;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
@@ -1416,7 +1416,7 @@ public class MainWindow extends javax.swing.JFrame {
                     String output = "<html><font size='4'><b>Database connection could not be established.</b></font><br><font size='3'>Hint: Check username, password or database name.</font></html>";
                     JOptionPane.showMessageDialog(null, output);
                     dataExtractDialogue.setIsOK(true);
-                    dataExtractDialogue.newDatabaseConnDialogue(DBConnectionPool.DB_USER, DBConnectionPool.DB_PASSWD, selectedDB, DBConnectionPool.DB_URL, DBConnectionPool.DB_NAME, DBConnectionPool.DB_DRIVER, DBConnectionPool.DB_SID);
+                    dataExtractDialogue.newDatabaseConnDialogue(DBConnection.DB_USER, DBConnection.DB_PASSWD, selectedDB, DBConnection.DB_URL, DBConnection.DB_NAME, DBConnection.DB_DRIVER, DBConnection.DB_SID);
                     afterConnFailed();
                     pbLoad.setVisible(false);
                 }
@@ -1558,7 +1558,7 @@ public class MainWindow extends javax.swing.JFrame {
                     String output = "<html><font size='4'><b>Database connection could not be established.</b></font><br><font size='3'>Hint: Check username, password or database name.</font></html>";
                     JOptionPane.showMessageDialog(null, output);
                     dataExtractDialogue.setIsOK(true);
-                    dataExtractDialogue.newDatabaseConnDialogue(DBConnectionPool.DB_USER, DBConnectionPool.DB_PASSWD, selectedDB, DBConnectionPool.DB_URL, DBConnectionPool.DB_NAME, DBConnectionPool.DB_DRIVER, DBConnectionPool.DB_SID);
+                    dataExtractDialogue.newDatabaseConnDialogue(DBConnection.DB_USER, DBConnection.DB_PASSWD, selectedDB, DBConnection.DB_URL, DBConnection.DB_NAME, DBConnection.DB_DRIVER, DBConnection.DB_SID);
                     System.out.println("in afterConnFailed in exception nullpointer");
                     afterConnFailed();
                     pbLoad.setVisible(false);

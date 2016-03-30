@@ -1,6 +1,6 @@
 package gui;
 
-import database.DBConnectionPool;
+import database.DBConnection;
 import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -291,13 +291,13 @@ public class DatabaseConnectionDialogue extends javax.swing.JDialog {
         } 
         else 
         {
-            DBConnectionPool.newCon = true;
-            DBConnectionPool.DB_DRIVER = driver.trim();
-            DBConnectionPool.DB_NAME = databaseName.trim();
-            DBConnectionPool.DB_SID = tfSID.getText().trim();
-            DBConnectionPool.DB_PASSWD = password.trim();
-            DBConnectionPool.DB_URL = uRL.trim();
-            DBConnectionPool.DB_USER = user.trim();
+            DBConnection.newCon = true;
+            DBConnection.DB_DRIVER = driver.trim();
+            DBConnection.DB_NAME = databaseName.trim();
+            DBConnection.DB_SID = tfSID.getText().trim();
+            DBConnection.DB_PASSWD = password.trim();
+            DBConnection.DB_URL = uRL.trim();
+            DBConnection.DB_USER = user.trim();
         }
         dispose();
     }//GEN-LAST:event_onOK

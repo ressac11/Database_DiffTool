@@ -12,7 +12,7 @@ import java.util.LinkedList;
 
 public class DBAccess {
 
-    private final DBConnectionPool connPool;
+    private final DBConnection conn;
     private static DBAccess theInstance = null;
     private LinkedList<Table> liAllTables = new LinkedList<>();
 
@@ -30,13 +30,13 @@ public class DBAccess {
     }
 
     private DBAccess() throws ClassNotFoundException {
-        connPool = DBConnectionPool.getTheInstance();
+        conn = DBConnection.getTheInstance();
     }
  
     public LinkedList<String> getAllTableNames() throws SQLException, NullPointerException {
         LinkedList<String> allTableNames = new LinkedList<>();
-        Connection conn = connPool.getConnection();
-        Statement stat = conn.createStatement();
+        Connection connect = conn.getConnection();
+        Statement stat = connect.createStatement();
         String sqlString = "";
         switch (DatabaseConnectionDialogue.selectedDB) {
             case "postgres":
@@ -46,12 +46,12 @@ public class DBAccess {
                 break;
             case "oracle":
                 sqlString = "SELECT table_name "
-                        + "  FROM dba_tables where owner='" + DBConnectionPool.DB_USER + "' ";
+                        + "  FROM dba_tables where owner='" + DBConnection.DB_USER + "' ";
                 break;
             case "mssql":
                 sqlString = "SELECT TABLE_NAME "
                         + "FROM INFORMATION_SCHEMA.TABLES "
-                        + "WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_CATALOG='" + DBConnectionPool.DB_NAME + "'";
+                        + "WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_CATALOG='" + DBConnection.DB_NAME + "'";
                 break;
         }
         ResultSet rs = stat.executeQuery(sqlString);
@@ -59,7 +59,6 @@ public class DBAccess {
             allTableNames.add(rs.getString(1));
         }
         rs.close();
-        connPool.releaseConnection(conn);
         return allTableNames;
     }
 
@@ -84,8 +83,8 @@ public class DBAccess {
      */
     public LinkedList<String> getColumnNames(String tableName) throws SQLException {
         LinkedList<String> columnNames = new LinkedList<>();
-        Connection conn = connPool.getConnection();
-        Statement stat = conn.createStatement();
+        Connection connect = conn.getConnection();
+        Statement stat = connect.createStatement();
         String sqlString = "";
 
         switch (DatabaseConnectionDialogue.selectedDB) {
@@ -95,7 +94,7 @@ public class DBAccess {
                 break;
             case "oracle":
                 sqlString = "select column_name from all_tab_cols where table_name = '" + tableName + "'"
-                        + "and owner = '" + DBConnectionPool.DB_USER + "'";
+                        + "and owner = '" + DBConnection.DB_USER + "'";
                 break;
             case "mssql":
                 sqlString = "SELECT COLUMN_NAME "
@@ -110,14 +109,14 @@ public class DBAccess {
             columnNames.add(colName);
         }
         rs.close();
-        connPool.releaseConnection(conn);
+        
         return columnNames;
     }
 
     public String getPrimaryKeyColumn(String tableName) throws SQLException {
         String primaryColumn = "";
-        Connection conn = connPool.getConnection();
-        Statement stat = conn.createStatement();
+        Connection connect = conn.getConnection();
+        Statement stat = connect.createStatement();
         String sqlString = "";
 
         switch (DatabaseConnectionDialogue.selectedDB) {
@@ -136,7 +135,7 @@ public class DBAccess {
                         + "AND cons.constraint_type = 'P' "
                         + "AND cons.constraint_name = cols.constraint_name "
                         + "AND cons.owner = cols.owner "
-                        + "AND cons.owner = '" + DBConnectionPool.DB_USER + "'"
+                        + "AND cons.owner = '" + DBConnection.DB_USER + "'"
                         + "ORDER BY cols.table_name, cols.position ";
                 break;
             case "mssql":
@@ -155,7 +154,6 @@ public class DBAccess {
             primaryColumn += rs.getString(1) + " ";
         }
         rs.close();
-        connPool.releaseConnection(conn);
         return primaryColumn;
     }
 
@@ -171,8 +169,8 @@ public class DBAccess {
      */
     public LinkedList<Row> getAttributesForOneTable(String tableName, LinkedList<String> columnNames, String primaryColumn) throws SQLException {
         LinkedList<Row> liAttributes = new LinkedList<Row>();
-        Connection conn = connPool.getConnection();
-        Statement stat = conn.createStatement();
+        Connection connect = conn.getConnection();
+        Statement stat = connect.createStatement();
         String sqlString = "SELECT * "
                 + " FROM " + tableName + " ";
         ResultSet rs = stat.executeQuery(sqlString);
@@ -214,7 +212,6 @@ public class DBAccess {
         }
         System.out.println(pK);
         rs.close();
-        connPool.releaseConnection(conn);
         return liAttributes;
     }
 

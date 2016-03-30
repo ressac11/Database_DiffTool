@@ -9,10 +9,6 @@ import beans.Table;
 import java.util.LinkedList;
 import javax.swing.AbstractListModel;
 
-/**
- *
- * @author Sarah
- */
 public class TableNamesLMD extends AbstractListModel {
 
     private LinkedList<String> liAllTables;

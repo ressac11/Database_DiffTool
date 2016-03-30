@@ -1,6 +1,6 @@
 package gui;
 
-import database.DBConnectionPool;
+import database.DBConnection;
 import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -181,11 +181,11 @@ public class DataExtractModeDialogue extends javax.swing.JDialog {
     public void newDatabaseConnDialogue(String user, String pw, String database_provider, String url, String database_name, String driver, String sid) {
         connectionDialogue = new DatabaseConnectionDialogue(null, true);
         connectionDialogue.ConnDialogueSetParameters(user, pw, database_provider, url, database_name, driver, sid);
-        DBConnectionPool.DB_USER = null;
-        DBConnectionPool.DB_PASSWD = null;
-        DBConnectionPool.DB_URL = null;
-        DBConnectionPool.DB_NAME = null;
-        DBConnectionPool.DB_DRIVER = null;
+        DBConnection.DB_USER = null;
+        DBConnection.DB_PASSWD = null;
+        DBConnection.DB_URL = null;
+        DBConnection.DB_NAME = null;
+        DBConnection.DB_DRIVER = null;
         connectionDialogue.setVisible(true);
         if(connectionDialogue.getNewConn())
         {
